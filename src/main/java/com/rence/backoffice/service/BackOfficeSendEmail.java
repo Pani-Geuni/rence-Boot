@@ -1,3 +1,8 @@
+/**
+ * 
+ * @author 최진실
+ *
+ */
 package com.rence.backoffice.service;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -10,6 +15,7 @@ import javax.mail.internet.MimeMessage.RecipientType;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.rence.backoffice.model.AuthVO;
@@ -61,10 +67,7 @@ public class BackOfficeSendEmail {
 
 		String temp_pw = RandomStringUtils.randomAlphanumeric(6);
 
-//			String enc_pw = aes.encryptAES("0123456789abcdefghij0123456789ab", temp_pw, true);
-//			logger.info("encText (encodeBase64URLSafeString) : " + enc_pw);
-//			vo.setBackoffice_pw(enc_pw);
-		vo.setBackoffice_pw(temp_pw);
+//		vo.setBackoffice_pw(new BCryptPasswordEncoder().encode(temp_pw));
 
 		try {
 			MimeMessage msg = javaMailSender.createMimeMessage();

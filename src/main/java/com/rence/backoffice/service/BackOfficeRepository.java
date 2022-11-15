@@ -1,3 +1,8 @@
+/**
+ * 
+ * @author 최진실
+ *
+ */
 package com.rence.backoffice.service;
 
 import java.util.Date;
@@ -22,6 +27,15 @@ public interface BackOfficeRepository extends JpaRepository<BackOfficeVO, Object
 
 	@Query(nativeQuery = true, value="SELECT * from backofficeinfo where backoffice_email=?1 and backoffice_state !='X'")
 	public BackOfficeVO backoffice_email_check(String backoffice_email);
+
+	@Query(nativeQuery = true, value="select * from backofficeinfo where backoffice_id=?1 and backoffice_email=?2 and backoffice_state !='X'")
+	public BackOfficeVO select_backoffice_by_id_email(String backoffice_id, String backoffice_email);
+
+	@Query(nativeQuery = true, value="UPDATE backofficeinfo SET backoffice_pw=?1 where backoffice_no=?2")
+	public int update_backoffice_temp_pw(String backoffice_pw, String backoffice_no);
+
+	@Query(nativeQuery = true, value="select * from backofficeinfo where backoffice_id=?1 and (backoffice_state='Y' or backoffice_state='O')")
+	public BackOfficeVO findByBackoffice_email(String backoffice_id); 
 
 
 

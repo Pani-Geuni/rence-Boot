@@ -1,9 +1,19 @@
+/**
+ * 
+ * @author 최진실
+ *
+ */
 package com.rence.backoffice.controller;
 
 import java.text.ParseException;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -49,6 +59,10 @@ public class BackOfficeController {
 	
 	@Autowired
 	OperatingTime operatingTime;
+	
+
+	@Autowired
+	HttpSession session;
 
 	/**
 	 * 백오피스 랜딩
@@ -182,6 +196,119 @@ public class BackOfficeController {
 			log.info("failed...");
 			jsonObject.put("result", "0");
 		}
+		return jsonObject;
+	}
+	
+	/**
+	 * 로그인 성공 처리
+	 */
+	@ApiOperation(value="로그인 성공", notes="로그인 성공")
+	@GetMapping("/loginSuccess")
+	@ResponseBody
+	public JSONObject backoffice_loginOK(BackOfficeVO bvo, HttpServletResponse response) {
+		log.info("backoffice_loginOK()...");
+
+		JSONObject jsonObject = new JSONObject();
+
+//			session.setAttribute("backoffice_id", bvo2.getBackoffice_id());
+//			Cookie cookie_no = new Cookie("backoffice_no", bvo2.getBackoffice_no());
+//			Cookie cookie_profile = new Cookie("host_image", bvo2.getHost_image());
+			jsonObject.put("result", "1");
+			log.info("successed...");
+//			response.addCookie(cookie_no);
+//			response.addCookie(cookie_profile);
+			return jsonObject;
+		}
+
+
+	
+	/**
+	 * 비밀번호 초기화(찾기), 이메일로 임시 비밀번호 전송
+	 * @throws UnsupportedEncodingException 
+	 */
+	@ApiOperation(value="비밀번호 찾기", notes="비밀번호 찾기시, 이메일로 임시 비밀번호 전송")
+	@GetMapping("/reset_pw")
+	@ResponseBody
+	public JSONObject backoffice_reset_pw(BackOfficeVO bvo, EmailVO evo){
+		log.info("backoffice_reset_pw ()...");
+		log.info("{}", bvo);
+
+		JSONObject jsonObject = new JSONObject();
+
+		BackOfficeVO bvo2 = service.backoffice_id_email_select(bvo);
+
+		log.info("bvo2 :: {}", bvo2);
+
+		if (bvo2 != null) {
+			bvo2 = authSendEmail.findPw(bvo2, evo);
+
+			if (bvo2 != null) {
+//				service.backoffice_settingOK_pw(bvo2); 
+				service.backoffice_resetOK_pw(bvo2); 
+				jsonObject.put("result", "1");
+
+			} else {
+				log.info("update failed...");
+				jsonObject.put("result", "0");
+			}
+		} else {
+			log.info("send failed...");
+			jsonObject.put("result", "0");
+		}
+
+		return jsonObject;
+	}
+	
+	/**
+	 * 비밀번호 초기화 페이지
+	 */
+	@ApiOperation(value="비밀번호 초기화", notes="호스트 비밀번호 변경, 이메일로 전송된 비밀번호 재설정")
+	@GetMapping("/setting_pw")
+	public String backoffice_setting_pw(Model model, BackOfficeVO bvo) {
+		model.addAttribute("vo", bvo.getBackoffice_no());
+		
+		model.addAttribute("content", "thymeleaf/html/backoffice/landing/setting_pw");
+		model.addAttribute("title", "비밀번호 초기화");
+
+		return "thymeleaf/layouts/backoffice/layout_backoffice";
+	}
+	
+	/**
+	 * 비밀번호 초기화 완료
+	 */
+	@ApiOperation(value="비밀번호 초기화 처리", notes="호스트 비밀번호 변경, 이메일로 전송된 비밀번호 재설정")
+	@GetMapping("/settingOK_pw")
+	@ResponseBody
+	public JSONObject backoffice_settingOK_pw(BackOfficeVO bvo, HttpServletRequest request,
+			HttpServletResponse response) {
+		log.info("backoffice_settingOK_pw ()...");
+		log.info("{}", bvo);
+
+		session = request.getSession();
+
+//		bvo.setBackoffice_pw(new BCryptPasswordEncoder().encode(bvo.getBackoffice_pw()));
+		int result = service.backoffice_settingOK_pw(bvo);
+
+		JSONObject jsonObject = new JSONObject();
+
+		if (result == 1) {
+			if (session.getAttribute("backoffice_id") != null) {
+				// HOST 로그인 session이 존재할 때
+				// Host 환경설정 > 비밀번호 수정
+				log.info("succeed...");
+				jsonObject.put("result", "1");
+			} else {
+				// 가입 신청이 완료되어
+				// 신청자의 메일에서 링크 페이지를 열고 수정 했을 때
+				log.info("succeed...");
+				jsonObject.put("result", "1");
+
+			}
+		} else if (result == 0) {
+			log.info("fail...");
+			jsonObject.put("result", "0");
+		}
+
 		return jsonObject;
 	}
 
