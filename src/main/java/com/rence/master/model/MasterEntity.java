@@ -1,3 +1,7 @@
+/**
+ * @author 전판근
+ */
+
 package com.rence.master.model;
 
 import java.io.Serializable;
