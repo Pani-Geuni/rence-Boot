@@ -58,10 +58,10 @@ public class BackOfficeController {
 	public String backoffice_landing(Model model) {
 		log.info("/backoffice_landing...");
 
-		model.addAttribute("content", "thymeleaf/backoffice/th_landing");
+		model.addAttribute("content", "thymeleaf/html/backoffice/landing/landing");
 		model.addAttribute("title", "백오피스 랜딩");
 
-		return "thymeleaf/backoffice/th_layout_main";
+		return "thymeleaf/layouts/backoffice/layout_backoffice";
 	}
 
 	/**
@@ -72,10 +72,10 @@ public class BackOfficeController {
 	public String backoffice_insert(Model model) {
 		log.info("/backoffice_insert...");
 
-		model.addAttribute("content", "thymeleaf/backoffice/th_insert");
+		model.addAttribute("content", "thymeleaf/html/backoffice/landing/insert");
 		model.addAttribute("title", "호스트 신청");
 
-		return "thymeleaf/backoffice/th_layout_main";
+		return "thymeleaf/layouts/backoffice/layout_backoffice";
 	}
 
 	/**
@@ -107,9 +107,9 @@ public class BackOfficeController {
 		String result = service.backoffice_operating_insert(ovo2);
 		log.info("ovo::::::::::::::::::::::::::{}", ovo2);
 
-		String rt = "redirect:backoffice_landing";
+		String rt = "redirect:backoffice/landing";
 		if (result == null || bvo2 == null) {
-			return "redirect:backoffice_insert";
+			return "redirect:backoffice/insert";
 		}
 
 		return rt;
