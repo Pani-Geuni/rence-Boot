@@ -1,0 +1,50 @@
+<!-- ------------ -->
+<!-- @author 전판근 -->
+<!-- ------------ -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>[[ ${title} ]]</title>
+  </head>
+
+  <section class ="headerWrap" th:fragment="backoffice_header">
+    <div class = "logo-section">
+        <img src="/static/IMG/common/RENCE-Host.svg" class="logo-mku">
+    </div>
+    
+    <div class="hostMenu-section ">
+          <!-- 로그인 전 유저 메뉴 -->
+          <section id="before_login" class="" th:if="${#strings.isEmpty(backoffice_id)} ">
+              <div id = "before_hostMenu" class ="hostMenu">
+                  <img src="/static/IMG/header/user_menu.svg" alt="host_menu_img" class="host_menu_img"/>
+                  <img src="/static/IMG/header/bx_user-circle.png" alt="host_profile_img" class="host_profile_img"/>
+              </div>
+              
+              <!-- CUSTOM SELECT -->
+              <div class = "custom-select-host blind">
+                  <ul class="host-select-wrap">
+                      <li id = "go-login" class="host-select-list">로그인</li>
+                      <li id = "go-backOffice" class="host-select-list">호스트등록신청</li>
+                      <li id = "go-user-home" class="host-select-list">Rence로 이동</li>
+                  </ul>
+              </div>
+          </section>
+        
+          <!-- 로그인 후 유저 메뉴 -->
+          <section id="after_login"  class="" th:if="${not #strings.isEmpty(backoffice_id)}">
+              <div id = "after_hostMenu" class ="hostMenu">
+                  <img src="/static/IMG/header/user_menu.svg" alt="host_menu_img" class="host_menu_img"/>
+                  <img src="/static/upload/<%= host_image %>" alt="host_profile_img" class="host_profile_img"/>
+              </div>
+ 
+              <!-- CUSTOM SELECT -->
+              <div class = "custom-select-host blind">
+                  <ul class="host-select-wrap">
+                      <li id = "go-backOffice" class="host-select-list">공간등록신청</li>
+                      <li id = "go-logOut" class="host-select-list">로그아웃</li>
+                  </ul>
+              </div>
+          </section>
+    </div>
+</section>
