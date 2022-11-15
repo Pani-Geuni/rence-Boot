@@ -1,0 +1,316 @@
+/* ************ */
+/* @author 김예은 */
+/* ************ */
+
+.popup-background{
+    width: 100%;
+    height: 100%;
+
+    position: fixed;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    background-color : rgba(0, 0, 0, 0.5);
+
+    z-index: 100;
+}
+.popup-background * {
+    font-family : "MICEGothic"
+}
+
+/* LOGIN SECTION */
+#login-section{
+    width: 440px;
+    height: 330px;
+    background-color: #ffffff;
+    border-radius: 5px;
+}
+.login-popup-logo-section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 32%;
+
+    font-size: 30px;
+    font-weight: bold;
+}
+.login-popup-input-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+}
+.login-popup-input{
+    width: 70%;
+    height: 35px;
+
+    box-sizing: border-box;
+    padding-left: 6px;
+    
+    border-radius: 9px;
+    border: 2px solid #e4e4e4;
+
+    font-size: 14px;
+}
+#login-id{
+    margin-bottom: 15px;
+}
+#login-pw{
+    margin-bottom: 20px;
+}
+.login-popup-btn-section{
+    height: 35%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#login-btn{
+    width: 71%;
+    height: 40px;
+
+    margin-bottom: 15px;
+
+    border-radius: 9px;
+    background-color: #2EE49D;
+    border: none;
+
+    color: white;
+    font-size: 15px;
+    font-weight: bolder;
+}
+.txt-btn-wrap{
+    width: 70%;
+    box-sizing: border-box;
+    padding-left: 45px;
+    padding-right: 45px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.txt-btn{
+    font-size: 13px;
+    font-weight: bolder;
+    cursor: pointer;
+}
+.login-close{
+    padding: 5px 10px 5px 10px;
+    background-color: #42C2FF;
+    color: white;
+    border-radius: 13px;
+}
+
+
+/* ************* */
+/* JOIN SECTION */
+/* ************* */
+#join-section{
+    width: 460px;
+    height: auto;
+    max-height: 800px;
+    background-color: #ffffff;
+    border-radius: 5px;
+}
+
+.join-popup-title-section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 14%;
+    
+    padding-top: 15px;
+    padding-bottom: 15px;
+
+    font-size: 30px;
+    font-weight: bold;
+}
+/* -------------------*/
+.join-popup-input-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+}
+.input-wrap{
+    width: 320px;
+    margin-bottom: 15px;
+}
+.input-check{
+    display: flex;
+    align-items: center;
+}
+.join-popup-input-short{
+    width: 245px;
+    height: 30px;
+
+    box-sizing: border-box;
+    padding-left: 5px;
+
+    border-radius: 9px;
+    border: 2px solid #e4e4e4;
+    font-size: 13px;
+    margin-right: 8px;
+}
+.join-popup-input-short:focus{
+    border: 2px solid #2EE49D;
+}
+.join-popup-check-btn{
+    width: 85px;
+    height: 30px;
+
+    border-radius: 7px;
+    border: none;
+
+    background-color: #2EE49D;
+    color: white;
+}
+.join-popup-input{
+    width: 320px;
+    height: 30px;
+    
+    box-sizing: border-box;
+    padding-left: 5px;
+
+    border-radius: 9px;
+    border: 2px solid #e4e4e4;
+    font-size: 13px;
+}
+.join-popup-input:focus{
+    border: 2px solid #2EE49D;
+}
+.warning-text{
+    color: #FF5C5C;
+    font-size: 10px;
+}
+.join-popup-btn-section{
+    height: 15%;
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#join-btn{
+    width: 290px;
+    height: 37px;
+
+    margin-bottom: 15px;
+
+    border-radius: 9px;
+    background-color: #2EE49D;
+    border: none;
+
+    color: white;
+    font-size: 18px;
+    font-weight: bolder;
+}
+.readOnly{
+    background-color: #e4e4e4;
+}
+
+
+/* ************* */
+/* FIND SECTION */
+/* ************* */
+.find-section{
+    width: 400px;
+    background-color: #ffffff;
+    border-radius: 5px;
+}
+#find-pw-section{
+    height: 400px;
+}
+#find-id-section{
+    height: 300px;
+}
+
+.find-section *{
+    font-family: "OTWelcome";
+}
+.find-guide-txt{
+    font-size: 13px;
+    letter-spacing: 0.8px;
+    margin-bottom: 12px;
+}
+.find-popup-logo-section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 105px;
+
+    font-size: 25px;
+    font-weight: bold;
+}
+.find-popup-input-section{
+    display: flex;
+    flex-direction: column;
+    width: 65%;
+
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+
+    font-size: 30px;
+    font-weight: bold;
+}
+.email-wrap{
+    margin-bottom: 6px;
+}
+.find-popup-input{
+    height: 27px;
+    width: 100%;
+    font-size: 13px;
+    border-radius: 4px;
+    padding: 0px 0px 0px 6px;
+}
+.find-popup-input:focus{
+    border: 2px solid #2EE49D;
+}
+.find-popup-btn-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    box-sizing: border-box;
+    padding-left: 10px;
+}
+.find-btn{
+    width: 280px;
+    height: 35px;
+
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 6px;
+
+    border-radius: 9px;
+    background-color: #2EE49D;
+    border: none;
+
+    font-weight: 500;
+    color: #ffffff;
+}
+.p-close{
+    width: 280px;
+    height: 35px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    border-radius: 9px;
+    border: none;
+
+    font-weight: 500;
+}
+
+#logout-popup{
+    height: 150px;
+}
+.logout-txt{
+    width: auto;
+    font-size: 16px;
+    text-align: center;
+}

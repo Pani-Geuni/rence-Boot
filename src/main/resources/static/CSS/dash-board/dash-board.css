@@ -1,0 +1,290 @@
+/* ************ */
+/* @author 전판근 */
+/* ************ */
+
+.bodyWrap {
+	width: 100%;
+	height: auto;
+	background-color: #f6f4ff;
+}
+
+.board-contentWrap {
+	box-sizing: border-box;
+	width: 100%;
+	height: auto;
+	padding: 60px;
+}
+
+.titleSection {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	border-bottom: 1px solid #e4e4e4;
+	padding-bottom: 20px;
+	margin-bottom: 20px;
+	font-family: 'MICEGothic';
+}
+
+.titleSection.sales {
+	justify-content: space-between;
+}
+
+.titleSection.settings {
+	margin: 20px;
+}
+
+.titleSection h1 {
+	margin: 0 12px 0 0;
+}
+
+.btn-room-add {
+	color: #ffffff;
+	background-color: #b2a4ff;
+	padding: 4px 8px;
+	border: none;
+	border-radius: 8px;
+	margin-right: 12px;
+	cursor: pointer;
+}
+
+.btn-update-pw {
+	font-family: "HallymGothic"; 
+	font-weight : 900; 
+	letter-spacing : 0.2px;
+	color:#ffffff;
+	
+	background-color: #b2a4ff;
+	padding: 4px 12px;
+	border: none;
+	border-radius: 8px;
+	margin-right: 12px;
+	cursor: pointer;
+	font-weight: 900;
+	letter-spacing: 0.2px;
+}
+
+.mini-nav, .sales-mini-nav {
+	display: flex;
+}
+
+.mini-nav li:not(:last-child), .sales-mini-nav li:not(:last-child) {
+	margin: 0 8px 0 0;
+}
+
+.nav-item {
+	font-size: 14px;
+	margin: 0;
+	color: #808080;
+	cursor: pointer;
+}
+
+.nav-item.active {
+	color: #000000;
+	font-weight: 700;
+}
+
+/* ********** */
+/* Board Wrap 공통 CSS */
+/* ********** */
+.boardWrap {
+	display: flex;
+	justify-content: space-between;
+	box-sizing: border-box;
+	width: 100%;
+	height: auto;
+	padding: 20px;
+	border-radius: 15px;
+	margin-bottom: 8px;
+}
+
+.boardWrap.review, .boardWrap.qna, .boardWrap.reserve, .boardWrap.settings
+	{
+	background-color: #ffffff;
+}
+
+.boardWrap.sales {
+	flex-direction: column;
+	background-color: #ffffff;
+	width: 48%;
+	height: 400px;
+}
+
+.boardWrap.all-sales-list {
+	flex-direction: column;
+	justify-content: flex-start;
+	background-color: #ffffff;
+	width: 48%;
+	height: 700px;
+	overflow: scroll;
+}
+
+.all-sales-list::-webkit-scrollbar {
+	width: 5px;
+}
+
+.boardWrap.all-sales-list::-webkit-scrollbar-thumb {
+	background-color: #b2a4ff;
+}
+
+.boardWrap.reserve, .boardWrap.settings {
+	flex-direction: column;
+}
+
+.card-title {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	border-bottom: 1px solid #e4e4e4;
+	padding-bottom: 20px;
+	margin-bottom: 20px;
+}
+
+.btn-more {
+	font-size: 10px;
+	color: #808080;
+	margin: 0;
+	cursor: pointer;
+}
+
+.cardSection {
+	box-sizing: border-box;
+	background-color: #ffffff;
+	padding: 20px;
+	border-radius: 15px;
+}
+
+/* ************************** */
+/* reserveSection 예약 관리 요약 */
+/* ************************** */
+.cardSection.reserve {
+	width: 66%;
+	height: 360px;
+}
+
+/* ************************** */
+/* commentSection 최신 문의 내역 */
+/* ************************** */
+.cardSection.comment {
+	width: 33%;
+	height: 360px;
+}
+
+.comment-list {
+	display: flex;
+	flex-direction: column;
+	height: 250px;
+	overflow: scroll;
+}
+
+.comment-list::-webkit-scrollbar {
+	display: none;
+}
+
+.comment-item {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 12px;
+	border-bottom: 1px solid #e4e4e4;
+	cursor: pointer;
+}
+
+.comment-title {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 12px;
+}
+
+.comment-title p {
+	margin: 0;
+	font-size: 10px;
+}
+
+.comment-content {
+	width: 100%;
+	height: 40px;
+}
+
+.comment-content p {
+	margin: 0;
+	overflow: hidden;
+	font-size: 10px;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+
+/* *********** */
+/* 일일 정산 요약 */
+/* *********** */
+.cardSection.sales {
+	width: 49.5%;
+	height: 200px;
+}
+
+.cardSection.room {
+	width: 49.5%;
+	height: 200px;
+}
+
+.sales-list {
+	display: flex;
+	flex-direction: column;
+	height: 90px;
+	justify-content: space-between;
+}
+
+.sales-item {
+	display: flex;
+	justify-content: space-between;
+}
+
+.sales-item p {
+	margin: 0;
+}
+
+.sales-item span {
+	font-weight: 700;
+}
+
+.sales-item span::after {
+	content: ' 원';
+	font-weight: 400;
+}
+
+/* ******* */
+/* 공간 요약 */
+/* ******* */
+.summary-list {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	height: 90px;
+}
+
+.summary-list-row {
+	display: flex;
+	justify-content: space-between;
+}
+
+.summary-list-item {
+	display: flex;
+	justify-content: space-between;
+	width: 45%;
+}
+
+.summary-list-item p {
+	margin: 0;
+}
+
+.reserve-price::after {
+	content: ' 원';
+}
+
+.reserve-count::after {
+	content: ' 건';
+}
+
+.qna-count::after, .review-count::after {
+	content: ' 개';
+}

@@ -1,0 +1,156 @@
+/* ************ */
+/* @author 전판근 */
+/* ************ */
+
+/***********************/
+/** User Menu SECTION **/
+/***********************/
+.searchBar-section {
+	display: flex;
+	justify-content: center;
+}
+
+.searchBar-wrap {
+	position: relative;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 300px;
+	height: 30px;
+	border-radius: 40px;
+	border: 2px solid #2ee49d;
+}
+
+.searchBar-wrap * {
+	font-family: "HallymGothic";
+	font-weight: 900;
+}
+
+.sb_1 {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 15px;
+	width: 25%;
+	border-right: 2px solid #2ee49d;
+	cursor: pointer;
+}
+
+.sb_2 {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	width: 75%;
+	cursor: pointer;
+}
+
+.type {
+	box-sizing: border-box;
+	padding-left: 6px;
+}
+
+.searchBar-btnWrap {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 14%;
+	cursor: pointer;
+}
+
+.searchBar-btn {
+	width: 34px;
+	height: 34px;
+}
+
+#input_searchBar {
+	width: 100%;
+	box-sizing: border-box;
+	padding-left: 15px;
+	font-size: 15px;
+	border: none;
+	background: transparent;
+}
+
+/***********************/
+/* CUSTOM TYPE SELECT  */
+/***********************/
+.type-select-wrap {
+	position: absolute;
+	top: 40px;
+	left: 0;
+	width: 100px;
+	max-height: 122px;
+	box-shadow: 0.9px 1px 4px 2px #e4e4e4;
+	border-radius: 15px;
+	z-index: 100;
+}
+
+.type-select-wrap * {
+	font-family: "HallymGothic";
+	font-weight: 900;
+	font-size: 14px;
+}
+
+.type-select-list {
+	height: 27px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #ffffff;
+	border-bottom: 1.5px solid #e4e4e4;
+	cursor: pointer;
+}
+
+.type-select-list:nth-child(1) {
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+}
+
+.type-select-list:nth-child(3) {
+	border-bottom-left-radius: 15px;
+	border-bottom-right-radius: 15px;
+}
+
+/* ************** */
+/* reserve-header */
+/* ************** */
+.reserve-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	padding-bottom: 20px;
+	margin-bottom: 12px;
+	border-bottom: 1px solid #e4e4e4;
+}
+
+.reserve-filter-list {
+	display: flex;
+}
+
+.reserve-item {
+	font-size: 12px;
+	font-family: "HallymGothic"; 
+	font-weight : 900; 
+	color : #e9e9e9;
+	
+	margin-left : 8px;
+	cursor: pointer;
+}
+
+.reserve-item.active {
+	color: #000000;
+	font-weight: 700;
+}
+
+/* ************ */
+/* CUSTOM TABLE */
+/* ************ */
+.ct-header-cell.reserve {
+	font-size: 14px;
+}
+
+.ct-header-cell.reserve {
+	font-family: "HallymGothic";
+	font-weight: 900;
+}

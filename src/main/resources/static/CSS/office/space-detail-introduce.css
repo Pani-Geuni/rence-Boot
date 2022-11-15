@@ -1,0 +1,945 @@
+/* ************ */
+/* @author 김예은 */
+/* ************ */
+
+.space-detail-introduce-section{
+    width: 100%;
+    min-height: calc(100vh - 171px);
+
+    display: flex;
+    justify-content: center;
+}
+
+.space-detail-introduce-wrap{
+    width: 960px;
+    padding-top: 30px;
+    padding-bottom: 25px;
+}
+.space-detail-introduce-wrap * {
+    font-family: 'HallymGothic';
+    font-weight: bold;
+}
+
+/* ************************** */
+/* space-detail-title-section */
+/* ************************** */
+.space-detail-title-section{
+    width: 100%;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+
+    margin-bottom: 20px;
+}
+.space-detail-company-name{
+    font-size: 29px;
+    margin-right: 10px;
+    max-width: 900px;
+
+    white-space : nowrap;
+    overflow : hidden;
+    text-overflow : ellipsis;
+}
+.space-detail-type{
+    width: auto;
+    background-color: #B2A4FF;
+
+    font-size: 10.9px;
+    color: white;
+
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+    border-radius: 16px;
+}
+
+
+/* ************************* */
+/* space-detail-info-section */
+/* ************************* */
+.space-detail-info-section{
+    display: flex;
+    align-items: center;
+
+    margin-bottom: 9px;
+}
+
+.space-rating{
+    width: auto;
+
+    display: flex;
+    align-items: center;
+
+    margin-right: 15px;
+}
+.space-rating-icon{
+    width: 13px;
+    height: 13px;
+
+    margin-right: 2px;
+}
+.space-info-txt{
+    font-size: 12px;
+    color: #808080;
+}
+
+.space-location{
+    width: auto;
+
+    display: flex;
+    align-items: center;
+    
+    margin-right: 15px;
+    margin-bottom: 17px;
+}
+.space-location-icon{
+    width: 11px;
+    height: 14px;
+
+    margin-right: 2px;
+}
+
+.space-tags{
+    display: flex;
+    align-items: center;
+}
+.tag-txt{
+    margin-right: 6px;
+}
+
+
+/* ****************** */
+/* spage-imgs-section */
+/* ****************** */
+.spage-imgs-section{
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+
+    margin-bottom: 35px;
+}
+
+.window{
+    width: 90%;
+    height: 305px;
+    position: relative;
+    overflow: hidden;
+}
+
+.container{
+    width: calc(960px * 7);
+    transition: transform 1s;
+
+    display: flex;
+    overflow: hidden;
+    flex-wrap: wrap;
+}
+.img{
+    width: 960px;
+}
+.company-img{
+    width: 960px;
+    height: 300px;
+    object-fit: contain;
+}
+
+.button-container{
+    position: absolute;
+    
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: 15px;
+    padding-right: 15px;
+    top:140px;
+
+    display: flex;
+    justify-content: space-between;
+}
+.button-size{
+    font-size: 21px;
+    color: #808080;
+    font-family: 'MICEGothic';
+    cursor: pointer;
+}
+
+
+/* *******8******* */
+/* dynamic-section */
+/* *******8******* */
+.dynamic-section{
+    width: 960px;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+/* ************* */
+/* un-fixed-section */
+/* ************* */
+.un-fixed-section{
+    width: 55%;
+    height: auto;
+}
+
+.menu-tab-section{
+    width: 100%;
+}
+.menu-tab{
+    display: flex;
+}
+.menu{
+    width: 33%;
+    height: 45px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: 'HallymGothic';
+    font-weight: 900;
+    font-size: 18px;
+
+    cursor: pointer;
+}
+.click-menu{
+    border-bottom: 2px solid #9A9483;
+}
+.menu:hover{
+    background-color: #e4e4e4;
+}
+
+
+
+/* ***************** */
+/* space-description */
+/* ***************** */
+.space-description-wrap{
+    padding-top: 20px;
+}
+.space-description{
+    font-family: 'HallymGothic';
+    font-weight: 500;
+    font-size: 15.5px;
+
+    margin-bottom: 20px;
+}
+
+.option-wrap{
+    border-top: 2px solid #e4e4e4;
+    border-bottom: 2px solid #e4e4e4;
+
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    display: flex;
+    flex-direction: column;
+}
+.section-title{
+    font-family: 'HallymGothic';
+    font-weight: 900;
+    font-size: 18px;
+
+    margin-bottom:20px;
+}
+.option-list-wrap{
+    width: 50%;
+
+    display: flex;
+    flex-wrap: wrap;
+}
+.option-list-wrap *{
+    font-family: 'HallymGothic';
+    font-weight: 500;
+    font-size: 14px;
+}
+.option-list{
+    width: 49%;
+    margin-bottom:15px;
+}
+
+
+.around-info-wrap{
+    border-bottom: 2px solid #e4e4e4;
+    
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* ***************** */
+/* question-wrap */
+/* ***************** */
+.question-wrap{
+    padding-top: 40px;
+}
+.question-wrap-title{
+    width: 100%;
+    padding-bottom: 25px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    position: relative;
+}
+
+.question-left{
+    width: auto;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.big-title{
+    font-family: 'HallymGothic';
+    font-weight: 900;
+    font-size: 24px;
+
+    margin-right: 12px;
+}
+.question-right{
+    width: auto;
+    padding: 3px 15px 3px 15px;
+    background-color: #2EE49D;
+
+    color: white;
+    font-weight: 500;
+    font-size: 12.9px;
+    letter-spacing: 0.5px;
+
+    border-radius: 14px;
+    cursor: pointer;
+}
+
+
+/* ******************* */
+/* question-popup-wrap */
+/* ******************* */
+.question-popup-wrap{
+    width: 350px;
+    height: 420px;
+
+    position: absolute;
+    top: 30px;
+    left: 25%;
+
+    display: flex;
+    flex-direction: column;
+
+    box-sizing: border-box;
+    padding: 17px;
+
+    box-shadow: 1px 1px 4px 2px #e4e4e4;
+    background-color: white;
+}
+.question-popup-title{
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+
+    margin-bottom: 20px;
+}
+.question-popup-small-title{
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+
+    margin-bottom: 5px;
+}
+
+.question-popup-type-select-wrap{
+    display: flex;
+    flex-direction: column;
+
+    position: relative;
+}
+
+.question-popup-select-val-wrap{
+    width: 230px;
+    box-sizing: border-box;
+    padding: 5px 13px 5px 10px;
+    margin-bottom: 16px;
+
+    display: flex;
+    align-items: center;
+    border: 2px solid #2EE49D;
+    border-radius: 8px;
+
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+}
+.question-popup-select-value{
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+
+    color: #808080;
+}
+
+.question-popup-select{
+    position: absolute;
+    top: 50px;
+    left: -10px;
+
+    width: auto;
+    max-height: 140px;
+    overflow-y: overlay;
+
+    padding: 3px 15px 3px 10px;
+}
+.question-popup-select::-webkit-scrollbar{
+    display: none;
+    /* width: 0 !important; */
+}
+
+.question-popup-select-li{
+    width: 201px;
+    padding: 5px 15px 5px 10px;
+
+    font-size: 12.9px;
+    font-weight: 500;
+
+    color: #808080;
+    white-space : nowrap;
+    overflow : hidden;
+    text-overflow : ellipsis;
+
+    border: 2px solid #2EE49D;
+    background-color: white;
+
+    cursor: pointer;
+}
+.question-popup-select-li:last-child{
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.textarea-section{
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.question-write{
+    width: 300px;
+    height: 190px;
+    border: 2px solid #e4e4e4;
+    resize: none;
+    outline-color: #2EE49D;
+
+    text-align: left;
+    font-family: "HallymGothic" !important;
+    font-size: 13.8px;
+    font-weight: 500px;
+
+    margin-bottom: 5px;
+}
+
+.txt-length-wrap{
+    width: 97%;
+    font-size: 12px;
+    text-align: right;
+}
+
+.quest-popup-btn-section{
+    display: flex;
+
+    box-sizing: border-box;
+    padding-left: 5px;
+    padding-right: 5px;
+
+    justify-content: space-between;
+}
+.popup-close-btn{
+    width: 145px;
+    height: 24px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 10px;
+    border: 2px solid #e4e4e4;
+    cursor: pointer;
+}
+.popup-create-btn{
+    width: 145px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    background-color: #2EE49D;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* ****************** */
+/* quest-list-section */
+/* ****************** */
+.quest-list-section{
+    width: 100%;
+}
+.quest-list-wrap{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.quest-list-wrap *{
+    font-family: 'HallymGothic';
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.quest-list{
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+}
+.write-user-img{
+    width: 77px;
+    height: 77px;
+
+    border-radius: 100%;
+
+    margin-right: 15px;
+}
+
+.quest-content-section{
+    width: 100%;
+    height: auto;
+}
+.quest-content-wrap{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    border-bottom: 2px solid #e4e4e4;
+}
+.quest-content-list{
+    margin-bottom: 6px;
+}
+.quest-content-date{
+    margin-bottom: 15px;
+    color: #808080;
+}
+
+.quest-content-writer{
+    display: flex;
+    align-items: center;
+}
+.quest-writer{
+    margin-right: 14px;
+}
+
+.review-star-wrap{
+    display: flex;
+    align-items: center;
+}
+.review-star-img{
+    width: 12px;
+    height: 12px;
+}
+.review-star-num{
+    font-size: 12px;
+}
+
+
+/* ************ */
+/* review popup */
+/* ************ */
+.review-popup-wrap{
+    width: 350px;
+    height: auto;
+
+    position: absolute;
+    top: 30px;
+    left: 25%;
+
+    display: flex;
+    flex-direction: column;
+
+    box-sizing: border-box;
+    padding: 17px;
+
+    box-shadow: 1px 1px 4px 2px #e4e4e4;
+    background-color: white;
+}
+
+.popup-star-section{
+    margin-bottom: 12px;
+
+    display: flex;
+    align-items: center;
+}
+
+.popup-star-title{
+    font-size: 13.5px;
+    margin-right: 15px;
+}
+.popup-star-wrap{
+    display: flex;
+    align-items: center;
+}
+.popup-star-li{
+    cursor: pointer;
+}
+.r-star{
+    width: 16px;
+    height: 14px;
+}
+
+.review-upload-section{
+    width: 100%;
+    margin-bottom: 25px;
+    display: flex;
+}
+.review-upload-btn{
+    width: 65px;
+    padding: 4px 10px 4px 10px;
+
+    border-radius: 8px;
+    background-color: #42C2FF;
+    
+    font-family: 'HallymGothic';
+    font-weight: 900;
+    font-size: 13px;
+    color: white;
+    cursor: pointer;
+}
+input[type="file"] {
+    display: none;
+}
+.review-upload-value{
+    max-width: 180px;
+    
+    white-space : nowrap;
+    overflow : hidden;
+    text-overflow : ellipsis;
+    
+    border: none;
+
+    margin-left: 10px;
+}
+
+
+
+/**************************/
+/**** PAGING SECTION ******/
+/**************************/
+.paging-section{
+    width: 100%;
+    height: 10%;
+
+    margin-top: 40px;
+    
+    display: flex;
+    justify-content: center;
+}
+.paging-wrap{
+    width: auto;
+    height: auto;
+    display: flex;
+}
+.paging-box{
+    width: 10px;
+    height: 10px;
+
+    text-align: center;
+
+    border: 1.5px solid #D8D8D8;
+    color: #B2B2B2;
+    font-size: 9px;
+
+    padding: 2px 2px 2px 1px;
+    cursor: pointer;
+}
+.choice{
+    color: #000000;
+}
+.un-choice{
+    color: #808080;
+}
+
+
+/* ************* */
+/* fixed-section */
+/* ************* */
+.fixed-section{
+    width: 42%;
+    height: auto;
+    
+    box-shadow: 1.1px 1.1px 4px 3px #e4e4e4;
+    border-radius: 7px;
+
+    box-sizing: border-box;
+    padding: 15px;
+
+    position: relative;
+}
+
+
+/* *********** */
+/* fixed-popup */
+/* *********** */
+.fixed-popup{
+    position: absolute;
+    top: 0px;
+    left: -0px;
+    width: 100%;
+    height:100%;
+    border-radius: 7px;
+    background-color : rgba(0, 0, 0, 0.2);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.using-time-fail-txt{
+    text-align: center;
+}
+
+
+/* ***************** */
+/* fixed-section-top */
+/* ***************** */
+.fixed-section-top{
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.running-time-section{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+.fixed-section-label{
+    font-family: 'MICEGothic';
+    font-weight: 800;
+    font-size: 19.5px;
+
+    margin-bottom: 13px;
+}
+.fixed-section-txt{
+    font-family: 'MonoplexKR';
+    color: #808080;
+}
+
+.running-time-li-wrap{
+    display: flex;
+    flex-direction: column;
+    max-height: 188px;
+    overflow-y: hidden;
+}
+.running-time-li-wrap *{
+    font-family: 'MonoplexKR';
+    color: #808080;
+}
+.running-time-li{
+    font-size: 15px;
+    margin-bottom: 9px;
+}
+
+.type-location-txt{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+.space-type-loca{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 25px;
+}
+
+.fixed-section-loca{
+    display: flex;
+    height: auto;
+    align-items: center;
+}
+.space-loca-icon{
+    width: 12px;
+    height: 23px;
+
+    margin-right: 4px;
+}
+
+
+/* ******************** */
+/* reserve-type-section */
+/* ******************** */
+.reserve-type-section{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    margin-bottom: 25px;
+
+    position: relative;
+}
+.type-border{
+    width: 330px;
+    border: 2px solid #2EE49D;
+    padding: 7px 15px 7px 10px;
+
+    display: flex;
+    justify-content: space-between;
+
+    border-radius: 8px;
+    cursor: pointer;
+}
+.open-select{
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+.type-border-txt{
+    font-family: 'MonoplexKR';
+    font-size: 14px;
+    color: #808080;
+}
+
+/* ******************** */
+/* CUSTOM SELECT SECTION */
+/* ******************** */
+.custom-select-type{
+    width: 96%;
+    position: absolute;
+    top : 70px;
+
+    display: flex;
+    flex-direction: column;
+}
+.custom-select-type-list{
+    width: 100%;
+    border: 2px solid #2EE49D;
+    background-color: white;
+    
+    cursor: pointer;
+
+    box-sizing: border-box;
+    padding: 6px 15px 6px 10px;
+
+    font-family: 'MonoplexKR';
+    font-size: 14px;
+    color: #808080;
+
+    display: flex;
+    justify-content: space-between;
+}
+.custom-select-type-list:last-child{
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+.room-name{
+    width: 60%;
+}
+.room-price-unit{
+    width: 35%;
+
+    display: flex;
+    justify-content: right;
+}
+
+
+/* ****************** */
+/* using-time-section */
+/* ****************** */
+.using-time-section{
+    display: flex;
+    align-items: flex-start;
+
+    padding-bottom: 25px;
+    border-bottom: 2px solid #e4e4e4;
+}
+
+.time-boundary{
+    width: 50%;
+}
+.time-select-wrap{
+    width: 150px;
+
+    border: 2px solid #2EE49D;
+    padding: 7px 10px 7px 10px;
+    margin-top: 10px;
+
+    display: flex;
+    justify-content: space-between;
+
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.time-input{
+    width: 120px;
+    border: none;
+    cursor: pointer;
+}
+
+
+/* ***************** */
+/* maybe-pay-section */
+/* ***************** */
+.maybe-pay-section{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    padding-top: 20px;
+    padding-right: 20px;
+}
+
+
+/* *************** */
+/* contect-section */
+/* *************** */
+.contact-section{
+    display: flex;
+    width: 100%;
+
+    justify-content: space-between;
+
+    padding-top: 20px;
+    margin-bottom: 25px;
+}
+.contact-wrap{
+    width: 46.5%;
+    border: 2px solid #2EE49D;
+    padding: 9px 0px 9px 0px;
+    border-radius: 8px;
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+}
+.contact-img{
+    width: 22px;
+    height: 22px;
+
+    margin-right: 7px;
+}
+
+.btn-section{
+    width: 100%;
+    height: 40px;
+
+    background-color: #2EE49D;
+    border-radius: 8px;
+    cursor: pointer;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    color: white;
+    font-family: 'MonoplexKR';
+    font-size: 15px;
+    letter-spacing: 0.2px;
+}

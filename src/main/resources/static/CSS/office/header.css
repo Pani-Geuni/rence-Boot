@@ -1,0 +1,277 @@
+/* ************ */
+/* @author 김예은 */
+/* ************ */
+
+.headerWrap * {
+    font-family: 'OTWelcome';
+}
+
+.headerWrap{
+    width: 100%;
+    height: 95px;
+
+    box-sizing: border-box;
+    padding-left: 15px;
+    padding-right: 15px;
+    
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    box-shadow : 0 1px 0 #e4e4e4 ;
+}
+
+/***********************/
+/**   LOGO SECTION    **/
+/***********************/
+.logo-section{
+    display: flex;
+    justify-content: right;
+    width: 11%;
+
+    cursor: pointer;
+}
+.logo-mku{
+    width: 126px;
+}
+
+/***********************/
+/** User Menu SECTION **/
+/***********************/
+
+.searchBar-section{
+    display: flex;
+    justify-content: center;
+    width: 77%;
+}
+.searchBar-wrap{
+    position: relative;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 420px;
+    height: 50px;
+    
+    border-radius: 40px;
+    border: 2px solid #2EE49D;
+}
+.sb_1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    
+    width: 17%;
+
+    border-right: 2px solid #2EE49D;
+    
+    cursor: pointer;
+}
+.sb_2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 51%;
+    cursor: pointer;
+}
+.type{
+    box-sizing: border-box;
+    padding-left: 6px;
+}
+.searchBar-btnWrap{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 14%;
+    cursor: pointer;
+}
+.searchBar-btn{
+    width: 34px;
+    height: 34px;
+}
+#input_searchBar{
+    width: 100%;
+    height: 30px;
+    box-sizing: border-box;
+    padding-left: 15px;
+    font-size: 15px;
+    border: none;
+    background: transparent;
+}
+
+/***********************/
+/** User Menu SECTION **/
+/***********************/
+
+.userMenu-section{
+    display: flex;
+    justify-content: right;
+    width: 12%;
+    position: relative;
+    cursor: pointer;
+}
+.userMenu{
+    width: 120px;
+    height: 50px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 40px;
+    background-color: #2EE49D;
+    margin-right: 50px;
+}
+.user_menu_img{
+    width: 35px;
+    height: 36px;
+    border-radius: 100%;
+    margin-right: 9px;
+}
+.user_profile_img{
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+}
+
+/***********************/
+/* CUSTOM TYPE SELECT  */
+/***********************/
+.type-select-wrap{
+    position: absolute;
+    top: 60px;
+    left: -40px;
+
+    width: 110px;
+    max-height: 122px;
+
+    box-shadow: 0.9px 1px 4px 2px #e4e4e4;
+
+    border-radius: 15px;
+    
+    z-index: 50;
+}
+.type-select-list{
+    height: 40px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    background-color: #ffffff;
+    border-bottom: 1.5px solid #e4e4e4;
+
+    cursor: pointer;
+}
+.type-select-list:nth-child(1){
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+.type-select-list:nth-child(3){
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+/***************************/
+/* CUSTOM LOCATION SELECT  */
+/***************************/
+.location-select-wrap{
+    position: absolute;
+    top: 60px;
+    left: 75px;
+
+    display: flex;
+
+    width: 280px;
+    
+    z-index: 50;
+}
+.location-select{
+    width: 140px;
+    max-height: 244px;
+
+    overflow: overlay;
+
+    box-shadow: 0.9px 1px 4px 2px #e4e4e4;
+    border-radius: 15px;
+}
+.location-select::-webkit-scrollbar{
+    width: 8px;
+    border-radius: 10px;
+}
+.location-select::-webkit-scrollbar-thumb {
+    background-color: #73777B;
+    height: 20px;
+    border-radius: 10px;
+}
+.location-select::-webkit-scrollbar-track{
+    background-color: #EEEEEE;
+    border-radius: 10px;
+}
+.location-select:nth-child(1){
+    margin-right: 10px;
+}
+.location-select-list{
+    height: 40px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    background-color: #ffffff;
+    border-bottom: 1.5px solid #e4e4e4;
+
+    cursor: pointer;
+}
+.location-select-list:nth-child(1){
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.location-select-list:nth-child(3){
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+/***********************/
+/* CUSTOM USER SELECT  */
+/***********************/
+.custom-select-user{
+    position: absolute;
+    top: 58px;
+    left: -83px;
+
+    width: 200px;
+    max-height: 122px;
+
+    box-shadow: 0.8px 0.8px 4px 1.5px #e4e4e4;
+
+    border-radius: 15px;
+    
+    z-index: 50;
+}
+.user-select-wrap{
+    display: flex;
+    flex-direction: column;
+    border-radius: 15px;
+    
+    border: 1.5px solid #e4e4e4;
+}
+.user-select-list{
+    height: 40px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    background-color: #ffffff;
+    border-bottom: 1.5px solid #e4e4e4;
+}
+.user-select-list:nth-child(1){
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+}
+.user-select-list:nth-child(3){
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}

@@ -1,0 +1,170 @@
+/* ************ */
+/* @author 전판근 */
+/* ************ */
+
+.custom-table {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+}
+
+.custom-table * {
+	font-family: "HallymGothic";
+	font-weight: 900;
+}
+
+.ct-header {
+  display: flex;
+  justify-content: space-around;
+
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e4e4e4;
+}
+
+.ct-header-cell {
+  font-weight: 700;
+  width: 25%;
+  text-align: center;
+}
+
+.ct-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.ct-body-row {
+  display: flex;
+  justify-content: space-around;
+}
+
+.ct-body-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 10px;
+  width: 25%;
+  height: 40px;
+}
+
+.ct-body-btn {
+  padding: 6px 8px;
+
+  border: none;
+  border-radius: 8px;
+
+  font-size: 10px;
+  font-weight : 700 !important;
+  letter-spacing : 0.4px;
+  color: #ffffff;
+  background-color: #b2a4ff;
+
+  cursor: pointer;
+}
+
+.ct-body-btn.reserve-cancel {
+  background-color: #c4c4c4;
+  cursor: default;
+}
+
+.ct-body-btn.reserve-end {
+  background-color: #ff5c71;
+  cursor: default;
+}
+
+.ct-body-btn.reserve-ing {
+  background-color: #b2a4ff;
+  cursor: default;
+}
+
+.ct-body-btn.reserve-doing {
+  background-color: #2ee49d;
+  cursor: default;
+}
+
+.ct-body-btn.review-edit {
+  background-color: #b2a4ff;
+}
+
+.ct-body-btn.review-add {
+  background-color: #2ee49d;
+}
+
+.qna-delete{
+	background-color: #ff5c71;
+}
+
+/* ********** */
+/* pagination */
+/* ********** */
+.pagination {
+  display: flex;
+  justify-content: center;
+
+  margin-top: 24px;
+}
+.page-item button {
+  width: 20px;
+  height: 20px;
+
+  padding: 0;
+  margin: 0;
+  border: 1px solid #e4e4e4;
+
+  background-color: #ffffff;
+}
+
+.page-item img {
+  width: 16px;
+  height: 16px;
+}
+
+/* ********************************* */
+/* Custom Table for Host Review Page */
+/* ********************************* */
+.ct-body-row.qna,
+.ct-body-row.reserve {
+  margin-bottom: 4px;
+  border-bottom: 1px solid #e4e4e4;
+}
+
+.ct-body-row.qna {
+  cursor: pointer;
+}
+
+.review-process.false {
+  color: #ff5c71;
+}
+
+.ct-header-cell.qna:nth-child(1),
+.ct-body-cell.qna:nth-child(1) {
+  width: 80px;
+}
+
+.ct-header-cell.qna:nth-child(2),
+.ct-body-cell.qna:nth-child(2) {
+  width: 150px;
+}
+
+.ct-header-cell.qna:nth-child(3),
+.ct-body-cell.qna:nth-child(3) {
+  width: 400px;
+}
+
+.ct-body-cell.qna:nth-child(3) p {
+  flex-shrink: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ct-header-cell.qna:nth-child(4),
+.ct-body-cell.qna:nth-child(4) {
+  width: 70px;
+}
+
+.ct-header-cell.qna:nth-child(5),
+.ct-body-cell.qna:nth-child(5) {
+  width: 70px;
+}
