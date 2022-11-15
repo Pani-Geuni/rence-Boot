@@ -1,0 +1,307 @@
+/* ************ */
+/* @author 전판근 */
+/* ************ */
+
+.popup-background {
+  width: 100%;
+  height: 100%;
+
+  position: fixed;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.popup-background * {
+  font-family: 'MICEGothic';
+}
+
+/* LOGIN SECTION */
+#login-section {
+  width: 440px;
+  height: 330px;
+  background-color: #ffffff;
+  border-radius: 5px;
+}
+.login-popup-logo-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 32%;
+
+  font-size: 30px;
+  font-weight: bold;
+}
+.login-popup-input-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+}
+.login-popup-input {
+  width: 70%;
+  height: 35px;
+
+  box-sizing: border-box;
+  padding-left: 6px;
+
+  border-radius: 9px;
+  border: 2px solid #e4e4e4;
+
+  font-size: 14px;
+}
+.login-popup-input:nth-child(1){
+  margin-bottom: 7px;
+}
+#login-pw {
+  margin-bottom: 20px;
+}
+.login-popup-btn-section {
+  height: 35%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#login-btn {
+  width: 71%;
+  height: 40px;
+
+  margin-bottom: 15px;
+
+  border-radius: 9px;
+  background-color: #b2a4ff;
+  border: none;
+
+  color: white;
+  font-size: 15px;
+  font-weight: bolder;
+}
+.txt-btn-wrap {
+  width: 70%;
+  box-sizing: border-box;
+  padding-left: 45px;
+  padding-right: 45px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.txt-btn {
+  font-size: 13px;
+  font-weight: bolder;
+  cursor: pointer;
+}
+.login-close{
+    padding: 5px 10px 5px 10px;
+    background-color: #42C2FF;
+    color: white;
+    border-radius: 13px;
+}
+
+/* ************* */
+/* FIND SECTION */
+/* ************* */
+.find-section {
+  width: 460px;
+  height: 320px;
+  background-color: #ffffff;
+  border-radius: 5px;
+}
+#find-pw-section {
+  height: 400px;
+}
+
+.find-section * {
+  font-family: 'OTWelcome';
+}
+.find-guide-txt {
+  font-size: 13px;
+  letter-spacing: 0.8px;
+}
+.find-popup-logo-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 105px;
+
+  font-size: 25px;
+  font-weight: bold;
+}
+.find-popup-input-section {
+  display: flex;
+  flex-direction: column;
+  width: 65%;
+
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 30px;
+
+  font-size: 30px;
+  font-weight: bold;
+}
+.email-wrap {
+  margin-bottom: 6px;
+}
+.find-popup-input {
+  height: 27px;
+  width: 100%;
+  font-size: 13px;
+  border: 1px solid #e4e4e4;
+  border-radius: 4px;
+  padding: 0px 0px 0px 6px;
+}
+.find-popup-input:focus {
+  border: 2px solid #b2a4ff;
+}
+.find-popup-btn-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  box-sizing: border-box;
+  padding-left: 10px;
+}
+
+.find-btn,
+.find-pw-close {
+  width: 309px;
+  height: 35px;
+
+  margin-left: auto;
+  margin-right: auto;
+
+  border-radius: 9px;
+  background-color: #b2a4ff;
+  border: none;
+
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.find-pw-close {
+	background-color: #c4c4c4;
+	
+	margin-top: 12px;
+}
+
+#logout-popup {
+  height: 150px;
+}
+
+/* ******************** */
+/* 로그인 초기화(재설정) 화면 */
+/* ******************** */
+
+.reset-pw-background {
+  width: 100%;
+  height: 77vh;
+
+  /* position: fixed; */
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+#popup-update-pw {
+  box-sizing: border-box;
+  width: 440px;
+  height: auto;
+  background-color: #ffffff;
+  border-radius: 8px;
+
+  padding: 20px;
+}
+
+.titleSection {
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  border-bottom: 1px solid #e4e4e4;
+
+  padding-bottom: 20px;
+
+  margin-bottom: 20px;
+}
+
+.titleSection h1 {
+  margin: 0 12px 0 0;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-item {
+	display: flex;
+	flex-direction: column;
+	
+  position:relative;
+	
+	
+	margin-bottom: 20px;
+}
+
+.warning-text {
+	
+	margin-top: 4px;
+	margin-left: 4px;
+	
+	color: #FF5C5C;
+    font-size: 10px;
+}
+
+.input-group input {
+  height: 32px;
+
+  padding: 0 8px;
+ 
+  border: 1px solid #e4e4e4;
+  border-radius: 8px;
+}
+
+.pw-warning-text{
+  position: absolute;
+  top: 28px;
+  
+  margin-top: 4px;
+	margin-left: 4px;
+	
+	color: #FF5C5C;
+    font-size: 12px;
+}
+
+.btn-popup-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-popup-group button {
+  width: 100%;
+  height: 32px;
+
+  border: none;
+  border-radius: 8px;
+
+  cursor: pointer;
+}
+
+#btn-popup-close {
+  color: #ffffff;
+
+  background-color: #c4c4c4;
+}
+
+#btn-popup-confirm,
+#btn-pw-update {
+  color: #ffffff;
+
+  background-color: #b2a4ff;
+}

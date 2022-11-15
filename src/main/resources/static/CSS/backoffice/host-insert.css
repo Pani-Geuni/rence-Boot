@@ -1,0 +1,342 @@
+/* ************ */
+/* @author 전판근 */
+/* ************ */
+
+/* **** */
+/* Wrap */
+/* **** */
+.bodyWrap {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	/* height: 73vh; */
+}
+.bodyWrap *{
+	font-family: "HallymGothic";
+	font-weight: 500;
+}
+
+.applyWrap {
+	width: 550px;
+}
+
+.titleWrap {
+	border-bottom: 1px solid #e4e4e4;
+	margin: 32px 0;
+}
+
+.inputWrap {
+	box-sizing: border-box;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	height: 40px;
+	margin-bottom: 12px;
+}
+
+.inputWrap p {
+	font-size: 16px;
+	font-weight: 400;
+}
+
+.inputWrap input {
+	box-sizing: border-box;
+	width: 340px;
+	height: 32px;
+	padding: 0 8px;
+	border: 1px solid #e4e4e4;
+	border-radius: 8px;
+}
+
+.inputWrap.input:focus {
+	border: 1px solid #b2a4ff;
+}
+
+/* *********** */
+/* Input Email */
+/* *********** */
+.inputWrap.email input {
+	width: 220px;
+	height: 32px;
+	padding: 0 8px;
+	border: 1px solid #e4e4e4;
+	border-radius: 8px;
+	margin-right: 8px;
+}
+
+.inputWrap.email input[type=button] {
+	box-sizing: border-box;
+	width: 108px;
+	height: 32px;
+	color: #ffffff;
+	font-weight: 700;
+	border: none;
+	border-radius: 8px;
+	background-color: #b2a4ff;
+}
+
+.check_wrap{
+	position: relative;
+}
+.warning-text{
+	position: absolute;
+	width: 200px;
+	top: 30px;
+	left : 0px;
+}
+
+
+/* ************************* */
+/* Input BackOffice Location */
+/* ************************* */
+#zipcode {
+	width: 100px;
+	margin-right: 12px;
+}
+
+#find-zipcode {
+	width: 100px;
+}
+
+.inputWrap.location {
+	align-items: flex-start;
+	height: 100%;
+}
+
+.inputWrap.location p {
+	margin: 0;
+}
+
+.inputWrap.location input:not(:last-child) {
+	margin-bottom: 12px;
+}
+
+.input-location {
+	height: 100%;
+}
+
+/* **************************** */
+/* Input BackOffice Information */
+/* **************************** */
+.inputWrap.info {
+	align-items: flex-start;
+	height: 100%;
+
+	margin-bottom: 25px;
+}
+
+.inputWrap.info p {
+	margin: 0;
+}
+
+#backoffice_info {
+	box-sizing: border-box;
+	resize: none;
+	width: 340px;
+	height: 200px;
+	padding: 8px;
+	border: 1px solid #e4e4e4;
+	border-radius: 8px;
+	outline-color: #b2a4ff;
+}
+
+.b_info_txt_length_wrap{
+	position: absolute;
+	top: 205px;
+	right: 0px;
+
+	display: flex;
+	align-items: center;
+}
+.b_info_txt_length_wrap * {
+	font-size: 12.8px;
+}
+
+
+/* ************************ */
+/* Input BackOffice Options */
+/* ************************ */
+.checkbox {
+	box-sizing: border-box !important;
+	width: 15px !important;
+	height: 15px !important;
+}
+
+.inputWrap.backoffice_type {
+	align-items: flex-start;
+	height: auto;
+}
+
+.inputWrap.backoffice_type p {
+	margin: 0;
+}
+
+.inputWrap.option {
+	align-items: flex-start;
+	height: 300px;
+}
+
+.inputWrap.option p {
+	margin: 0;
+}
+
+.option-group-row {
+	display: flex;
+	justify-content: space-between;
+	width: 400px;
+	margin-bottom: 12px;
+}
+
+.option-item {
+	width: 130px;
+	font-size: 13px;
+}
+
+.option-item label {
+	width: 100%;
+	position: relative;
+	top: -2px;
+}
+
+.inputWrap.facilities {
+	align-items: flex-start;
+	height: 60px;
+}
+
+.inputWrap.facilities p {
+	margin: 0;
+}
+
+/* ********************* */
+/* CUSTOM TABLE FOR TIME */
+/* ********************* */
+.inputWrap.time {
+	align-items: flex-start;
+	height: 100%;
+}
+
+.inputWrap.time p {
+	margin: 0;
+}
+
+.custom-table {
+	display: flex;
+	flex-direction: column;
+	width: 340px;
+}
+
+.custom-table-heading {
+	display: flex;
+	margin-bottom: 12px;
+}
+
+.custom-table-body {
+	display: flex;
+	flex-direction: column;
+}
+
+.table-head-cell:first-child {
+	width: 40px;
+}
+
+.table-head-cell {
+	width: 100px;
+}
+
+.table-head-cell p {
+	font-size: 14px;
+	font-weight: 700;
+	text-align: center;
+}
+
+.table-body-cell:first-child {
+	width: 40px;
+}
+
+.table-body-row {
+	display: flex;
+	margin-bottom: 12px;
+}
+
+.table-body-cell {
+	width: 100px;
+	text-align: center;
+	justify-content: center;
+	align-items: center;
+	font-size: 14px;
+}
+
+.table-body-cell input {
+	width: 56px;
+	height: 20px;
+}
+
+/* ****** */
+/* SUBMIT */
+/* ****** */
+.submit {
+	display: flex;
+	justify-content: center;
+	margin-top: 50px;
+	margin-bottom: 40px;
+}
+
+.submit-application {
+	box-sizing: border-box;
+	border: none;
+	border-radius: 8px;
+	width: 180px;
+	height: 50px;
+	font-size: 20px;
+	font-weight: 700;
+	color: #ffffff;
+	background-color: #b2a4ff;
+	cursor: pointer;
+}
+
+/* ********************** */
+/* Input BackOffice Image */
+/* ********************** */
+.filebox {
+	display: flex;
+	width: 340px;
+}
+
+.filebox .upload-name {
+	display: inline-block;
+	height: 32px;
+	padding: 0 10px;
+	vertical-align: middle;
+	border: 1px solid #dddddd;
+	width: 78%;
+	color: #999999;
+	margin-right: 12px;
+}
+
+.filebox label {
+	box-sizing: border-box;
+	display: inline-block;
+	padding: 8px 12px;
+	color: #808080;
+	vertical-align: middle;
+	text-align: center;
+	background-color: #ffffff;
+	cursor: pointer;
+	border: 1px solid #e4e4e4;
+	border-radius: 8px;
+	box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
+	width: 100px;
+	height: 32px;
+	font-size: 12px;
+}
+
+.filebox input[type='file'] {
+	position: absolute;
+	width: 0;
+	height: 0;
+	padding: 0;
+	overflow: hidden;
+	border: 0;
+}

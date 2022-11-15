@@ -1,0 +1,83 @@
+/* ************ */
+/* @author 전판근 */
+/* ************ */
+
+.popup-background {
+  width: 100%;
+  height: 100%;
+
+  position: fixed;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.popup-background * {
+  font-family: 'MICEGothic';
+}
+
+
+.contentWrap {
+  display: flex;
+
+  width: 100%;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginWrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 500px;
+  height: 500px;
+
+  border: 1px solid #e4e4e4;
+
+  padding: 20px;
+}
+
+.logo-section {
+  margin: 32px;
+}
+
+.logo-mku{
+    /* width: 200px; */
+}
+
+.inputSection {
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+}
+
+.inputSection input {
+  box-sizing: border-box;
+
+  width: 400px;
+  height: 40px;
+
+  padding: 8px;
+  margin-bottom: 20px;
+}
+
+#btn-master-login {
+  color: #ffffff;
+  background-color: #42c2ff;
+
+  width: 400px;
+  height: 40px;
+
+  border: none;
+  
+  cursor: pointer;
+}

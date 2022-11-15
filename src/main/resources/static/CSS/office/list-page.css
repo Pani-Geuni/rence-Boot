@@ -1,0 +1,281 @@
+/* ************ */
+/* @author 김예은 */
+/* ************ */
+
+.list-page-wrap{
+    width: 100%;
+    height: calc(100vh - 95px - 75px);
+
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+.listPage-section{
+    width: 100%;
+    height: calc(100vh - 95px - 75px);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    box-sizing: border-box;
+    padding-top: 50px;
+    padding-bottom: 30px;
+}
+
+/* ********* */
+/* sort-wrap */
+/* ********* */
+.sort-wrap{
+    width: 950px;
+    height: 25px;
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+.sort{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+
+    display: flex;
+    align-items:flex-start;
+
+    cursor: pointer;
+}
+.choice-sort-text{
+    font-family: 'OTWelcome';
+    font-size: 17px;
+    margin-right: 9px;
+}
+.sort-dropdown-img{
+    width: 13px;
+    height: 13px;
+}
+.sort-select-box-wrap{
+    position: absolute;
+    top: 20px;
+    right: 0px;
+
+    width: auto;
+}
+.sort-select-box{
+    width: 120px;
+
+    position: absolute;
+    top: 3px;
+    right: 0px;
+
+    box-shadow: 1px 1px 4px 1.5px #e4e4e4;
+    border-radius: 8px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.sort-select-list{
+    width: 100%;
+    height: 21px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+
+    background-color: white;
+
+    font-family: "HallymGothic";
+    font-size: 15px;
+
+    cursor: pointer;
+}
+.sort-select-list:nth-child(1),
+.sort-select-list:nth-child(2),
+.sort-select-list:nth-child(3){
+    border-bottom: 2px solid #e4e4e4;
+}
+
+
+
+/**********************/
+/* list-box-null-wrap */
+/**********************/
+.list-box-null-section{
+    width: 920px;
+    height: auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.null-first-section{
+    margin-bottom: 28px;
+}
+.advice-txt{
+    font-family: 'MICEGothic';
+    font-weight: 800;
+    font-size: 23px;
+}
+.null-second-section{
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+}
+.null-second-section * {
+    font-family: 'HallymGothic';
+    font-weight: 500;
+}
+.advice-txt-small{
+    font-size: 16px;
+    margin-bottom: 30px;
+}
+.go-all-list{
+    width: 160px;
+    height: 30px;
+    
+    font-size: 14px;
+    font-weight: 500;
+
+    border-radius: 12px;
+
+    border: none;
+    background-color: #2EE49D;
+
+    color: white;
+    font-family: "MonoplexKR";
+}
+
+
+/* ************* */
+/* listPage-wrap */
+/* ************* */
+.listPage-wrap{
+    width: 980px;
+    display: flex;
+
+    min-height: calc(100vh - 280px);
+    max-height: calc(100vh - 280px);
+
+    overflow: overlay;
+}
+.listPage-wrap::-webkit-scrollbar{
+    width: 8px;
+}
+.listPage-wrap::-webkit-scrollbar-thumb {
+    background-color: #73777B;
+    height: 10px;
+    border-radius: 10px;
+}
+.listPage-wrap::-webkit-scrollbar-track{
+    background-color: #EEEEEE;
+    border-radius: 10px;
+}
+.listPage-wrap *{
+    font-family: 'OTWelcome';
+}
+/* list-box-wrap */
+.list-box-wrap{
+    width: 980px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.list-box{
+    width: 300px;
+    height: 270px;
+
+    border: 2px solid #e4e4e4;
+    border-radius: 14px;
+
+    margin-right: 20px;
+    margin-bottom: 20px;
+
+    display: flex;
+    flex-direction: column;
+
+    cursor: pointer;
+}
+.list-thumbnail{
+    width: 300px;
+    height: 130px;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    object-fit: cover;
+}
+
+.list-box-info{
+    display: flex;
+    flex-direction: column;
+
+    box-sizing: border-box;
+
+    padding-top: 6px;
+    padding-bottom: 8px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.list-box-info *{
+    font-family: 'HallymGothic';
+    font-weight: 500;
+}
+
+.box-location-wrap{
+    display: flex;
+    align-items: center;
+    margin-bottom: 7px;
+}
+.box-info-c-name{
+    font-size: 19px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+.location-icon{
+    width: 10px;
+    height: 13px;
+
+    margin-right: 4px;
+}
+.box-info-location{
+    font-size: 11.5px;
+    color: #808080;
+}
+
+.box-tag-wrap{
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+.box-tag{
+    font-family: 'HallymGothic';
+    font-weight: 500;
+    font-size: 11.5px;
+    color: #808080;
+}
+
+.box-price-rating-wrap{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+.box-room-min-price-wrap{
+    display: flex;
+    align-items: baseline;
+}
+.box-room-min-price{
+    font-family: 'OTWelcome';
+    font-size: 20px;
+    font-weight: bolder;
+    margin-right: 2px;
+}
+.price-unit{
+    font-family: 'HallymGothic';
+    font-weight: 500;
+    font-size: 11px;
+}
+.rating-num{
+    font-family: 'HallymGothic';
+    font-weight: 500;
+    font-size: 13px;
+}

@@ -1,0 +1,59 @@
+/* ************ */
+/* @author 전판근 */
+/* ************ */
+
+.headerWrap {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 16px;
+
+  margin-bottom: 20px;
+
+  border-bottom: 1px solid #e4e4e4;
+}
+
+.logo-section img {
+  width: 200px;
+
+  cursor: pointer;
+}
+
+.header-nav-list {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  list-style: none;
+
+  width: 300px;
+}
+
+.header-nav-item {
+  font-weight: 700;
+
+  color: #808080;
+
+  cursor: pointer;
+}
+
+.header-nav-item.active {
+  color: #000000;
+}
+
+#btn-logout {
+  border: none;
+  border-radius: 8px;
+
+  font-size: 16px;
+
+  padding: 6px 8px;
+
+  color: #ffffff;
+  background-color: #ff5c71;
+  
+  cursor: pointer;
+}

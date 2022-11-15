@@ -1,0 +1,307 @@
+/* ************ */
+/* @author 김예은 */
+/* ************ */
+
+.reserve-list-wrap{
+    width: 100%;
+    height: calc(100vh - 95px - 75px);
+}
+.reserve-list-wrap * {
+    font-family: 'MICEGothic';
+}
+
+.reserve-list{
+    display: flex;
+    height: 100%;
+
+    flex-direction: column;
+    align-items: center;
+}
+
+.page-title-section{
+    width: 920px;
+    height: 90px;
+
+    box-sizing: border-box;
+    padding-top: 10px;
+    
+    display: flex;
+    align-items: center;
+    
+    border-bottom: 2px solid #e4e4e4;
+    position: relative;
+}
+.page-title{
+    font-size: 24px;
+    font-weight: bold;
+
+    display: flex;
+    align-items: center;
+}
+.timePoint-select-wrap{
+    width: 90px;
+
+    padding: 7px;
+    margin-right: 10px;
+
+    border: 2px solid #2EE49D;
+    border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    cursor: pointer;
+}
+.timePoint-value{
+    width: 90%;
+}
+.full-dropdown{
+    width: 10%;
+}
+
+
+/* timePoint-custom-select-wrap */
+.timePoint-custom-select-wrap{
+    position: absolute;
+    top: 80px;
+    left: 5px;
+    z-index: 100;
+}
+.timePoint-custom-select{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    box-shadow: 1px 1px 4px 2px #e4e4e4;
+    border-radius: 10px;
+}
+.timePoint-custom-select-li{
+    width: 100px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+
+    cursor: pointer;
+}
+.timePoint-custom-select-li:nth-child(1){
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.timePoint-custom-select-li:last-child{
+    border-top: 2px solid #e4e4e4;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+
+/**************************/
+/**** reserve-list SECTION ****/
+/**************************/
+.reserve-list-section{
+    width: 920px;
+    height: calc(100% - 90px);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.reserve-null{
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+}
+.null-first-section{
+    margin-bottom: 28px;
+}
+.advice-txt{
+    font-size: 23px;
+}
+.null-second-section{
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+}
+.advice-txt-small{
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+.go-home{
+    width: 150px;
+    height: 30px;
+
+    border-radius: 12px;
+
+    border: none;
+    background-color: #2EE49D;
+
+    color: white;
+    font-family: "MonoplexKR";
+}
+
+
+/**************************/
+/**** NOT-NULL SECTION ****/
+/**************************/
+.reserve-not-null{
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    box-sizing: border-box;
+    padding-top: 25px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.box-section{
+    width: 100%;
+    /* height: 90%; */
+    min-height: 100%;
+    max-height: 100%;
+    
+    overflow: overlay;
+
+    display: flex;
+    flex-wrap: wrap;
+}
+.box-section::-webkit-scrollbar{
+    width: 10px;
+    border-radius: 10px;
+}
+.box-section::-webkit-scrollbar-thumb {
+    background-color: #808080;
+    height: 20px;
+    border-radius: 10px;
+}
+.box-section::-webkit-scrollbar-track{
+    background-color: #EEEEEE;
+    border-radius: 10px;
+}
+.reserve-box{
+    width: 438px;
+    height: 180px;
+
+    box-shadow: 1px 1px 4px 2px #e4e4e4;
+    background-color: white;
+
+    border-radius: 14px;
+    margin-bottom: 20px;
+
+    display: flex;
+    cursor: pointer;
+}
+.reserve-box:nth-child(2n-1){
+    margin-right: 33px;
+}
+
+.box-img-section{
+    width: 185.5px;
+    height: 180px;
+}
+.space-img{
+    width: 185.5px;
+    height: 181px;
+
+    border-top-left-radius: 18px;
+    border-bottom-left-radius: 18px;
+}
+
+.box-txt-section{
+    width: 252.5px;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    box-sizing: border-box;
+    padding-left: 19px;
+}
+.b-office-name{
+    font-size: 25px;
+    margin-bottom: 8px;
+}
+.b-office-location{
+    display: flex;
+    align-items: center;
+    
+    margin-bottom: 20px;
+}
+.location-icon{
+    width: 11px;
+    height: 11px;
+    margin-right: 5px;
+}
+.location-name{
+    font-size: 11px;
+    color: #808080;
+}
+.reserve-time{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 17px;
+}
+.reserve-time * {
+    font-family: "OTWelcome";
+    font-size: 15px;
+}
+.reserve-start-time{
+    margin-bottom: 3px;
+}
+
+.price-label{
+    font-family: "OTWelcome";
+    font-size: 15px;
+    margin-right: 2px;
+}
+.price{
+    font-family: "MICEGothic";
+    font-size: 18px;
+    font-weight: 800;
+}
+
+/**************************/
+/**** PAGING SECTION ******/
+/**************************/
+.paging-section{
+    position: absolute;
+
+    width: 100%;
+    height: 10%;
+    
+    display: flex;
+    justify-content: center;
+}
+.paging-wrap{
+    width: auto;
+    height: auto;
+    display: flex;
+}
+.paging-box{
+    width: 10px;
+    height: 10px;
+
+    text-align: center;
+
+    border: 1.5px solid #D8D8D8;
+    color: #B2B2B2;
+    font-size: 9px;
+
+    padding: 2px 2px 2px 1px;
+    cursor: pointer;
+}
+.choice{
+    color: #000000;
+}
+.un-choice{
+    color: #808080;
+}

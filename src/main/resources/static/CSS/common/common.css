@@ -1,0 +1,171 @@
+/* ************ */
+/* @author 김예은 */
+/* ************ */
+
+@font-face {
+    font-family: 'OTWelcome';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2110@1.0/OTWelcomeRA.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'MICEGothic';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-01@1.0/MICEGothic Bold.woff2') format('woff2');
+    font-style: normal;
+}
+@font-face {
+    font-family: 'MonoplexKR';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_Monoplex-kr@1.0/MonoplexKR-Regular.woff2') format('woff2');
+    font-style: normal;
+}
+@font-face {
+    font-family: 'HallymGothic';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2204@1.0/HallymGothic-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+body{
+    width : 99%;
+    height : 100%;
+    margin: 0px;
+    display: flex;
+    justify-content: center;
+}
+.pageWrap{
+    width: 100%;
+    height: auto;
+}
+.contentWrap{
+    width: 100%;
+    height: auto;
+}
+
+.blind{ display:none !important;}
+.hide{ visibility: hidden;}
+
+a{
+    text-decoration: none;
+}
+ul{
+    list-style: none;
+    padding-inline-start: 0px;
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+}
+select:focus{
+    border: none;
+}
+input:focus{
+    outline: none;
+}
+input[type=button]{
+    cursor: pointer;
+}
+
+
+/* ************* */
+/*  CUSTOM ALERT POPUP SECTION */
+/* ************* */
+.alert-popup{
+    width: 290px;
+    height: 160px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    z-index: 100;
+}
+.alert-popup *{
+    font-family: "OTWelcome";
+    font-weight: 400;
+}
+.alert-txt-section{
+    height: 80%;
+    font-size: 13.8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.alert-btn-section{
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    color: #ffffff;
+    cursor: pointer;
+
+    background-color: #2EE49D;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+/* ***************************** */
+/*  CUSTOM CONFIRM POPUP SECTION */
+/* ***************************** */
+.confirm-popup{
+    width: 300px;
+    height: 200px;
+    background-color: #ffffff;
+    border-radius: 5px;
+
+    z-index: 100;
+}
+.confirm-popup *{
+    font-family: "OTWelcome";
+    font-weight: 400;
+}
+.confirm-txt-section{
+    height: 80%;
+    font-size: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.confirm-btn-section{
+    width: 100%;
+    height: 40px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    color: #ffffff;
+    cursor: pointer;
+
+    
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.confirm-yesBtn{
+    width: 50%;
+    height: 100%;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    background-color: #2EE49D;
+    border-bottom-left-radius: 5px;
+}
+.confirm-noBtn{
+    width: 50%;
+    height: 100%;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    color: #000000;
+    background-color: #ffffff;
+
+    box-sizing: border-box;
+    border-top: 2px solid #e4e4e4;
+    border-bottom-right-radius: 5px;
+}
+
+.popup-logo{
+    width: 100px;
+}
+.null-input-border{
+    border: 2px solid #FF5C5C !important;
+}

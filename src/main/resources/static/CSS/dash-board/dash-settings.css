@@ -1,0 +1,116 @@
+/* ************ */
+/* @author 전판근 */
+/* ************ */
+
+.btn-group-settings {
+	margin: 20px;
+}
+
+#btn-host-delete {
+	font-family: "HallymGothic";
+	font-weight: 900;
+	letter-spacing : 0.2px;
+	color: #ffffff;
+	
+	background-color: #ff5c71;
+	padding: 8px 12px;
+	border: none;
+	border-radius: 8px;
+	
+	cursor: pointer;
+}
+
+#btn-host-logout {
+	font-family: "HallymGothic";
+	font-weight: 900;
+	letter-spacing : 0.2px;
+	color: #ffffff;
+	
+	background-color: #c4c4c4;
+	padding: 8px 12px;
+	border: none;
+	border-radius: 8px;
+	
+	cursor: pointer;
+}
+
+/* ****** */
+/* 환경설정 */
+/* ****** */
+.host-info-list {
+	display: flex;
+	flex-direction: column;
+	width: 60%;
+	margin: 20px;
+	justify-content: space-between;
+}
+
+.host-item {
+	display: flex;
+	justify-content: space-between;
+}
+
+.host-item p {
+	margin: 0;
+	width: 300px;
+	margin-bottom: 12px;
+}
+
+.host-item span {
+	font-weight: 700;
+	width: 100%;
+	margin-bottom: 12px;
+}
+
+/* ************* */
+/* 비밀번호 변경 팝업 */
+/* ************* */
+#popup-update-pw {
+	box-sizing: border-box;
+	width: 440px;
+	height: auto;
+	background-color: #ffffff;
+	border-radius: 5px;
+	padding: 20px;
+}
+
+.titleSection h3 {
+	margin: 0;
+}
+
+.input-check-pw, .input-update-pw {
+	box-sizing: border-box;
+	width: 100%;
+	height: 40px;
+	border: 1px solid #e4e4e4;
+	border-radius: 8px;
+	padding: 0 8px;
+	margin-bottom: 12px;
+}
+
+.input-check-pw::placeholder, .input-update-pw::placeholder {
+	font-family: 'OTWelcome';
+}
+
+.btn-popup-group {
+	display: flex;
+	justify-content: space-between;
+}
+
+.btn-popup-group button {
+	width: 48%;
+	height: 32px;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+}
+
+#btn-popup-close {
+	color: #ffffff;
+	background-color: #c4c4c4;
+}
+
+#btn-popup-confirm {
+	color: #ffffff;
+	background-color: #b2a4ff;
+}

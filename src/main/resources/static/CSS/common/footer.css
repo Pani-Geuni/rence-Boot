@@ -1,0 +1,12 @@
+/* ************ */
+/* @author 김예은 */
+/* ************ */
+
+#footerWrap{
+    width : 100%;
+    height : 75px;
+
+    background-color: #ffffff;
+    border-top : 1px solid #E4E4E4;
+    text-align: center;
+}

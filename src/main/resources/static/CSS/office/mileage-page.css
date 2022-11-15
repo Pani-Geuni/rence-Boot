@@ -1,0 +1,213 @@
+/* ************ */
+/* @author 김예은 */
+/* ************ */
+
+.mileage-list-wrap{
+    width: 100%;
+    height: calc(100vh - 95px - 75px);
+}
+.mileage-list-wrap * {
+    font-family: 'MICEGothic';
+}
+
+.reserve-list{
+    display: flex;
+    height: 100%;
+
+    flex-direction: column;
+    align-items: center;
+}
+
+/****************************/
+/**** page-title SECTION ****/
+/****************************/
+.page-title-section{
+    width: 920px;
+    height: 90px;
+
+    box-sizing: border-box;
+    padding-top: 10px;
+
+    display: flex;
+    align-items: center;
+
+    box-sizing: border-box;
+    border-bottom: 2px solid #e4e4e4;
+}
+.page-title{
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/*************************/
+/**** mileage SECTION ****/
+/*************************/
+.mileage-section{
+    position: relative;
+
+    width: 920px;
+    height: 110px;
+
+    box-sizing: border-box;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    display: flex;
+    align-items: center;
+}
+.mileage{
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+}
+.mileage-label{
+    font-family: "OTWelcome";
+    font-size: 13.6px;
+    letter-spacing: 0.6px;
+    margin-bottom: 5px;
+}
+.mileage-won{
+    font-family: "MICEGothic";
+    font-size: 22px;
+    font-weight: bolder;
+    letter-spacing: 0.4px;
+}
+.calc{
+    margin-right: 20px;
+}
+
+/******************************/
+/**** mileage-list SECTION ****/
+/******************************/
+.mileage-list-section{
+    width: 920px;
+    height: calc(100vh - 95px - 275px);
+
+    display: flex;
+    flex-direction: column;
+}
+
+.mileage-list-menu{
+    margin-bottom: 10px;
+}
+.menus{
+    margin-right: 12px;
+
+    font-family: 'OTWelcome';
+    font-size: 13.5px;
+
+    cursor: pointer;
+}
+.un-choice{
+    color: #808080;
+}
+
+.mileage-history-section{
+    display: flex;
+    flex-direction: column;
+}
+.mileage-history-title-section{
+    height: 35px;
+
+    border-top: 2px solid #e4e4e4;
+    border-bottom: 2px solid #e4e4e4;
+}
+.list-title-txt-wrap{
+    display: flex;
+    height: 100%;
+    align-items: center;
+}
+.list-title-txt{
+    font-family: 'OTWelcome';
+    font-size: 16px;
+    text-align: center;
+}
+.list-status{
+    width: 10%;
+    text-align: center;
+}
+.list-mileage{
+    width: 20%;
+    text-align: center;
+}
+.list-content{
+    width: 50%;
+
+    white-space : nowrap;
+    overflow : hidden;
+    text-overflow : ellipsis;
+
+    padding-top: 1.5px;
+}
+.list-date{
+    width: 20%;
+    text-align: center;
+}
+
+.mileage-history-wrap *{
+    font-family: 'OTWelcome';
+    font-size: 14px;
+
+    max-height: 260px;
+    overflow-y: overlay;
+}
+.mileage-list{
+    height: 39px;
+
+    display: flex;
+    align-items: center;
+
+    border-bottom: 2px solid #e4e4e4;
+}
+.plus-price-label{
+    color: #2EE49D;
+}
+.after-label{
+    color: #B2A4FF;
+}
+.plus-price{
+    color: #42C2FF;
+}
+.minus-price{
+    color: #FF5C71;
+}
+
+/**************************/
+/**** PAGING SECTION ******/
+/**************************/
+.paging-section{
+    position: absolute;
+    bottom: 3px;
+    left: -20px;
+
+    width: 100%;
+    height: 10%;
+    
+    display: flex;
+    justify-content: center;
+}
+.paging-wrap{
+    width: auto;
+    height: auto;
+    display: flex;
+}
+.paging-box{
+    width: 10px;
+    height: 10px;
+
+    text-align: center;
+
+    border: 1.5px solid #D8D8D8;
+    color: #B2B2B2;
+    font-size: 9px;
+
+    padding: 2px 2px 2px 1px;
+    cursor: pointer;
+}
+.choice{
+    color: #000000;
+    text-decoration: underline;
+}
+.un-choice{
+    color: #808080;
+}
