@@ -1,20 +1,18 @@
 <!-- ------------ -->
 <!-- @author 김예은 -->
 <!--------------- -->
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="java.util.*"%>
-<c:set var="path" value="${pageContext.request.contextPath}" />
 
-<div class="homeWrap">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="homeWrap" th:fragment="content">
     <div class="homeTitle-wrap">
         <span class="homeTitle">어떤 공간을 찾으시나요?</span>
     </div>
     <div class="type-list-wrap">
         <div class="type-list type-desk">
             <section class="type-img-section">
-                <img src="${path}/resources/IMG/home/desk.svg" alt="type-desk-img" class="type-img" />
+                <img src="static/IMG/home/desk.svg" alt="type-desk-img" class="type-img" />
             </section>
             <section class="type-title-section">
                 <span>데스크</span>
@@ -28,7 +26,7 @@
 
         <div class="type-list type-meeting-room">
             <section class="type-img-section">
-                <img src="${path}/resources/IMG/home/meeting-room.svg" alt="type-metting-room-img" class="type-img" />
+                <img src="static/IMG/home/meeting-room.svg" alt="type-metting-room-img" class="type-img" />
             </section>
             <section class="type-title-section">
                 <span>회의실</span>
@@ -43,7 +41,7 @@
 
         <div class="type-list type-office">
             <section class="type-img-section">
-                <img src="${path}/resources/IMG/home/office-building.svg" alt="type-office-img" class="type-img" />
+                <img src="static/IMG/home/office-building.svg" alt="type-office-img" class="type-img" />
             </section>
             <section class="type-title-section">
                 <span>오피스</span>
@@ -58,3 +56,5 @@
         </div>
     </div>
 </div>
+</body>
+</html>
