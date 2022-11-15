@@ -1,15 +1,13 @@
-<!-- ----------------- -->
-<!-- @author 전판근,김예은 -->
-<!-- ----------------- -->
+<!-- ------------ -->
+<!-- @author 김예은 -->
+<!--------------- -->
 
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="java.util.*"%>
-<c:set var="path" value="${pageContext.request.contextPath}" />
-
-<div class="space-detail-wrap">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="space-detail-wrap" th:fragment="content">
     <section class="page-title-section">
-        <span class="page-title">예약하기</span>
+        <span class="page-title">과거에 예약한 공간 정보를 보여드려요</span>
     </section>
 
     <section class="body-semi-wrap">
@@ -18,26 +16,26 @@
                 <span class="section-title">예약 정보</span>
                 <div class="reserve-info-wrap">
                     <section>
-                        <img src="${path}/resources/upload/${ pvo.backoffice_image }" alt="result-img" class="reserve-info-img" />
+                        <img src="${res.info_obj.backoffice_image}" alt="result-img" class="reserve-info-img" />
                     </section>
                     <section class="reserve-info-txt">
-                        <span class="info-company-name">${ pvo.company_name }</span>
+                        <span class="info-company-name">[[${res.info_obj.company_name}]]</span>
                         <ul class="info-li-wrap">
                             <li class="info-li">
                                 <label class="info-label">공간 타입</label>
-                                <span class="info-text">${ pvo.room_type }</span>
+                                <span class="info-text">[[${res.info_obj.room_type}]]</span>
                             </li>
                             <li class="info-li">
                                 <label class="info-label">예약 날짜</label>
-                                <span class="info-text">${ pvo.reserve_stime } ~ ${ pvo.reserve_etime }</span>
+                                <span class="info-text">[[${res.info_obj.reserve_sdate}]] ~ [[${res.info_obj.reserve_edate}]]</span>
                             </li>
                             <li class="info-li">
                                 <label class="info-label">공간 이름</label>
-                                <span class="info-text">${ pvo.room_name }</span>
+                                <span class="info-text">[[${res.info_obj.room_name}]]</span>
                             </li>
                             <li class="info-li">
                                 <label class="info-label">공간 가격</label>
-                                <span class="info-text room_price">${ pvo.room_price }원/시간</span>
+                                <span class="info-text">[[${res.info_obj.room_price}]]원/시간</span>
                             </li>
                         </ul>
                     </section>
@@ -50,21 +48,15 @@
                         <ul>
                             <li class="host-info-li">
                                 <label class="uh-label">예약자</label>
-                                <span class="uh-text">
-                                    <input type="text" id="user_name" class="pay-input" value="${ pvo.user_name }" readonly/>
-                                </span>
+                                <span class="uh-text">[[${res.user_obj.user_name}]]</span>
                             </li>
                             <li class="host-info-li">
-                                <label  class="uh-label">연락처</label>
-                                <span class="uh-text">
-                                    <input type="text" id="" class="pay-input" value="${ pvo.user_tel }" readonly/>
-                                </span>
+                                <label class="uh-label">연락처</label>
+                                <span class="uh-text">[[${res.user_obj.user_tel}]]</span>
                             </li>
                             <li class="host-info-li">
-                                <label  class="uh-label">이메일</label>
-                                <span class="uh-text">
-                                    <input type="text" id="" class="pay-input" value="${ pvo.user_email }" readonly/>
-                                </span>
+                                <label class="uh-label">이메일</label>
+                                <span class="uh-text">[[${res.user_obj.user_email}]]</span>
                             </li>
                         </ul>
                     </div>
@@ -75,15 +67,15 @@
                         <ul>
                             <li class="host-info-li">
                                 <label class="uh-label">사업자명</label>
-                                <span class="uh-text">${ pvo.owner_name }</span>
+                                <span class="uh-text">[[${res.info_obj.backoffice_name}]]</span>
                             </li>
                             <li class="host-info-li">
                                 <label  class="uh-label">위치</label>
-                                <span class="uh-text">${ pvo.roadname_address } (${ pvo.detail_address })</span>
+                                <span class="uh-text">[[${res.info_obj.full_address}]]</span>
                             </li>
                             <li class="host-info-li">
                                 <label  class="uh-label">연락처</label>
-                                <span class="uh-text">${ pvo.backoffice_tel } ${ pvo.backoffice_email }</span>
+                                <span class="uh-text">[[${res.info_obj.backoffice_tel}]] [[${res.info_obj.backoffice_email}]]</span>
                             </li>
                         </ul>
                     </div>
@@ -119,51 +111,6 @@
                     </li>
                 </ul>
             </section>
-            <section class="payment-method-section">
-                <span class="section-title">결제 방법</span>
-                <div class="payment-methods-wrap">
-                    <section class="money-payment">
-                        <span class="payment-method-wrap">
-                            <div class="payment-method">
-                                <div class="custom-radio">
-                                    <div class="inner-radio choice-radio"></div>
-                                </div>
-                                <span class="payment-method-text">선결제</span>
-                            </div>
-                            <div class="payment-method">
-                                <div class="custom-radio">
-                                    <div class="inner-radio"></div>
-                                </div>
-                                <span class="payment-method-text">후불 결제</span>
-                            </div>
-                        </span>
-                        <span class="payment-method-wrap">
-                            <div class="payment-method">
-                                <div class="custom-radio">
-                                    <div class="inner-radio choice-radio"></div>
-                                </div>
-                                <span class="payment-method-text">카카오페이 결제</span>
-                            </div>
-                        </span>
-                    </section>
-
-                    <section class="mileage-payment">
-                        <div class="mileage-line-wrap">
-                            <label class="mileage-label">사용할 마일리지</label>
-                            <input type="text" id="use-mileage" class="use-mileage-input" value="0" numberOnly/>
-                            <input type="button" class="use-mileage-btn" value="마일리지 사용"/>
-                        </div>
-                        <div class="my-mileage-wrap">
-                            <label>
-                                나의 마일리지 : 
-                            </label>
-                            <span id="my-mileage" my-mileage="${pvo.mileage_total}">
-                                ${ pvo.mileage_total }원
-                            </span>
-                        </div>
-                    </section>
-                </div>
-            </section>
             <section class="payment-section">
                 <span class="section-title">결제 금액 안내</span>
                 <div class="payment-info-wrap">
@@ -171,41 +118,41 @@
                         <ul class="payment-info-li-wrap">
                             <li class="info-li">
                                 <label class="info-label">공간 타입</label>
-                                <span class="info-text">${ pvo.room_type }</span>
+                                <span class="info-text">[[${res.info_obj.room_type}]]</span>
                             </li>
                             <li class="info-li">
                                 <label class="info-label">예약 날짜</label>
-                                <span class="info-text">${ pvo.reserve_stime } ~ ${ pvo.reserve_etime }</span>
+                                <span class="info-text">[[${res.info_obj.reserve_sdate}]] ~ [[${res.info_obj.reserve_edate}]]</span>
                             </li>
                             <li class="info-li">
                                 <label class="info-label">공간 이름</label>
-                                <span class="info-text">${ pvo.room_name }</span>
+                                <span class="info-text">[[${res.info_obj.room_name}]]</span>
                             </li>
                             <li class="info-li">
                                 <label class="info-label">공간 가격</label>
-                                <span class="info-text room_price">${ pvo.room_price }원/시간</span>
+                                <span class="info-text">[[${res.info_obj.room_price}]]원/시간</span>
                             </li>
                         </ul>
                     </section>
                     <section class="pay-mileage-section">
                         <ul class="payment-info-li-wrap">
                             <li class="info-li">
-                                <label class="pay-info-label">총 결제 금액</label>
-                                <span id="payment_all" class="pay-info-text" payment_all="${payment_all}">${ payment_all }</span>
+                                <label class="pay-info-label">결제 금액</label>
+                                <span class="pay-info-text">[[${res.info_obj.actual_payment}]]원</span>
                             </li>
                             <li class="info-li">
-                                <label class="pay-info-label">마일리지 예상 적립 금액</label>
-                                <span id="earned_mileage" class="pay-info-text" earned_mileage="${earned_mileage}">${ earned_mileage }</span>
+                                <label class="pay-info-label">마일리지 적립 금액</label>
+                                <span class="pay-info-text">[[${res.info_obj.mileage_change}]]원</span>
                             </li>
                         </ul>
                     </section>
                 </div>
             </section>
-            <section class="btn-section">
-                <div id="pay-btn" class="pay-btn">
-                    <span>결제하기</span>
-                </div>
-            </section>
+        </div>
+        <div id = "footerWrap">
+            <h5>© Golfzon Tech Academy, Inc. All rights reserved.</h5>
         </div>
     </section>
 </div>
+</body>
+</html>

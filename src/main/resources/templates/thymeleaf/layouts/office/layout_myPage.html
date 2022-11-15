@@ -1,67 +1,45 @@
 <!-- ------------ -->
 <!-- @author 김예은 -->
 <!--------------- -->
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="java.util.*"%>
-<c:set var="path" value="${pageContext.request.contextPath}" />
 
+<!-- 공간 리스트 페이지 // 공간 소개 페이지 - 데스크,회의룸/오피스 -->
 <!DOCTYPE html>
 <html>
-<head>
-	<title><tiles:getAsString name="title"></tiles:getAsString></title>
-	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+<head th:replace="thymeleaf/html/office/common/head :: head(~{::link}, ~{::script}, layout_myPage)">
+	<link rel="stylesheet" href="static/CSS/office/my-page.css" />
+	<link rel="stylesheet" href="static/CSS/office/mileage-page.css" />
 	
-	<link rel="stylesheet" href="${path}/resources/CSS/common/common.css" />
-	<link rel="stylesheet" href="${path}/resources/CSS/office/header.css" />
-	<link rel="stylesheet" href="${path}/resources/CSS/common/footer.css" />
-	<link rel="stylesheet" href="${path}/resources/CSS/office/login.css" />
+	<script src="static/JS/office/my_page.js"></script>
+	<script src="static/JS/office/mileage_list.js"></script>
 	
-	
-	<link rel="stylesheet" href="${path}/resources/CSS/office/my-page.css" />
-	<link rel="stylesheet" href="${path}/resources/CSS/office/mileage-page.css" />
-	
-	<script type="text/javascript" src="${path}/resources/JS/common/core.min.js"></script>
-	<script type="text/javascript" src="${path}/resources/JS/common/sha256.min.js"></script>
-	
-	<script src="${path}/resources/JS/common/jquery-3.6.1.min.js"></script>
-	<script src="${path}/resources/JS/common/jquery.cookie.js"></script>
-	<script src="${path}/resources/JS/office/header.js"></script>
-	<script src="${path}/resources/JS/office/user_popup.js"></script>
-	
-	<script src="${path}/resources/JS/office/my_page.js"></script>
-	<script src="${path}/resources/JS/office/mileage_list.js"></script>
-	
-	<c:if test="${res.page eq 'reserve-list'}">
-		<link rel="stylesheet" href="${path}/resources/CSS/office/reserve-list.css" />
-		<script src="${path}/resources/JS/office/reserve_list.js"></script>
-	</c:if>
-	<c:if test="${res.page eq 'review'}">
-		<link rel="stylesheet" href="${path}/resources/CSS/office/review-page.css" />
-		<script src="${path}/resources/JS/office/review_page.js"></script>
-	</c:if>
-	<c:if test="${res.page eq 'question_list'}">
-		<link rel="stylesheet" href="${path}/resources/CSS/office/question-page.css" />
-		<script src="${path}/resources/JS/office/question_page.js"></script>
-	</c:if>
-	
+	<th:block th:if="${res.page} == 'reserve-list'">
+		<link rel="stylesheet" href="static/CSS/office/reserve-list.css" />
+		<script src="static/JS/office/reserve_list.js"></script>
+	</th>
+	<th:block th:if="${res.page} == 'review'">
+		<link rel="stylesheet" href="static/CSS/office/review-page.css" />
+		<script src="static/JS/office/review_page.js"></script>
+	</th>
+	<th:block th:if="${res.page} == 'question_list'">
+		<link rel="stylesheet" href="static/CSS/office/question-page.css" />
+		<script src="static/JS/office/question_page.js"></script>
+	</th>
 </head>
 <body>
-	<div class="pageWrap">
-		<tiles:insertAttribute name="header" />
-		<section class="contentWrap">
-			<tiles:insertAttribute name="content" />
-			<tiles:insertAttribute name="footer" />
+	<div class ="pageWrap">
+		<div th:replace="thymeleaf/html/office/common/header :: header"></div>
+	
+		<section class ="contentWrap">
+			<div th:replace="${content} :: content"></div>
+			<div th:replace="thymeleaf/html/office/common/footer :: footer"></div>
 		</section>
 	</div>
-
+	
 	<div class="popup-background blind">
        <!-- START LOGIN SECTION -->
         <div id="login-section" class="blind">
             <section class="login-popup-logo-section">
-                <img src="${path}/resources/IMG/common/RENCE.svg" class="popup-logo">
+                <img src="static/IMG/common/RENCE.svg" class="popup-logo">
             </section>
             <section class="login-popup-input-section">
                 <input type="text" id="login-id" class="login-popup-input" placeholder="아이디를 입력하세요." autocomplete="off"/>

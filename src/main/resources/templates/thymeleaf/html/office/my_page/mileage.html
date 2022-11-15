@@ -1,13 +1,11 @@
 <!-- ------------ -->
 <!-- @author 김예은 -->
 <!--------------- -->
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="java.util.*"%>
-<c:set var="path" value="${pageContext.request.contextPath}" />
 
-<div class="mileage-list-wrap">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="mileage-list-wrap" th:fragment="content">
     <div class="reserve-list">
         <section class="page-title-section">
             <span class="page-title">지금까지 쌓인 마일리지를 확인하세요</span>
@@ -17,7 +15,7 @@
             <section class="mileage-section">
                 <section class="mileage">
                     <span class="mileage-label">현재 마일리지</span>
-                    <span id="now-mileage" class="mileage-won">${mileage_total} 원</span>
+                    <span id="now-mileage" class="mileage-won">[[${mileage_total}]] 원</span>
                 </section>
             </section>
         </section>
@@ -25,16 +23,16 @@
         <section class="mileage-list-section">
             <section class="mileage-list-menu">
                 <span id = "all" class="menus 
-               		<c:if test="${searchKey eq 'all'}">choice</c:if>
-               		<c:if test="${searchKey ne 'all'}">un-choice</c:if>
+               		<th:block th:if="${searchKey} == 'all'">choice</th>
+               		<th:block th:if="${searchKey} != 'all'">un-choice</th>
                 ">전체</span>
                 <span id = "plus" class="menus 
-               		<c:if test="${searchKey eq 'plus'}">choice</c:if>
-               		<c:if test="${searchKey ne 'plus'}">un-choice</c:if>
+               		<th:block th:if="${searchKey} == 'plus'">choice</th>
+               		<th:block th:if="${searchKey} != 'plus'">un-choice</th>
             	">적립</span>
                 <span id = "minus" class="menus 
-               		<c:if test="${searchKey eq 'minus'}">choice</c:if>
-               		<c:if test="${searchKey ne 'minus'}">un-choice</c:if>
+               		<th:block th:if="${searchKey} == 'minus'">choice</th>
+               		<th:block th:if="${searchKey} != 'minus'">un-choice</th>
                 ">사용</span>
             </section>
 
@@ -50,29 +48,31 @@
                            
                 <section class="mileage-history-wrap">
                 	<ul>
-<!-- 	                  	START forEach -->
-						<c:forEach var = "obj" items="${res.list}">
+						<!-- START th:each -->
+						<th:block th:each="obj : ${res.list}">
                             <li class="mileage-list">
-                                <span class="list-status <c:if test="${obj.state eq 'T'}">plus-price-label</c:if>">
-									<c:if test="${obj.state eq 'T'}">적립</c:if>
-									<c:if test="${obj.state eq 'F'}">사용</c:if>
+                                <span class="list-status <th:block th:if="${obj.state} == 'T'">plus-price-label</th>">
+									<th:block th:if="${obj.state} == 'T'">적립</th>
+									<th:block th:if="${obj.state} == 'F'">사용</th>
 								</span>
                                 <span class="list-mileage 
-                                		<c:if test="${obj.state eq 'T'}">plus-price</c:if>
-                                		<c:if test="${obj.state eq 'F'}">minus-price</c:if>
+                                		<th:block th:if="${obj.state} == 'T'">plus-price</th>
+                                		<th:block th:if="${obj.state} == 'F'">minus-price</th>
                                 	">
-                                	<c:if test="${obj.state eq 'T'}">+</c:if>
-									<c:if test="${obj.state eq 'F'}">-</c:if>
-                                	${obj.mileage}
+                                	<th:block th:if="${obj.state eq 'T'}">+</th>
+									<th:block th:if="${obj.state eq 'F'}">-</th>
+                                	[[${obj.mileage}]]
                                 </span>
-                                <span class="list-content">${obj.room}</span>
-                                <span class="list-date">${obj.date}</span>
+                                <span class="list-content">[[${obj.room}]]</span>
+                                <span class="list-date">[[${obj.date}]]</span>
                             </li>
-                       	</c:forEach>
-<!--                        	END forEach -->
+                       	</th>
+						<!-- END th:each -->
                     </ul>
                </section>
             </section>
         </section>
     </div>
 </div>
+</body>
+</html>
