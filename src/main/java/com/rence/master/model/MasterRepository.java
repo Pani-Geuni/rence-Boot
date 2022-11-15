@@ -1,5 +1,5 @@
 /**
- * @author 전판근
+ * @author 전판근, 최진실
  */
 
 package com.rence.master.model;
