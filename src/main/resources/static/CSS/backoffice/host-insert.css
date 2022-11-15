@@ -12,7 +12,7 @@
 	width: 100%;
 	/* height: 73vh; */
 }
-.bodyWrap *{
+.bodyWrap * {
 	font-family: "HallymGothic";
 	font-weight: 500;
 }
@@ -43,7 +43,7 @@
 
 .inputWrap input {
 	box-sizing: border-box;
-	width: 340px;
+	width: 400px;
 	height: 32px;
 	padding: 0 8px;
 	border: 1px solid #e4e4e4;
@@ -68,7 +68,7 @@
 
 .inputWrap.email input[type=button] {
 	box-sizing: border-box;
-	width: 108px;
+	width: 160px;
 	height: 32px;
 	color: #ffffff;
 	font-weight: 700;
@@ -92,7 +92,7 @@
 /* Input BackOffice Location */
 /* ************************* */
 #zipcode {
-	width: 100px;
+	width: 105px;
 	margin-right: 12px;
 }
 
@@ -134,7 +134,7 @@
 #backoffice_info {
 	box-sizing: border-box;
 	resize: none;
-	width: 340px;
+	width: 400px;
 	height: 200px;
 	padding: 8px;
 	border: 1px solid #e4e4e4;
@@ -224,7 +224,7 @@
 .custom-table {
 	display: flex;
 	flex-direction: column;
-	width: 340px;
+	width: 400px;
 }
 
 .custom-table-heading {
@@ -301,7 +301,7 @@
 /* ********************** */
 .filebox {
 	display: flex;
-	width: 340px;
+	width: 400px;
 }
 
 .filebox .upload-name {
