@@ -180,7 +180,7 @@ $(function () {
         
         if(email.test($("#backoffice_email").val().trim())){
           $.ajax({
-            url:"/rence/backoffice_auth",
+            url:"/backoffice/auth",
             type : "GET",
             dataType : 'json',
             data : {
@@ -223,7 +223,7 @@ $(function () {
     if(!$("#btn-check-certification").prop("check")){
       if($("#auth_code").val().trim().length > 0){
         $.ajax({
-          url:"/rence/backoffice_authOK",
+          url:"/backoffice/authOK",
           type : "POST",
           dataType : 'json',
           data : {

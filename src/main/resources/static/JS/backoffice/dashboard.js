@@ -3,7 +3,7 @@
  */
  $(function () {
   $('.logo-mku').click(function(){
-    location.href = '/rence/backoffice_landing';
+    location.href = '/backoffice/landing';
   });
 
   $('#go-rence-home').click(function(){
