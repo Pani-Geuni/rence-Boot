@@ -7,11 +7,11 @@ $(function(){
 	// master header nav 변경
 	switch($(location).attr('pathname')) {
 	
-		case '/rence/master_main':
+		case '/master/main':
 			$('#nav-item-agree').addClass('active');
 			break;
 			
-		case '/rence/master_backoffice_end':
+		case '/master/backoffice_end':
 			$('#nav-item-delete').addClass('active');
 			break;
 			
@@ -21,15 +21,15 @@ $(function(){
 
 	// location.href 작업
 	$('.logo-mku').click(function() {
-		location.href="/rence/master_main";
+		location.href="/master/main";
 	})
 	
 	$('#nav-item-agree').click(function() {
-		location.href="/rence/master_main";
+		location.href="/master/main";
 	})
 	
 	$('#nav-item-delete').click(function() {
-		location.href="/rence/master_backoffice_end";
+		location.href="/master/backoffice_end";
 	})
 	
 	// 로그인 실패 팝업 닫기
@@ -45,7 +45,7 @@ $(function(){
 		// 로그인 성공
 		if ($('#master-id').val().trim().length > 0 && $('#master-pw').val().trim().length > 0) {
 			$.ajax({
-				url : "/rence/master_loginOK",
+				url : "/master/loginOK",
 				type : "POST",
 				dataType : "json",
 				data : {
@@ -60,7 +60,7 @@ $(function(){
 						$('#master-id').val("");
 						$('#master-pw').val("");
 						
-						location.href="/rence/master_main";
+						location.href="/master/main";
 					} else {
 						$('.popup-background').removeClass('blind');
 						$('#common-alert-popup').removeClass('blind');
@@ -90,7 +90,7 @@ $(function(){
 	
 	// Master 로그아웃
 	$('#btn-logout').click(function() {
-		location.href='/rence/master_logoutOK';
+		location.href='/master/logoutOK';
 	})
 
 
@@ -199,7 +199,7 @@ $(function(){
 				console.log("success");
 				
 				if (res.result == "1") {
-					location.href="/rence/master_backoffice_end";
+					location.href="/master/backoffice_end";
 				} else {
 					console.log("ajax fail");
 				}
