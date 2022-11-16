@@ -5,6 +5,7 @@
  */
 package com.rence.backoffice.controller;
 
+import java.security.Principal;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +17,11 @@ import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,6 +74,8 @@ public class BackOfficeController {
 
 	@Autowired
 	HttpSession session;
+	
+
 
 	/**
 	 * 백오피스 랜딩
@@ -217,8 +225,11 @@ public class BackOfficeController {
 	@ApiOperation(value="로그인 성공", notes="로그인 성공")
 	@PostMapping("/loginSuccess")
 	@ResponseBody
-	public String backoffice_loginOK(BackOfficeVO bvo, HttpServletResponse response) {
+	public String backoffice_loginOK(@RequestParam String username,HttpServletResponse response) {
 		log.info("backoffice_loginOK()...");
+		log.info("backoffice_id:{}",username);
+		
+		BackOfficeVO bvo = service.backoffice_login_info(username);
 
 //		JSONObject jsonObject = new JSONObject();
 		Map<String, String> map = new HashMap<String,String>();
