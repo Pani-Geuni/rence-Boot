@@ -193,7 +193,7 @@ public class MultipleSecurityConfiguration {
 			*/
 			//http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 			
-	        http	// csrf 토큰을 활성화
+	        http.csrf().disable()	// csrf 토큰을 활성화
 	        	.authorizeRequests() // 요청 URL에 따라 접근 권한을 설정
 	        	.antMatchers("/office/my_page/**","/office/reserve/**")
 //				.antMatchers("/","/test/","/api/v2/**", "/v3/api-docs", "/static/**",
@@ -207,9 +207,9 @@ public class MultipleSecurityConfiguration {
 				.loginProcessingUrl("/rence/loginOK") // 해당 URL로 요청이 오면 스프링 시큐리티가 가로채서 로그인처리를 한다. -> loadUserByName
 				.successForwardUrl("/rence/loginSuccess") // 성공시 요청을 처리할 핸들러
 				.failureForwardUrl("/rence/loginFail") // 실패시 요청을 처리할 핸들러
-			.and()
-                .csrf()
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+//			.and()
+//                .csrf()
+//                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 			.and()
 				.logout()
 				.logoutRequestMatcher(new AntPathRequestMatcher("/rence/logout")) // 로그아웃 URL
