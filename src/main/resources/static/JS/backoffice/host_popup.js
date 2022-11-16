@@ -41,8 +41,8 @@ $(function () {
         type : "POST",
         dataType : 'json',
         data : {
-          backoffice_id : $("#login-id").val().trim(),
-          backoffice_pw : CryptoJS.SHA256($("#login-pw").val().trim()).toString()
+          username : $("#login-id").val().trim(),
+          password : $("#login-pw").val().trim()
         },
         beforeSend : function(xhr) {
           xhr.setRequestHeader(header, token);
