@@ -203,17 +203,17 @@ public class MultipleSecurityConfiguration {
 				.authenticated() // 인증된 유저만 접근을 허용
 			.and()
 				.formLogin() // 로그인 폼은
-//				.loginPage("/login") // 해당 주소로 로그인 페이지를 호출한다.
-				.loginProcessingUrl("/user/loginOK") // 해당 URL로 요청이 오면 스프링 시큐리티가 가로채서 로그인처리를 한다. -> loadUserByName
-				.successForwardUrl("/user_loginOK") // 성공시 요청을 처리할 핸들러
-				.failureForwardUrl("/user_loginFail") // 실패시 요청을 처리할 핸들러
+				.loginPage("/") // 해당 주소로 로그인 페이지를 호출한다.
+				.loginProcessingUrl("/rence/loginOK") // 해당 URL로 요청이 오면 스프링 시큐리티가 가로채서 로그인처리를 한다. -> loadUserByName
+				.successForwardUrl("/rence/loginSuccess") // 성공시 요청을 처리할 핸들러
+				.failureForwardUrl("/rence/loginFail") // 실패시 요청을 처리할 핸들러
 			.and()
                 .csrf()
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 			.and()
 				.logout()
-				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // 로그아웃 URL
-			    .logoutSuccessUrl("/login") // 성공시 리턴 URL
+				.logoutRequestMatcher(new AntPathRequestMatcher("/rence/logout")) // 로그아웃 URL
+			    .logoutSuccessUrl("/") // 성공시 리턴 URL
 			    .invalidateHttpSession(true) // 인증정보를 지우하고 세션을 무효화
 			    .deleteCookies("JSESSIONID") // JSESSIONID 쿠키 삭제
 				.permitAll()
