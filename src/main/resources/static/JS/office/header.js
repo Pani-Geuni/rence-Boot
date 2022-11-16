@@ -154,7 +154,7 @@ $(function(){
             if($("#location_val").prop("idx") == undefined){
                 location = "";
             }
-            location.href="/office/search_list?type="+ type +"&location="+ location +"&searchWord="+$("#input_searchBar").val()+"&condition=date";
+            location.href="/search_list?type="+ type +"&location="+ location +"&searchWord="+$("#input_searchBar").val()+"&condition=date";
         }
         else{
             $(".popup-background:eq(1)").removeClass("blind");

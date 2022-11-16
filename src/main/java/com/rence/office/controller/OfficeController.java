@@ -47,10 +47,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@RequestMapping("/office")
 @Api(tags="오피스 컨트롤러")
 public class OfficeController {
-	
 	
 	@Autowired
 	OfficeService service;
@@ -389,7 +387,7 @@ public class OfficeController {
 //	}
 	
 	// 리스트 페이지
-	@GetMapping(value = "/office/list_page")
+	@GetMapping(value = "/list_page")
 	public String list_page(String type, String condition, Model model) {
 		log.info("list_page()...");
 		
