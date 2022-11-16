@@ -8,6 +8,8 @@ package com.rence.backoffice.model;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,8 +20,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.ColumnDefault;
-//import org.springframework.security.core.GrantedAuthority;
-//import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
@@ -31,7 +34,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name="BACKOFFICEINFO")
-public class BackOfficeVO implements Serializable{ //, UserDetails 
+public class BackOfficeVO implements Serializable, UserDetails{ //,  
 
 	
 	@Id
@@ -102,46 +105,49 @@ public class BackOfficeVO implements Serializable{ //, UserDetails
 	@Column(name="backoffice_type")
 	private String backoffice_type;
 	
-//	@Override
-//	public String getPassword() {
-//		// TODO Auto-generated method stub
-//		return this.getBackoffice_pw();
-//	}
-//
-//	@Override
-//	public String getUsername() {
-//		// TODO Auto-generated method stub
-//		return this.getBackoffice_email();
-//	}
-//
-//	@Override
-//	public boolean isAccountNonExpired() {
-//		// TODO Auto-generated method stub
-//		return true;
-//	}
-//
-//	@Override
-//	public boolean isAccountNonLocked() {
-//		// TODO Auto-generated method stub
-//		return true;
-//	}
-//
-//	@Override
-//	public boolean isCredentialsNonExpired() {
-//		// TODO Auto-generated method stub
-//		return true;
-//	}
-//
-//	@Override
-//	public boolean isEnabled() {
-//		// TODO Auto-generated method stub
-//		return true;
-//	}
-//
-//	@Override
-//	public Collection<? extends GrantedAuthority> getAuthorities() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+	@Override
+	public String getPassword() {
+		// TODO Auto-generated method stub
+		return this.getBackoffice_pw();
+	}
+
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return this.getBackoffice_email();
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		Set<GrantedAuthority> roles = new HashSet<GrantedAuthority>();
+//		for(String role : auth.split(",")) {
+//			roles.add(new SimpleGrantedAuthority(role));
+//		}
+		return roles;
+	}
 
 }
