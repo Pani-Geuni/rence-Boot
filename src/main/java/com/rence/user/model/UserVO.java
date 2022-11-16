@@ -28,7 +28,9 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Entity
 @Data
 @AllArgsConstructor
@@ -57,36 +59,39 @@ public class UserVO implements Serializable,UserDetails {
 	private String user_birth; //생년월일
 	@Column(name="user_state")	
 	private String user_state; //회원상태
-	@Column(name="auth_no")	
-	private String auth_no; // 인증고유번호
 //	@Column(name="multipartFile")	
 //	private  MultipartFile multipartFile; //사진저장
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		Set<GrantedAuthority> roles = new HashSet<GrantedAuthority>();
-		// TODO Auto-generated method stub
-		return roles;
+		  Set<GrantedAuthority> roles = new HashSet<GrantedAuthority>();
+//	      for(String role : auth.split(",")) {
+//	         roles.add(new SimpleGrantedAuthority(role));
+//	      }
+	      return roles;
+
 	}
 	@Override
 	public String getPassword() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.getUser_pw();
 	}
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return null;
+	      log.info("id::::::::::::::::::{}",this.getUser_id());
+	      return this.getUser_id();
+
 	}
 	@Override
 	public boolean isAccountNonExpired() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 	@Override
 	public boolean isAccountNonLocked() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 	@Override
 	public boolean isCredentialsNonExpired() {
@@ -96,12 +101,8 @@ public class UserVO implements Serializable,UserDetails {
 	@Override
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
-	
 
-	
-	
-	
 	
 }//end class
