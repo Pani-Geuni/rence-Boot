@@ -11,10 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rence.backoffice.model.BackOfficeVO;
-import com.rence.backoffice.service.BackOfficeRepository;
+import com.rence.backoffice.repository.BackOfficeRepository;
 import com.rence.master.model.MasterEntity;
-import com.rence.master.model.MasterRepository;
 import com.rence.master.model.MasterVO;
+import com.rence.master.repository.MasterRepository;
 
 import lombok.extern.slf4j.Slf4j;
 

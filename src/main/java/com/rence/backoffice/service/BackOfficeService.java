@@ -18,6 +18,9 @@ import org.springframework.stereotype.Service;
 import com.rence.backoffice.model.AuthVO;
 import com.rence.backoffice.model.BackOfficeOperatingTimeVO_datetype;
 import com.rence.backoffice.model.BackOfficeVO;
+import com.rence.backoffice.repository.AuthRepository;
+import com.rence.backoffice.repository.BackOfficeOperatingTimeRepository;
+import com.rence.backoffice.repository.BackOfficeRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
