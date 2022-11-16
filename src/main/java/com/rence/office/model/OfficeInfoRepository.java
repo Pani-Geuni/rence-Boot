@@ -32,8 +32,5 @@ public interface OfficeInfoRepository extends JpaRepository<OfficeInfoVO, Object
 //	public int insert_review(ReviewVO vo);
 	
 	public int insert_question(QuestionVO2 vo);
-	
-	public List<ListViewVO> select_all_list(String condition, String type);
-	public List<ListViewVO> search_list(String type, String location, String searchWord, String condition);
 
 }
