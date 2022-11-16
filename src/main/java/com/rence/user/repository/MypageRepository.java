@@ -34,5 +34,12 @@ public interface MypageRepository extends JpaRepository<UserMypageVO, Object>  {
 	int user_img_updateOK(String user_image, String user_no);
 	
 	
+	//마이페이지
+	@Query(nativeQuery = true, value= "select t from (UserMypageVO t where t.user_no = ?1 order by t.mileage_no desc)WHERE ROWNUM between 1 and 1")
+	UserMypageVO user_mypage_select(String user_no);
+	
+	
+
+	
 
 }//end class
