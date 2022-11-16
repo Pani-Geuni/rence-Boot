@@ -10,6 +10,7 @@ import javax.mail.internet.MimeMessage.RecipientType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Component;
 
 import com.rence.backoffice.model.AuthVO;
 import com.rence.user.model.EmailVO;
@@ -17,8 +18,8 @@ import com.rence.user.model.UserVO;
 
 import lombok.extern.slf4j.Slf4j;
 
-
 @Slf4j
+@Component
 public class UserSendEmail {
 	
 	@Autowired
