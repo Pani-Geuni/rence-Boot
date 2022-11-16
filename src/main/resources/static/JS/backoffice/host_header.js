@@ -38,7 +38,7 @@ $(function () {
   /** 호스트 메인 페이지 이동 */
   $('.btn-start-hosting').click(function(){
     if($.cookie("backoffice_no") != undefined)
-      location.href = '/rence/backoffice_main?backoffice_no=' + $.cookie("backoffice_no");
+      location.href = '/backoffice/main?backoffice_no=' + $.cookie("backoffice_no");
     else{
       $(".popup-background:eq(1)").removeClass("blind");
       $("#common-alert-popup").removeClass("blind");
