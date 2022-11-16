@@ -113,13 +113,15 @@ public class MasterService implements UserDetailsService {
 	}
 	
 	@Override
-	public UserDetails loadUserByUsername(String master_id) throws UsernameNotFoundException {
-		MasterEntity member = m_repository.findByMaster_id(master_id); //username = email
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		log.info("master_id : {}",username);
+		MasterEntity member = m_repository.findByMaster_id(username); //username = email
 		log.info("member : {}",member);
 		
 		if (member==null) throw new UsernameNotFoundException("Not founc account.");
 		
 		return member;
 	}
+
 
 }
