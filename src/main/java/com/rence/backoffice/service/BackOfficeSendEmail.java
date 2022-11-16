@@ -15,7 +15,7 @@ import javax.mail.internet.MimeMessage.RecipientType;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.rence.backoffice.model.AuthVO;
@@ -67,7 +67,7 @@ public class BackOfficeSendEmail {
 
 		String temp_pw = RandomStringUtils.randomAlphanumeric(6);
 
-//		vo.setBackoffice_pw(new BCryptPasswordEncoder().encode(temp_pw));
+		vo.setBackoffice_pw(new BCryptPasswordEncoder().encode(temp_pw));
 
 		try {
 			MimeMessage msg = javaMailSender.createMimeMessage();

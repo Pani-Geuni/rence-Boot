@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.rence.backoffice.model.AuthVO;
 import com.rence.backoffice.model.BackOfficeOperatingTimeVO_datetype;
@@ -42,7 +44,7 @@ public class BackOfficeService implements UserDetailsService {//
 
 		BackOfficeVO bvo2 = null;
 		
-//		vo.setBackoffice_pw(new BCryptPasswordEncoder().encode(vo.getBackoffice_pw()));
+		vo.setBackoffice_pw(new BCryptPasswordEncoder().encode(vo.getBackoffice_pw()));
 		
 		int flag = repository.insert_backoffice(vo.getBackoffice_no(), vo.getOwner_name(), vo.getBackoffice_id(),
 				vo.getBackoffice_name(), vo.getCompany_name(), vo.getBackoffice_tel(), vo.getBackoffice_email(),
@@ -142,6 +144,7 @@ public class BackOfficeService implements UserDetailsService {//
 
 	@Override
 	public UserDetails loadUserByUsername(String backoffice_id) throws UsernameNotFoundException {
+		log.info("backoffice_id : {}",backoffice_id);
 		BackOfficeVO member = repository.findByBackoffice_email(backoffice_id); //username = email
 		log.info("member : {}",member);
 		

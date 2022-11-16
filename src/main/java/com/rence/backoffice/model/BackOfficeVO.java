@@ -28,12 +28,14 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name="BACKOFFICEINFO")
+@Slf4j
 public class BackOfficeVO implements Serializable, UserDetails{ //,  
 
 	
@@ -114,6 +116,7 @@ public class BackOfficeVO implements Serializable, UserDetails{ //,
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
+		log.info("id::::::::::::::::::{}",this.getBackoffice_id());
 		return this.getBackoffice_id();
 	}
 
