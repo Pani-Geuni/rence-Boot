@@ -7,7 +7,7 @@ $(function(){
     let town = [];
 
     $(".logo-mku").click(function(){
-        location.href="/rence/";
+        location.href="/";
     });
 
     $("#before_userMenu").click(function(){
@@ -56,19 +56,17 @@ $(function(){
     $("#location").click(function(){
         if(city.length == 0){
             $.ajax({
-                url : "/rence/resources/json/city.json",
+                url : "static/json/city.json",
                 dataType : "json",
                 success : function(res) {
                     cityObject = res.slice();
-                    console.log(cityObject);
 
                     city = cityObject.map(function(v){
                         if(v.city != null) return v.city;
                     }).slice();
                     load_city(city);
                 },
-                error : function(err) {
-                    console.log(err);
+                error : function() {
                 }
             });
         }
@@ -88,7 +86,6 @@ $(function(){
             if(v.city == idx) return true;
         })[0].arr.slice();
 
-        console.log(town);
         load_town(town);
     });
     $("#location-town").on('click', '.location-select-list', function(){
