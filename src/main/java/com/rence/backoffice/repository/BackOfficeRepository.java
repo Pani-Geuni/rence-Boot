@@ -3,7 +3,7 @@
  * @author 최진실
  *
  */
-package com.rence.backoffice.service;
+package com.rence.backoffice.repository;
 
 import java.util.Date;
 import java.util.List;

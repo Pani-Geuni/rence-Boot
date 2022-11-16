@@ -3,7 +3,7 @@
  * @author 최진실
  *
  */
-package com.rence.backoffice.service;
+package com.rence.backoffice.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
