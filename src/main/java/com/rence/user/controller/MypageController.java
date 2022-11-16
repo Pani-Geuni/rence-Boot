@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -62,11 +61,11 @@ public class MypageController {
 	@GetMapping("/go_now_reserve")
 	public String go_now_reserve(Model model) {
 
-		model.addAttribute("content", "thymeleaf/html/user/my_page/now-reserve-list");
+		model.addAttribute("content", "thymeleaf/html/office/my_page/reserve-list");
 		model.addAttribute("title", "현재예약리스트");
 		
 		
-		return "thymeleaf/layouts/user/layout_user";
+		return "thymeleaf/layouts/office/layout_myPage";
 	}
 	/**
 	 * 과거예약리스트 이동
@@ -75,11 +74,11 @@ public class MypageController {
 	@GetMapping("/go_before_reserve")
 	public String go_before_reserve(Model model) {
 		
-		model.addAttribute("content", "thymeleaf/html/user/my_page/before-reserve-list");
-		model.addAttribute("title", "현재예약리스트");
+		model.addAttribute("content", "thymeleaf/html/office/my_page/reserve-list");
+		model.addAttribute("title", "과거예약리스트");
 
 		
-		return "thymeleaf/layouts/user/layout_user";
+		return "thymeleaf/layouts/office/layout_myPage";
 	}
 	
 	/**
@@ -117,11 +116,11 @@ public class MypageController {
 		model.addAttribute("mileage_total", mileage_total);
 		model.addAttribute("searchKey", "all");
 		
-		model.addAttribute("content", "thymeleaf/html/user/my_page/mileage");
+		model.addAttribute("content", "thymeleaf/html/office/my_page/mileage");
 		model.addAttribute("title", "마일리지리스트");
 
 		
-		return "thymeleaf/layouts/user/layout_user";
+		return "thymeleaf/layouts/office/layout_myPage";
 		
 	}
 	
@@ -162,10 +161,10 @@ public class MypageController {
 		model.addAttribute("mileage_total", mileage_total);
 		model.addAttribute("searchKey", searchKey);
 		
-		model.addAttribute("content", "thymeleaf/html/user/my_page/mileage");
-		model.addAttribute("title", "현재예약리스트");
+		model.addAttribute("content", "thymeleaf/html/office/my_page/mileage");
+		model.addAttribute("title", "마일리지리스트");
 		
-		return "thymeleaf/layouts/user/layout_user";
+		return "thymeleaf/layouts/office/layout_myPage";
 	}
 	
 	/**
@@ -176,10 +175,10 @@ public class MypageController {
 	public String go_question_list(Model model) {
 		log.info("go_question_list()...");
 		
-		model.addAttribute("content", "thymeleaf/html/user/my_page/question-list");
+		model.addAttribute("content", "thymeleaf/html/office/my_page/question-list");
 		model.addAttribute("title", "현재예약리스트");
 		
-		return "thymeleaf/layouts/user/layout_user";
+		return "thymeleaf/layouts/office/layout_myPage";
 	}
 	
 	/**
@@ -208,6 +207,8 @@ public class MypageController {
 			log.info("user_pw_upddate failed...");
 			map.put("result", "0");
 		}
+
+		
 		//분기결과 map gson으로 json변환
 		String jsonObject = gson.toJson(map);
 		
@@ -277,10 +278,7 @@ public class MypageController {
 		int result = service.user_img_updateOK(uvo);
 
 		
-		model.addAttribute("content", "thymeleaf/html/user/my_page/go_my_page");
-		model.addAttribute("title", "현재예약리스트");
-		
-		return "thymeleaf/layouts/user/layout_user";
+		return "redirect:/go_my_page";
 	}
 	
 	
