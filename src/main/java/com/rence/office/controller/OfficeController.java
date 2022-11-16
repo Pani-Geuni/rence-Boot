@@ -389,7 +389,7 @@ public class OfficeController {
 //	}
 	
 	// 리스트 페이지
-	@GetMapping(value = "/list_page")
+	@GetMapping(value = "/office/list_page")
 	public String list_page(String type, String condition, Model model) {
 		log.info("list_page()...");
 		

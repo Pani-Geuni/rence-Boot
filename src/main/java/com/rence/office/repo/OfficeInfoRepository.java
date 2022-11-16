@@ -1,4 +1,4 @@
-package com.rence.office.model;
+package com.rence.office.repo;
 
 import java.text.ParseException;
 import java.util.List;
@@ -6,6 +6,8 @@ import java.util.stream.Stream;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+
+import com.rence.office.model.ListViewVO;
 
 public interface OfficeInfoRepository extends JpaRepository<ListViewVO, Object> {
 

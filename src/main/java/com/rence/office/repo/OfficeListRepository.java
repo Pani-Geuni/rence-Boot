@@ -1,4 +1,4 @@
-package com.rence.office.model;
+package com.rence.office.repo;
 
 import java.text.ParseException;
 import java.util.List;
@@ -7,9 +7,12 @@ import java.util.stream.Stream;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import com.rence.office.model.ListViewVO;
+
 public interface OfficeListRepository extends JpaRepository<ListViewVO, Object> {
 
-	@Query(nativeQuery = true, value = "create or replace view ListView as"
+	@Query(nativeQuery = true, value = 
+			"create or replace view ListView as"
 			+ "("
 			+ "select * from( "
 		+ "		    select left.backoffice_no, backoffice_type, company_name, roadname_address, backoffice_tag, REGEXP_SUBSTR(backoffice_image, '[^,]+', 1, 1) as backoffice_image, nvl(min_room_price, 0) as min_room_price, nvl(avg(rv.review_point), 0) as avg_rating from("

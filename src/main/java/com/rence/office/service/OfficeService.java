@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rence.office.model.ListViewVO;
-import com.rence.office.model.OfficeInfoRepository;
-
 import com.rence.office.model.OfficeInfoVO;
-import com.rence.office.model.OfficeListRepository;
 import com.rence.office.model.OfficeOperatingTimeVO_date;
 import com.rence.office.model.OfficePaymentVO;
 import com.rence.office.model.OfficeQuestionVO;
@@ -26,6 +23,8 @@ import com.rence.office.model.OfficeRoomVO;
 import com.rence.office.model.PaymentInfoVO;
 import com.rence.office.model.QuestionVO2;
 //import com.rence.user.model.ReviewVO;
+import com.rence.office.repo.OfficeInfoRepository;
+import com.rence.office.repo.OfficeListRepository;
 
 @Service
 public class OfficeService {
