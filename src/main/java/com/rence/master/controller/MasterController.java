@@ -5,7 +5,9 @@
 package com.rence.master.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.rence.backoffice.model.BackOfficeVO;
 import com.rence.backoffice.model.EmailVO;
 import com.rence.master.model.MasterVO;
@@ -35,6 +39,8 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/master")
 public class MasterController {
+	
+	Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 	@Autowired
 	MasterService service;
@@ -53,28 +59,28 @@ public class MasterController {
 
 	}
 
-	/**
-	 * 로그인 처리
-	 */
-	@ApiOperation(value = "마스터 로그인 처리", notes = "마스터 로그인 처리")
-	@PostMapping("/loginOK")
-	@ResponseBody
-	public String loginOK(MasterVO mvo, HttpServletResponse res) {
-
-		return "redirect:master/main";
-	}
-
-	/**
-	 * 로그아웃 처리
-	 */
-	@ApiOperation(value = "로그아웃 처리", notes = "마스터 로그아웃 처리")
-	@GetMapping("/logoutOK")
-	public String logout(HttpServletRequest request, HttpServletResponse response) {
-
-		log.info("master logout...");
-
-		return "redirect:login";
-	}
+//	/**
+//	 * 로그인 처리
+//	 */
+//	@ApiOperation(value = "마스터 로그인 처리", notes = "마스터 로그인 처리")
+//	@PostMapping("/loginOK")
+//	@ResponseBody
+//	public String loginOK(MasterVO mvo, HttpServletResponse res) {
+//
+//		return "redirect:master/main";
+//	}
+//
+//	/**
+//	 * 로그아웃 처리
+//	 */
+//	@ApiOperation(value = "로그아웃 처리", notes = "마스터 로그아웃 처리")
+//	@GetMapping("/logoutOK")
+//	public String logout(HttpServletRequest request, HttpServletResponse response) {
+//
+//		log.info("master logout...");
+//
+//		return "redirect:login";
+//	}
 
 	/**
 	 * 마스터 메인 페이지 (호스트 가입 신청 리스트)
@@ -84,8 +90,8 @@ public class MasterController {
 	public String master_main(Model model, @RequestParam(value = "page", defaultValue = "1") Integer page) {
 		log.info("page:{}", page);
 
-		long total_rowCount = service.total_rowCount();
-		model.addAttribute("total_rowCount", total_rowCount);
+//		long total_rowCount = service.total_rowCount();
+//		model.addAttribute("total_rowCount", total_rowCount);
 		
 		List<BackOfficeVO> bvos = service.backoffice_applyList_selectAll(page);
 		log.info("result: {}.", bvos.size());
@@ -109,9 +115,10 @@ public class MasterController {
 	@ApiOperation(value = "마스터 메인/호스트 가입 신청 승인 처리", notes = "호스트 가입 신청 승인 처리")
 	@PostMapping("/grant")
 	@ResponseBody
-	public JSONObject master_grant(BackOfficeVO bvo, EmailVO evo) throws UnsupportedEncodingException {
+	public String master_grant(BackOfficeVO bvo, EmailVO evo) throws UnsupportedEncodingException {
 		log.info("BackOfficeVO:{}", bvo);
-		JSONObject jsonObject = new JSONObject();
+//		JSONObject jsonObject = new JSONObject();
+		Map<String, String> map = new HashMap<String,String>();
 
 		int flag = service.backoffice_grant(bvo);
 		if (flag == 1) {
@@ -121,19 +128,21 @@ public class MasterController {
 				log.info("successed...");
 				log.info("=============bvo2:{}", bvo2);
 
-				jsonObject.put("result", "1");
+				map.put("result", "1");
 			} else { // 이메일 전송 실패
 				log.info("failed...");
 
-				jsonObject.put("result", "0");
+				map.put("result", "0");
 			}
 		} else { // 백오피스 승인 실패
 			log.info("failed...");
 
-			jsonObject.put("result", "0");
+			map.put("result", "0");
 		}
+		
+		String json = gson.toJson(map);
 
-		return jsonObject;
+		return json;
 	}
 	
 	/**
@@ -142,9 +151,10 @@ public class MasterController {
 	@ApiOperation(value = "마스터 메인/호스트 가입 신청 거절 처리", notes = "호스트 가입 신청 거절 처리")
 	@PostMapping("/refuse")
 	@ResponseBody
-	public JSONObject master_refuse(BackOfficeVO bvo, EmailVO evo) {
+	public String master_refuse(BackOfficeVO bvo, EmailVO evo) {
 		log.info("BackOfficeVO:{}", bvo);
-		JSONObject jsonObject = new JSONObject();
+//		JSONObject jsonObject = new JSONObject();
+		Map<String, String> map = new HashMap<String,String>();
 
 		int flag = service.backoffice_refuse(bvo);
 		if (flag == 1) {
@@ -153,15 +163,17 @@ public class MasterController {
 			log.info("successed...");
 			log.info("=============bvo2:{}", bvo2);
 
-			jsonObject.put("result", "1");
+			map.put("result", "1");
 
 		} else { // 백오피스 거절 실패
 			log.info("failed...");
 
-			jsonObject.put("result", "0");
+			map.put("result", "0");
 		}
+		
+		String json = gson.toJson(map);
 
-		return jsonObject;
+		return json;
 	}
 
 	/**
@@ -172,8 +184,8 @@ public class MasterController {
 	public String backoffice_end(Model model, @RequestParam(value = "page", defaultValue = "1") Integer page) {
 		log.info("page:{}", page);
 
-		long total_rowCount = service.total_rowCount();
-		model.addAttribute("total_rowCount", total_rowCount);
+//		long total_rowCount = service.total_rowCount();
+//		model.addAttribute("total_rowCount", total_rowCount);
 		
 		List<BackOfficeVO> bvos = service.backoffice_endList_selectAll(page);
 		log.info("result: {}.", bvos.size());
@@ -193,9 +205,10 @@ public class MasterController {
 	@ApiOperation(value = "마스터 - 호스트 탈퇴 승인", notes = "호스트 탈퇴 승인")
 	@PostMapping("/revoke")
 	@ResponseBody
-	public JSONObject master_revoke(BackOfficeVO bvo, EmailVO evo) {
+	public String master_revoke(BackOfficeVO bvo, EmailVO evo) {
 		log.info("BackOfficeVO:{}", bvo);
-		JSONObject jsonObject = new JSONObject();
+//		JSONObject jsonObject = new JSONObject();
+		Map<String, String> map = new HashMap<String,String>();
 
 		int flag = service.backoffice_revoke(bvo);
 		if (flag == 1) {
@@ -203,17 +216,19 @@ public class MasterController {
 			if (bvo2 != null) {
 				log.info("successed...");
 				log.info("=============bvo2:{}", bvo2);
-				jsonObject.put("result", "1");
+				map.put("result", "1");
 			} else { // 이메일 전송 실패
 				log.info("failed...");
-				jsonObject.put("result", "0");
+				map.put("result", "0");
 			}
 		} else { // 백오피스 승인 실패
 			log.info("failed...");
-			jsonObject.put("result", "0");
+			map.put("result", "0");
 		}
+		
+		String json = gson.toJson(map);
 
-		return jsonObject;
+		return json;
 	}
 	
 	/**

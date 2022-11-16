@@ -6,6 +6,8 @@
 package com.rence.backoffice.controller;
 
 import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.rence.backoffice.model.AuthVO;
 import com.rence.backoffice.model.BackOfficeOperatingTimeVO;
 import com.rence.backoffice.model.BackOfficeOperatingTimeVO_datetype;
@@ -47,7 +51,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/backoffice")
 public class BackOfficeController {
 	
-//	Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 	@Autowired
 	BackOfficeService service;
@@ -136,11 +140,13 @@ public class BackOfficeController {
 	@ApiOperation(value="이메일 인증번호 요청", notes="호스트 신청시, 이메일 인증번호 요청 페이지입니다.")
 	@GetMapping("/auth")
 	@ResponseBody
-	public JSONObject backoffice_auth(AuthVO avo, BackOfficeVO bvo, EmailVO evo) {
+	public String backoffice_auth(AuthVO avo, BackOfficeVO bvo, EmailVO evo) {
 		log.info("Welcome sendMailOK.do");
 		log.info("{}", bvo);
 		
-		JSONObject jsonObject = new JSONObject();
+//		JSONObject jsonObject = new JSONObject();
+		
+		Map<String, String> map = new HashMap<String,String>();
 
 		// 이메일 중복 체크
 		BackOfficeVO emailCheck = service.backoffice_email_check(bvo);
@@ -158,21 +164,23 @@ public class BackOfficeController {
 				log.info("successed...");
 				log.info("=============avo2:{}", avo2);
 
-				jsonObject.put("result", "1");
-				jsonObject.put("auth_code", avo2.getAuth_code());
-				jsonObject.put("backoffice_email", avo2.getUser_email());
-				jsonObject.put("auth_no", avo2.getAuth_no());
+				map.put("result", "1");
+				map.put("auth_code", avo2.getAuth_code());
+				map.put("backoffice_email", avo2.getUser_email());
+				map.put("auth_no", avo2.getAuth_no());
 
 			} else { // 전송 실패
 				log.info("failed...");
-				jsonObject.put("result", "0");
+				map.put("result", "0");
 			}
 		} else { // 중복체크 실패
 			log.info("failed...");
-			jsonObject.put("result", "0");
+			map.put("result", "0");
 		}
+		
+		String json = gson.toJson(map);
 
-		return jsonObject;
+		return json;
 	}
 	
 	/**
@@ -182,22 +190,25 @@ public class BackOfficeController {
 	@PostMapping("/authOK")
 	@ResponseBody
 	@Transactional
-	public JSONObject backoffice_authOK(AuthVO avo, String backoffice_email, String auth_code) {
+	public String backoffice_authOK(AuthVO avo, String backoffice_email, String auth_code) {
 
 		AuthVO avo2 = service.backoffice_authOK_select(backoffice_email, auth_code);
 
-		JSONObject jsonObject = new JSONObject();
+//		JSONObject jsonObject = new JSONObject();
+		Map<String, String> map = new HashMap<String,String>();
 
 		if (avo2 != null) {
 			log.info("successed...");
-			jsonObject.put("result", "1");
+			map.put("result", "1");
 			service.backoffice_auth_delete(avo2);
 
 		} else {
 			log.info("failed...");
-			jsonObject.put("result", "0");
+			map.put("result", "0");
 		}
-		return jsonObject;
+		
+		String json = gson.toJson(map);
+		return json;
 	}
 	
 	/**
@@ -206,19 +217,23 @@ public class BackOfficeController {
 	@ApiOperation(value="로그인 성공", notes="로그인 성공")
 	@PostMapping("/loginSuccess")
 	@ResponseBody
-	public JSONObject backoffice_loginOK(BackOfficeVO bvo, HttpServletResponse response) {
+	public String backoffice_loginOK(BackOfficeVO bvo, HttpServletResponse response) {
 		log.info("backoffice_loginOK()...");
 
-		JSONObject jsonObject = new JSONObject();
+//		JSONObject jsonObject = new JSONObject();
+		Map<String, String> map = new HashMap<String,String>();
 
 			session.setAttribute("backoffice_id", bvo.getBackoffice_id());
 			Cookie cookie_no = new Cookie("backoffice_no", bvo.getBackoffice_no());
 			Cookie cookie_profile = new Cookie("host_image", bvo.getHost_image());
-			jsonObject.put("result", "1");
+			map.put("result", "1");
 			log.info("successed...");
 			response.addCookie(cookie_no);
 			response.addCookie(cookie_profile);
-			return jsonObject;
+			
+			String json = gson.toJson(map);
+			
+			return json;
 		}
 	
 	/**
@@ -227,15 +242,19 @@ public class BackOfficeController {
 	@ApiOperation(value="로그인 실패", notes="로그인 실패")
 	@PostMapping("/loginFail")
 	@ResponseBody
-	public JSONObject backoffice_loginfail(HttpServletResponse response) {
+	public String backoffice_loginfail(HttpServletResponse response) {
 		log.info("backoffice_loginfail()...");
 		
-		JSONObject jsonObject = new JSONObject();
+//		JSONObject jsonObject = new JSONObject();
 
-		jsonObject.put("result", "0");
+		Map<String, String> map = new HashMap<String,String>();
+		
+		map.put("result", "0");
 		log.info("failed...");
+		
+		String json = gson.toJson(map);
 
-		return jsonObject;
+		return json;
 	}
 
 	
@@ -246,11 +265,12 @@ public class BackOfficeController {
 	@ApiOperation(value="비밀번호 찾기", notes="비밀번호 찾기시, 이메일로 임시 비밀번호 전송")
 	@GetMapping("/reset_pw")
 	@ResponseBody
-	public JSONObject backoffice_reset_pw(BackOfficeVO bvo, EmailVO evo){
+	public String backoffice_reset_pw(BackOfficeVO bvo, EmailVO evo){
 		log.info("backoffice_reset_pw ()...");
 		log.info("{}", bvo);
 
-		JSONObject jsonObject = new JSONObject();
+//		JSONObject jsonObject = new JSONObject();
+		Map<String, String> map = new HashMap<String,String>();
 
 		BackOfficeVO bvo2 = service.backoffice_id_email_select(bvo);
 
@@ -262,18 +282,20 @@ public class BackOfficeController {
 			if (bvo2 != null) {
 //				service.backoffice_settingOK_pw(bvo2); 
 				service.backoffice_resetOK_pw(bvo2); 
-				jsonObject.put("result", "1");
+				map.put("result", "1");
 
 			} else {
 				log.info("update failed...");
-				jsonObject.put("result", "0");
+				map.put("result", "0");
 			}
 		} else {
 			log.info("send failed...");
-			jsonObject.put("result", "0");
+			map.put("result", "0");
 		}
+		
+		String json = gson.toJson(map);
 
-		return jsonObject;
+		return json;
 	}
 	
 	/**
@@ -296,7 +318,7 @@ public class BackOfficeController {
 	@ApiOperation(value="비밀번호 초기화 처리", notes="호스트 비밀번호 변경, 이메일로 전송된 비밀번호 재설정")
 	@GetMapping("/settingOK_pw")
 	@ResponseBody
-	public JSONObject backoffice_settingOK_pw(BackOfficeVO bvo, HttpServletRequest request,
+	public String backoffice_settingOK_pw(BackOfficeVO bvo, HttpServletRequest request,
 			HttpServletResponse response) {
 		log.info("backoffice_settingOK_pw ()...");
 		log.info("{}", bvo);
@@ -306,27 +328,30 @@ public class BackOfficeController {
 //		bvo.setBackoffice_pw(new BCryptPasswordEncoder().encode(bvo.getBackoffice_pw()));
 		int result = service.backoffice_settingOK_pw(bvo);
 
-		JSONObject jsonObject = new JSONObject();
+//		JSONObject jsonObject = new JSONObject();
+		Map<String, String> map = new HashMap<String,String>();
 
 		if (result == 1) {
 			if (session.getAttribute("backoffice_id") != null) {
 				// HOST 로그인 session이 존재할 때
 				// Host 환경설정 > 비밀번호 수정
 				log.info("succeed...");
-				jsonObject.put("result", "1");
+				map.put("result", "1");
 			} else {
 				// 가입 신청이 완료되어
 				// 신청자의 메일에서 링크 페이지를 열고 수정 했을 때
 				log.info("succeed...");
-				jsonObject.put("result", "1");
+				map.put("result", "1");
 
 			}
 		} else if (result == 0) {
 			log.info("fail...");
-			jsonObject.put("result", "0");
+			map.put("result", "0");
 		}
+		
+		String json = gson.toJson(map);
 
-		return jsonObject;
+		return json;
 	}
 
 }
