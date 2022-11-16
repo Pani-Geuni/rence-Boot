@@ -120,9 +120,9 @@ public class OfficeService {
 		return list;
 	}
 	
-	public List<ListViewVO> search_list(String type, String location, String searchWord, String condition){
-		List<ListViewVO> list = list_repository.search_list(type, location, searchWord, condition);
-		
-		return list;
-	}
+//	public List<ListViewVO> search_list(String type, String location, String searchWord, String condition){
+//		List<ListViewVO> list = list_repository.search_list(type, location, searchWord, condition);
+//		
+//		return list;
+//	}
 }
