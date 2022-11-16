@@ -53,9 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       
         http.csrf().disable()   // csrf 토큰을 비활성화
            .authorizeRequests() // 요청 URL에 따라 접근 권한을 설정
-         .antMatchers("/","/test/","/api/v2/**", "/v3/api-docs", "/static/**",
-                 "/swagger*/**","/api/v1/auth/**","/h2-console/**","/favicon.ico","/swagger-ui.html","/swagger/**","/swagger-resources/**","webjars/**","/v2/api-docs"
-                 ,"/backoffice/insert","/backoffice/insertOK","/backoffice/loginOK","/backoffice/loginSuccess","/js/**","/css/**","/images/**").permitAll() // 해당 경로들은 접근을 허용
+         .antMatchers("/**").permitAll() // 해당 경로들은 접근을 허용
          .anyRequest() // 다른 모든 요청은
          .authenticated() // 인증된 유저만 접근을 허용
       .and()
