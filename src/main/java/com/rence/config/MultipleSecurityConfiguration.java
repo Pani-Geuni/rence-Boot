@@ -3,7 +3,7 @@
  * @author 최진실
  *
  */
-package com.rence.backoffice.service;
+package com.rence.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +21,7 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.util.concurrent.FailureCallback;
 
+import com.rence.backoffice.service.BackOfficeService;
 import com.rence.master.service.MasterService;
 import com.rence.user.service.UserService;
 
