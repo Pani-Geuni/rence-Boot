@@ -152,4 +152,9 @@ public class BackOfficeService implements UserDetailsService {//
 		
 		return member;
 	}
+
+	public BackOfficeVO backoffice_login_info(String username) {
+		log.info("backoffice_login_info()....");
+		return repository.backoffice_login_info(username);
+	}
 }

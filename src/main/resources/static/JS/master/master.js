@@ -49,8 +49,8 @@ $(function(){
 				type : "POST",
 				dataType : "json",
 				data : {
-					master_id : $('#master-id').val().trim(),
-					master_pw : CryptoJS.SHA256($('#master-pw').val().trim()).toString()
+					username : $('#master-id').val().trim(),
+					password : $('#master-pw').val().trim()
 				},
 				
 				success : function(res) {
