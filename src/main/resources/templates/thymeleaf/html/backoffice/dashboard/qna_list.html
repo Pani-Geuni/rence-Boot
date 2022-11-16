@@ -1,0 +1,111 @@
+<!-- ------------ -->
+<!-- @author 전판근 -->
+<!-- ------------ -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="dashboard_content">
+  <div class="titleSection">
+    <h1>공간 관리</h1>
+    <button id="btn-room-add" class="btn-room-add">추가</button>
+    <ul class="mini-nav">
+      <li><p id="mini-nav-list" class="nav-item" id="room-list">리스트</p></li>
+      <li><p id="mini-nav-qna" class="nav-item" id="qna-list">문의</p></li>
+      <li><p id="mini-nav-review" class="nav-item" id="review-list">후기</p></li>
+    </ul>
+    <!-- END mini-nav -->
+  </div>
+  <!-- END titleSection -->
+
+  <div class="boardWrap qna">
+    <div class="custom-table qna">
+      <div class="ct-header qna">
+        <div class="ct-header-cell qna">처리 상태</div>
+        <div class="ct-header-cell qna">문의 공간</div>
+        <div class="ct-header-cell qna">문의 내용</div>
+        <div class="ct-header-cell qna">작성일</div>
+        <div class="ct-header-cell qna">답변</div>
+      </div>
+      <!-- END ct-header -->
+
+      <th:block th:each="vos : ${q_vos}">
+        <div class="ct-body-row qna">
+          <div class="ct-body-cell qna">
+            <th:block th:switch="${vos.comment_state}">
+              <p class="qna-process true" th:case="T">처리</p>
+              <p class="qna-process false" th:case="F">미처리</p>
+            </th:block>
+          </div>
+          <div class="ct-body-cell qna">
+            <p>[[ ${vos.room_name} ]]</p>
+          </div>
+          <div class="ct-body-cell qna">
+            <p>[[ ${vos.comment_content} ]]</p>
+          </div>
+          <div class="ct-body-cell qna">
+            <p>[[ ${vos.comment_date} ]]</p>
+          </div>
+          <div class="ct-body-cell qna">
+            <th:block th:switch="${vos.comment_state}">
+              <button th:case="${T}" class="ct-body-btn qna-delete" th:attr="comment_no=${vos.comment_no} room_no = ${vos.room_no} answer_no=${vos.answer_no}">답변 삭제</button>
+
+              <button th:case="${F}" class="ct-body-btn qna-add" th:attr="comment_no=${vos.comment_no} room_no = ${vos.room_no} answer_no=${vos.answer_no}">답변 작성</button>
+          </th:block>
+          </div>
+        </div>
+        <!-- END ct-body-row -->
+        
+        <div class="detail-qna-wrap blind">
+          <div class="question-section">
+            <h5 class="question-title">Q.</h5>
+            <p class="question-content">
+              [[ ${vos.comment_content} ]]
+            </p>
+          </div>
+          <!-- END question-section -->
+          <th:block th:if="${vos.answer_content==null}">
+            <div class="answer-section">
+              <div class="answer-title-section">
+                <h5 class="answer-title">A.</h5>
+                <p class="answer-date">작성일 | [[ ${vos.answer_date} ]]</p>
+              </div>
+              <p class="answer-content">
+                [[ ${vos.answer_content} ]]
+              </p>
+            </div>
+          </th:block>
+        </div>
+      </th:block>
+
+      <ul class="pagination blind">
+        <li class="page-item">
+          <button>
+            <img src="/static/IMG/dash-board/ico-double-left.svg" alt="-10" />
+          </button>
+        </li>
+        <li class="page-item">
+          <button>
+            <img src="/static/IMG/dash-board/ico-left.svg" alt="-1" />
+          </button>
+        </li>
+        <li class="page-item"><button>1</button></li>
+        <li class="page-item"><button>2</button></li>
+        <li class="page-item"><button>3</button></li>
+        <li class="page-item"><button>4</button></li>
+        <li class="page-item"><button>5</button></li>
+        <li class="page-item">
+          <button>
+            <img src="/static/IMG/dash-board/ico-right.svg" alt="+1" />
+          </button>
+        </li>
+        <li class="page-item">
+          <button>
+            <img src="/static/IMG/dash-board/ico-double-right.svg" alt="+10" />
+          </button>
+        </li>
+      </ul>
+      <!-- END pagination -->
+    </div>
+  </div>
+  <!-- END boardWrap qna -->
+</div>
