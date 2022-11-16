@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.google.gson.Gson;
 import com.rence.user.model.UserMileageVO;
 import com.rence.user.model.UserVO;
 import com.rence.user.service.UserFileuploadService;
@@ -187,24 +188,29 @@ public class MypageController {
 	@ApiOperation(value="비밀번호 수정", notes="비밀번호 수정입니다.")
 	@PostMapping("/user_pw_updateOK")
 	@ResponseBody
-	public JSONObject user_pw_upddateOK(UserVO uvo) {
+	public String user_pw_upddateOK(UserVO uvo) {
 		
 		log.info("user_pw_upddateOK()...");
 		log.info("result: {}", uvo);
+		
+		
+		Gson gson = new Gson();
+		Map<String, String> map = new HashMap<String, String>();
 
 		int result = service.user_pw_updateOK(uvo);
 
-		JSONObject jsonObject = new JSONObject();
 		if (result == 1) {
 			log.info("user_pw_upddate successed...");
-			jsonObject.put("result", "1");
+			map.put("result", "1");
 		}
 
 		else {
 			log.info("user_pw_upddate failed...");
-			jsonObject.put("result", "0");
+			map.put("result", "0");
 		}
-
+		//분기결과 map gson으로 json변환
+		String jsonObject = gson.toJson(map);
+		
 		return jsonObject;
 	}
 	
@@ -215,21 +221,26 @@ public class MypageController {
 	@ApiOperation(value="현재 비밀번호 확인(본인인증)", notes="현재 비밀번호 확인(본인인증) 입니다.")
 	@PostMapping("/check_now_pw")
 	@ResponseBody
-	public JSONObject check_now_pw(UserVO uvo) {
+	public String check_now_pw(UserVO uvo) {
 		log.info("check_now_pw()...");
 		log.info("request: {}", uvo);
+		
+		Gson gson = new Gson();
+		Map<String, String> map = new HashMap<String, String>();
 
 		int result = service.check_now_pw(uvo);
 
-		JSONObject jsonObject = new JSONObject();
+		
 		if (result == 1) {
 			log.info("right now pw...");
-			jsonObject.put("result", "1");
+			map.put("result", "1");
 		} else {
 			log.info("not now pw...");
-			jsonObject.put("result", "0");
+			map.put("result", "0");
 		}
 
+		String jsonObject = gson.toJson(map);
+		
 		return jsonObject;
 	}
 	
@@ -279,18 +290,21 @@ public class MypageController {
 	@ApiOperation(value="회원탈퇴", notes="회원탈퇴 입니다.")
 	@RequestMapping(value = "/secedeOK", method = RequestMethod.POST)
 	@ResponseBody
-	public JSONObject user_secedeOK(UserVO uvo, HttpServletRequest request, HttpServletResponse response) {
+	public String user_secedeOK(UserVO uvo, HttpServletRequest request, HttpServletResponse response) {
 		log.info("user_secedeOK()...");
 		log.info("result: {}", uvo);
 
-		JSONObject jsonObject = new JSONObject();
+		
+		Gson gson = new Gson();
+		Map<String, String> map = new HashMap<String, String>();
+	
 
 		int result = service.user_secedeOK(uvo);
 		log.info("result: {}", uvo);
 		if (result == 1) {
 			session.invalidate();
 			log.info("user_secede successed...");
-			jsonObject.put("result", "1");
+			map.put("result", "1");
 			
 			Cookie[] cookies = request.getCookies(); // 모든 쿠키의 정보를 cookies에 저장
 			if (cookies != null) { // 쿠키가 한개라도 있으면 실행
@@ -303,8 +317,10 @@ public class MypageController {
 			
 		} else {
 			log.info("user_secede failed...");
-			jsonObject.put("result", "0");
+			map.put("result", "0");
 		}
+		
+		String jsonObject = gson.toJson(map);
 		return jsonObject;
 	}
 	
