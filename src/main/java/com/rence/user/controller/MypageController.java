@@ -42,7 +42,7 @@ import lombok.extern.slf4j.Slf4j;
 @Api(tags="마이페이지 컨트롤러")
 @Slf4j
 @Controller
-@RequestMapping("/mypage")
+
 public class MypageController {
 	
 	@Autowired
@@ -94,7 +94,7 @@ public class MypageController {
 		UserMileageVO umvo = service.user_mileage_selectOne(uvo);
 		log.info("umvo: {}", umvo);
 
-//		마일리지 콤마단위로 변환
+		//마일리지 콤마단위로 변환
 		DecimalFormat dc = new DecimalFormat("###,###,###,###,###");
 	
 		String mileage_total = dc.format(umvo.getMileage_total());
@@ -236,6 +236,7 @@ public class MypageController {
 	/**
 	 * 마이페이지 -프로필 수정
 	 */
+	
 	@ApiOperation(value="프로필 수정", notes="프로필 수정 입니다.")
 	@RequestMapping(value = "/user_img_updateOK", method = RequestMethod.POST)
 	public String user_img_updateOK(Model model, UserVO uvo, HttpServletRequest request, HttpServletResponse response,
@@ -275,6 +276,7 @@ public class MypageController {
 	/**
 	 * 회원탈퇴
 	 */
+	@ApiOperation(value="회원탈퇴", notes="회원탈퇴 입니다.")
 	@RequestMapping(value = "/secedeOK", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject user_secedeOK(UserVO uvo, HttpServletRequest request, HttpServletResponse response) {
