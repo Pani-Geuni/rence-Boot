@@ -18,6 +18,8 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
@@ -34,6 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 @Api(tags = "유저 컨트롤러")
 @Slf4j
 @Controller
+@RequestMapping("/rence")
 public class UserController {
 
 	@Autowired
@@ -51,20 +54,23 @@ public class UserController {
 	/**
 	 * 로그인 완료
 	 */
-	@ApiOperation(value = "로그인 완료", notes = "로그인 완료 입니다")
-	@PostMapping("/user_loginOK")
+	@ApiOperation(value = "로그인 성공", notes = "로그인 성공 입니다")
+	@PostMapping("/loginSuccess")
 	@ResponseBody
-	public String user_loginOK(UserVO uvo, HttpServletResponse response) {
-
+	public String user_loginOK(@RequestParam String username, HttpServletResponse response) {
+		log.info("user_loginOK ()...");
+		log.info("username: {}", username);
+		
+		UserVO uvo = service.user_login_info(username);
 		
 		Map<String, String> map = new HashMap<String, String>();
 
-		UserVO uvo2 = service.User_loginOK(uvo);
+//		UserVO uvo2 = service.User_loginOK(uvo);
 
-		session.setAttribute("user_id", uvo2.getUser_id());
+		session.setAttribute("user_id", uvo.getUser_id());
 
-		Cookie cookie = new Cookie("user_no", uvo2.getUser_no()); // 고유번호 쿠키 저장
-		Cookie cookie2 = new Cookie("user_image", uvo2.getUser_image()); // 고유번호 쿠키 저장
+		Cookie cookie = new Cookie("user_no", uvo.getUser_no()); // 고유번호 쿠키 저장
+		Cookie cookie2 = new Cookie("user_image", uvo.getUser_image()); // 고유번호 쿠키 저장
 		response.addCookie(cookie);
 		response.addCookie(cookie2);
 
@@ -79,15 +85,16 @@ public class UserController {
 	/**
 	 * 로그인 실패
 	 */
-	@ApiOperation(value = "로그인 완료", notes = "로그인 완료 입니다")
-	@PostMapping("/user_loginFail")
+	@ApiOperation(value = "로그인 실패", notes = "로그인 실패 입니다")
+	@PostMapping("/loginFail")
 	@ResponseBody
 	public String user_loginFail(UserVO uvo, HttpServletResponse response) {
-
+		log.info("user_loginFail ()...");
+		log.info("result: {}", uvo);
 		
 		Map<String, String> map = new HashMap<String, String>();
 
-		UserVO uvo2 = service.User_loginOK(uvo);
+		
 
 		log.info("User Login failed.....");
 		map.put("result", "0"); // 로그인 실패

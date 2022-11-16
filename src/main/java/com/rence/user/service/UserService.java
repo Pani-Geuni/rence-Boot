@@ -140,6 +140,11 @@ public class UserService implements UserDetailsService {
 		return repository.user_mileage_zero_insert(uvo2.getUser_no());
 	}
 
+	public UserVO user_login_info(String username) {
+		log.info("user_login_info()....");
+		return repository.user_login_info(username);
+	}
+
 
 
 	

@@ -57,6 +57,9 @@ public interface UserRepository extends JpaRepository<UserVO, Object> {
 			value="insert into mileage(mileage_no,mileage_total,mileage_change,mileage_state,user_no) values('M'||seq_mileage.nextval,0,0,'T',?1)")
 	public int user_mileage_zero_insert(String user_no);
 	
+	@Query(nativeQuery = true, value="SELECT * from userinfo where user_id=?1 and user_state !='N'")
+	public UserVO user_login_info(String username);
+	
 	
 	
 	
