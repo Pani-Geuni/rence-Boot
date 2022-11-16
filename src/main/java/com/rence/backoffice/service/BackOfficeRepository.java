@@ -1,6 +1,12 @@
+/**
+ * 
+ * @author 최진실
+ *
+ */
 package com.rence.backoffice.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -8,6 +14,8 @@ import org.springframework.data.jpa.repository.Query;
 import com.rence.backoffice.model.BackOfficeVO;
 
 public interface BackOfficeRepository extends JpaRepository<BackOfficeVO, Object> {
+
+
 
 	@Query(nativeQuery = true, value="SELECT * from backofficeinfo where backoffice_email=?1 and backoffice_state !='X'")
 	public BackOfficeVO select_backoffice_no(String backoffice_email);
@@ -23,8 +31,34 @@ public interface BackOfficeRepository extends JpaRepository<BackOfficeVO, Object
 	@Query(nativeQuery = true, value="SELECT * from backofficeinfo where backoffice_email=?1 and backoffice_state !='X'")
 	public BackOfficeVO backoffice_email_check(String backoffice_email);
 
+	@Query(nativeQuery = true, value="select * from backofficeinfo where backoffice_id=?1 and backoffice_email=?2 and backoffice_state !='X'")
+	public BackOfficeVO select_backoffice_by_id_email(String backoffice_id, String backoffice_email);
+
+	@Query(nativeQuery = true, value="UPDATE backofficeinfo SET backoffice_pw=?1 where backoffice_no=?2")
+	public int update_backoffice_temp_pw(String backoffice_pw, String backoffice_no);
+
+	@Query(nativeQuery = true, value="select * from backofficeinfo where backoffice_id=?1 and (backoffice_state='Y' or backoffice_state='O')")
+	public BackOfficeVO findByBackoffice_email(String backoffice_id); 
 
 
+	@Query(nativeQuery = true, value="select * from (select rownum as rnum, backoffice_no,TO_CHAR(apply_date, 'YYYY-MM-DD HH24:MI:SS') as apply_date,company_name,owner_name,backoffice_id,backoffice_name,backoffice_tel,backoffice_email from backofficeinfo where backoffice_state='W' order by apply_date desc) where rnum between ?1 and ?2")
+	public List<BackOfficeVO> selectAll_backoffice_apply(Integer start_row, Integer end_row);
+
+	@Query(nativeQuery = true, value="UPDATE backofficeinfo SET backoffice_state='Y' where backoffice_no=?1 and backoffice_email=?2")
+	public int update_backoffice_state_y(String backoffice_no, String backoffice_email);
+
+	@Query(nativeQuery = true, value="UPDATE backofficeinfo SET backoffice_state='N' where backoffice_no=?1 and backoffice_email=?2")
+	public int update_backoffice_state_N(String backoffice_no, String backoffice_email);
+
+	@Query(nativeQuery = true, value="select * from (select rownum as rnum,  backoffice_no,TO_CHAR(apply_date, 'YYYY-MM-DD HH24:MI:SS') as apply_date,company_name,owner_name,backoffice_id,backoffice_name,backoffice_tel,backoffice_email from backofficeinfo where backoffice_state='O' order by apply_date desc) where rnum between ?1 and ?2")
+	public List<BackOfficeVO> selectAll_backoffice_end(Integer start_row, Integer end_row);
+
+	@Query(nativeQuery = true, value="UPDATE backofficeinfo SET backoffice_state='X' where backoffice_no=?1 and backoffice_email=?2")
+	public int update_backoffice_state_X(String backoffice_no, String backoffice_email);
+
+	@Query(nativeQuery = true, value="SELECT * from backofficeinfo where backoffice_no=?1")
+	public BackOfficeVO selectOne_backoffice_detail_m(String backoffice_no);
+	
 	
 
 

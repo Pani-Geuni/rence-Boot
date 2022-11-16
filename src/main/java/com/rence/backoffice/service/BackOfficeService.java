@@ -1,15 +1,18 @@
+/**
+ * 
+ * @author 최진실
+ *
+ */
 package com.rence.backoffice.service;
 
-import java.text.ParseException;
-import java.util.List;
-import java.util.Random;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+//import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.security.core.userdetails.UserDetailsService;
+//import org.springframework.security.core.userdetails.UsernameNotFoundException;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.rence.backoffice.model.AuthVO;
@@ -20,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class BackOfficeService {
+public class BackOfficeService implements UserDetailsService {//
 
 	@Autowired
 	BackOfficeRepository repository;
@@ -39,6 +42,9 @@ public class BackOfficeService {
 		log.info("insertOK().....");
 
 		BackOfficeVO bvo2 = null;
+		
+//		vo.setBackoffice_pw(new BCryptPasswordEncoder().encode(vo.getBackoffice_pw()));
+		
 		int flag = repository.insert_backoffice(vo.getBackoffice_no(), vo.getOwner_name(), vo.getBackoffice_id(),
 				vo.getBackoffice_name(), vo.getCompany_name(), vo.getBackoffice_tel(), vo.getBackoffice_email(),
 				vo.getZipcode(), vo.getRoadname_address(), vo.getNumber_address(), vo.getDetail_address(),
@@ -105,7 +111,43 @@ public class BackOfficeService {
 	 * 
 	 */
 	public int backoffice_auth_delete(AuthVO avo2) {
-		log.info("deleteOK()....");
+		log.info("backoffice_auth_delete()....");
 		return auth_repository.deleteByAuth_no(avo2.getAuth_no());
+	}
+
+	/**
+	 * 비밀번호 찾기 - 입력한 정보로 가입된 계정 찾기
+	 * 
+	 */
+	public BackOfficeVO backoffice_id_email_select(BackOfficeVO bvo) {
+		log.info("backoffice_id_email_select()....");
+		return repository.select_backoffice_by_id_email(bvo.getBackoffice_id(), bvo.getBackoffice_email());
+	}
+
+	/**
+	 * 비밀번호 찾기 - 임시 비밀번호를 새 비밀번호로 저장
+	 * 
+	 */
+	public int backoffice_resetOK_pw(BackOfficeVO bvo2) {
+		log.info("backoffice_resetOK_pw()....");
+		return repository.update_backoffice_temp_pw(bvo2.getBackoffice_pw(), bvo2.getBackoffice_no());
+	}
+
+	/**
+	 * 비밀번호 초기화 - 사용자가 입력한 비밀번호를 새 비밀번호로 저장
+	 */
+	public int backoffice_settingOK_pw(BackOfficeVO bvo) {
+		log.info("backoffice_settingOK_pw()....");
+		return repository.update_backoffice_temp_pw(bvo.getBackoffice_pw(), bvo.getBackoffice_no());
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String backoffice_id) throws UsernameNotFoundException {
+		BackOfficeVO member = repository.findByBackoffice_email(backoffice_id); //username = email
+		log.info("member : {}",member);
+		
+		if (member==null) throw new UsernameNotFoundException("Not founc account.");
+		
+		return member;
 	}
 }

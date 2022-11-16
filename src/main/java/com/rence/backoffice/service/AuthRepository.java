@@ -1,3 +1,8 @@
+/**
+ * 
+ * @author 최진실
+ *
+ */
 package com.rence.backoffice.service;
 
 import org.springframework.data.jpa.repository.JpaRepository;

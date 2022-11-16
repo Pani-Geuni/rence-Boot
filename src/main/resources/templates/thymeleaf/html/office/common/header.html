@@ -4,33 +4,10 @@
 
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:fragment="header(links)">
-	<title>RENCE</title>
-	
-	<link rel="stylesheet" href="${path}/resources/CSS/common/common.css" />
-	<link rel="stylesheet" href="${path}/resources/CSS/office/login.css" />
-	<link rel="stylesheet" href="${path}/resources/CSS/office/header.css" />
-	<link rel="stylesheet" href="${path}/resources/CSS/common/footer.css" />
-	
-	<script src="../../../../static/JS/common/jquery-3.6.1.min.js"></script>
-    <script src="../../../../static/JS/common/jquery.cookie.js"></script>
-    <script src="../../../../static/JS/office/header.js"></script>
-	
-	<th:block th:replace="${links}"></th:block>
-	
-	<script>
-		$(function(){
-			var user_image = $.cookie("user_image");
-			
-			$(".user_profile_img").attr("src", "../../../../static/upload/" + user_image);
-		});
-	</script>
-</head>
-
 <body>
-	<section class ="headerWrap">
+	<section class ="headerWrap" th:fragment="header">
 	     <div class = "logo-section">
-	         <img src="../../../../static/IMG/common/RENCE.svg" class="logo-mku">
+	         <img src="static/IMG/common/RENCE.svg" class="logo-mku">
 	     </div>
 	     <div class = "searchBar-section">
 	         <div class="searchBar-wrap">
@@ -44,7 +21,7 @@
 	                 <input type="text" placeholder="검색어를 입력하세요." id="input_searchBar"/>
 	             </div>
 	             <div class = "searchBar-btnWrap">
-	                 <img src="../../../../static/IMG/header/Search Button.svg" alt="searchBar-btn" class="searchBar-btn"/>
+	                 <img src="static/IMG/header/Search Button.svg" alt="searchBar-btn" class="searchBar-btn"/>
 	             </div>
 	
 	             <!-- CUSTOM SELECT -->
@@ -73,12 +50,12 @@
 	         </div>
 	     </div>
 	     <div class="userMenu-section ">
-	     	<c:if test="${user_id eq null}">
+	     	<th:block th:if="${user_id} == null">
 		         <!-- 로그인 전 유저 메뉴 -->
 		         <section id="before_login" class="">
 		             <div id = "before_userMenu" class ="userMenu">
-		                 <img src="../../../../static/IMG/header/user_menu.svg" alt="user_menu_img" class="user_menu_img"/>
-		                 <img src="../../../../static/IMG/header/bx_user-circle.png" alt="user_profile_img" class="user_profile_img"/>
+		                 <img src="static/IMG/header/user_menu.svg" alt="user_menu_img" class="user_menu_img"/>
+		                 <img src="static/IMG/header/bx_user-circle.png" alt="user_profile_img" class="user_profile_img"/>
 		             </div>
 		             
 		             <!-- CUSTOM SELECT -->
@@ -90,13 +67,13 @@
 		                 </ul>
 		             </div>
 		         </section>
-	     	</c:if>
+	     	</th>
 	         
-	       	<c:if test="${user_id ne null}">
+	       	<th:block th:if="${user_id} != null">
 		         <!-- 로그인 후 유저 메뉴 -->
 		         <section id="after_login"  class="">
 		             <div id = "after_userMenu" class ="userMenu">
-		                 <img src="../../../../static/IMG/header/user_menu.svg" alt="user_menu_img" class="user_menu_img"/>
+		                 <img src="static/IMG/header/user_menu.svg" alt="user_menu_img" class="user_menu_img"/>
 		                 <img alt="user_profile_img" class="user_profile_img"/>
 		             </div>
 		
@@ -109,7 +86,7 @@
 		                 </ul>
 		             </div>
 		         </section>
-	         </c:if>
+	         </th>
 	     </div>
 	</section>
 </body>
