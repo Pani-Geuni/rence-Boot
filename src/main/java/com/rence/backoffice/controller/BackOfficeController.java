@@ -7,6 +7,7 @@ package com.rence.backoffice.controller;
 
 import java.text.ParseException;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -203,23 +204,39 @@ public class BackOfficeController {
 	 * 로그인 성공 처리
 	 */
 	@ApiOperation(value="로그인 성공", notes="로그인 성공")
-	@GetMapping("/loginSuccess")
+	@PostMapping("/loginSuccess")
 	@ResponseBody
 	public JSONObject backoffice_loginOK(BackOfficeVO bvo, HttpServletResponse response) {
 		log.info("backoffice_loginOK()...");
 
 		JSONObject jsonObject = new JSONObject();
 
-//			session.setAttribute("backoffice_id", bvo2.getBackoffice_id());
-//			Cookie cookie_no = new Cookie("backoffice_no", bvo2.getBackoffice_no());
-//			Cookie cookie_profile = new Cookie("host_image", bvo2.getHost_image());
+			session.setAttribute("backoffice_id", bvo.getBackoffice_id());
+			Cookie cookie_no = new Cookie("backoffice_no", bvo.getBackoffice_no());
+			Cookie cookie_profile = new Cookie("host_image", bvo.getHost_image());
 			jsonObject.put("result", "1");
 			log.info("successed...");
-//			response.addCookie(cookie_no);
-//			response.addCookie(cookie_profile);
+			response.addCookie(cookie_no);
+			response.addCookie(cookie_profile);
 			return jsonObject;
 		}
+	
+	/**
+	 * 로그인 실패 처리
+	 */
+	@ApiOperation(value="로그인 실패", notes="로그인 실패")
+	@PostMapping("/loginFail")
+	@ResponseBody
+	public JSONObject backoffice_loginfail(HttpServletResponse response) {
+		log.info("backoffice_loginfail()...");
+		
+		JSONObject jsonObject = new JSONObject();
 
+		jsonObject.put("result", "0");
+		log.info("failed...");
+
+		return jsonObject;
+	}
 
 	
 	/**

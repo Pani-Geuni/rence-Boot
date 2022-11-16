@@ -5,16 +5,10 @@
  */
 package com.rence.backoffice.service;
 
-import java.text.ParseException;
-import java.util.List;
-import java.util.Random;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 //import org.springframework.security.core.userdetails.UserDetails;
 //import org.springframework.security.core.userdetails.UserDetailsService;
 //import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class BackOfficeService {//implements UserDetailsService 
+public class BackOfficeService implements UserDetailsService {//
 
 	@Autowired
 	BackOfficeRepository repository;
@@ -147,13 +141,13 @@ public class BackOfficeService {//implements UserDetailsService
 		return repository.update_backoffice_temp_pw(bvo.getBackoffice_pw(), bvo.getBackoffice_no());
 	}
 
-//	@Override
-//	public UserDetails loadUserByUsername(String backoffice_id) throws UsernameNotFoundException {
-//		BackOfficeVO member = repository.findByBackoffice_email(backoffice_id); //username = email
-//		log.info("member : {}",member);
-//		
-//		if (member==null) throw new UsernameNotFoundException("Not founc account.");
-//		
-//		return member;
-//	}
+	@Override
+	public UserDetails loadUserByUsername(String backoffice_id) throws UsernameNotFoundException {
+		BackOfficeVO member = repository.findByBackoffice_email(backoffice_id); //username = email
+		log.info("member : {}",member);
+		
+		if (member==null) throw new UsernameNotFoundException("Not founc account.");
+		
+		return member;
+	}
 }
