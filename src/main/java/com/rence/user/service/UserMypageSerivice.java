@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rence.user.model.UserMileageVO;
-import com.rence.user.model.UserMypageVO;
 import com.rence.user.model.UserVO;
 import com.rence.user.repository.MileageRepository;
 import com.rence.user.repository.MypageRepository;
@@ -47,7 +46,7 @@ public class UserMypageSerivice {
 	
 	//마일리지상세페이지에서
 	public List<UserMileageVO> user_mileage_search_list(UserVO uvo, String searchKey) {
-		log.info("user_mileage_search_list()...."+uvo.getUser_no());
+		log.info("user_mileage_search_list()....");
 		log.info("uvo: {}",uvo);
 		log.info("searchKey: {}",searchKey);
 		
@@ -64,8 +63,41 @@ public class UserMypageSerivice {
 		return null;
 		
 	}
-
 	
+	//비밀번호 변경
+	public int user_pw_updateOK(UserVO uvo) {
+		log.info("user_pw_updateOK()....");
+		log.info("uvo: {}",uvo);
+		
+		
+		return repository.user_pw_updateOK(uvo.getUser_pw(),uvo.getUser_no());
+	}
+	
+	//현재 비밀번호 확인
+	public int check_now_pw(UserVO uvo) {
+		log.info("user_pw_updateOK()....");
+		log.info("uvo: {}",uvo);
+		
+		return repository.check_now_pw(uvo.getUser_no(),uvo.getUser_pw());
+	}
+
+	//회원탈퇴에 따른 회원상태 수정
+	public int user_secedeOK(UserVO uvo) {
+		log.info("user_pw_updateOK()....");
+		log.info("uvo: {}",uvo);
+		
+		return repository.user_secedeOK(uvo.getUser_no());
+	}
+	
+	
+	//프로필 사진 수정
+	public int user_img_updateOK(UserVO uvo) {
+		log.info("user_pw_updateOK()....");
+		log.info("uvo: {}",uvo);
+		
+		return repository.user_img_updateOK(uvo.getUser_image(),uvo.getUser_no());
+	}
+
 	
 	
 	
