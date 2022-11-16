@@ -5,7 +5,7 @@ $(function () {
 
   /** 로고 버튼 클릭 시 메인 페이지 이동 **/ 
   $('.logo-mku').click(function(){
-    location.href = '/rence/backoffice_landing';
+    location.href = '/backoffice/landing';
   });
 
   /** 로그인 전 헤더 메뉴 */
@@ -32,13 +32,13 @@ $(function () {
   
   /** 공간등록신청 메뉴 */
   $('#go-backOffice').click(function(){
-    location.href = '/rence/backoffice_insert';
+    location.href = '/backoffice/insert';
   });
   
   /** 호스트 메인 페이지 이동 */
   $('.btn-start-hosting').click(function(){
     if($.cookie("backoffice_no") != undefined)
-      location.href = '/rence/backoffice_main?backoffice_no=' + $.cookie("backoffice_no");
+      location.href = '/backoffice/main?backoffice_no=' + $.cookie("backoffice_no");
     else{
       $(".popup-background:eq(1)").removeClass("blind");
       $("#common-alert-popup").removeClass("blind");
@@ -48,7 +48,7 @@ $(function () {
   
   /** 호스트 신청 페이지 */
   $('.btn-apply-hosting').click(function () {
-    location.href = '/rence/backoffice_insert';
+    location.href = '/backoffice/insert';
   });
 
   /** 호스트 마이페이지 */

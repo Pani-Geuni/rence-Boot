@@ -3,7 +3,7 @@
  */
  $(function () {
   $('.logo-mku').click(function(){
-    location.href = '/rence/backoffice_landing';
+    location.href = '/backoffice/landing';
   });
 
   $('#go-rence-home').click(function(){
@@ -17,31 +17,31 @@
 
   switch ($(location).attr('pathname')) {
     // 좌측 Side Menu 분기
-    case '/rence/backoffice_main':
+    case '/backoffice/main':
       $('#menu-home').addClass('active');
       break;
 
-    case '/rence/backoffice_room':
+    case '/backoffice/room':
       $('#menu-space').addClass('active');
       $('#mini-nav-list').addClass('active');
       break;
 
-    case '/rence/backoffice_qna':
+    case '/backoffice/qna':
       $('#menu-space').addClass('active');
       $('#mini-nav-qna').addClass('active');
       break;
 
-    case '/rence/backoffice_review':
+    case '/backoffice/review':
       $('#menu-space').addClass('active');
       $('#mini-nav-review').addClass('active');
       break;
 
-    case '/rence/backoffice_reserve':
+    case '/backoffice/reserve':
     case '/rence/backoffice_search_reserve':
       $('#menu-reserve').addClass('active');
       break;
 
-    case '/rence/backoffice_day_sales':
+    case '/backoffice/day_sales':
       $('#menu-sales').addClass('active');
       $('#sales-mini-nav-day').addClass('active');
       break;
@@ -56,7 +56,7 @@
       $('#sales-mini-nav-month').addClass('active');
       break;
 
-    case '/rence/backoffice_settings':
+    case '/backoffice/settings':
       $('#menu-settings').addClass('active');
       break;
 
