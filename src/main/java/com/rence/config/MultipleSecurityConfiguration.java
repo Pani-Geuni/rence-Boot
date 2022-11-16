@@ -43,7 +43,7 @@ public class MultipleSecurityConfiguration {
                                   // 조절할 수 있습니다.
     }
     
-	   @Order(0)
+	   @Order(2)
 	   @Configuration
 	   @RequiredArgsConstructor
 	   public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -164,7 +164,7 @@ public class MultipleSecurityConfiguration {
 	       }
 	
 	
-	@Order(2)
+	@Order(0)
 	@Configuration
 	@RequiredArgsConstructor
 	public class UserSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -193,12 +193,13 @@ public class MultipleSecurityConfiguration {
 			*/
 			//http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 			
-	        http.csrf().disable()	// csrf 토큰을 비활성화
+	        http	// csrf 토큰을 활성화
 	        	.authorizeRequests() // 요청 URL에 따라 접근 권한을 설정
-				.antMatchers("/","/test/","/api/v2/**", "/v3/api-docs", "/static/**",
-		                 "/swagger*/**","/api/v1/auth/**","/h2-console/**","/favicon.ico","/swagger-ui.html","/swagger/**","/swagger-resources/**","webjars/**","/v2/api-docs"
-		                 ,"/user/insert","/user/insertOK","/user/loginOK","/user/user_loginOK","/js/**","/css/**","/images/**").permitAll() // 해당 경로들은 접근을 허용
-				.anyRequest() // 다른 모든 요청은
+	        	.antMatchers("/office/my_page/**","/office/reserve/**")
+//				.antMatchers("/","/test/","/api/v2/**", "/v3/api-docs", "/static/**",
+//		                 "/swagger*/**","/api/v1/auth/**","/h2-console/**","/favicon.ico","/swagger-ui.html","/swagger/**","/swagger-resources/**","webjars/**","/v2/api-docs"
+//		                 ,"/user/insert","/user/insertOK","/user/loginOK","/user/user_loginOK","/js/**","/css/**","/images/**").permitAll() // 해당 경로들은 접근을 허용
+//				.anyRequest() // 다른 모든 요청은
 				.authenticated() // 인증된 유저만 접근을 허용
 			.and()
 				.formLogin() // 로그인 폼은
@@ -206,6 +207,9 @@ public class MultipleSecurityConfiguration {
 				.loginProcessingUrl("/user/loginOK") // 해당 URL로 요청이 오면 스프링 시큐리티가 가로채서 로그인처리를 한다. -> loadUserByName
 				.successForwardUrl("/user_loginOK") // 성공시 요청을 처리할 핸들러
 				.failureForwardUrl("/user_loginFail") // 실패시 요청을 처리할 핸들러
+			.and()
+                .csrf()
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 			.and()
 				.logout()
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")) // 로그아웃 URL
