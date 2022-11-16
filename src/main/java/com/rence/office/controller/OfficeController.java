@@ -395,7 +395,7 @@ public class OfficeController {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		List<ListViewVO> list = service.select_all_list(type, condition);
+		List<ListViewVO> list = service.select_all_list("%"+type+"%", condition);
 		
 		if(list == null) map.put("cnt", 0);
 		else map.put("cnt", list.size());
