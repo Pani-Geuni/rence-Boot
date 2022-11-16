@@ -4,19 +4,12 @@
 
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:fragment="head(links, scripts, page)">
+<head th:fragment="head">
 	<title>RENCE</title>
 	
 	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
 
-	<link rel="stylesheet" href="static/CSS/common/common.css" />
-	<link rel="stylesheet" href="static/CSS/office/login.css" />
-	<link rel="stylesheet" href="static/CSS/office/header.css" />
-	<link rel="stylesheet" href="static/CSS/common/footer.css" />
-
-	<th:block th:replace="${links}"></th:block>
-	
-	<script src="static/JS/common/jquery-3.6.1.min.js"></script>
+	<script src="../../../../static/JS/common/jquery-3.6.1.min.js"></script>
     <script src="static/JS/common/jquery.cookie.js"></script>
     
     <script src="static/JS/common/core.min.js"></script>
@@ -24,7 +17,17 @@
     
     <script src="static/JS/office/header.js"></script>
     <script src="static/JS/office/user_popup.js"></script>
+
+	<link rel="stylesheet" href="static/CSS/common/common.css" />
+	<link rel="stylesheet" href="static/CSS/office/login.css" />
+	<link rel="stylesheet" href="static/CSS/office/header.css" />
+	<link rel="stylesheet" href="static/CSS/common/footer.css" />
+
 	
+	<th:block th:replace="${ths}">
+	
+		<th:block th:replace="${links}"></th:block>
+	</th:block>
 	<th:block th:replace="${scripts}"></th:block>
 	
 	<script>
@@ -64,8 +67,6 @@
 				});
 			}
 		});
-	</script>
-	
 	</script>
 </head>
 

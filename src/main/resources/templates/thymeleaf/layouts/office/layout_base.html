@@ -5,31 +5,88 @@
 <!-- 공간 리스트 페이지 // 공간 소개 페이지 - 데스크,회의룸/오피스 -->
 <!DOCTYPE html>
 <html>
-<head th:replace="thymeleaf/html/office/common/head :: head(~{::link}, ~{::script}, layout_base)">
+<head>
+<title>RENCE</title>
+	
+	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+
+	<script src="../../../../static/JS/common/jquery-3.6.1.min.js"></script>
+    <script src="static/JS/common/jquery.cookie.js"></script>
+    
+    <script src="static/JS/common/core.min.js"></script>
+    <script src="static/JS/common/sha256.min.js"></script>
+    
+    <script src="static/JS/office/header.js"></script>
+    <script src="static/JS/office/user_popup.js"></script>
+
+	<link rel="stylesheet" href="static/CSS/common/common.css" />
+	<link rel="stylesheet" href="static/CSS/office/login.css" />
+	<link rel="stylesheet" href="static/CSS/office/header.css" />
+	<link rel="stylesheet" href="static/CSS/common/footer.css" />
+
+	
 	<link rel="stylesheet" href="static/CSS/office/home.css" />
     
     <script src="static/JS/office/home.js"></script>
     
-	<th:block th:if="${res.page} == 'list_page'">
-		<link rel="stylesheet" href="static/CSS/office/list-page.css" />
-	    <script src="static/JS/office/list-page.js"></script>
-	</th>
-	<th:block th:if="${res.page} == 'space_introduce_detail'">
-		<link rel="stylesheet" href="static/CSS/office/space-detail-introduce.css" />
-	    <link rel="stylesheet" href="static/CSS/office/jquery-ui.css" />
-	    <link rel="stylesheet" href="static/CSS/office/jquery-ui-timepicker.css" />
-	    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-	    <script src="static/JS/office/timepicker.js"></script>
-	    <script src="static/JS/office/space_detail_introduce.js"></script>
-	</th>
-	<th:block th:if="${res.page} == 'space_introduce_detail_office'">
-		<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <th:block th:if="${res} != null">
+		<th:block th:if="${res.page} == 'list_page'">
+			<link rel="stylesheet" href="static/CSS/office/list-page.css" />
+		    <script src="static/JS/office/list-page.js"></script>
+		</th>
 		
-		<link rel="stylesheet" href="static/CSS/office/space-detail-introduce-office.css" />
-	    <script src="static/JS/office/space_detail_introduce_office.js"></script>
-	</th>
+		<th:block th:if="${res.page} == 'space_introduce_detail'">
+			<link rel="stylesheet" href="static/CSS/office/space-detail-introduce.css" />
+		    <link rel="stylesheet" href="static/CSS/office/jquery-ui.css" />
+		    <link rel="stylesheet" href="static/CSS/office/jquery-ui-timepicker.css" />
+		    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+		    <script src="static/JS/office/timepicker.js"></script>
+		    <script src="static/JS/office/space_detail_introduce.js"></script>
+		</th>
+		
+		<th:block th:if="${res.page} == 'space_introduce_detail_office'">
+			<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+			<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+			<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+			
+			<link rel="stylesheet" href="static/CSS/office/space-detail-introduce-office.css" />
+		    <script src="static/JS/office/space_detail_introduce_office.js"></script>
+		</th>
+    </th:block>
+	
+	<script>
+		$(function(){
+			var user_image = $.cookie("user_image");
+			
+			var is_login = window.sessionStorage.getItem("is_login");
+			
+			if(is_login != null){
+				$(".user_profile_img").attr("src", "../../../../static/upload/" + user_image);
+			}
+			
+			$("#review-write-btn").click(function(){
+				if(is_login != null){
+					$("#review-popup").removeClass("blind");
+				}
+				else{
+					$(".popup-background:eq(1)").removeClass("blind");
+		            $("#common-alert-popup").removeClass("blind");
+		            $(".common-alert-txt").text("로그인 후 이용가능한 기능입니다.");
+				}
+			});
+			
+			$("#question-create-btn").click(function(){
+				if(is_login != null){
+				    $("#question-popup").removeClass("blind");
+				}
+				else{
+					$(".popup-background:eq(1)").removeClass("blind");
+		            $("#common-alert-popup").removeClass("blind");
+		            $(".common-alert-txt").text("로그인 후 이용가능한 기능입니다.");
+				}
+			});
+		});
+	</script>
 </head>
 <body>
 	<div class ="pageWrap">
