@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.google.gson.Gson;
 import com.rence.user.model.UserMileageVO;
+import com.rence.user.model.UserMypageVO;
 import com.rence.user.model.UserVO;
 import com.rence.user.service.UserFileuploadService;
 import com.rence.user.service.UserMypageSerivice;
@@ -53,6 +54,42 @@ public class MypageController {
 
 	@Autowired
 	HttpSession session;
+	
+	
+		// 마이페이지 이동
+		@ApiOperation(value="마이페이지", notes="마이페이지 입니다.")
+		@GetMapping("/go_my_page")
+		public String go_my_page(Model model, HttpServletRequest request) {
+			log.info("go_my_page()...");
+
+			UserVO uvo = new UserVO();
+
+			String user_no = null;
+			Cookie[] cookies = request.getCookies();
+			for (Cookie c : cookies) {
+				if (c.getName().equals("user_no")) {
+					user_no = c.getValue();
+				}
+			}
+			uvo.setUser_no(user_no);
+
+			UserMypageVO umvo = service.user_mypage_select(uvo);
+			log.info("umvo: {}", umvo);
+			// 마일리지 콤마단위로 변환
+			DecimalFormat dc = new DecimalFormat("###,###,###,###,###");
+			umvo.setMileage_total(dc.format(Integer.parseInt(umvo.getMileage_total())));
+
+			model.addAttribute("umvo", umvo);
+			
+			model.addAttribute("content", "thymeleaf/html/office/my_page/my_page");
+			model.addAttribute("title", "마이페이지");
+			
+
+			return "thymeleaf/layouts/office/layout_myPage";
+		}
+	
+	
+	
 	
 	/**
 	 * 현재예약리스트 이동
