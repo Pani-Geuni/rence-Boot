@@ -137,20 +137,23 @@ public class DashBoardController {
 //		return json;
 //	}
 //
-//	/**
-//	 * 공간 수정 팝업
-//	 */
-//	@RequestMapping(value = "/backoffice_update_room ", method = RequestMethod.GET)
+	/**
+	 * 공간 수정 팝업
+	 */
+//	@ApiOperation(value="공간 수정", notes="대쉬보드 공간 관리 페이지")
+//	@GetMapping("/update_room")
 //	@ResponseBody
-//	public JSONObject backoffice_update_room(String backoffice_no, String room_no) {
-//		logger.info("backoffice_update_room ()...");
-//		logger.info("{}", backoffice_no);
+//	public String backoffice_update_room(String backoffice_no, String room_no) {
+//		log.info("backoffice_update_room ()...");
+//		log.info("{}", backoffice_no);
 //
-//		JSONObject jsonObject = new JSONObject();
-//
+//		Map<String, Object> map1 = new HashMap<String,Object>();
+//		Map<String, List<String>> map2 = new HashMap<String,List<String>>();
+//		Map<Map<String, Object>, Map<String, List<String>>> map3 = new HashMap<Map<String,Object>, Map<String,List<String>>>();
+//		
+//		
 //		BackOfficeVO bvo = service.select_one_backoffice_info(backoffice_no);
 //		RoomVO rmvo = new RoomVO();
-////		rmvo.setRoom_type(bvo.getBackoffice_type());
 //		
 //		String type = bvo.getBackoffice_type().replace("meeting_room", "meeting_04,meeting_06,meeting_10");
 //		rmvo.setRoom_type(type);
@@ -169,13 +172,15 @@ public class DashBoardController {
 //		}
 //		
 //		rmvo = service.select_one_room_info(backoffice_no, room_no);
-//		jsonObject.put("rmvo", rmvo);
+//		map1.put("rmvo", rmvo); 
 //
-//		jsonObject.put("room_type", type_list);
+//		map2.put("room_type", type_list);
+//		map3.put(map1, map2);
+//		String json = gson.toJson(map3);
 //
-//		return jsonObject;
+//		return json;
 //	}
-//	
+	
 //	/**
 //	 * 공간 수정
 //	 */
@@ -201,170 +206,202 @@ public class DashBoardController {
 //
 //		return jsonObject;
 //	}
-//
-//	/**
-//	 * 공간 삭제
-//	 */
-//	@RequestMapping(value = "/backoffice_deleteOK_room ", method = RequestMethod.POST)
-//	@ResponseBody
-//	public JSONObject backoffice_deleteOK_room(String backoffice_no, String room_no) {
-//		logger.info("backoffice_deleteOK_room ()...");
-//		logger.info("{}", backoffice_no);
-//
-//		JSONObject jsonObject = new JSONObject();
-//
+
+	/**
+	 * 공간 삭제
+	 */
+	@ApiOperation(value="공간 삭제", notes="대쉬보드 공간 관리 페이지")
+	@PostMapping("/deleteOK_room")
+	@ResponseBody
+	public String backoffice_deleteOK_room(String backoffice_no, String room_no) {
+		log.info("backoffice_deleteOK_room ()...");
+		log.info("{}", backoffice_no);
+
+		Map<String, String> map = new HashMap<String, String>();
+
 //		int result = service.backoffice_deleteOK_room(backoffice_no, room_no);
 //
 //		if (result == 1) {
-//			logger.info("successed...");
-//			jsonObject.put("result", "1");
+//			log.info("successed...");
+//			map.put("result", "1");
 //		}
 //
 //		else {
-//			logger.info("failed...");
-//			jsonObject.put("result", "0");  //남은 예약이 있을 시
+//			log.info("failed...");
+//			map.put("result", "0");  //남은 예약이 있을 시
 //		}
-//
-//		return jsonObject;
-//	}
-//
-//	/**
-//	 * 문의(리스트)
-//	 */
-//	@RequestMapping(value = "/backoffice_qna", method = RequestMethod.GET)
-//	public String dashboard_qna(Model model, String backoffice_no) {
-//		logger.info("backoffice_qna ()...");
-//		logger.info("{}", backoffice_no);
+
+		String json = gson.toJson(map);
+		
+		return json;
+	}
+
+	/**
+	 * 문의(리스트)
+	 */
+	@ApiOperation(value="문의 리스트", notes="대쉬보드 공간 관리 페이지 - 문의")
+	@GetMapping("/qna")
+	public String dashboard_qna(Model model, String backoffice_no) {
+		log.info("backoffice_qna ()...");
+		log.info("{}", backoffice_no);
 //		List<CommentListVO> qvos = service.backoffice_qna_selectAll(backoffice_no);
 //		model.addAttribute("q_vos", qvos);
 //		model.addAttribute("cnt", qvos.size());
-//		return ".dash_board/qna_list";
-//	}
-//
-//	/**
-//	 * 답변 작성 팝업
-//	 */
-//	@RequestMapping(value = "/backoffice_insert_comment ", method = RequestMethod.GET)
-//	@ResponseBody
-//	public JSONObject backoffice_insert_comment(String backoffice_no, String room_no, String comment_no) {
-//		logger.info("backoffice_insert_comment ()...");
-//		logger.info("{}", backoffice_no);
-//		logger.info("{}", room_no);
-//		
+		
+		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/qna_list");
+		model.addAttribute("title", "공간 관리");
+
+		return "thymeleaf/layouts/backoffice/layout_dashboard";
+	}
+
+	/**
+	 * 답변 작성 팝업
+	 */
+	@ApiOperation(value="답변 작성", notes="대쉬보드 공간 관리 페이지 - 문의(답변)")
+	@GetMapping("/insert_comment")
+	@ResponseBody
+	public String backoffice_insert_comment(String backoffice_no, String room_no, String comment_no) {
+		log.info("backoffice_insert_comment ()...");
+		log.info("{}", backoffice_no);
+		log.info("{}", room_no);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
 //		CommentVO cvo2 = service.backoffice_insert_comment(backoffice_no,room_no,comment_no);
 //		
-//		JSONObject jsonObject = new JSONObject();
-//
-//		jsonObject.put("cvo", cvo2);
-//
-//		return jsonObject;
-//	}
-//
-//	/**
-//	 * 답변 작성
-//	 */
-//	@RequestMapping(value = "/backoffice_insertOK_comment", method = RequestMethod.POST)
+//		map.put("cvo", cvo2);
+		
+		String json = gson.toJson(map);
+
+		return json;
+	}
+
+	/**
+	 * 답변 작성
+	 */
+//	@ApiOperation(value="답변 작성 처리", notes="대쉬보드 공간 관리 페이지 - 문의(답변)")
+//	@PostMapping("/insertOK_comment")
 //	@ResponseBody
-//	public JSONObject backoffice_insertOK_comment(String backoffice_no, CommentVO cvo, String comment_no) {
-//		logger.info("backoffice_insertOK_comment ()...");
-//		logger.info("{}", backoffice_no);
+//	public String backoffice_insertOK_comment(String backoffice_no, CommentVO cvo, String comment_no) {
+//		log.info("backoffice_insertOK_comment ()...");
+//		log.info("{}", backoffice_no);
 //
-//		JSONObject jsonObject = new JSONObject();
+//		Map<String, String> map = new HashMap<String, String>();
 //		
 //		cvo.setMother_no(comment_no);
 //
 //		int result = service.backoffice_insertOK_comment(backoffice_no, cvo);
 //
 //		if (result == 1) {
-//			logger.info("successed...");
-//			jsonObject.put("result", "1");
+//			log.info("successed...");
+//			map.put("result", "1");
 //		}
 //
 //		else {
-//			logger.info("failed...");
-//			jsonObject.put("result", "0");
+//			log.info("failed...");
+//			map.put("result", "0");
 //		}
+//		
+//		String json = gson.toJson(map);
 //
-//		return jsonObject;
+//		return json;
 //	}
-//	
-//	/**
-//	 * 답변 삭제
-//	 */
-//	@RequestMapping(value = "/backoffice_deleteOK_comment", method = RequestMethod.POST)
-//	@ResponseBody
-//	public JSONObject backoffice_deleteOK_comment(String backoffice_no, String comment_no, String mother_no) {
-//		logger.info("backoffice_deleteOK_comment ()...");
-//		logger.info("{}", backoffice_no);
-//		logger.info("{}", comment_no);
-//		
-//		JSONObject jsonObject = new JSONObject();
-//		
+	
+	/**
+	 * 답변 삭제
+	 */
+	@ApiOperation(value="답변 삭제", notes="대쉬보드 공간 관리 페이지 - 문의(답변)")
+	@PostMapping("/deleteOK_comment")
+	@ResponseBody
+	public String backoffice_deleteOK_comment(String backoffice_no, String comment_no, String mother_no) {
+		log.info("backoffice_deleteOK_comment ()...");
+		log.info("{}", backoffice_no);
+		log.info("{}", comment_no);
+		
+		Map<String, String> map = new HashMap<String, String>();
+		
 //		int result = service.backoffice_deleteOK_comment(backoffice_no, comment_no, mother_no);
 //		
 //		if (result == 1) {
-//			logger.info("successed...");
-//			jsonObject.put("result", "1");
+//			log.info("successed...");
+//			map.put("result", "1");
 //		}
 //		
 //		else {
-//			logger.info("failed...");
-//			jsonObject.put("result", "0");
+//			log.info("failed...");
+//			map.put("result", "0");
 //		}
-//		
-//		return jsonObject;
-//	}
-//
-//	/**
-//	 * 리뷰 (리스트)
-//	 */
-//	@RequestMapping(value = "/backoffice_review", method = RequestMethod.GET)
-//	public String dashboard_review(Model model, String backoffice_no) {
-//		logger.info("backoffice_review ()...");
-//		logger.info("{}", backoffice_no);
+		
+		String json = gson.toJson(map);
+		
+		return json;
+	}
+
+	/**
+	 * 리뷰 (리스트)
+	 */
+	@ApiOperation(value="리뷰 리스트", notes="대쉬보드 공간 관리 페이지 - 리뷰")
+	@GetMapping("/review")
+	public String dashboard_review(Model model, String backoffice_no) {
+		log.info("backoffice_review ()...");
+		log.info("{}", backoffice_no);
 //		List<ReviewVO> rvvos = service.backoffice_review_selectAll(backoffice_no);
 //		model.addAttribute("rv_vos", rvvos);
 //		model.addAttribute("cnt", rvvos.size());
-//		return ".dash_board/review_list";
-//	}
-//
-//	/**
-//	 * 예약 관리(리스트)
-//	 */
-//	@RequestMapping(value = "/backoffice_reserve", method = RequestMethod.GET)
-//	public String dashboard_reserve(Model model, String backoffice_no, String reserve_state) {
-//		logger.info("backoffice_reserve ()...");
-//		logger.info("{}", backoffice_no);
+		
+		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/review_list");
+		model.addAttribute("title", "공간 관리");
+
+		return "thymeleaf/layouts/backoffice/layout_dashboard";
+	}
+
+	/**
+	 * 예약 관리(리스트)
+	 */
+	@ApiOperation(value="예약 리스트", notes="대쉬보드 예약 관리 페이지 - 리스트")
+	@GetMapping("/reserve")
+	public String dashboard_reserve(Model model, String backoffice_no, String reserve_state) {
+		log.info("backoffice_reserve ()...");
+		log.info("{}", backoffice_no);
 //		List<ReserveVO> rvos = service.backoffice_reserve_selectAll(backoffice_no, reserve_state);
 //		model.addAttribute("r_vos", rvos);
 //		model.addAttribute("cnt", rvos.size());
-//		model.addAttribute("reserve_state", reserve_state);
-//		return ".dash_board/reserve_list";
-//	}
-//
-//	/**
-//	 * 예약 관리(리스트-검색)
-//	 */
-//	@RequestMapping(value = "/backoffice_search_reserve", method = RequestMethod.GET)
-//	public String dashboard_reserve_search(Model model, String backoffice_no, String searchword, String reserve_state) {
-//		logger.info("backoffice_search_reserve ()...");
-//		logger.info("{}", backoffice_no);
+		model.addAttribute("reserve_state", reserve_state);
+		
+		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/reserve_list");
+		model.addAttribute("title", "예약 관리");
+
+		return "thymeleaf/layouts/backoffice/layout_dashboard";
+	}
+
+	/**
+	 * 예약 관리(리스트-검색)
+	 */
+	@ApiOperation(value="예약 리스트 검색", notes="대쉬보드 예약 관리 페이지 - 리스트 검색")
+	@GetMapping("/search_reserve")
+	public String dashboard_reserve_search(Model model, String backoffice_no, String searchword, String reserve_state) {
+		log.info("backoffice_search_reserve ()...");
+		log.info("{}", backoffice_no);
 //		List<ReserveVO> rvos = service.backoffice_search_reserve(backoffice_no, searchword, reserve_state);
 //		model.addAttribute("r_vos", rvos);
 //		model.addAttribute("cnt", rvos.size());
-//		model.addAttribute("reserve_state", reserve_state);
-//		return ".dash_board/reserve_list";
-//	}
-//
-//	/**
-//	 * 정산 관리(리스트)
-//	 */
-//	@RequestMapping(value = "/backoffice_day_sales", method = RequestMethod.GET)
-//	
-//	public String dashboard_sales_day(Model model, String backoffice_no, String sales_date) {
-//		logger.info("backoffice_day_sales()...");
-//		logger.info("{}", backoffice_no);
-//		
+		model.addAttribute("reserve_state", reserve_state);
+		
+		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/reserve_list");
+		model.addAttribute("title", "예약 관리");
+
+		return "thymeleaf/layouts/backoffice/layout_dashboard";
+	}
+
+	/**
+	 * 정산 관리(리스트)
+	 */
+	@ApiOperation(value="정산 관리 리스트", notes="대쉬보드 정산 관리 페이지 - 리스트")
+	@GetMapping("/day_sales")
+	public String dashboard_sales_day(Model model, String backoffice_no, String sales_date) {
+		log.info("backoffice_day_sales()...");
+		log.info("{}", backoffice_no);
+		
 //		SalesSettlementPreVO svo = service.backoffice_sales_selectOne(backoffice_no, sales_date);
 //		model.addAttribute("svo", svo);
 //		model.addAttribute("sales_date",sales_date);
@@ -372,10 +409,14 @@ public class DashBoardController {
 //		List<SalesSettlementVO> svos = service.backoffice_sales_selectAll(backoffice_no);
 //		model.addAttribute("s_vos", svos);
 //		model.addAttribute("cnt", svos.size());
-//		logger.info("svossvossvos:::{}",svos);
-//		return ".dash_board/sales_day";
-//	}
-//
+//		log.info("svossvossvos:::{}",svos);
+		
+		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/sales_day");
+		model.addAttribute("title", "정산 관리");
+
+		return "thymeleaf/layouts/backoffice/layout_dashboard";
+	}
+
 //	@RequestMapping(value = "/backoffice_week_sales", method = RequestMethod.GET)
 //	public String dashboard_sales_week() {
 //		return ".dash_board/sales_week";
@@ -385,97 +426,110 @@ public class DashBoardController {
 //	public String dashboard_sales_month() {
 //		return ".dash_board/sales_month";
 //	}
-//
-//	/**
-//	 * 정산 상태 변경
-//	 */
-//	@RequestMapping(value = "/backoffice_updateOK_sales", method = RequestMethod.POST)
-//	@ResponseBody
-//	public JSONObject backoffice_updateOK_sales(String backoffice_no, String room_no, String payment_no) {
-//		logger.info("backoffice_updateOK_sales ()...");
-//		logger.info("{}", backoffice_no);
-//
-//		JSONObject jsonObject = new JSONObject();
-//
+
+	/**
+	 * 정산 상태 변경
+	 */
+	@ApiOperation(value="정산 상태 변경", notes="대쉬보드 정산 관리 페이지 - 정산 상태 변경")
+	@PostMapping("/updateOK_sales")
+	@ResponseBody
+	public String backoffice_updateOK_sales(String backoffice_no, String room_no, String payment_no) {
+		log.info("backoffice_updateOK_sales ()...");
+		log.info("{}", backoffice_no);
+
+		Map<String, String> map = new HashMap<String, String>();
+
 //		int result = service.backoffice_updateOK_sales(backoffice_no, room_no, payment_no);
-//		logger.info( "integerereretrer", Integer.toString(result));
+//		log.info( "integerereretrer", Integer.toString(result));
 //		if (result == 1) {
-//			logger.info("successed...");
-//			jsonObject.put("result", "1");
+//			log.info("successed...");
+//			map.put("result", "1");
 //		}
 //
 //		else {
-//			logger.info("failed...");
-//			jsonObject.put("result", "0");
+//			log.info("failed...");
+//			map.put("result", "0");
 //		}
-//
-//		return jsonObject;
-//	}
-//
-//	/**
-//	 * 환경설정 페이지 출력
-//	 */
-//	@RequestMapping(value = "/backoffice_settings", method = RequestMethod.GET)
-//	public String backoffice_settings(BackOfficeVO bvo, Model model) {
-//		logger.info("backoffice_settings()...");
+		
+		String json = gson.toJson(map);
+
+		return json;
+	}
+
+	/**
+	 * 환경설정 페이지 출력
+	 */
+	@ApiOperation(value="환경설정", notes="대쉬보드 환경설정 페이지")
+	@GetMapping("/settings")
+	public String backoffice_settings(BackOfficeVO bvo, Model model) {
+		log.info("backoffice_settings()...");
 //		BackOfficeVO bvo2 = service.backoffice_setting_selectOne(bvo);
-//		logger.info("result: {}.", bvo2);
+//		log.info("result: {}.", bvo2);
 //
 //		model.addAttribute("vo", bvo2);
-//
-//		return ".dash_board/setting";
-//	}
-//
-//	/**
-//	 * 환경설정에서 비밀번호 수정 --> jsonObject 
-//	 */
-//	@RequestMapping(value = "/backoffice_update_pw", method = RequestMethod.GET)
-//	@ResponseBody
-//	public JSONObject backoffice_update_pw(BackOfficeVO bvo) {
-//		logger.info("backoffice_update_pw ()...");
-//		logger.info("{}", bvo);
-//		
-//		JSONObject jsonObject = new JSONObject();
-//
-//		// 비밀번호 일치 여부 확인
+
+		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/settings");
+		model.addAttribute("title", "정산 관리");
+
+		return "thymeleaf/layouts/backoffice/layout_dashboard";
+	}
+
+	/**
+	 * 환경설정에서 비밀번호 수정 --> jsonObject 
+	 */
+	@ApiOperation(value="비밀번호 변경", notes="대쉬보드 환경설정 페이지 - 비밀번호 변경")
+	@GetMapping("/update_pw")
+	@ResponseBody
+	public String backoffice_update_pw(BackOfficeVO bvo) {
+		log.info("backoffice_update_pw ()...");
+		log.info("{}", bvo);
+		
+		Map<String, String> map = new HashMap<String, String>();
+
+		// 비밀번호 일치 여부 확인
 //		BackOfficeVO bvo2 = service.backoffice_select_pw(bvo);
 //
 //		if (bvo2 != null) {
-//			logger.info("successed...");
-//			jsonObject.put("result", "1");
+//			log.info("successed...");
+//			map.put("result", "1");
 //		}
 //
 //		else {
-//			logger.info("failed...");
-//			jsonObject.put("result", "0");
+//			log.info("failed...");
+//			map.put("result", "0");
 //		}
-//
-//		return jsonObject;
-//	}
-//
-//	/**
-//	 * 환경설정에서 업체 탈퇴 요청
-//	 */
-//	@RequestMapping(value = "/backoffice_setting_delete", method = RequestMethod.POST)
-//	@ResponseBody
-//	public JSONObject backoffice_setting_delete(BackOfficeVO bvo) {
-//		logger.info("backoffice_setting_delete ()...");
-//		logger.info("{}", bvo);
-//
-//		JSONObject jsonObject = new JSONObject();
-//
+		
+		String json = gson.toJson(map);
+
+		return json;
+	}
+
+	/**
+	 * 환경설정에서 업체 탈퇴 요청
+	 */
+	@ApiOperation(value="업체 탈퇴 요청", notes="대쉬보드 환경설정 페이지 - 업체 탈퇴 요청")
+	@PostMapping("/setting_delete")
+	@ResponseBody
+	public String backoffice_setting_delete(BackOfficeVO bvo) {
+		log.info("backoffice_setting_delete ()...");
+		log.info("{}", bvo);
+
+		Map<String, String> map = new HashMap<String, String>();
+
 //		int result = service.backoffice_setting_delete(bvo);
 //
 //		if (result == 1) {
-//			logger.info("successed...");
-//			jsonObject.put("result", "1");
+//			log.info("successed...");
+//			map.put("result", "1");
 //		}
 //
 //		else {
-//			logger.info("failed...");
-//			jsonObject.put("result", "0"); // 남은 예약이 있을 시
+//			log.info("failed...");
+//			map.put("result", "0"); // 남은 예약이 있을 시
 //		}
-//
-//		return jsonObject;
-//	}
+		
+		String json = gson.toJson(map);
+
+		return json;
+	}
 }
