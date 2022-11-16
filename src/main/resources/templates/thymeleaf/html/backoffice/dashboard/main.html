@@ -68,7 +68,7 @@
           <h3>최신 문의 내역</h3>
         </div>
         <div class="comment-list">
-          <c:forEach var = "vos" items="${c_vos}">
+          <th:block th:each="vos : ${c_vos}">
             <div class="comment-item" th:attr="idx=${vos.comment_no}">
               <div class="comment-title">
                 <p>[[ ${vos.room_name} ]]</p>
@@ -80,7 +80,7 @@
               </div>
             </div>
             <!-- END comment-item -->
-          </c:forEach>
+          </th:block>
           
         </div>
         <!-- END comment-list -->
