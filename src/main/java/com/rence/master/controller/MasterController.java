@@ -9,8 +9,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rence.backoffice.model.BackOfficeVO;
 import com.rence.backoffice.model.EmailVO;
+import com.rence.master.model.MasterEntity;
 import com.rence.master.model.MasterVO;
 import com.rence.master.service.MasterSendEmail;
 import com.rence.master.service.MasterService;
@@ -47,6 +50,9 @@ public class MasterController {
 
 	@Autowired
 	MasterSendEmail sendEmail;
+	
+	@Autowired
+	HttpSession session;
 
 	/**
 	 * 마스터 로그인 페이지
@@ -82,6 +88,48 @@ public class MasterController {
 //		return "redirect:login";
 //	}
 
+	/**
+	 * 로그인 성공 처리
+	 */
+	@ApiOperation(value="로그인 성공", notes="로그인 성공")
+	@PostMapping("/loginSuccess")
+	@ResponseBody
+	public String master_loginOK(MasterEntity mvo, HttpServletResponse response) {
+		log.info("master_loginOK()...");
+
+		Map<String, String> map = new HashMap<String,String>();
+
+			session.setAttribute("master_id", mvo.getMaster_id());
+			Cookie cookie_no = new Cookie("backoffice_no", mvo.getMaster_no());
+			map.put("result", "1");
+			log.info("successed...");
+			response.addCookie(cookie_no);
+			
+			String json = gson.toJson(map);
+			
+			return json;
+		}
+	
+	/**
+	 * 로그인 실패 처리
+	 */
+	@ApiOperation(value="로그인 실패", notes="로그인 실패")
+	@PostMapping("/loginFail")
+	@ResponseBody
+	public String master_loginfail(HttpServletResponse response) {
+		log.info("master_loginfail()...");
+		
+		Map<String, String> map = new HashMap<String,String>();
+		
+		map.put("result", "0");
+		log.info("failed...");
+		
+		String json = gson.toJson(map);
+
+		return json;
+	}
+
+	
 	/**
 	 * 마스터 메인 페이지 (호스트 가입 신청 리스트)
 	 */
