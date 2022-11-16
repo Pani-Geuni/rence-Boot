@@ -1,0 +1,50 @@
+<!-- ------------ -->
+<!-- @author 전판근 -->
+<!-- ------------ -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>대시보드</title>
+
+  <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+
+<link rel="stylesheet" href="/static/CSS/common/common.css" />
+<link rel="stylesheet"
+	href="/static/CSS/common/custom-table.css" />
+
+
+<link rel="stylesheet" href="/static/CSS/dash-board/dash-commons.css" />
+<link rel="stylesheet" href="/static/CSS/dash-board/left-side-menu.css" />
+<link rel="stylesheet" href="/static/CSS/dash-board/dash-board.css" />
+<link rel="stylesheet" href="/static/CSS/dash-board/dash-space-list.css" />
+<link rel="stylesheet" href="/static/CSS/dash-board/dash-qna-list.css" />
+<link rel="stylesheet" href="/static/CSS/dash-board/dash-review-list.css" />
+<link rel="stylesheet" href="/static/CSS/dash-board/dash-reserve-list.css" />
+<link rel="stylesheet" href="/static/CSS/dash-board/dash-sales-list.css" />
+<link rel="stylesheet" href="/static/CSS/dash-board/dash-settings.css" />
+
+<script src="/static/JS/common/jquery-3.6.1.min.js"></script>
+<script src="/static/JS/common/jquery.cookie.js"></script>
+
+<script src="/static/JS/backoffice/dashboard.js"></script>
+<script src="/static/JS/backoffice/host_popup.js"></script>
+<script src="/static/JS/backoffice/reserve-list.js"></script>
+
+<script src="/static/JS/backoffice/number_comma.js"></script>
+
+<script type="text/javascript" src="/static/JS/common/core.min.js"></script>
+<script type="text/javascript" src="/static/JS/common/sha256.min.js"></script>
+
+</head>
+<body class="bodyWrap">
+  <div th:replace="thymeleaf/html/backoffice/common/sidebar"></div>
+  <section class="board-contentWrap">
+    <div th:replace="${content} :: dashboard_content"></div>
+  </section>
+</body>
+</html>
