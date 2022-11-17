@@ -44,7 +44,7 @@ public interface MypageRepository extends JpaRepository<UserMypageVO, Object>  {
 	
 	
 	//마이페이지
-	@Query(nativeQuery = true, value= "select * from (USER_MYPAGE_VIEW where user_no = ?1 order by mileage_no desc)WHERE ROWNUM between 1 and 1")
+	@Query(nativeQuery = true, value= "select * from (select * from USER_MYPAGE_VIEW where user_no = ?1 order by mileage_no desc)WHERE ROWNUM between 1 and 1")
 	public UserMypageVO user_mypage_select(String user_no);
 	
 	

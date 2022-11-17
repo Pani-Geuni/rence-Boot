@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.rence.user.model.UserAuthVO;
@@ -124,8 +125,12 @@ public class UserService implements UserDetailsService {
 	public int user_insertOK(UserVO uvo) {
 		log.info("user_insertOK()....");
 		log.info("uvo: {}", uvo);
+		//비밀번호 암호화
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		uvo.setUser_pw(encoder.encode(uvo.getPassword()));
 		return repository.user_insertOK(uvo.getUser_id(),uvo.getUser_pw(),uvo.getUser_name(),uvo.getUser_email(),uvo.getUser_tel(),uvo.getUser_birth());
 	}
+	
 	//회원가입-마일리지테이블에 초기마일리지 세팅을 위해 유저번호 추출
 	public UserVO user_select_userno() {
 		log.info("user_insertOK()....");
