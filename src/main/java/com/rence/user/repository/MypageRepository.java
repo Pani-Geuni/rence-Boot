@@ -5,7 +5,10 @@
 package com.rence.user.repository;
 
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.rence.user.model.UserMileageVO;
@@ -18,6 +21,8 @@ public interface MypageRepository extends JpaRepository<UserMypageVO, Object>  {
 	public UserMileageVO findByUser_no(String user_no);
 
 	//비밀번호 변경
+	@Transactional
+	@Modifying
 	@Query(nativeQuery = true, value= "update USER_MYPAGE_VIEW set user_pw= ?1 where user_no = ?2")
 	public int user_pw_updateOK(String user_pw, String user_no);
 
@@ -26,10 +31,14 @@ public interface MypageRepository extends JpaRepository<UserMypageVO, Object>  {
 	public int check_now_pw(String user_no, String user_pw);
 
 	//회원탈퇴에 따른 회원상태 수정
+	@Transactional
+	@Modifying
 	@Query(nativeQuery = true, value= "update USER_MYPAGE_VIEW set user_state='N' where user_no = ?1")
 	public int user_secedeOK(String user_no);
 
 	//프로필수정
+	@Transactional
+	@Modifying
 	@Query(nativeQuery = true, value= "update USER_MYPAGE_VIEW set user_image=?1 where user_no = ?2")
 	public int user_img_updateOK(String user_image, String user_no);
 	
