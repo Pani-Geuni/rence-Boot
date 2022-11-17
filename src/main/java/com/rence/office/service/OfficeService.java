@@ -25,7 +25,11 @@ import com.rence.office.model.QuestionVO2;
 //import com.rence.user.model.ReviewVO;
 import com.rence.office.repo.OfficeInfoRepository;
 import com.rence.office.repo.OfficeListRepository;
+import com.rence.user.model.ReviewVO;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class OfficeService {
 	
@@ -35,10 +39,10 @@ public class OfficeService {
 	
 	@Autowired
 	OfficeListRepository list_repository;
-//	
-//	public OfficeService() {
-//		logger.info("OfficeService()...");
-//	}
+	
+	public OfficeService() {
+		log.info("OfficeService()...");
+	}
 //	
 //	public OfficeInfoVO select_one_office_info(String backoffice_no) {
 //		OfficeInfoVO vo = repository.select_one_office_info(backoffice_no);
@@ -100,11 +104,11 @@ public class OfficeService {
 //		return result; 
 //	}
 //	
-////	public int insert_review(ReviewVO vo) {
-////		int result = repository.insert_review(vo);
-////		
-////		return result; 
-////	}
+	public int insert_review(ReviewVO vo) {
+		int result = repository.insert_review(vo);
+		
+		return result; 
+	}
 //	
 //	public int insert_question(QuestionVO2 vo) {
 //		int result = repository.insert_question(vo);
@@ -114,14 +118,34 @@ public class OfficeService {
 	
 	
 	public List<ListViewVO> select_all_list(String type, String condition){
-		List<ListViewVO> list = list_repository.select_all_list(condition, type);
+		List<ListViewVO> list = null;
+		
+		if(condition.equals("date")) {
+			list = list_repository.selectAll_orderBy_date("%"+type+"%");
+		}else if(condition.equals("rating")) {
+			list = list_repository.selectAll_orderBy_rating("%"+type+"%");
+		}else if(condition.equals("cheap")) {
+			list = list_repository.selectAll_orderBy_cheap("%"+type+"%");
+		}else if(condition.equals("expensive")) {
+			list = list_repository.selectAll_orderBy_expensive("%"+type+"%");
+		}
 		
 		return list;
 	}
 	
-//	public List<ListViewVO> search_list(String type, String location, String searchWord, String condition){
-//		List<ListViewVO> list = list_repository.search_list(type, location, searchWord, condition);
-//		
-//		return list;
-//	}
+	public List<ListViewVO> search_list(String type, String location, String searchWord, String condition){
+		List<ListViewVO> list = null;
+		
+		if(condition.equals("date")) {
+			list = list_repository.searchAll_orderBy_date("%"+type+"%", "%"+location+"%", "%"+searchWord+"%");
+		}else if(condition.equals("rating")) {
+			list = list_repository.searchAll_orderBy_rating("%"+type+"%", "%"+location+"%", "%"+searchWord+"%");
+		}else if(condition.equals("cheap")) {
+			list = list_repository.searchAll_orderBy_cheap("%"+type+"%", "%"+location+"%", "%"+searchWord+"%");
+		}else if(condition.equals("expensive")) {
+			list = list_repository.searchAll_orderBy_expensive("%"+type+"%", "%"+location+"%", "%"+searchWord+"%");
+		}
+		
+		return list;
+	}
 }

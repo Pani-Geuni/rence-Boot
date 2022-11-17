@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.data.annotation.Immutable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,6 +15,7 @@ import lombok.ToString;
 
 
 @Entity
+@Immutable
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,6 +27,9 @@ public class ListViewVO {
 	@Id	// PK 설정
 	@Column(name="backoffice_no")
 	String backoffice_no;
+	
+	@Column(name="backoffice_type")
+	String backoffice_type;
 	
 	@Column(name="company_name")
 	String company_name;
