@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @Entity
 @Table(name="RESERVEINFO")
 @Slf4j
-public class ReserveEntity {
+public class ReserveVO {
 
 
 	@Id
@@ -36,16 +36,16 @@ public class ReserveEntity {
 	private String reserve_no;
 	
 	@Column(name="reserve_stime", insertable= false, updatable = false)
-	private Date reserve_stime;
+	private String reserve_stime;
 	
 	@Column(name="reserve_etime", insertable= false, updatable = false)
-	private Date reserve_etime;
+	private String reserve_etime;
 	
 	@Column(name="reserve_sdate", insertable= false, updatable = false)
-	private Date reserve_sdate;
+	private String reserve_sdate;
 	
 	@Column(name="reserve_edate", insertable= false, updatable = false)
-	private Date reserve_edate;
+	private String reserve_edate;
 	
 	@Column(name="reserve_state")
 	private String reserve_state;
@@ -63,9 +63,6 @@ public class ReserveEntity {
 	private String room_type;
 	
 	@Transient
-	private String reserve_sdate_var;
-	@Transient
-	private String reserve_edate_var;
 	private String room_name;
 	@Transient
 	private String user_name;

@@ -5,20 +5,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rence.backoffice.model.BackOfficeVO;
+import com.rence.dashboard.model.CommentListQView;
+import com.rence.dashboard.model.CommentVO;
 import com.rence.dashboard.model.ReserveSummaryVO;
+import com.rence.dashboard.model.RoomInsertVO;
+import com.rence.dashboard.model.RoomVO;
 import com.rence.dashboard.service.DashboardService;
 
 import io.swagger.annotations.Api;
@@ -67,8 +71,9 @@ public class DashBoardController {
 	@ApiOperation(value="공간 리스트", notes="대쉬보드 공간 관리 페이지")
 	@GetMapping("/room")
 	public String dashboard_room_list(Model model, String backoffice_no) {
-//		List<RoomVO> rmvos = service.dashboard_room_list(backoffice_no);
-//		model.addAttribute("rm_vos", rmvos);
+		List<RoomVO> rmvos = service.dashboard_room_list(backoffice_no);
+		log.info("rmvos{}",rmvos);
+		model.addAttribute("rm_vos", rmvos);
 
 		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/room");
 		model.addAttribute("title", "공간 관리");
@@ -84,30 +89,32 @@ public class DashBoardController {
 	@ResponseBody
 	public String backoffice_insert_room(String backoffice_no) {
 		log.info("backoffice_insertOK_room ()...");
-		log.info("{}", backoffice_no);
+		log.info("backoffice_no : {}", backoffice_no);
 
 		Map<String, List<String>> map = new HashMap<String,List<String>>();
 		
-//		BackOfficeVO bvo = service.select_one_backoffice_info(backoffice_no);
-//		RoomVO rmvo = new RoomVO();
-//		
-//		String type = bvo.getBackoffice_type().replace("meeting_room", "meeting_04,meeting_06,meeting_10");
-//		rmvo.setRoom_type(type);
-//
-//		List<String> type_list = new ArrayList<String>();
-//		
-//		if (rmvo.getRoom_type() != null) {
-//			String[] type_split = rmvo.getRoom_type().split(",");
-//			
-//			for (int i=0; i < type_split.length; i++) {
-//				type_list.add(type_split[i]);
-//			}
-//			
-//		} else {
-//			type_list.add("타입 없음");
-//		}
-//
-//		map.put("room_type", type_list);
+		BackOfficeVO bvo = service.select_one_backoffice_info(backoffice_no);
+		log.info("bvo : {}", bvo);
+		
+		RoomVO rmvo = new RoomVO();
+		
+		String type = bvo.getBackoffice_type().replace("meeting_room", "meeting_04,meeting_06,meeting_10");
+		rmvo.setRoom_type(type);
+
+		List<String> type_list = new ArrayList<String>();
+		
+		if (rmvo.getRoom_type() != null) {
+			String[] type_split = rmvo.getRoom_type().split(",");
+			
+			for (int i=0; i < type_split.length; i++) {
+				type_list.add(type_split[i]);
+			}
+			
+		} else {
+			type_list.add("타입 없음");
+		}
+
+		map.put("room_type", type_list);
 		
 		String json = gson.toJson(map);
 
@@ -117,101 +124,106 @@ public class DashBoardController {
 	/**
 	 * 공간 추가
 	 */
-//	@ApiOperation(value="공간 추가 처리", notes="대쉬보드 공간 관리 페이지")
-//	@PostMapping("/insertOK_room")
-//	@ResponseBody
-//	public String backoffice_insertOK_room(RoomVO rvo,String backoffice_no) {
-//		log.info("backoffice_insertOK_room ()...");
-//		log.info("{}", backoffice_no);
-//
-//		Map<String, String> map = new HashMap<String,String>();
-//
-//		int result = service.backoffice_insertOK_room(backoffice_no, rvo);
-//
-//		if (result == 1) {
-//			log.info("successed...");
-//			map.put("result", "1");
-//		}
-//
-//		else {
-//			log.info("failed...");
-//			map.put("result", "0");
-//		}
-//		
-//		String json = gson.toJson(map);
-//
-//		return json;
-//	}
-//
+	@ApiOperation(value="공간 추가 처리", notes="대쉬보드 공간 관리 페이지")
+	@PostMapping("/insertOK_room")
+	@ResponseBody
+	
+	public String backoffice_insertOK_room(RoomInsertVO rvo,String backoffice_no) {
+		log.info("backoffice_insertOK_room ()...");
+		log.info("{}", backoffice_no);
+
+		Map<String, String> map = new HashMap<String,String>();
+
+		int result = service.backoffice_insertOK_room(backoffice_no, rvo);
+
+		if (result == 1) {
+			log.info("successed...");
+			map.put("result", "1");
+		}
+
+		else {
+			log.info("failed...");
+			map.put("result", "0");
+		}
+		
+		String json = gson.toJson(map);
+
+		return json;
+	}
+
 	/**
 	 * 공간 수정 팝업
 	 */
-//	@ApiOperation(value="공간 수정", notes="대쉬보드 공간 관리 페이지")
-//	@GetMapping("/update_room")
-//	@ResponseBody
-//	public String backoffice_update_room(String backoffice_no, String room_no) {
-//		log.info("backoffice_update_room ()...");
-//		log.info("{}", backoffice_no);
-//
-//		Map<String, Object> map1 = new HashMap<String,Object>();
-//		Map<String, List<String>> map2 = new HashMap<String,List<String>>();
-//		Map<Map<String, Object>, Map<String, List<String>>> map3 = new HashMap<Map<String,Object>, Map<String,List<String>>>();
-//		
-//		
-//		BackOfficeVO bvo = service.select_one_backoffice_info(backoffice_no);
-//		RoomVO rmvo = new RoomVO();
-//		
-//		String type = bvo.getBackoffice_type().replace("meeting_room", "meeting_04,meeting_06,meeting_10");
-//		rmvo.setRoom_type(type);
-//		
-//		List<String> type_list = new ArrayList<String>();
-//
-//		if (rmvo.getRoom_type() != null) {
-//			String[] type_split = rmvo.getRoom_type().split(",");
-//			
-//			for (int i=0; i < type_split.length; i++) {
-//				type_list.add(type_split[i]);
-//			}
-//			
-//		} else {
-//			type_list.add("타입 없음");
-//		}
-//		
-//		rmvo = service.select_one_room_info(backoffice_no, room_no);
-//		map1.put("rmvo", rmvo); 
-//
-//		map2.put("room_type", type_list);
-//		map3.put(map1, map2);
-//		String json = gson.toJson(map3);
-//
-//		return json;
-//	}
+	@ApiOperation(value="공간 수정 팝업", notes="대쉬보드 공간 관리 페이지")
+	@GetMapping("/update_room")
+	@ResponseBody
+	public String backoffice_update_room(String backoffice_no, String room_no) {
+		log.info("backoffice_update_room ()...");
+		log.info("{}", backoffice_no);
+
+		Map<String, Object> map1 = new HashMap<String,Object>();
+		Map<String, List<String>> map2 = new HashMap<String,List<String>>();
+		Map<Map<String, Object>, Map<String, List<String>>> map3 = new HashMap<Map<String,Object>, Map<String,List<String>>>();
+		
+		
+		BackOfficeVO bvo = service.select_one_backoffice_info(backoffice_no);
+		RoomVO rmvo = new RoomVO();
+		
+		String type = bvo.getBackoffice_type().replace("meeting_room", "meeting_04,meeting_06,meeting_10");
+		rmvo.setRoom_type(type);
+		
+		List<String> type_list = new ArrayList<String>();
+
+		if (rmvo.getRoom_type() != null) {
+			String[] type_split = rmvo.getRoom_type().split(",");
+			
+			for (int i=0; i < type_split.length; i++) {
+				type_list.add(type_split[i]);
+			}
+			
+		} else {
+			type_list.add("타입 없음");
+		}
+		
+		rmvo = service.select_one_room_info(backoffice_no, room_no);
+		log.info("rmvo : {}",rmvo);
+		map1.put("rmvo", rmvo); 
+
+		map2.put("room_type", type_list);
+		map3.put(map1, map2);
+		String json = gson.toJson(map3);
+
+		return json;
+	}
 	
-//	/**
-//	 * 공간 수정
-//	 */
-//	@RequestMapping(value = "/backoffice_updateOK_room ", method = RequestMethod.POST)
-//	@ResponseBody
-//	public JSONObject backoffice_updateOK_room(RoomVO rvo,String backoffice_no) {
-//		logger.info("backoffice_updateOK_room ()...");
-//		logger.info("{}", backoffice_no);
-//
-//		JSONObject jsonObject = new JSONObject();
-//
-//		int result = service.backoffice_updateOK_room(backoffice_no, rvo);
-//
-//		if (result == 1) {
-//			logger.info("successed...");
-//			jsonObject.put("result", "1");
-//		}
-//
-//		else {
-//			logger.info("failed...");
-//			jsonObject.put("result", "0");
-//		}
-//
-//		return jsonObject;
-//	}
+	/**
+	 * 공간 수정
+	 */
+	@ApiOperation(value="공간 수정 처리", notes="대쉬보드 공간 관리 페이지")
+	@PostMapping("/updateOK_room")
+	@ResponseBody
+	public String backoffice_updateOK_room(RoomInsertVO rvo,String backoffice_no) {
+		log.info("backoffice_updateOK_room ()...");
+		log.info("{}", backoffice_no);
+
+		Map<String, String> map = new HashMap<String,String>();
+
+		int result = service.backoffice_updateOK_room(backoffice_no, rvo);
+
+		if (result == 1) {
+			log.info("successed...");
+			map.put("result", "1");
+		}
+
+		else {
+			log.info("failed...");
+			map.put("result", "0");
+		}
+		
+		String json = gson.toJson(map);
+
+		return json;
+	}
 
 	/**
 	 * 공간 삭제
@@ -219,23 +231,30 @@ public class DashBoardController {
 	@ApiOperation(value="공간 삭제", notes="대쉬보드 공간 관리 페이지")
 	@PostMapping("/deleteOK_room")
 	@ResponseBody
+	@Transactional
 	public String backoffice_deleteOK_room(String backoffice_no, String room_no) {
 		log.info("backoffice_deleteOK_room ()...");
 		log.info("{}", backoffice_no);
 
 		Map<String, String> map = new HashMap<String, String>();
 
-//		int result = service.backoffice_deleteOK_room(backoffice_no, room_no);
-//
-//		if (result == 1) {
-//			log.info("successed...");
-//			map.put("result", "1");
-//		}
-//
-//		else {
-//			log.info("failed...");
-//			map.put("result", "0");  //남은 예약이 있을 시
-//		}
+		int result = 1;
+		try {
+			service.backoffice_deleteOK_room(backoffice_no, room_no);
+			
+		} catch (Exception e) {
+			result=0;
+		}
+
+		if (result == 1) {
+			log.info("successed...");
+			map.put("result", "1");
+		}
+
+		else {
+			log.info("failed...");
+			map.put("result", "0");  //남은 예약이 있을 시
+		}
 
 		String json = gson.toJson(map);
 		
@@ -243,16 +262,17 @@ public class DashBoardController {
 	}
 
 	/**
-	 * 문의(리스트)
+	 * 문의(리스트) --> 프론트 id 에러
 	 */
 	@ApiOperation(value="문의 리스트", notes="대쉬보드 공간 관리 페이지 - 문의")
 	@GetMapping("/qna")
 	public String dashboard_qna(Model model, String backoffice_no) {
 		log.info("backoffice_qna ()...");
 		log.info("{}", backoffice_no);
-//		List<CommentListVO> qvos = service.backoffice_qna_selectAll(backoffice_no);
-//		model.addAttribute("q_vos", qvos);
-//		model.addAttribute("cnt", qvos.size());
+		List<CommentListQView> qvos = service.backoffice_qna_selectAll(backoffice_no);
+		log.info("qvos : {}",qvos);
+		model.addAttribute("q_vos", qvos);
+		model.addAttribute("cnt", qvos.size());
 		
 		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/qna_list");
 		model.addAttribute("title", "공간 관리");
@@ -273,9 +293,9 @@ public class DashBoardController {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-//		CommentVO cvo2 = service.backoffice_insert_comment(backoffice_no,room_no,comment_no);
-//		
-//		map.put("cvo", cvo2);
+		CommentVO cvo2 = service.backoffice_insert_comment(backoffice_no,room_no,comment_no);
+		
+		map.put("cvo", cvo2);
 		
 		String json = gson.toJson(map);
 

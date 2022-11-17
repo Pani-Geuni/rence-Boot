@@ -61,6 +61,11 @@ public interface BackOfficeRepository extends JpaRepository<BackOfficeVO, Object
 
 	@Query(nativeQuery = true, value="SELECT * from backofficeinfo where backoffice_id=?1 and backoffice_state !='X'")
 	public BackOfficeVO backoffice_login_info(String username);
+
+	
+	//공간 관리(추가) - 백오피스 타입
+	@Query(nativeQuery = true, value="select * from backofficeinfo where backoffice_no=?1")
+	public BackOfficeVO select_one_backoffice_info(String backoffice_no);
 	
 	
 
