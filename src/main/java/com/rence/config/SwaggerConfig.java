@@ -31,7 +31,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
 	
 	@Bean
 	public Docket commonApi() {
-		return getDocket("공통", Predicates.or(PathSelectors.regex("/test.*")));
+		return getDocket("공통", Predicates.or(PathSelectors.regex("/common.*")));
 
 	}
 	

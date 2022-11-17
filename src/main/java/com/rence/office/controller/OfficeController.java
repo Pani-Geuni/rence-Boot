@@ -4,6 +4,7 @@
 
 package com.rence.office.controller;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.rence.backoffice.model.BackOfficeVO;
 import com.rence.backoffice.service.CustomDateFormatter;
 import com.rence.office.common.OfficeInfoMap;
@@ -40,6 +42,7 @@ import com.rence.office.model.PaymentInfoVO;
 import com.rence.office.model.QuestionVO2;
 import com.rence.office.service.OfficeService;
 //import com.rence.user.model.ReviewVO;
+import com.rence.user.model.ReviewVO;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -48,6 +51,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @Api(tags="오피스 컨트롤러")
+//@RequestMapping("/office")
 public class OfficeController {
 	
 	@Autowired
@@ -348,23 +352,26 @@ public class OfficeController {
 //		return jsonObject;
 //	}
 	
-//	@ApiOperation(value="후기 추가 컨트롤러", notes="후기 추가 로직 컨트롤러")
-//	@GetMapping(value = "/office/insert_review")
-//	@ResponseBody
-//	public JSONObject insert_review(ReviewVO vo, Model model) {
-//		JSONObject jsonObject = new JSONObject();
-//		
-//		int result = service.insert_review(vo);
-//		
-//		
-//		if (result == 1) {
-//			jsonObject.put("result", "1");			
-//		} else {
-//			jsonObject.put("result", "0");
-//		}
-//		
-//		return jsonObject;
-//	}
+	@ApiOperation(value="후기 추가 컨트롤러", notes="후기 추가 로직 컨트롤러")
+	@GetMapping(value = "/office/insert_review")
+	@ResponseBody
+	public String insert_review(ReviewVO vo, Model model) {
+		int result = service.insert_review(vo);
+		
+        Map<String, String> map = new HashMap<>();
+ 
+        // Map -> Json 문자열
+        Gson gson = new Gson();
+		if (result == 1) {
+			map.put("result", "1");
+		} else {
+			map.put("result", "0");
+		}
+		
+		String jsonStr = gson.toJson(map);
+		
+		return jsonStr;
+	}
 	
 //	@ApiOperation(value="문의 추가 컨트롤러", notes="문의 추가 로직 컨트롤러")
 //	@GetMapping(value = "/office/insert_question")
@@ -387,23 +394,37 @@ public class OfficeController {
 //	}
 	
 	// 리스트 페이지
+	@ApiOperation(value="리스트 페이지 로드 컨트롤러", notes="타입에 따른 리스트 페이지를 로드하는 컨트롤러")
 	@GetMapping(value = "/list_page")
 	public String list_page(String type, String condition, Model model) {
 		log.info("list_page()...");
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		List<ListViewVO> list = service.select_all_list("%"+type+"%", condition);
+		List<ListViewVO> list = service.select_all_list(type, condition);
 		
 		if(list == null) map.put("cnt", 0);
 		else map.put("cnt", list.size());
+		
+		if(list != null) {
+			for(ListViewVO vo : list) {
+				DecimalFormat dc = new DecimalFormat("###,###,###,###");	
+				String ch = dc.format(Integer.parseInt(vo.getMin_room_price()));
+				vo.setMin_room_price(ch);
+				vo.setAvg_rating(Double.toString((Math.round(Double.parseDouble(vo.getAvg_rating())*100)/100.0)));
+				
+				if(vo.getRoadname_address().contains(" ")) {
+					String road_name = vo.getRoadname_address().split(" ")[0] + " " + vo.getRoadname_address().split(" ")[1];
+					vo.setRoadname_address(road_name);
+				}
+			}
+		}
 		
 		map.put("condition", condition);
 		map.put("page", "list_page");
 		map.put("list", list);
 		model.addAttribute("res", map);
 		
-		log.info("list_page : {}", map);
 		
 		model.addAttribute("content", "thymeleaf/html/office/list");
 		

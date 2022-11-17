@@ -5,8 +5,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-<th:block th:if="${res.cnt} == 0">
-	<div class="list-page-wrap" th:fragment="content">
+
+	<div class="list-page-wrap" th:fragment="content_null">
 	    <section class="list-box-null-section">
 	        <div class="null-first-section">
 	            <span class="advice-txt">해당 검색어에 관한 공간이 없습니다.</span>
@@ -17,26 +17,24 @@
 	        </div>
 	    </section>
 	</div>
-</th>
-
-<!-- 리스트 NOT NULL일 때 -->
-<th:block th:if="${res.cnt != 0}" >
-	<section class="listPage-section" th:fragment="content">
+	
+	<!-- 리스트 NOT NULL일 때 -->
+	<section class="listPage-section" th:fragment="content_not_null">
 	    <div class="sort-wrap">
 	        <div class="sort">
 	            <span class="choice-sort-text">
 		            <th:block th:if="${res.condition} == 'date'">
 		            	최신순
-		            </th>
+		            </th:block>
 		            <th:block th:if="${res.condition} == 'rating'">
 		            	별점순
-		            </th>
+		            </th:block>
 		            <th:block th:if="${res.condition} == 'cheap'">
 		            	가격 낮은순
-		            </th>
+		            </th:block>
 		            <th:block th:if="${res.condition} == 'expensive'">
 		            	가격 높은순
-		            </th>
+		            </th:block>
 	            </span>
 	            <img src="static/IMG/list/dropdown.svg" alt="sort-dropdown-img" class="sort-dropdown-img" id="sort-dropdown-img"/>
 	        </div>
@@ -56,7 +54,8 @@
 					<!-- START LIST BOX -->
 			          <div class="list-box" th:attr="idx=${obj.backoffice_no}">
 			              <section>
-			                  <img src="${obj.backoffice_image}" alt="default-space-img" class="list-thumbnail" />
+			                  <!-- <img src="${obj.backoffice_image}" alt="default-space-img" class="list-thumbnail" /> -->
+			                  <img src="static/IMG/office/location-icon.svg" alt="default-space-img" class="list-thumbnail" />
 			              </section>
 			              <section class="list-box-info">
 			                  <ul>
@@ -82,10 +81,10 @@
 			              </section>
 			          </div>
 			          <!-- END LIST BOX -->
-		          </th:block th:if>
+		          </th:block>
 	        </div>
 	    </div>
 	</section>
-</th>
+
 </body>
 </html>

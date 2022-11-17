@@ -93,7 +93,17 @@
 		<div th:replace="thymeleaf/html/office/common/header :: header"></div>
 	
 		<section class ="contentWrap">
-			<div th:replace="${content} :: content"></div>
+			<th:block th:if="${res} != null and ${res.page} == 'list_page'">
+				<th:block th:if="${res.cnt} == 0">
+					<div th:replace="${content} :: content_null"></div>
+				</th:block>
+				<th:block th:if="${res.cnt} != 0">
+					<div th:replace="${content} :: content_not_null"></div>
+				</th:block>
+			</th:block>
+			<th:block th:if="${res} == null or ${res.page} != 'list_page'">
+				<div th:replace="${content} :: content"></div>
+			</th:block>
 			<div th:replace="thymeleaf/html/office/common/footer :: footer"></div>
 		</section>
 	</div>
