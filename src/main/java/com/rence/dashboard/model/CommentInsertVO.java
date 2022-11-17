@@ -1,6 +1,7 @@
 package com.rence.dashboard.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.ColumnDefault;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,10 +22,9 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-//@Table(name="RESERVEINFO")
 @Table(name="COMMENTS")
 @Slf4j
-public class CommentVO implements Serializable{
+public class CommentInsertVO implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "SEQ_COMMENTS")
@@ -42,8 +44,9 @@ public class CommentVO implements Serializable{
 	@Column(name="comment_content")
 	private String comment_content;
 	
-	@Column(name="comment_date")
-	private String comment_date;
+//	@ColumnDefault(value="sysdate")
+	@Column(name="comment_date", insertable= false, updatable = false, columnDefinition = "date default sysdate")
+	private Date comment_date;
 	
 	@Column(name="room_no")
 	private String room_no;

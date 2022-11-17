@@ -13,12 +13,14 @@ import org.springframework.stereotype.Service;
 
 import com.rence.backoffice.model.BackOfficeVO;
 import com.rence.backoffice.repository.BackOfficeRepository;
+import com.rence.dashboard.model.CommentInsertVO;
 import com.rence.dashboard.model.CommentListQView;
 import com.rence.dashboard.model.CommentVO;
 import com.rence.dashboard.model.DashBoardDAO;
 import com.rence.dashboard.model.ReserveSummaryVO;
 import com.rence.dashboard.model.RoomInsertVO;
 import com.rence.dashboard.model.RoomVO;
+import com.rence.dashboard.repository.CommentInsertRepository;
 import com.rence.dashboard.repository.CommentQListRepository;
 import com.rence.dashboard.repository.CommentRepository;
 import com.rence.dashboard.repository.ReserveRepository;
@@ -42,12 +44,15 @@ public class DashboardService {
 
 	@Autowired
 	BackOfficeRepository b_repository;
-	
-	@Autowired
-	CommentQListRepository cl_repository;
+//	
+//	@Autowired
+//	CommentQListRepository cl_repository;
 	
 	@Autowired
 	CommentRepository c_repository;
+	
+	@Autowired
+	CommentInsertRepository c_insert_repository;
 	
 	@Autowired
 	DashBoardDAO dao;
@@ -150,16 +155,41 @@ public class DashboardService {
 		rm_repository.backoffice_deleteOK_room(backoffice_no,room_no);
 	}
 
-	// 공간 - 문의
+	// 공간 - 문의 리스트
 	public List<CommentListQView> backoffice_qna_selectAll(String backoffice_no) {
 		log.info("backoffice_qna_selectAll().....");
 		return dao.backoffice_qna_selectAll(backoffice_no);
 	}
 
-	// 공간 - 문의(답변)
+	// 공간 - 문의(답변 팝업)
 	public CommentVO backoffice_insert_comment(String backoffice_no, String room_no, String comment_no) {
 		log.info("backoffice_insert_comment().....");
 		return c_repository.backoffice_insert_comment(backoffice_no,room_no,comment_no);
+	}
+
+	// 공간 - 문의(답변 작성)
+	public int backoffice_insertOK_comment(CommentInsertVO cvo) {
+		log.info("backoffice_insertOK_comment().....");
+		return c_insert_repository.backoffice_insertOK_comment(cvo, cvo.getComment_date());
+//		return c_insert_repository.save(cvo);
+	}
+
+	// 공간 문의(문의 상태 'T'변경)
+	public void update_comment_state_T(String backoffice_no,String comment_no) {
+		log.info("update_comment_state_T().....");
+		c_insert_repository.update_comment_state_T(backoffice_no,comment_no);
+	}
+
+	// 공간 - 문의(답변 삭제)
+	public int backoffice_deleteOK_comment(String backoffice_no, String comment_no) {
+		log.info("backoffice_deleteOK_comment().....");
+		return c_insert_repository.backoffice_deleteOK_comment(backoffice_no,comment_no);
+	}
+
+	// 공간 문의(문의 상태 'F'변경)
+	public void update_comment_state_F(String backoffice_no, String mother_no) {
+		log.info("update_comment_state_F().....");
+		c_insert_repository.update_comment_state_F(backoffice_no,mother_no);
 	}
 
 	

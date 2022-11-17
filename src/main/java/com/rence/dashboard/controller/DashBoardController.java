@@ -1,6 +1,7 @@
 package com.rence.dashboard.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rence.backoffice.model.BackOfficeVO;
+import com.rence.dashboard.model.CommentInsertVO;
 import com.rence.dashboard.model.CommentListQView;
 import com.rence.dashboard.model.CommentVO;
 import com.rence.dashboard.model.ReserveSummaryVO;
@@ -303,35 +305,42 @@ public class DashBoardController {
 	}
 
 	/**
-	 * 답변 작성
+	 * 답변 작성  -> backoffice_no 받아오는지 확인 해야함
 	 */
-//	@ApiOperation(value="답변 작성 처리", notes="대쉬보드 공간 관리 페이지 - 문의(답변)")
-//	@PostMapping("/insertOK_comment")
-//	@ResponseBody
-//	public String backoffice_insertOK_comment(String backoffice_no, CommentVO cvo, String comment_no) {
-//		log.info("backoffice_insertOK_comment ()...");
-//		log.info("{}", backoffice_no);
-//
-//		Map<String, String> map = new HashMap<String, String>();
-//		
-//		cvo.setMother_no(comment_no);
-//
-//		int result = service.backoffice_insertOK_comment(backoffice_no, cvo);
-//
-//		if (result == 1) {
-//			log.info("successed...");
-//			map.put("result", "1");
-//		}
-//
-//		else {
-//			log.info("failed...");
-//			map.put("result", "0");
-//		}
-//		
-//		String json = gson.toJson(map);
-//
-//		return json;
-//	}
+	@ApiOperation(value="답변 작성 처리", notes="대쉬보드 공간 관리 페이지 - 문의(답변)")
+	@PostMapping("/insertOK_comment")
+	@ResponseBody
+	public String backoffice_insertOK_comment(String backoffice_no, CommentInsertVO cvo, String comment_no) {
+		log.info("backoffice_insertOK_comment ()...");
+		log.info("{}", backoffice_no);
+
+		Map<String, String> map = new HashMap<String, String>();
+		
+		cvo.setMother_no(comment_no);
+		cvo.setBackoffice_no(backoffice_no);
+		cvo.setHost_no(backoffice_no);
+		cvo.setWriter("관리자");
+		cvo.setComment_state("T");
+		cvo.setComment_date(new Date());
+
+		int result = service.backoffice_insertOK_comment(cvo);
+
+		if (result == 1) {
+			// 부모 no state T 변경
+			service.update_comment_state_T(backoffice_no,comment_no);
+			log.info("successed...");
+			map.put("result", "1");
+		}
+
+		else {
+			log.info("failed...");
+			map.put("result", "0");
+		}
+		
+		String json = gson.toJson(map);
+
+		return json;
+	}
 	
 	/**
 	 * 답변 삭제
@@ -346,17 +355,19 @@ public class DashBoardController {
 		
 		Map<String, String> map = new HashMap<String, String>();
 		
-//		int result = service.backoffice_deleteOK_comment(backoffice_no, comment_no, mother_no);
-//		
-//		if (result == 1) {
-//			log.info("successed...");
-//			map.put("result", "1");
-//		}
-//		
-//		else {
-//			log.info("failed...");
-//			map.put("result", "0");
-//		}
+		int result = service.backoffice_deleteOK_comment(backoffice_no, comment_no);
+		
+		if (result == 1) {
+		 //부모 no state F 변경
+			service.update_comment_state_F(backoffice_no,mother_no);
+			log.info("successed...");
+			map.put("result", "1");
+		}
+		
+		else {
+			log.info("failed...");
+			map.put("result", "0");
+		}
 		
 		String json = gson.toJson(map);
 		
