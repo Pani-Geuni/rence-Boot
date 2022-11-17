@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -24,6 +25,7 @@ import com.rence.dashboard.model.CommentInsertVO;
 import com.rence.dashboard.model.CommentListQView;
 import com.rence.dashboard.model.CommentVO;
 import com.rence.dashboard.model.ReserveSummaryVO;
+import com.rence.dashboard.model.ReserveVO;
 import com.rence.dashboard.model.ReviewListVO;
 import com.rence.dashboard.model.RoomInsertVO;
 import com.rence.dashboard.model.RoomVO;
@@ -377,7 +379,7 @@ public class DashBoardController {
 	}
 
 	/**
-	 * 리뷰 (리스트)
+	 * 리뷰 (리스트) -----에러 엔티티
 	 */
 	@ApiOperation(value="리뷰 리스트", notes="대쉬보드 공간 관리 페이지 - 리뷰")
 	@GetMapping("/review")
@@ -396,16 +398,16 @@ public class DashBoardController {
 	}
 
 	/**
-	 * 예약 관리(리스트)
+	 * 예약 관리(리스트) ------에러
 	 */
 	@ApiOperation(value="예약 리스트", notes="대쉬보드 예약 관리 페이지 - 리스트")
 	@GetMapping("/reserve")
-	public String dashboard_reserve(Model model, String backoffice_no, String reserve_state) {
+	public String dashboard_reserve(Model model, String backoffice_no, String reserve_state, @RequestParam(value = "page", defaultValue = "1") Integer page) {
 		log.info("backoffice_reserve ()...");
 		log.info("{}", backoffice_no);
-//		List<ReserveVO> rvos = service.backoffice_reserve_selectAll(backoffice_no, reserve_state);
-//		model.addAttribute("r_vos", rvos);
-//		model.addAttribute("cnt", rvos.size());
+		List<ReserveVO> rvos = service.backoffice_reserve_selectAll(backoffice_no, reserve_state, page);
+		model.addAttribute("r_vos", rvos);
+		model.addAttribute("cnt", rvos.size());
 		model.addAttribute("reserve_state", reserve_state);
 		
 		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/reserve_list");
@@ -479,17 +481,17 @@ public class DashBoardController {
 
 		Map<String, String> map = new HashMap<String, String>();
 
-//		int result = service.backoffice_updateOK_sales(backoffice_no, room_no, payment_no);
-//		log.info( "integerereretrer", Integer.toString(result));
-//		if (result == 1) {
-//			log.info("successed...");
-//			map.put("result", "1");
-//		}
-//
-//		else {
-//			log.info("failed...");
-//			map.put("result", "0");
-//		}
+		int result = service.backoffice_updateOK_sales(backoffice_no, room_no, payment_no);
+		log.info( "integerereretrer", Integer.toString(result));
+		if (result == 1) {
+			log.info("successed...");
+			map.put("result", "1");
+		}
+
+		else {
+			log.info("failed...");
+			map.put("result", "0");
+		}
 		
 		String json = gson.toJson(map);
 
@@ -503,19 +505,19 @@ public class DashBoardController {
 	@GetMapping("/settings")
 	public String backoffice_settings(BackOfficeVO bvo, Model model) {
 		log.info("backoffice_settings()...");
-//		BackOfficeVO bvo2 = service.backoffice_setting_selectOne(bvo);
-//		log.info("result: {}.", bvo2);
-//
-//		model.addAttribute("vo", bvo2);
+		BackOfficeVO bvo2 = service.backoffice_setting_selectOne(bvo);
+		log.info("result: {}.", bvo2);
+
+		model.addAttribute("vo", bvo2);
 
 		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/settings");
-		model.addAttribute("title", "정산 관리");
+		model.addAttribute("title", "환경설정");
 
 		return "thymeleaf/layouts/backoffice/layout_dashboard";
 	}
 
 	/**
-	 * 환경설정에서 비밀번호 수정 --> jsonObject 
+	 * 환경설정에서 비밀번호 수정 --> 에러 - 암호화 결과값 다름 
 	 */
 	@ApiOperation(value="비밀번호 변경", notes="대쉬보드 환경설정 페이지 - 비밀번호 변경")
 	@GetMapping("/update_pw")
@@ -524,20 +526,26 @@ public class DashBoardController {
 		log.info("backoffice_update_pw ()...");
 		log.info("{}", bvo);
 		
+		bvo.setBackoffice_pw(new BCryptPasswordEncoder().encode(bvo.getBackoffice_pw()));
+		log.info("{}", bvo);
+		
+		
 		Map<String, String> map = new HashMap<String, String>();
 
 		// 비밀번호 일치 여부 확인
-//		BackOfficeVO bvo2 = service.backoffice_select_pw(bvo);
-//
-//		if (bvo2 != null) {
-//			log.info("successed...");
-//			map.put("result", "1");
-//		}
-//
-//		else {
-//			log.info("failed...");
-//			map.put("result", "0");
-//		}
+		BackOfficeVO bvo2 = service.backoffice_select_pw(bvo);
+		log.info("bvo2:::{}", bvo2);
+		
+		
+		if (bvo2 != null) {
+			log.info("successed...");
+			map.put("result", "1");
+		}
+
+		else {
+			log.info("failed...");
+			map.put("result", "0");
+		}
 		
 		String json = gson.toJson(map);
 
@@ -556,17 +564,17 @@ public class DashBoardController {
 
 		Map<String, String> map = new HashMap<String, String>();
 
-//		int result = service.backoffice_setting_delete(bvo);
-//
-//		if (result == 1) {
-//			log.info("successed...");
-//			map.put("result", "1");
-//		}
-//
-//		else {
-//			log.info("failed...");
-//			map.put("result", "0"); // 남은 예약이 있을 시
-//		}
+		int result = service.backoffice_setting_delete(bvo);
+
+		if (result == 1) {
+			log.info("successed...");
+			map.put("result", "1");
+		}
+
+		else {
+			log.info("failed...");
+			map.put("result", "0"); // 남은 예약이 있을 시
+		}
 		
 		String json = gson.toJson(map);
 

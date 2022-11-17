@@ -19,6 +19,7 @@ import com.rence.dashboard.model.CommentListQView;
 import com.rence.dashboard.model.CommentVO;
 import com.rence.dashboard.model.DashBoardDAO;
 import com.rence.dashboard.model.ReserveSummaryVO;
+import com.rence.dashboard.model.ReserveVO;
 import com.rence.dashboard.model.ReviewListVO;
 import com.rence.dashboard.model.RoomInsertVO;
 import com.rence.dashboard.model.RoomVO;
@@ -209,11 +210,49 @@ public class DashboardService {
 		log.info("backoffice_review_selectAll().....");
 		log.info("currentpage:{}", currentPage);
 
-		Integer row_count = 15;
+		Integer row_count = 10;
 		Integer start_row = (currentPage - 1) * row_count + 1;
 		Integer end_row = currentPage * row_count;
 		
 		return r_repository.backoffice_review_selectAll(backoffice_no,start_row, end_row);
+	}
+
+	// 예약 리스트
+	public List<ReserveVO> backoffice_reserve_selectAll(String backoffice_no, String reserve_state, Integer currentPage) {
+		log.info("backoffice_reserve_selectAll().....");
+		log.info("currentpage:{}", currentPage);
+
+		Integer row_count = 10;
+		Integer start_row = (currentPage - 1) * row_count + 1;
+		Integer end_row = currentPage * row_count;
+		
+		return dao.backoffice_reserve_selectAll(backoffice_no,reserve_state,start_row, end_row);
+	}
+
+	// 환경 설정 
+	public BackOfficeVO backoffice_setting_selectOne(BackOfficeVO bvo) {
+		log.info("backoffice_setting_selectOne().....");
+		return b_repository.backoffice_setting_selectOne(bvo.getBackoffice_no());
+	}
+
+	// 환경 설정 - 비밀번호 일치
+	public BackOfficeVO backoffice_select_pw(BackOfficeVO bvo) {
+		log.info("backoffice_select_pw().....");
+		log.info("{}.....",bvo);
+		
+		return b_repository.backoffice_select_pw(bvo.getBackoffice_no(),bvo.getBackoffice_pw());
+	}
+
+	// 업체 탈퇴 요청
+	public int backoffice_setting_delete(BackOfficeVO bvo) {
+		log.info("backoffice_setting_delete().....");
+		return b_repository.update_backoffice_state_o(bvo.getBackoffice_no());
+	}
+
+	//정산 상태 변경
+	public int backoffice_updateOK_sales(String backoffice_no, String room_no, String payment_no) {
+		log.info("backoffice_updateOK_sales().....");
+		return b_repository.backoffice_updateOK_sales_state_t(backoffice_no,room_no,payment_no);
 	}
 
 	

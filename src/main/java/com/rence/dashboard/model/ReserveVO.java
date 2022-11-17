@@ -35,11 +35,11 @@ public class ReserveVO {
 	@Column(name="reserve_no")
 	private String reserve_no;
 	
-	@Column(name="reserve_stime", insertable= false, updatable = false)
-	private String reserve_stime;
-	
-	@Column(name="reserve_etime", insertable= false, updatable = false)
-	private String reserve_etime;
+//	@Column(name="reserve_stime", insertable= false, updatable = false)
+//	private String reserve_stime;
+//	
+//	@Column(name="reserve_etime", insertable= false, updatable = false)
+//	private String reserve_etime;
 	
 	@Column(name="reserve_sdate", insertable= false, updatable = false)
 	private String reserve_sdate;
@@ -67,7 +67,13 @@ public class ReserveVO {
 	@Transient
 	private String user_name;
 	@Transient
-	private int actual_payment;
+	private String user_email;
+	@Transient
+	private String user_tel;
+	@Transient
+	private String actual_payment;
+	@Transient
+	private String payment_state;
 //	@Transient
 //	private String reserve_state;
 }
