@@ -23,15 +23,17 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 	CommentAListRepository ca_repository;
 
 	@Override
-	public List<CommentListQView> backoffice_qna_selectAll(String backoffice_no) {
+	public List<CommentListQView> backoffice_qna_selectAll(String backoffice_no, Integer start_row, Integer end_row) {
 
-		List<CommentListQView> qvos = cq_repository.select_all_q(backoffice_no);
+		List<CommentListQView> qvos = cq_repository.select_all_q(backoffice_no, start_row, end_row);
 		log.info("Question:{}",qvos);
+		log.info("Question::::{}",qvos.size());
 		if (qvos!=null) {
 			for (int i = 0; i < qvos.size(); i++) {
 				CommentListAView ca_vo = new CommentListAView();
 				ca_vo.setMother_no(qvos.get(i).getComment_no());
 				String mother_no = ca_vo.getMother_no();
+				log.info("mother_no::::{}",mother_no);
 				List<CommentListAView> avos = ca_repository.select_all_a(backoffice_no,mother_no);
 				log.info("Answer:{}",avos);
 				

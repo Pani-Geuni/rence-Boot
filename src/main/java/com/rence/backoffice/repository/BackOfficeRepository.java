@@ -41,6 +41,7 @@ public interface BackOfficeRepository extends JpaRepository<BackOfficeVO, Object
 	public BackOfficeVO findByBackoffice_email(String backoffice_id); 
 
 
+	// 마스터
 	@Query(nativeQuery = true, value="select * from (select rownum as rnum, backoffice_no,TO_CHAR(apply_date, 'YYYY-MM-DD HH24:MI:SS') as apply_date,company_name,owner_name,backoffice_id,backoffice_name,backoffice_tel,backoffice_email from backofficeinfo where backoffice_state='W' order by apply_date desc) where rnum between ?1 and ?2")
 	public List<BackOfficeVO> selectAll_backoffice_apply(Integer start_row, Integer end_row);
 
@@ -63,7 +64,7 @@ public interface BackOfficeRepository extends JpaRepository<BackOfficeVO, Object
 	public BackOfficeVO backoffice_login_info(String username);
 
 	
-	//공간 관리(추가) - 백오피스 타입
+	// 대시보드 / 공간 관리(추가) - 백오피스 타입
 	@Query(nativeQuery = true, value="select * from backofficeinfo where backoffice_no=?1")
 	public BackOfficeVO select_one_backoffice_info(String backoffice_no);
 	

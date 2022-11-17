@@ -10,6 +10,7 @@ import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.rence.backoffice.model.BackOfficeVO;
 import com.rence.backoffice.repository.BackOfficeRepository;
@@ -161,9 +162,15 @@ public class DashboardService {
 	}
 
 	// 공간 - 문의 리스트
-	public List<CommentListQView> backoffice_qna_selectAll(String backoffice_no) {
+	public List<CommentListQView> backoffice_qna_selectAll(String backoffice_no, Integer currentPage) {
 		log.info("backoffice_qna_selectAll().....");
-		return dao.backoffice_qna_selectAll(backoffice_no);
+		log.info("currentpage:{}", currentPage);
+
+		Integer row_count = 15;
+		Integer start_row = (currentPage - 1) * row_count + 1;
+		Integer end_row = currentPage * row_count;
+		
+		return dao.backoffice_qna_selectAll(backoffice_no,start_row, end_row);
 	}
 
 	// 공간 - 문의(답변 팝업)
@@ -198,9 +205,15 @@ public class DashboardService {
 	}
 
 	// 공간 후기
-	public List<ReviewListVO> backoffice_review_selectAll(String backoffice_no) {
+	public List<ReviewListVO> backoffice_review_selectAll(String backoffice_no, Integer currentPage) {
 		log.info("backoffice_review_selectAll().....");
-		return r_repository.backoffice_review_selectAll(backoffice_no);
+		log.info("currentpage:{}", currentPage);
+
+		Integer row_count = 15;
+		Integer start_row = (currentPage - 1) * row_count + 1;
+		Integer end_row = currentPage * row_count;
+		
+		return r_repository.backoffice_review_selectAll(backoffice_no,start_row, end_row);
 	}
 
 	

@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
@@ -269,10 +270,10 @@ public class DashBoardController {
 	 */
 	@ApiOperation(value="문의 리스트", notes="대쉬보드 공간 관리 페이지 - 문의")
 	@GetMapping("/qna")
-	public String dashboard_qna(Model model, String backoffice_no) {
+	public String dashboard_qna(Model model, String backoffice_no, @RequestParam(value = "page", defaultValue = "1") Integer page) {
 		log.info("backoffice_qna ()...");
 		log.info("{}", backoffice_no);
-		List<CommentListQView> qvos = service.backoffice_qna_selectAll(backoffice_no);
+		List<CommentListQView> qvos = service.backoffice_qna_selectAll(backoffice_no,page);
 		log.info("qvos : {}",qvos);
 		model.addAttribute("q_vos", qvos);
 		model.addAttribute("cnt", qvos.size());
@@ -380,10 +381,10 @@ public class DashBoardController {
 	 */
 	@ApiOperation(value="리뷰 리스트", notes="대쉬보드 공간 관리 페이지 - 리뷰")
 	@GetMapping("/review")
-	public String dashboard_review(Model model, String backoffice_no) {
+	public String dashboard_review(Model model, String backoffice_no, @RequestParam(value = "page", defaultValue = "1") Integer page) {
 		log.info("backoffice_review ()...");
 		log.info("{}", backoffice_no);
-		List<ReviewListVO> rvvos = service.backoffice_review_selectAll(backoffice_no);
+		List<ReviewListVO> rvvos = service.backoffice_review_selectAll(backoffice_no,page);
 		log.info("rvvos : {}", rvvos);
 		model.addAttribute("rv_vos", rvvos);
 		model.addAttribute("cnt", rvvos.size());

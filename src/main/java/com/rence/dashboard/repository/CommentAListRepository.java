@@ -15,6 +15,7 @@ public interface CommentAListRepository extends JpaRepository<CommentListAView, 
 //	public List<CommentListQView> backoffice_qna_selectAll(String backoffice_no);
 
 	// 공간 답변
+	//	@Query(nativeQuery = true, value = "select * from (select rownum as rnum, comment_date, comment_no, backoffice_no, comment_content, mother_no FROM COMMENTLIST_A_VIEW WHERE BACKOFFICE_NO=?1 AND MOTHER_NO=?2) where rnum between ?3 and ?4")
 	@Query(nativeQuery = true, value = "SELECT * FROM COMMENTLIST_A_VIEW WHERE BACKOFFICE_NO=?1 AND MOTHER_NO=?2")
 	public List<CommentListAView> select_all_a(String backoffice_no, String mother_no);
 

@@ -22,10 +22,10 @@ import lombok.NoArgsConstructor;
 @Table(name="COMMENTLIST_A_VIEW")
 public class CommentListAView {
 
-	@Id
 	@Column(name="comment_date")
 	private String comment_date;
 	
+	@Id
 	@Column(name="comment_no")
 	private String comment_no;
 	
