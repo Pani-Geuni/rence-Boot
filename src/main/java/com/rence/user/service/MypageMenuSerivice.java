@@ -1,22 +1,14 @@
-
 /**
-	 * @author 강경석
-	 
+ * @author 김예은
 */
 package com.rence.user.service;
-
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rence.office.model.ReserveInfo_ViewVO;
-import com.rence.user.model.UserMileageVO;
-import com.rence.user.model.UserMypageVO;
 import com.rence.user.model.UserVO;
-import com.rence.user.repository.MileageRepository;
 import com.rence.user.repository.MypageMenuRepository;
-import com.rence.user.repository.MypageRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,6 +40,27 @@ public class MypageMenuSerivice {
 		UserVO vo = menuRepository.select_one_user_info(user_no);
 		
 		return vo;
+	}
+	
+	/** ******************* **/
+	/** 후기 내역 페이지 SECTION **/
+	/** ******************* **/
+	
+	public int delete_review(String review_no) {
+		int result = menuRepository.delete_review(review_no);
+		
+		return result;
+	}
+	
+	
+	/** ******************* **/
+	/** 문의 내역 페이지 SECTION **/
+	/** ******************* **/
+	
+	public int delete_comment(String comment_no) {
+		int result = menuRepository.delete_comment(comment_no);
+		
+		return result;
 	}
 
 }//end class

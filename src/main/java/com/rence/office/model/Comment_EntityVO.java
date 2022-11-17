@@ -1,7 +1,6 @@
 /**
- * @author 전판근
- */
-
+ * @author 김예은
+*/
 package com.rence.office.model;
 
 import java.sql.Date;
