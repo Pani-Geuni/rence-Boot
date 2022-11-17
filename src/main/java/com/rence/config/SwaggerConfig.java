@@ -34,7 +34,6 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
 		return getDocket("공통", Predicates.or(PathSelectors.regex("/common.*")));
 
 	}
-	
 	@Bean
 	public Docket userApi() {
 		return getDocket("유저", Predicates.or(PathSelectors.regex("/user.*")));

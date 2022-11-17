@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.rence.user.model.UserMileageVO;
 import com.rence.user.model.UserMypageVO;
 import com.rence.user.model.UserVO;
@@ -54,6 +55,10 @@ public class MypageController {
 
 	@Autowired
 	HttpSession session;
+	
+	
+	//자동 개행 및 줄 바꿈 (new Gson은 일자로 나옴)
+	Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	
 	
 		// 마이페이지 이동
@@ -230,7 +235,7 @@ public class MypageController {
 		log.info("result: {}", uvo);
 		
 		
-		Gson gson = new Gson();
+		
 		Map<String, String> map = new HashMap<String, String>();
 
 		int result = service.user_pw_updateOK(uvo);
@@ -263,7 +268,7 @@ public class MypageController {
 		log.info("check_now_pw()...");
 		log.info("request: {}", uvo);
 		
-		Gson gson = new Gson();
+		
 		Map<String, String> map = new HashMap<String, String>();
 
 		int result = service.check_now_pw(uvo);
@@ -330,7 +335,7 @@ public class MypageController {
 		log.info("result: {}", uvo);
 
 		
-		Gson gson = new Gson();
+		
 		Map<String, String> map = new HashMap<String, String>();
 	
 

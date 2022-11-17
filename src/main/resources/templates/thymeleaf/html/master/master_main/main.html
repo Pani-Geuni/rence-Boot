@@ -24,7 +24,8 @@
         <!-- END ct-header -->
   
         <div class="ct-body">
-            <div class="ct-body-row" th:each="vo : ${ vos }">
+          <th:block th:each="vo : ${ vos }">
+            <div class="ct-body-row">
               <div id="backoffice_no" class="ct-body-cell blind">[[ ${ vo.backoffice_no } ]]</div>
               <div id="apply_date" class="ct-body-cell">[[ ${ vo.apply_date } ]]</div>
               <div id="backoffice_name" class="ct-body-cell">[[ ${ vo.backoffice_name } ]]</div>
@@ -42,6 +43,7 @@
               </div>
             </div>
             <!-- END ct-body-row -->
+          </th:block>
         </div>
         <!-- END ct-body -->
       </div>

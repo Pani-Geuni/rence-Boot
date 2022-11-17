@@ -1,9 +1,9 @@
 /**
- * 
- * @author 최진실
- *
+ * @author 강경석
+ * 인증관련 vo
  */
-package com.rence.backoffice.model;
+
+package com.rence.user.model;
 
 import java.util.Date;
 
@@ -16,34 +16,31 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.ColumnDefault;
-import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 @Table(name="AUTH")
-public class AuthVO {
-
+public class UserAuthVO {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seq_auth")
 	@SequenceGenerator(sequenceName = "seq_auth",allocationSize = 1,name = "seq_auth")
-	@Column(name="auth_no")
+	@Column(name="AUTH_NO")
 	private String auth_no;
 	
-	@Column(name="user_email")
+	@Column(name="USER_EMAIL")
 	private String user_email;
 	
-	@Column(name="auth_code")
+	@Column(name="AUTH_CODE")
 	private String auth_code;
 	
-	@Column(name="auth_stime", insertable= false, updatable = false)
+	@Column(name="AUTH_STIME", insertable= false, updatable = false)
 	@ColumnDefault(value="sysdate")
 	private Date auth_stime;
-
-	
 }

@@ -31,14 +31,21 @@ $(function () {
       $("#login-pw").addClass("null-input-border");
     }
 
+    // csrf token
+    const token = $("meta[name='_csrf']").attr("content");
+    const header = $("meta[name='_csrf_header']").attr("content");
+
     if($("#login-id").val().trim().length > 0 && $("#login-pw").val().trim().length > 0){
       $.ajax({
         url : "/backoffice/loginOK",
         type : "POST",
         dataType : 'json',
         data : {
-          backoffice_id : $("#login-id").val().trim(),
-          backoffice_pw : CryptoJS.SHA256($("#login-pw").val().trim()).toString()
+          username : $("#login-id").val().trim(),
+          password : $("#login-pw").val().trim()
+        },
+        beforeSend : function(xhr) {
+          xhr.setRequestHeader(header, token);
         },
         success : function(res) {
           // 로그인 성공

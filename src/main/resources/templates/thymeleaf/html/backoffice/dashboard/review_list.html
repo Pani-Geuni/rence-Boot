@@ -1,13 +1,10 @@
 <!-- ------------ -->
 <!-- @author 전판근 -->
 <!-- ------------ -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="java.util.*"%>
-<c:set var="path" value="${pageContext.request.contextPath}" />
+<div th:fragment="dashboard_content">
 
 
 <div class="titleSection">
@@ -24,38 +21,38 @@
 
 <div class="boardWrap review">
 	<div class="review-list">
-		<c:forEach var="vos" items="${rv_vos}">
+    <th:block th:each="vos : ${rv_vos}">
 			<div class="review-item">
 				<div>
-					<img class="profile-image" src="${path}/resources/upload/${vos.user_image}" alt="profile image" />
+					<img class="profile-image" th:src="/static/upload/${vos.user_image}" alt="profile image" />
 				</div>
 				<!-- END profile Image -->
 				<div class="review-main">
 					<div class="review-header">
-						<p id="user-name" class="user-name">${vos.user_name}</p>
-						<span id="review-point" class="review-point">${vos.review_point}</span>
+						<p id="user-name" class="user-name">[[ ${vos.user_name} ]]</p>
+						<span id="review-point" class="review-point">[[ ${vos.review_point} ]]</span>
 					</div>
 					<!-- END review-header -->
 					<div class="review-content">
-						<pre>${vos.review_content}</pre>
+						<pre>[[ ${vos.review_content} ]]</pre>
 					</div>
 					<!-- END review-content -->
-					<span id="review-date" class="review-date">${vos.review_date}</span>
+					<span id="review-date" class="review-date">[[ ${vos.review_date} ]]</span>
 				</div>
 				<!-- END review-main -->
 			</div>
 			<!-- END review-item -->
-		</c:forEach>
+    </th:block>
 
 <!-- 		<ul class="pagination blind"> -->
 <!-- 			<li class="page-item"> -->
 <!-- 				<button> -->
-<%-- 					<img src="${path}/resources/IMG/dash-board/ico-double-left.svg" alt="-10" /> --%>
+              <!-- <img src="${path}/resources/IMG/dash-board/ico-double-left.svg" alt="-10" />  -->
 <!-- 				</button> -->
 <!-- 			</li> -->
 <!-- 			<li class="page-item"> -->
 <!-- 				<button> -->
-<%-- 					<img src="${path}/resources/IMG/dash-board/ico-left.svg" alt="-1" /> --%>
+            <!-- <img src="${path}/resources/IMG/dash-board/ico-left.svg" alt="-1" />  -->
 <!-- 				</button> -->
 <!-- 			</li> -->
 <!-- 			<li class="page-item"><button>1</button></li> -->
@@ -65,16 +62,18 @@
 <!-- 			<li class="page-item"><button>5</button></li> -->
 <!-- 			<li class="page-item"> -->
 <!-- 				<button> -->
-<%-- 					<img src="${path}/resources/IMG/dash-board/ico-right.svg" alt="+1" /> --%>
+ 					<!-- <img src="${path}/resources/IMG/dash-board/ico-right.svg" alt="+1" />  -->
 <!-- 				</button> -->
 <!-- 			</li> -->
 <!-- 			<li class="page-item"> -->
 <!-- 				<button> -->
-<%-- 					<img src="${path}/resources/IMG/dash-board/ico-double-right.svg" alt="+10" /> --%>
+ 					<!-- <img src="${path}/resources/IMG/dash-board/ico-double-right.svg" alt="+10" />  -->
 <!-- 				</button> -->
 <!-- 			</li> -->
 <!-- 		</ul> -->
 		<!-- END pagination -->
 	</div>
 	<!-- END review-list -->
+</div>
+
 </div>

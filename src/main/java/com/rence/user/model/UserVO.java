@@ -6,6 +6,11 @@
 
 package com.rence.user.model;
 
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,18 +19,24 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="userinfo")
-public class UserVO {
+public class UserVO implements Serializable,UserDetails {
 	@Id //pk설정
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_user")
 	@SequenceGenerator(sequenceName = "seq_user",allocationSize = 1,name= "seq_user")
@@ -48,12 +59,50 @@ public class UserVO {
 	private String user_birth; //생년월일
 	@Column(name="user_state")	
 	private String user_state; //회원상태
-	@Column(name="auth_no")	
-	private String auth_no; // 인증고유번호
 //	@Column(name="multipartFile")	
 //	private  MultipartFile multipartFile; //사진저장
 	
-	
-	
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		  Set<GrantedAuthority> roles = new HashSet<GrantedAuthority>();
+//	      for(String role : auth.split(",")) {
+//	         roles.add(new SimpleGrantedAuthority(role));
+//	      }
+	      return roles;
+
+	}
+	@Override
+	public String getPassword() {
+		// TODO Auto-generated method stub
+		return this.getUser_pw();
+	}
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+	      log.info("id::::::::::::::::::{}",this.getUser_id());
+	      return this.getUser_id();
+
+	}
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
 	
 }//end class

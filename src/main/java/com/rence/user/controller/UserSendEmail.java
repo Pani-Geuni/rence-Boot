@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
-import com.rence.backoffice.model.AuthVO;
+import com.rence.user.model.UserAuthVO;
 import com.rence.user.model.EmailVO;
 import com.rence.user.model.UserVO;
 
@@ -27,7 +27,7 @@ public class UserSendEmail {
 	
 	
 	// ******* 이메일 인증 *******//
-		public AuthVO sendEmail(AuthVO vo, EmailVO evo) {
+		public UserAuthVO sendEmail(UserAuthVO vo, EmailVO evo) {
 			log.info("User sendEmail");
 			log.info("vo: {}", vo);
 

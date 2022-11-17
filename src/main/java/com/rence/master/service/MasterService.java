@@ -8,6 +8,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.rence.backoffice.model.BackOfficeVO;
@@ -20,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class MasterService {
+public class MasterService implements UserDetailsService {
 
 	@Autowired
 	MasterRepository m_repository;
@@ -51,7 +54,7 @@ public class MasterService {
 		log.info("backoffice_applyList_selectAll().....");
 		log.info("currentpage:{}", currentPage);
 
-		Integer row_count = 5;
+		Integer row_count = 15;
 		Integer start_row = (currentPage - 1) * row_count + 1;
 		Integer end_row = currentPage * row_count;
 
@@ -108,5 +111,17 @@ public class MasterService {
 		log.info("backoffice_refuse().....");
 		return b_repository.selectOne_backoffice_detail_m(bvo.getBackoffice_no());
 	}
+	
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		log.info("master_id : {}",username);
+		MasterEntity member = m_repository.findByMaster_id(username); //username = email
+		log.info("member : {}",member);
+		
+		if (member==null) throw new UsernameNotFoundException("Not founc account.");
+		
+		return member;
+	}
+
 
 }
