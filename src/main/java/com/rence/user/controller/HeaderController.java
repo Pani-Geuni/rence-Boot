@@ -24,7 +24,6 @@ import com.rence.office.model.ListViewVO;
 import com.rence.office.service.OfficeService;
 import com.rence.user.model.UserMypageVO;
 import com.rence.user.model.UserVO;
-import com.rence.user.service.UserSerivice;
 
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -34,18 +33,9 @@ import lombok.extern.slf4j.Slf4j;
 @Api(tags="공통 컨트롤러")
 //@RequestMapping("/common")
 public class HeaderController {
-
-
-	@Autowired
-	UserSerivice service;
 	
 	@Autowired
 	OfficeService office_service;
-
-
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
 
 
 	/**

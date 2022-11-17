@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import com.rence.office.model.Comment_EntityVO;
 import com.rence.office.model.ListViewVO;
 import com.rence.user.model.ReviewVO;
 
@@ -36,7 +37,11 @@ public interface OfficeInfoRepository extends JpaRepository<ListViewVO, Object> 
 		"insert into review(review_no, review_content, review_point, review_date, room_no, backoffice_no, user_no) "
 		+ "	values('R'||SEQ_REVIEW.nextval, :#{#vo.review_content}, :#{#vo.review_point}, sysdate, :#{#vo.room_no}, :#{#vo.backoffice_no}, :#{#vo.user_no})")
 	public int insert_review(ReviewVO vo);
-//	
-//	public int insert_question(QuestionVO2 vo);
+
+
+	@Query(nativeQuery = true, value = 
+			"insert into comments(comment_no, mother_no, comment_content, comment_date, room_no, backoffice_no, user_no, host_no) "
+			+ "		values('C'||SEQ_COMMENTS.nextval, null, :#{#vo.comment_content}, sysdate, :#{#vo.room_no}, :#{#vo.backoffice_no}, #{#vo.user_no}, null)")
+	public int insert_question(Comment_EntityVO vo);
 
 }
