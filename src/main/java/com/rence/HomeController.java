@@ -69,7 +69,6 @@ public class HomeController {
 		Map<String, String> map = new HashMap<String, String>();
 
 //		UserVO uvo2 = service.User_loginOK(uvo);
-
 		session.setAttribute("user_id", uvo.getUser_id());
 
 		Cookie cookie = new Cookie("user_no", uvo.getUser_no()); // 고유번호 쿠키 저장
