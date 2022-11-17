@@ -44,7 +44,7 @@ import lombok.extern.slf4j.Slf4j;
 @Api(tags="마이페이지 컨트롤러")
 @Slf4j
 @Controller
-
+@RequestMapping("/rence")
 public class MypageController {
 	
 	@Autowired

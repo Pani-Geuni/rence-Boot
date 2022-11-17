@@ -10,11 +10,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
+import com.rence.office.model.ReserveInfo_ViewVO;
 import com.rence.user.model.UserMileageVO;
 import com.rence.user.model.UserMypageVO;
 import com.rence.user.model.UserVO;
 import com.rence.user.repository.MileageRepository;
+import com.rence.user.repository.MypageMenuRepository;
 import com.rence.user.repository.MypageRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,7 @@ public class UserMypageSerivice {
 	
 	@Autowired
 	MileageRepository mileageRepository;
+	
 	
 	public UserMypageSerivice() {
 		log.info("UserSerivice().....");
@@ -110,10 +112,5 @@ public class UserMypageSerivice {
 		return repository.user_img_updateOK(uvo.getUser_image(),uvo.getUser_no());
 	}
 
-	
 
-	
-	
-	
-	
 }//end class
