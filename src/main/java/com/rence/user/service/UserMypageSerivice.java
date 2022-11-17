@@ -36,11 +36,12 @@ public class UserMypageSerivice {
 	}
 	
 	
-	//마일리지페이지
+	//마이페이지
 	public UserMypageVO user_mypage_select(UserVO uvo) {
 		log.info("user_mileage_search_list()....");
 		log.info("uvo: {}",uvo);
 		return repository.user_mypage_select(uvo.getUser_no());
+//		return repository.user_mypage_select("U1001");
 	}
 	
 
