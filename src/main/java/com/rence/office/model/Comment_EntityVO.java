@@ -13,8 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.springframework.data.annotation.Immutable;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,7 +20,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Immutable
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

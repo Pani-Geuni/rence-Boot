@@ -10,38 +10,38 @@
 	
 	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
 
-	<script src="static/JS/common/jquery-3.6.1.min.js"></script>
-    <script src="static/JS/common/jquery.cookie.js"></script>
+	<script src="/static/JS/common/jquery-3.6.1.min.js"></script>
+    <script src="/static/JS/common/jquery.cookie.js"></script>
     
-    <script src="static/JS/common/core.min.js"></script>
-    <script src="static/JS/common/sha256.min.js"></script>
+    <script src="/static/JS/common/core.min.js"></script>
+    <script src="/static/JS/common/sha256.min.js"></script>
     
-    <script src="static/JS/office/header.js"></script>
-    <script src="static/JS/office/user_popup.js"></script>
+    <script src="/static/JS/office/header.js"></script>
+    <script src="/static/JS/office/user_popup.js"></script>
 
-	<link rel="stylesheet" href="static/CSS/common/common.css" />
-	<link rel="stylesheet" href="static/CSS/office/login.css" />
-	<link rel="stylesheet" href="static/CSS/office/header.css" />
-	<link rel="stylesheet" href="static/CSS/common/footer.css" />
+	<link rel="stylesheet" href="/static/CSS/common/common.css" />
+	<link rel="stylesheet" href="/static/CSS/office/login.css" />
+	<link rel="stylesheet" href="/static/CSS/office/header.css" />
+	<link rel="stylesheet" href="/static/CSS/common/footer.css" />
 
 	
-	<link rel="stylesheet" href="static/CSS/office/home.css" />
+	<link rel="stylesheet" href="/static/CSS/office/home.css" />
     
-    <script src="static/JS/office/home.js"></script>
+    <script src="/static/JS/office/home.js"></script>
     
     <th:block th:if="${res} != null">
 		<th:block th:if="${res.page} == 'list_page'">
-			<link rel="stylesheet" href="static/CSS/office/list-page.css" />
-		    <script src="static/JS/office/list-page.js"></script>
+			<link rel="stylesheet" href="/static/CSS/office/list-page.css" />
+		    <script src="/static/JS/office/list-page.js"></script>
 		</th:block>
 		
 		<th:block th:if="${res.page} == 'space_introduce_detail'">
-			<link rel="stylesheet" href="static/CSS/office/space-detail-introduce.css" />
-		    <link rel="stylesheet" href="static/CSS/office/jquery-ui.css" />
-		    <link rel="stylesheet" href="static/CSS/office/jquery-ui-timepicker.css" />
+			<link rel="stylesheet" href="/static/CSS/office/space-detail-introduce.css" />
+		    <link rel="stylesheet" href="/static/CSS/office/jquery-ui.css" />
+		    <link rel="stylesheet" href="/static/CSS/office/jquery-ui-timepicker.css" />
 		    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-		    <script src="static/JS/office/timepicker.js"></script>
-		    <script src="static/JS/office/space_detail_introduce.js"></script>
+		    <script src="/static/JS/office/timepicker.js"></script>
+		    <script src="/static/JS/office/space_detail_introduce.js"></script>
 		</th:block>
 		
 		<th:block th:if="${res.page} == 'space_introduce_detail_office'">
@@ -50,7 +50,7 @@
 			<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 			
 			<link rel="stylesheet" href="static/CSS/office/space-detail-introduce-office.css" />
-		    <script src="static/JS/office/space_detail_introduce_office.js"></script>
+		    <script src="/static/JS/office/space_detail_introduce_office.js"></script>
 		</th:block>
     </th:block>
     
@@ -121,7 +121,7 @@
         <!-- START LOGIN SECTION -->
         <div id="login-section" class="blind">
             <section class="login-popup-logo-section">
-                <img src="static/IMG/common/RENCE.svg" class="popup-logo">
+                <img src="/static/IMG/common/RENCE.svg" class="popup-logo">
             </section>
             <section class="login-popup-input-section">
                 <input type="text" id="login-id" class="login-popup-input" placeholder="아이디를 입력하세요." autocomplete="off"/>

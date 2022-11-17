@@ -155,6 +155,18 @@
     }
   });
 
+  /****** 문의 섹션 ******/
+  // layout script로 이동
+  // $("#question-create-btn").click(function(){
+  //   $("#question-popup").removeClass("blind");
+  // });
+
+  /****** 후기 섹션 ******/
+  // layout script로 이동
+  // $("#review-write-btn").click(function(){
+  //   $("#review-popup").removeClass("blind");
+  // });
+
 
   /***** *** ******** *****/ 
   /***** REVIEW POPUP *****/ 
@@ -308,8 +320,6 @@
     var last_idx = $(this).attr("id"); 
 
     var arr = $(".popup-star-li");
-    console.log(arr);
-    console.log(arr.length);
 
     for(var i = 0; i < arr.length; i++){
       $(arr[i]).children(".y-star").removeClass("blind");
@@ -421,7 +431,8 @@
                 $(".common-alert-txt").text("비밀번호가 일치하지않습니다.");
               }
           },
-          error : function() {
+          error : function(error) {
+              console.log(error);
               $(".popup-background:eq(1)").removeClass("blind");
               $("#common-alert-popup").removeClass("blind");
               $(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
