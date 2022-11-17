@@ -39,7 +39,7 @@ import com.rence.office.model.OfficeReserveVO;
 import com.rence.office.model.OfficeReviewVO;
 import com.rence.office.model.OfficeRoomVO;
 import com.rence.office.model.PaymentInfoVO;
-import com.rence.office.model.QuestionVO2;
+import com.rence.office.model.Comment_EntityVO;
 import com.rence.office.service.OfficeService;
 //import com.rence.user.model.ReviewVO;
 import com.rence.user.model.ReviewVO;
@@ -373,25 +373,29 @@ public class OfficeController {
 		return jsonStr;
 	}
 	
-//	@ApiOperation(value="문의 추가 컨트롤러", notes="문의 추가 로직 컨트롤러")
-//	@GetMapping(value = "/office/insert_question")
-//	@ResponseBody
-//	public JSONObject insert_question(QuestionVO2 vo, Model model) {
-//		JSONObject jsonObject = new JSONObject();
-//		
-//		int result = service.insert_question(vo);
-//		
-//		log.info("insert_question()..");
-//		log.info("********** request :: {}", vo);
-//		
-//		if (result == 1) {
-//			jsonObject.put("result", "1");			
-//		} else {
-//			jsonObject.put("result", "0");
-//		}
-//		
-//		return jsonObject;
-//	}
+	@ApiOperation(value="문의 추가 컨트롤러", notes="문의 추가 로직 컨트롤러")
+	@GetMapping(value = "/office/insert_question")
+	@ResponseBody
+	public String insert_question(Comment_EntityVO vo, Model model) {
+		int result = service.insert_question(vo);
+		
+		log.info("insert_question()..");
+		log.info("********** request :: {}", vo);
+		
+		Map<String, String> map = new HashMap<>();
+		 
+        // Map -> Json 문자열
+        Gson gson = new Gson();
+		if (result == 1) {
+			map.put("result", "1");
+		} else {
+			map.put("result", "0");
+		}
+		
+		String jsonStr = gson.toJson(map);
+		
+		return jsonStr;
+	}
 	
 	// 리스트 페이지
 	@ApiOperation(value="리스트 페이지 로드 컨트롤러", notes="타입에 따른 리스트 페이지를 로드하는 컨트롤러")

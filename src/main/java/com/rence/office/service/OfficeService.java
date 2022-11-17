@@ -21,7 +21,7 @@ import com.rence.office.model.OfficeReserveVO;
 import com.rence.office.model.OfficeReviewVO;
 import com.rence.office.model.OfficeRoomVO;
 import com.rence.office.model.PaymentInfoVO;
-import com.rence.office.model.QuestionVO2;
+import com.rence.office.model.Comment_EntityVO;
 //import com.rence.user.model.ReviewVO;
 import com.rence.office.repo.OfficeInfoRepository;
 import com.rence.office.repo.OfficeListRepository;
@@ -43,7 +43,7 @@ public class OfficeService {
 	public OfficeService() {
 		log.info("OfficeService()...");
 	}
-//	
+	
 //	public OfficeInfoVO select_one_office_info(String backoffice_no) {
 //		OfficeInfoVO vo = repository.select_one_office_info(backoffice_no);
 //		
@@ -109,12 +109,12 @@ public class OfficeService {
 		
 		return result; 
 	}
-//	
-//	public int insert_question(QuestionVO2 vo) {
-//		int result = repository.insert_question(vo);
-//		
-//		return result; 
-//	}
+
+	public int insert_question(Comment_EntityVO vo) {
+		int result = repository.insert_question(vo);
+		
+		return result; 
+	}
 	
 	
 	public List<ListViewVO> select_all_list(String type, String condition){
