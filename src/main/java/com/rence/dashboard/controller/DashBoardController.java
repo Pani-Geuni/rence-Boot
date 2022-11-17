@@ -23,6 +23,7 @@ import com.rence.dashboard.model.CommentInsertVO;
 import com.rence.dashboard.model.CommentListQView;
 import com.rence.dashboard.model.CommentVO;
 import com.rence.dashboard.model.ReserveSummaryVO;
+import com.rence.dashboard.model.ReviewListVO;
 import com.rence.dashboard.model.RoomInsertVO;
 import com.rence.dashboard.model.RoomVO;
 import com.rence.dashboard.service.DashboardService;
@@ -382,9 +383,10 @@ public class DashBoardController {
 	public String dashboard_review(Model model, String backoffice_no) {
 		log.info("backoffice_review ()...");
 		log.info("{}", backoffice_no);
-//		List<ReviewVO> rvvos = service.backoffice_review_selectAll(backoffice_no);
-//		model.addAttribute("rv_vos", rvvos);
-//		model.addAttribute("cnt", rvvos.size());
+		List<ReviewListVO> rvvos = service.backoffice_review_selectAll(backoffice_no);
+		log.info("rvvos : {}", rvvos);
+		model.addAttribute("rv_vos", rvvos);
+		model.addAttribute("cnt", rvvos.size());
 		
 		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/review_list");
 		model.addAttribute("title", "공간 관리");

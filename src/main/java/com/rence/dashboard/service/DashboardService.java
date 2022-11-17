@@ -18,14 +18,16 @@ import com.rence.dashboard.model.CommentListQView;
 import com.rence.dashboard.model.CommentVO;
 import com.rence.dashboard.model.DashBoardDAO;
 import com.rence.dashboard.model.ReserveSummaryVO;
+import com.rence.dashboard.model.ReviewListVO;
 import com.rence.dashboard.model.RoomInsertVO;
 import com.rence.dashboard.model.RoomVO;
 import com.rence.dashboard.repository.CommentInsertRepository;
 import com.rence.dashboard.repository.CommentQListRepository;
 import com.rence.dashboard.repository.CommentRepository;
 import com.rence.dashboard.repository.ReserveRepository;
+import com.rence.dashboard.repository.ReviewRepository;
 import com.rence.dashboard.repository.RoomRepository;
-import com.rence.dashboard.repository.RoomRepository2;
+import com.rence.dashboard.repository.RoomInsertRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,7 +42,7 @@ public class DashboardService {
 	RoomRepository rm_repository;
 	
 	@Autowired
-	RoomRepository2 rm_repository2;
+	RoomInsertRepository rm_repository2;
 
 	@Autowired
 	BackOfficeRepository b_repository;
@@ -53,6 +55,9 @@ public class DashboardService {
 	
 	@Autowired
 	CommentInsertRepository c_insert_repository;
+	
+	@Autowired
+	ReviewRepository r_repository;
 	
 	@Autowired
 	DashBoardDAO dao;
@@ -190,6 +195,12 @@ public class DashboardService {
 	public void update_comment_state_F(String backoffice_no, String mother_no) {
 		log.info("update_comment_state_F().....");
 		c_insert_repository.update_comment_state_F(backoffice_no,mother_no);
+	}
+
+	// 공간 후기
+	public List<ReviewListVO> backoffice_review_selectAll(String backoffice_no) {
+		log.info("backoffice_review_selectAll().....");
+		return r_repository.backoffice_review_selectAll(backoffice_no);
 	}
 
 	

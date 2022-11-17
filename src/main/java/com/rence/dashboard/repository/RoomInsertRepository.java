@@ -12,7 +12,7 @@ import com.rence.dashboard.model.RoomInsertVO;
 import com.rence.dashboard.model.RoomVO;
 
 
-public interface RoomRepository2 extends JpaRepository<RoomInsertVO, Object>{
+public interface RoomInsertRepository extends JpaRepository<RoomInsertVO, Object>{
 
 	//공간 관리 - 추가	
 	@Modifying
