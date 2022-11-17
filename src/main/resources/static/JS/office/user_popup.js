@@ -1,7 +1,7 @@
 /**
  * @author 김예은
  */
-$(function(){
+ $(function(){
     /**** **************************************** ****/
     /**** 인풋 창 클릭 시 NULL을 알렸던 CSS제거 처리 ****/
     /**** **************************************** ****/
@@ -39,13 +39,12 @@ $(function(){
         //로그인 시도
         if($("#login-id").val().trim().length > 0 && $("#login-pw").val().trim().length > 0){
             $.ajax({
-                url : "/rence/user_loginOK",
+                url : "/rence/loginOK",
                 type : "POST",
                 dataType : 'json',
                 data : {
-                    user_id : $("#login-id").val().trim(),
-                    // user_pw : window.btoa($("#login-pw").val().trim())
-                    user_pw : CryptoJS.SHA256($("#login-pw").val().trim()).toString()
+                    username : $("#login-id").val().trim(),
+                    password : $("#login-pw").val().trim()
                 },
                 success : function(res) {
                     // 로그인 성공
@@ -61,14 +60,15 @@ $(function(){
                         $("#login-section").addClass("blind");
                         $(".popup-background:eq(0)").addClass("blind");
 
-                        location.href="/rence/";
+                        location.href="/";
                     }else{
                         $(".popup-background:eq(1)").removeClass("blind");
                         $("#common-alert-popup").removeClass("blind");
                         $(".common-alert-txt").text("로그인에 실패하였습니다.");
                     }
                 },
-                error : function() {
+                error : function(error) {
+                    console.log(error);
                     $(".popup-background:eq(1)").removeClass("blind");
                     $("#common-alert-popup").removeClass("blind");
                     $(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
@@ -315,6 +315,7 @@ $(function(){
                                     }
                                 },
                                 error : function(error) {
+                                    console.log(error);
                                     $(".popup-background:eq(1)").removeClass("blind");
                                     $("#common-alert-popup").removeClass("blind");
                                     $(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
@@ -517,6 +518,7 @@ $(function(){
                             }
                         },
                         error : function(error) {
+                            console.log(error);
                             $(".popup-background:eq(1)").removeClass("blind");
                             $("#common-alert-popup").removeClass("blind");
                             $(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
