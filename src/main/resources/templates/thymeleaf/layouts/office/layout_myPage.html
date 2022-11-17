@@ -10,38 +10,38 @@
 	
 	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
 
-	<script src="static/JS/common/jquery-3.6.1.min.js"></script>
-    <script src="static/JS/common/jquery.cookie.js"></script>
+	<script src="/static/JS/common/jquery-3.6.1.min.js"></script>
+    <script src="/static/JS/common/jquery.cookie.js"></script>
     
-    <script src="static/JS/common/core.min.js"></script>
-    <script src="static/JS/common/sha256.min.js"></script>
+    <script src="/static/JS/common/core.min.js"></script>
+    <script src="/static/JS/common/sha256.min.js"></script>
     
-    <script src="static/JS/office/header.js"></script>
-    <script src="static/JS/office/user_popup.js"></script>
+    <script src="/static/JS/office/header.js"></script>
+    <script src="/static/JS/office/user_popup.js"></script>
 
-	<link rel="stylesheet" href="static/CSS/common/common.css" />
-	<link rel="stylesheet" href="static/CSS/office/login.css" />
-	<link rel="stylesheet" href="static/CSS/office/header.css" />
-	<link rel="stylesheet" href="static/CSS/common/footer.css" />
+	<link rel="stylesheet" href="/static/CSS/common/common.css" />
+	<link rel="stylesheet" href="/static/CSS/office/login.css" />
+	<link rel="stylesheet" href="/static/CSS/office/header.css" />
+	<link rel="stylesheet" href="/static/CSS/common/footer.css" />
 	
-	<link rel="stylesheet" href="static/CSS/office/my-page.css" />
-	<link rel="stylesheet" href="static/CSS/office/mileage-page.css" />
+	<link rel="stylesheet" href="/static/CSS/office/my-page.css" />
+	<link rel="stylesheet" href="/static/CSS/office/mileage-page.css" />
 	
-	<script src="static/JS/office/my_page.js"></script>
-	<script src="static/JS/office/mileage_list.js"></script>
+	<script src="/static/JS/office/my_page.js"></script>
+	<script src="/static/JS/office/mileage_list.js"></script>
 	
 	<th:block th:if="${res} != null">
 		<th:block th:if="${res.page} == 'reserve-list'">
-			<link rel="stylesheet" href="static/CSS/office/reserve-list.css" />
-			<script src="static/JS/office/reserve_list.js"></script>
+			<link rel="stylesheet" href="/static/CSS/office/reserve-list.css" />
+			<script src="/static/JS/office/reserve_list.js"></script>
 		</th:block>
 		<th:block th:if="${res.page} == 'review'">
-			<link rel="stylesheet" href="static/CSS/office/review-page.css" />
-			<script src="static/JS/office/review_page.js"></script>
+			<link rel="stylesheet" href="/static/CSS/office/review-page.css" />
+			<script src="/static/JS/office/review_page.js"></script>
 		</th:block>
 		<th:block th:if="${res.page} == 'question_list'">
-			<link rel="stylesheet" href="static/CSS/office/question-page.css" />
-			<script src="static/JS/office/question_page.js"></script>
+			<link rel="stylesheet" href="/static/CSS/office/question-page.css" />
+			<script src="/static/JS/office/question_page.js"></script>
 		</th:block>
 	</th:block>
 	
@@ -80,7 +80,7 @@
        <!-- START LOGIN SECTION -->
         <div id="login-section" class="blind">
             <section class="login-popup-logo-section">
-                <img src="static/IMG/common/RENCE.svg" class="popup-logo">
+                <img src="/static/IMG/common/RENCE.svg" class="popup-logo">
             </section>
             <section class="login-popup-input-section">
                 <input type="text" id="login-id" class="login-popup-input" placeholder="아이디를 입력하세요." autocomplete="off"/>
