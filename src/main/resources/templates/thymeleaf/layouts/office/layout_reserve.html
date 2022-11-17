@@ -10,23 +10,23 @@
 	
 	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
 
-	<script src="static/JS/common/jquery-3.6.1.min.js"></script>
-    <script src="static/JS/common/jquery.cookie.js"></script>
+	<script src="/static/JS/common/jquery-3.6.1.min.js"></script>
+    <script src="/static/JS/common/jquery.cookie.js"></script>
     
-    <script src="static/JS/common/core.min.js"></script>
-    <script src="static/JS/common/sha256.min.js"></script>
+    <script src="/static/JS/common/core.min.js"></script>
+    <script src="/static/JS/common/sha256.min.js"></script>
     
-    <script src="static/JS/office/header.js"></script>
-    <script src="static/JS/office/user_popup.js"></script>
+    <script src="/static/JS/office/header.js"></script>
+    <script src="/static/JS/office/user_popup.js"></script>
 
-	<link rel="stylesheet" href="static/CSS/common/common.css" />
-	<link rel="stylesheet" href="static/CSS/office/login.css" />
-	<link rel="stylesheet" href="static/CSS/office/header.css" />
-	<link rel="stylesheet" href="static/CSS/common/footer.css" />
+	<link rel="stylesheet" href="/static/CSS/common/common.css" />
+	<link rel="stylesheet" href="/static/CSS/office/login.css" />
+	<link rel="stylesheet" href="/static/CSS/office/header.css" />
+	<link rel="stylesheet" href="/static/CSS/common/footer.css" />
 	<link rel="stylesheet" href="${path}/resources/CSS/office/reserve_info.css" />
 
     <script src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
-    <script src="static/JS/office/payment_page.js"></script>
+    <script src="/static/JS/office/payment_page.js"></script>
     
 	<script type="text/javascript" th:inline="javascript">
 		/*<![CDATA[*/
@@ -39,7 +39,7 @@
 			var user_image = $.cookie("user_image");
 			
 			if(is_login2 != null){
-				$(".user_profile_img").attr("src", "../../../../static/upload/" + user_image);
+				$(".user_profile_img").attr("src", "../../../..//static/upload/" + user_image);
 			}
 		});
 	</script>
@@ -62,7 +62,7 @@
         <!-- START LOGIN SECTION -->
         <div id="login-section" class="blind">
             <section class="login-popup-logo-section">
-                <img src="static/IMG/common/RENCE.svg" class="popup-logo">
+                <img src="/static/IMG/common/RENCE.svg" class="popup-logo">
             </section>
             <section class="login-popup-input-section">
                 <input type="text" id="login-id" class="login-popup-input" placeholder="아이디를 입력하세요." autocomplete="off"/>
