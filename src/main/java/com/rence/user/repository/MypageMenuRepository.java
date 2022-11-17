@@ -4,7 +4,10 @@
 */
 package com.rence.user.repository;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.rence.office.model.ReserveInfo_ViewVO;
@@ -23,9 +26,15 @@ public interface MypageMenuRepository extends JpaRepository<ReserveInfo_ViewVO, 
 			+ "from userinfo where user_no = ?1")
 	public UserVO select_one_user_info(String user_no);
 	
+	
+	@Transactional
+	@Modifying
 	@Query(nativeQuery = true, value = "delete from review where review_no = ?1")
 	public int delete_review(String review_no);
 	
+	
+	@Transactional
+	@Modifying
 	@Query(nativeQuery = true, value = "delete from comments where comment_no = ?1")
 	public int delete_comment(String comment_no);
 

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -36,7 +37,7 @@ public class MypageMenuController {
 	/**
 	 * 상세 예약 페이지 이동 - 현재
 	 */
-	@RequestMapping(value = "/reserve_info", method = RequestMethod.GET)
+	@GetMapping(value = "/reserve_info")
 	public String reserve_info(String reserve_no, Model model, HttpServletRequest request) {
 		String user_no = null;
 		Cookie[] cookies = request.getCookies();
@@ -64,7 +65,7 @@ public class MypageMenuController {
 	/**
 	 * 상세 예약 페이지 이동 - 과거
 	 */
-	@RequestMapping(value = "/reserved_info", method = RequestMethod.GET)
+	@GetMapping(value = "/reserved_info")
 	public String reserved_info(String reserve_no, Model model, HttpServletRequest request) {
 		String user_no = null;
 		Cookie[] cookies = request.getCookies();
@@ -92,22 +93,22 @@ public class MypageMenuController {
 	/**
 	 * 후기 내역 페이지 - 댓글 삭제
 	 */
-	@RequestMapping(value = "/delete_review", method = RequestMethod.GET)
+	@GetMapping(value = "/delete_review")
 	public String delete_review(String user_no, String review_no, Model model) {
 		int result = service.delete_review(review_no);
 		
-		return "redirect:/review_list?user_no="+user_no;
+		return "redirect:/rence/review_list?user_no="+user_no;
 	}
 
 	
 	/**
 	 * 문의 리스트 페이지 - 문의 삭제
 	 */
-	@RequestMapping(value = "/delete_comment", method = RequestMethod.GET)
+	@GetMapping(value = "/delete_comment")
 	public String delete_comment(String user_no, String comment_no) {
 		int result = service.delete_comment(comment_no);
 		
-		return "redirect:/question_list?user_no="+user_no;
+		return "redirect:/rence/question_list?user_no="+user_no;
 	}
 	
 }

@@ -174,6 +174,18 @@
     }
   });
 
+  /****** 문의 섹션 ******/
+  // layout script로 이동
+  // $("#question-create-btn").click(function(){
+  //   $("#question-popup").removeClass("blind");
+  // });
+
+  /****** 후기 섹션 ******/
+  // layout script로 이동
+  // $("#review-write-btn").click(function(){
+  //   $("#review-popup").removeClass("blind");
+  // });
+
 
   /***** *** ******** *****/ 
   /***** REVIEW POPUP *****/ 
@@ -231,6 +243,19 @@
     $(".question-popup-select-val-wrap:eq(1)").removeClass("open-select");
     $(".question-popup-select:eq(1)").addClass("blind");
   });
+  
+  /** 이미지 등록 버튼 클릭 이벤트 */
+  // $(".review-upload-btn").click(function(){
+  //   $(".file").click();
+  // });
+
+  /** 이미지 등록 시 파일명 SHOW */
+  // $(".file").on('change',function(){
+  //   var fileName = $(".file").val();
+  //   var fArr = fileName.split("\\");
+
+  //   $(".review-upload-value").val(fArr[fArr.length - 1]);
+  // });
 
   /** 문의글 작성 시 글자수 제한 */
   $("#review-write").on("keydown keyup", function(){
@@ -248,7 +273,7 @@
       }
 
       $.ajax({
-        url : "/rence/insert_review",
+        url : "/office/insert_review",
         type : "GET",
         dataType : 'json',
         data : {
@@ -286,7 +311,8 @@
               $(".common-alert-txt").text("비밀번호가 일치하지않습니다.");
             }
         },
-        error : function() {
+        error : function(error) {
+            console.log(error);
             $(".popup-background:eq(1)").removeClass("blind");
             $("#common-alert-popup").removeClass("blind");
             $(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
@@ -313,6 +339,8 @@
     var last_idx = $(this).attr("id"); 
 
     var arr = $(".popup-star-li");
+    console.log(arr);
+    console.log(arr.length);
 
     for(var i = 0; i < arr.length; i++){
       $(arr[i]).children(".y-star").removeClass("blind");
@@ -424,7 +452,8 @@
                 $(".common-alert-txt").text("비밀번호가 일치하지않습니다.");
               }
           },
-          error : function() {
+          error : function(error) {
+              console.log(error);
               $(".popup-background:eq(1)").removeClass("blind");
               $("#common-alert-popup").removeClass("blind");
               $(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");

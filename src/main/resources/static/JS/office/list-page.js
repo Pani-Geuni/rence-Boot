@@ -30,8 +30,8 @@ $(function(){
         var type = location.href.split("?type=")[1].split("&")[0];
         
         if(type != "office")
-            location.href="/space_introduce?backoffice_no="+backoffice_no+"&introduce_menu=info";
+            location.href="/office/space_introduce?backoffice_no="+backoffice_no+"&introduce_menu=info";
         else 
-            location.href="/space_introduce_office?backoffice_no="+backoffice_no+"&introduce_menu=info";
+            location.href="/office/space_introduce_office?backoffice_no="+backoffice_no+"&introduce_menu=info";
     });
 });

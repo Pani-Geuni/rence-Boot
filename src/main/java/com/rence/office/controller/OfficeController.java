@@ -51,7 +51,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @Api(tags="오피스 컨트롤러")
-//@RequestMapping("/office")
+@RequestMapping("/office")
 public class OfficeController {
 	
 	@Autowired
@@ -353,7 +353,7 @@ public class OfficeController {
 //	}
 	
 	@ApiOperation(value="후기 추가 컨트롤러", notes="후기 추가 로직 컨트롤러")
-	@GetMapping(value = "/office/insert_review")
+	@GetMapping(value = "/insert_review")
 	@ResponseBody
 	public String insert_review(ReviewEntityVO vo, Model model) {
 		int result = service.insert_review(vo);
@@ -374,7 +374,7 @@ public class OfficeController {
 	}
 	
 	@ApiOperation(value="문의 추가 컨트롤러", notes="문의 추가 로직 컨트롤러")
-	@GetMapping(value = "/office/insert_question")
+	@GetMapping(value = "/insert_question")
 	@ResponseBody
 	public String insert_question(Comment_EntityVO vo, Model model) {
 		int result = service.insert_question(vo);
