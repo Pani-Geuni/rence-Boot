@@ -76,11 +76,27 @@
 			</div>
 			<!-- END inputWrap location  -->
 
-<!-- 			<div class="inputWrap"> -->
-<!-- 				<p>사업체 태그</p> -->
-<!-- 				<input type="text" id="backoffice_tag" name="backoffice_tag" -->
-<!-- 					placeholder="사업체의 태그를 입력해 주세요" /> -->
-<!-- 			</div> -->
+			<div class="inputWrap">
+				<p>사업체 태그</p>
+				<div class="hashTag_area">
+					<div class="hashTag-group">
+						<input
+							type="hidden"
+							value=""
+							name="backoffice_tag"
+							id="real-input-tag"
+						/>
+					</div>
+					<input
+						type="text"
+						id="backoffice_tag"
+						placeholder="사업체의 태그를 입력해 주세요 (최대 10글자)"
+						maxlength=10
+					/>
+					<ul id="tag-list">
+					</ul>
+				</div>
+			</div>
 
 			<div class="inputWrap info">
 				<p>사업체 소개</p>
@@ -94,51 +110,50 @@
 			</div>
 			
 			<div class="inputWrap backoffice_type">
-	        	<p>공간 태그</p>
-	            <div class="option-group-column">
-	              <div class="option-group-row">
-	                <div class="option-item">
-	                  <input
-	                    type="checkbox"
-	                    id="type_checkbox_desk"
-	                    class="checkbox"
-	                    name="backoffice_type"
-	                    value="desk"
-	                    readonly
-	                  />
-	                  <label>데스크</label>
-	                </div>
-	                <!-- END option-item -->
-	                <div class="option-item">
-	                  <input
-	                    type="checkbox"
-	                    id="type_checkbox_meeting_room"
-	                    class="checkbox"
-	                    name="backoffice_type"
-	                    value="meeting_room"
-	                    readonly
-	                  />
-	                  <label>회의실</label>
-	                </div>
-	                <!-- END option-item -->
-	                <div class="option-item">
-	                  <input
-	                    type="checkbox"
-	                    id="type_checkbox_office"
-	                    class="checkbox"
-	                    name="backoffice_type"
-	                    value="office"
-	                    readonly
-	                  />
-	                  <label>오피스</label>
-	                </div>
-	                <!-- END option-item -->
-	              </div>
-	              <!-- END option-group-row -->
-	            </div>
-	            <!-- END option-group-column -->
-	          </div>
-	          <!-- END inputWrap backoffice_type -->
+				<p>공간 타입</p>
+					<div class="option-group-column">
+						<div class="option-group-row">
+							<div class="option-item">
+								<input
+									type="checkbox"
+									id="type_checkbox_desk"
+									class="checkbox"
+									name="backoffice_type"
+									value="desk"
+									readonly
+								/>
+								<label>데스크</label>
+							</div>
+							<!-- END option-item -->
+							<div class="option-item">
+								<input
+									type="checkbox"
+									id="type_checkbox_meeting_room"
+									class="checkbox"
+									name="backoffice_type"
+									value="meeting_room"
+									readonly
+								/>
+								<label>회의실</label>
+							</div>
+							<!-- END option-item -->
+							<div class="option-item">
+								<input
+									type="checkbox"
+									id="type_checkbox_office"
+									class="checkbox"
+									name="backoffice_type"
+									value="office"
+									readonly
+								/>
+								<label>오피스</label>
+							</div>
+							<!-- END option-item -->
+						</div><!-- END option-group-row -->
+					</div>
+					<!-- END option-group-column -->
+				</div>
+				<!-- END inputWrap backoffice_type -->
 
 			<div class="inputWrap option">
 				<p>공간 옵션</p>
