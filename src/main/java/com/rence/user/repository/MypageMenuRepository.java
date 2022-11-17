@@ -22,5 +22,11 @@ public interface MypageMenuRepository extends JpaRepository<ReserveInfo_ViewVO, 
 			"select user_no, user_name, user_tel, user_email "
 			+ "from userinfo where user_no = ?1")
 	public UserVO select_one_user_info(String user_no);
+	
+	@Query(nativeQuery = true, value = "delete from review where review_no = ?1")
+	public int delete_review(String review_no);
+	
+	@Query(nativeQuery = true, value = "delete from comments where comment_no = ?1")
+	public int delete_comment(String comment_no);
 
 }

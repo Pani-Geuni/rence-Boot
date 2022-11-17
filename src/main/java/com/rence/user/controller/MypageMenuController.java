@@ -1,6 +1,5 @@
 /**
  * @author 김예은
- * 
  */
 
 package com.rence.user.controller;
@@ -90,25 +89,25 @@ public class MypageMenuController {
 		return "thymeleaf/layouts/office/layout_reserve";
 	}
 	
-//	/**
-//	 * 후기 내역 페이지 - 댓글 삭제
-//	 */
-//	@RequestMapping(value = "/delete_review", method = RequestMethod.GET)
-//	public String delete_review(String user_no, String review_no, Model model) {
-//		int result = service.delete_review(review_no);
-//		
-//		return "redirect:/review_list?user_no="+user_no;
-//	}
-//
-//	
-//	/**
-//	 * 문의 리스트 페이지 - 문의 삭제
-//	 */
-//	@RequestMapping(value = "/delete_comment", method = RequestMethod.GET)
-//	public String delete_comment(String user_no, String comment_no) {
-//		int result = service.delete_comment(comment_no);
-//		
-//		return "redirect:/question_list?user_no="+user_no;
-//	}
+	/**
+	 * 후기 내역 페이지 - 댓글 삭제
+	 */
+	@RequestMapping(value = "/delete_review", method = RequestMethod.GET)
+	public String delete_review(String user_no, String review_no, Model model) {
+		int result = service.delete_review(review_no);
+		
+		return "redirect:/review_list?user_no="+user_no;
+	}
+
+	
+	/**
+	 * 문의 리스트 페이지 - 문의 삭제
+	 */
+	@RequestMapping(value = "/delete_comment", method = RequestMethod.GET)
+	public String delete_comment(String user_no, String comment_no) {
+		int result = service.delete_comment(comment_no);
+		
+		return "redirect:/question_list?user_no="+user_no;
+	}
 	
 }

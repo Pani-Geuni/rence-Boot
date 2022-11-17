@@ -5,7 +5,25 @@
 <!-- 공간 리스트 페이지 // 공간 소개 페이지 - 데스크,회의룸/오피스 -->
 <!DOCTYPE html>
 <html>
-<head th:replace="thymeleaf/html/office/common/head :: head(~{::link}, ~{::script}, layout_myPage)">
+<head>
+	<title>RENCE</title>
+	
+	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+
+	<script src="../../../../static/JS/common/jquery-3.6.1.min.js"></script>
+    <script src="static/JS/common/jquery.cookie.js"></script>
+    
+    <script src="static/JS/common/core.min.js"></script>
+    <script src="static/JS/common/sha256.min.js"></script>
+    
+    <script src="static/JS/office/header.js"></script>
+    <script src="static/JS/office/user_popup.js"></script>
+
+	<link rel="stylesheet" href="static/CSS/common/common.css" />
+	<link rel="stylesheet" href="static/CSS/office/login.css" />
+	<link rel="stylesheet" href="static/CSS/office/header.css" />
+	<link rel="stylesheet" href="static/CSS/common/footer.css" />
+	
 	<link rel="stylesheet" href="static/CSS/office/my-page.css" />
 	<link rel="stylesheet" href="static/CSS/office/mileage-page.css" />
 	
@@ -15,15 +33,27 @@
 	<th:block th:if="${res.page} == 'reserve-list'">
 		<link rel="stylesheet" href="static/CSS/office/reserve-list.css" />
 		<script src="static/JS/office/reserve_list.js"></script>
-	</th>
+	</th:block>
 	<th:block th:if="${res.page} == 'review'">
 		<link rel="stylesheet" href="static/CSS/office/review-page.css" />
 		<script src="static/JS/office/review_page.js"></script>
-	</th>
+	</th:block>
 	<th:block th:if="${res.page} == 'question_list'">
 		<link rel="stylesheet" href="static/CSS/office/question-page.css" />
 		<script src="static/JS/office/question_page.js"></script>
-	</th>
+	</th:block>
+	
+	<script>
+		$(function(){
+			var user_image = $.cookie("user_image");
+			
+			var is_login = window.sessionStorage.getItem("is_login");
+			
+			if(is_login != null){
+				$(".user_profile_img").attr("src", "../../../../static/upload/" + user_image);
+			}
+		});
+	</script>
 </head>
 <body>
 	<div class ="pageWrap">

@@ -25,7 +25,7 @@ import com.rence.office.model.Comment_EntityVO;
 //import com.rence.user.model.ReviewVO;
 import com.rence.office.repo.OfficeInfoRepository;
 import com.rence.office.repo.OfficeListRepository;
-import com.rence.user.model.ReviewVO;
+import com.rence.user.model.ReviewEntityVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -104,9 +104,15 @@ public class OfficeService {
 //		return result; 
 //	}
 //	
-	public int insert_review(ReviewVO vo) {
-		int result = repository.insert_review(vo);
+	public int insert_review(ReviewEntityVO vo) {
+		log.info("insert_review | {}", vo);
+		int result = 0;
 		
+		try {
+			repository.insert_review(vo.getReview_point(), vo);
+		} catch (Exception e) {
+			result = -1;
+		}
 		return result; 
 	}
 

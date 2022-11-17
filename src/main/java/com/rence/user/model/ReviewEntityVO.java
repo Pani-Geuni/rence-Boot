@@ -28,19 +28,19 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 @Table(name="REVIEW")
-public class ReviewVO {
+public class ReviewEntityVO {
 	
 	@Id	// PK 설정
 	@Column(name="review_no")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_review")
-	@SequenceGenerator(sequenceName = "seq_review", allocationSize = 1, name = "seq_review")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_REVIEW")
+	@SequenceGenerator(sequenceName = "SEQ_REVIEW", allocationSize = 1, name = "SEQ_REVIEW")
 	String review_no;
 	
 	@Column(name="review_content")
 	String review_content;
 	
 	@Column(name="review_point")
-	Integer review_point;
+	Float review_point;
 	
 	@Column(name="review_date", insertable = false, updatable = false)
 	@ColumnDefault(value="sysdate")

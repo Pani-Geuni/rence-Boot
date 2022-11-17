@@ -42,7 +42,7 @@ import com.rence.office.model.PaymentInfoVO;
 import com.rence.office.model.Comment_EntityVO;
 import com.rence.office.service.OfficeService;
 //import com.rence.user.model.ReviewVO;
-import com.rence.user.model.ReviewVO;
+import com.rence.user.model.ReviewEntityVO;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -355,14 +355,14 @@ public class OfficeController {
 	@ApiOperation(value="후기 추가 컨트롤러", notes="후기 추가 로직 컨트롤러")
 	@GetMapping(value = "/office/insert_review")
 	@ResponseBody
-	public String insert_review(ReviewVO vo, Model model) {
+	public String insert_review(ReviewEntityVO vo, Model model) {
 		int result = service.insert_review(vo);
 		
         Map<String, String> map = new HashMap<>();
  
         // Map -> Json 문자열
         Gson gson = new Gson();
-		if (result == 1) {
+		if (result != -1) {
 			map.put("result", "1");
 		} else {
 			map.put("result", "0");

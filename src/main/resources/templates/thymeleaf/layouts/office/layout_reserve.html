@@ -5,11 +5,40 @@
 <!-- 과거 예약 상세 정보 / 현재 예약 상세 정보 / 예약 및 결제 페이지 -->
 <!DOCTYPE html>
 <html>
-<head th:replace="thymeleaf/html/office/common/head :: head(~{::link}, ~{::script}, layout_reserve)">
+<head>
+	<title>RENCE</title>
+	
+	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+
+	<script src="../../../../static/JS/common/jquery-3.6.1.min.js"></script>
+    <script src="static/JS/common/jquery.cookie.js"></script>
+    
+    <script src="static/JS/common/core.min.js"></script>
+    <script src="static/JS/common/sha256.min.js"></script>
+    
+    <script src="static/JS/office/header.js"></script>
+    <script src="static/JS/office/user_popup.js"></script>
+
+	<link rel="stylesheet" href="static/CSS/common/common.css" />
+	<link rel="stylesheet" href="static/CSS/office/login.css" />
+	<link rel="stylesheet" href="static/CSS/office/header.css" />
+	<link rel="stylesheet" href="static/CSS/common/footer.css" />
 	<link rel="stylesheet" href="${path}/resources/CSS/office/reserve_info.css" />
 
     <script src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
     <script src="static/JS/office/payment_page.js"></script>
+    
+	<script>
+		$(function(){
+			var user_image = $.cookie("user_image");
+			
+			var is_login = window.sessionStorage.getItem("is_login");
+			
+			if(is_login != null){
+				$(".user_profile_img").attr("src", "../../../../static/upload/" + user_image);
+			}
+		});
+	</script>
 </head>
 <body>
 	<div class ="pageWrap">

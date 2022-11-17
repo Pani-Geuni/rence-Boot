@@ -1,15 +1,22 @@
+/**
+ * @author 김예은
+*/
 package com.rence.office.repo;
 
 import java.text.ParseException;
 import java.util.List;
 import java.util.stream.Stream;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.rence.office.model.Comment_EntityVO;
 import com.rence.office.model.ListViewVO;
-import com.rence.user.model.ReviewVO;
+import com.rence.user.model.ReviewEntityVO;
 
 public interface OfficeInfoRepository extends JpaRepository<ListViewVO, Object> {
 
@@ -33,15 +40,19 @@ public interface OfficeInfoRepository extends JpaRepository<ListViewVO, Object> 
 //	
 //	public int reserve_paymentOK(OfficePaymentVO pvo);
 //	
+	
+	@Transactional
+	@Modifying
 	@Query(nativeQuery = true, value = 
 		"insert into review(review_no, review_content, review_point, review_date, room_no, backoffice_no, user_no) "
-		+ "	values('R'||SEQ_REVIEW.nextval, :#{#vo.review_content}, :#{#vo.review_point}, sysdate, :#{#vo.room_no}, :#{#vo.backoffice_no}, :#{#vo.user_no})")
-	public int insert_review(ReviewVO vo);
+		+ "	values(SEQ_REVIEW.nextval, :#{#vo?.review_content}, :review_point, sysdate, :#{#vo?.room_no}, :#{#vo?.backoffice_no}, :#{#vo?.user_no})")
+	void insert_review(@Param("review_point") Float review_point,@Param("vo") ReviewEntityVO vo);
 
-
+	@Transactional
+	@Modifying
 	@Query(nativeQuery = true, value = 
 			"insert into comments(comment_no, mother_no, comment_content, comment_date, room_no, backoffice_no, user_no, host_no) "
-			+ "		values('C'||SEQ_COMMENTS.nextval, null, :#{#vo.comment_content}, sysdate, :#{#vo.room_no}, :#{#vo.backoffice_no}, #{#vo.user_no}, null)")
+			+ "		values('C'||SEQ_COMMENTS.nextval, null, :#{#vo?.comment_content}, sysdate, :#{#vo?.room_no}, :#{#vo?.backoffice_no}, #{#vo?.user_no}, null)")
 	public int insert_question(Comment_EntityVO vo);
 
 }
