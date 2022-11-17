@@ -30,7 +30,7 @@ $(function(){
 
     $("#go-myPage").click(function(){
         $("#after_login>.custom-select-user").addClass("blind");
-        location.href="/common/go_my_page";
+        location.href="/rence/go_my_page";
     });
     $("#go-logOut").click(function(){
         $("#after_login>.custom-select-user").addClass("blind");
@@ -155,8 +155,7 @@ $(function(){
                 location = "";
             }
 
-            window.location.href="/search_list?type="+ type +"&location="+ location +"&searchWord="+$("#input_searchBar").val()+"&condition=date";
-            // window.location.href="/common/search_list?type="+ type +"&location="+ location +"&searchWord="+$("#input_searchBar").val()+"&condition=date";
+            window.location.href="/common/search_list?type="+ type +"&location="+ location +"&searchWord="+$("#input_searchBar").val()+"&condition=date";
         }
         else{
             $(".popup-background:eq(1)").removeClass("blind");

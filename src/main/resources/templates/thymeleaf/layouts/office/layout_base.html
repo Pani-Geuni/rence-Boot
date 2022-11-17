@@ -10,7 +10,7 @@
 	
 	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
 
-	<script src="../../../../static/JS/common/jquery-3.6.1.min.js"></script>
+	<script src="static/JS/common/jquery-3.6.1.min.js"></script>
     <script src="static/JS/common/jquery.cookie.js"></script>
     
     <script src="static/JS/common/core.min.js"></script>
@@ -53,14 +53,18 @@
 		    <script src="static/JS/office/space_detail_introduce_office.js"></script>
 		</th:block>
     </th:block>
+    
+	<script type="text/javascript" th:inline="javascript">
+		/*<![CDATA[*/
+			var is_login2 = /*[[ ${session.user_id} ]]*/
+		/*]]*/	
+	</script>
 	
 	<script>
 		$(function(){
 			var user_image = $.cookie("user_image");
 			
-			var is_login = window.sessionStorage.getItem("is_login");
-			
-			if(is_login != null){
+			if(is_login2 != null){
 				$(".user_profile_img").attr("src", "../../../../static/upload/" + user_image);
 			}
 			
@@ -90,7 +94,12 @@
 </head>
 <body>
 	<div class ="pageWrap">
-		<div th:replace="thymeleaf/html/office/common/header :: header"></div>
+		<th:block th:if="${session.user_id} == null">
+			<div th:replace="thymeleaf/html/office/common/header :: header"></div>
+		</th:block>
+		<th:block th:if="${session.user_id} != null">
+			<div th:replace="thymeleaf/html/office/common/header :: after_login_header"></div>
+		</th:block>
 	
 		<section class ="contentWrap">
 			<th:block th:if="${res} != null and ${res.page} == 'list_page'">

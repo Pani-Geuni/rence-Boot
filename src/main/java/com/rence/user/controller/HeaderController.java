@@ -4,16 +4,11 @@
 
 package com.rence.user.controller;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.text.DecimalFormat;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.rence.office.model.ListViewVO;
 import com.rence.office.service.OfficeService;
-import com.rence.user.model.UserMypageVO;
-import com.rence.user.model.UserVO;
 
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @Api(tags="공통 컨트롤러")
-//@RequestMapping("/common")
+@RequestMapping("/common")
 public class HeaderController {
 	
 	@Autowired
