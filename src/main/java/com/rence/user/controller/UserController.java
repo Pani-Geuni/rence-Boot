@@ -51,58 +51,58 @@ public class UserController {
 	//자동 개행 및 줄 바꿈 (new Gson은 일자로 나옴)
 	Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-	/**
-	 * 로그인 완료
-	 */
-	@ApiOperation(value = "로그인 성공", notes = "로그인 성공 입니다")
-	@PostMapping("/loginSuccess")
-	@ResponseBody
-	public String user_loginOK(@RequestParam String username, HttpServletResponse response) {
-		log.info("user_loginOK ()...");
-		log.info("username: {}", username);
-		
-		UserVO uvo = service.user_login_info(username);
-		
-		Map<String, String> map = new HashMap<String, String>();
-
-//		UserVO uvo2 = service.User_loginOK(uvo);
-
-		session.setAttribute("user_id", uvo.getUser_id());
-
-		Cookie cookie = new Cookie("user_no", uvo.getUser_no()); // 고유번호 쿠키 저장
-		Cookie cookie2 = new Cookie("user_image", uvo.getUser_image()); // 고유번호 쿠키 저장
-		response.addCookie(cookie);
-		response.addCookie(cookie2);
-
-		log.info("User Login success.....");
-		map.put("result", "1"); // 로그인 성공
-
-		String jsonObject = gson.toJson(map);
-
-		return jsonObject;
-	}
-
-	/**
-	 * 로그인 실패
-	 */
-	@ApiOperation(value = "로그인 실패", notes = "로그인 실패 입니다")
-	@PostMapping("/loginFail")
-	@ResponseBody
-	public String user_loginFail(UserVO uvo, HttpServletResponse response) {
-		log.info("user_loginFail ()...");
-		log.info("result: {}", uvo);
-		
-		Map<String, String> map = new HashMap<String, String>();
-
-		
-
-		log.info("User Login failed.....");
-		map.put("result", "0"); // 로그인 실패
-
-		String jsonObject = gson.toJson(map);
-
-		return jsonObject;
-	}
+//	/**
+//	 * 로그인 완료
+//	 */
+//	@ApiOperation(value = "로그인 성공", notes = "로그인 성공 입니다")
+//	@PostMapping("/loginSuccess")
+//	@ResponseBody
+//	public String user_loginOK(@RequestParam String username, HttpServletResponse response) {
+//		log.info("user_loginOK ()...");
+//		log.info("username: {}", username);
+//		
+//		UserVO uvo = service.user_login_info(username);
+//		
+//		Map<String, String> map = new HashMap<String, String>();
+//
+////		UserVO uvo2 = service.User_loginOK(uvo);
+//
+//		session.setAttribute("user_id", uvo.getUser_id());
+//
+//		Cookie cookie = new Cookie("user_no", uvo.getUser_no()); // 고유번호 쿠키 저장
+//		Cookie cookie2 = new Cookie("user_image", uvo.getUser_image()); // 고유번호 쿠키 저장
+//		response.addCookie(cookie);
+//		response.addCookie(cookie2);
+//
+//		log.info("User Login success.....");
+//		map.put("result", "1"); // 로그인 성공
+//
+//		String jsonObject = gson.toJson(map);
+//
+//		return jsonObject;
+//	}
+//
+//	/**
+//	 * 로그인 실패
+//	 */
+//	@ApiOperation(value = "로그인 실패", notes = "로그인 실패 입니다")
+//	@PostMapping("/loginFail")
+//	@ResponseBody
+//	public String user_loginFail(UserVO uvo, HttpServletResponse response) {
+//		log.info("user_loginFail ()...");
+//		log.info("result: {}", uvo);
+//		
+//		Map<String, String> map = new HashMap<String, String>();
+//
+//		
+//
+//		log.info("User Login failed.....");
+//		map.put("result", "0"); // 로그인 실패
+//
+//		String jsonObject = gson.toJson(map);
+//
+//		return jsonObject;
+//	}
 
 	/**
 	 * 로그아웃 완료
