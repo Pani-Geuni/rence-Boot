@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rence.backoffice.model.BackOfficeVO;
+import com.rence.dashboard.model.ReserveSummaryVO;
+import com.rence.dashboard.service.DashboardService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,6 +32,9 @@ import lombok.extern.slf4j.Slf4j;
 public class DashBoardController {
 	
 	Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	
+	@Autowired
+	DashboardService service;
 
 	/**
 	 * 대쉬보드 메인
@@ -37,7 +43,7 @@ public class DashBoardController {
 	@GetMapping("/main")
 	public String dashboard_main(Model model, String backoffice_no) {
 
-//		List<ReserveSummaryVO> rvos = service.reserve_summary_selectAll(backoffice_no);
+		List<ReserveSummaryVO> rvos = service.reserve_summary_selectAll(backoffice_no);
 //		List<CommentSummaryVO> cvos = service.comment_summary_selectAll(backoffice_no);
 //		SalesSettlementSummaryVO svo = service.payment_summary_selectOne(backoffice_no);
 //		RoomSummaryVO rmvo = service.room_summary_selectOne(backoffice_no);
