@@ -1,6 +1,9 @@
 package com.rence.user.repository;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.rence.user.model.UserVO;
@@ -38,10 +41,12 @@ public interface UserRepository extends JpaRepository<UserVO, Object> {
 
 	//아이디 중복체크
 	@Query(nativeQuery = true, value= "select * from userinfo where user_id=?1")
-	public UserVO idCheckOK(String user_no);
+	public UserVO idCheckOK(String user_id);
 
 	
 	//회원가입 - 테이블에 저장
+	@Transactional
+	@Modifying
 	@Query(nativeQuery = true, 
 			value= "insert into\r\n"
 					+ "	userinfo(user_no,user_id,user_pw,user_name,user_email,user_tel,user_birth,user_state)\r\n"
@@ -49,10 +54,12 @@ public interface UserRepository extends JpaRepository<UserVO, Object> {
 	public int user_insertOK(String user_id, String user_pw, String user_name, String user_email,String user_tel, String user_birth);
 
 	//회원가입-마일리지테이블에 초기마일리지 세팅을 위해 유저번호 추출
-	@Query(nativeQuery = true, value="select user_no from( select user_no from userinfo order by user_no desc ) where rownum between 1 and 1")
+	@Query(nativeQuery = true, value="select * from( select * from userinfo order by user_no desc ) where rownum between 1 and 1")
 	public UserVO user_select_userno();
 
 	//회원가입 - 회원가입 성공시 초기마일리지 mileage테이블에 저장
+	@Transactional
+	@Modifying
 	@Query(nativeQuery = true, 
 			value="insert into mileage(mileage_no,mileage_total,mileage_change,mileage_state,user_no) values('M'||seq_mileage.nextval,0,0,'T',?1)")
 	public int user_mileage_zero_insert(String user_no);

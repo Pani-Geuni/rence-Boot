@@ -115,7 +115,7 @@ public class UserService implements UserDetailsService {
 		log.info("uvo: {}", uvo);
 		
 		
-		return repository.idCheckOK(uvo.getUser_no());
+		return repository.idCheckOK(uvo.getUser_id());
 	
 	}
 	
