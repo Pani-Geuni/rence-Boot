@@ -17,8 +17,13 @@ public interface UserAuthRepository extends JpaRepository<UserAuthVO, Object> {
 
 	//auth테이블 정보 가져오기
 	@Query(nativeQuery = true, 
-	value="select * from (select auth_no, auth_code, user_email from AUTH where user_email=?1 order by rownum desc)where rownum <= 1")
+	value="select * from(select * from auth where user_email=?1 order by auth_no desc) where rownum <= 1")
 	public UserAuthVO auth_select(String user_email);
+//	select * from auth where user_email=?1 rownum <= 1
+//	select * from(select * from auth where user_email=?1 order by auth_no desc) where rownum <= 1;
+//	"select auth_no, auth_code, user_email from "
+//	+ "(select * from auth where user_email=?1 order by rownum desc)where rownum <= 1"
+//	
 	
 //	//auth테이블 정보 가져오기
 //	@Query(
@@ -36,12 +41,14 @@ public interface UserAuthRepository extends JpaRepository<UserAuthVO, Object> {
 	
 	//인증번호 확인
 	@Query(nativeQuery = true, 
-	value="select * from ( select * from (select user_email,auth_code,auth_no from auth where user_email='?1' order by auth_stime desc) where (rownum between 1 and 1))where auth_code='?2'")
+	value="select * from ( select * from (select * from auth where user_email=?1 order by auth_stime desc) where rownum between 1 and 1)where auth_code=?2")
 	public UserAuthVO user_authOK_select(String user_email, String email_code);
 
 	//인증완료후 인증정보 테이블에서 삭제
+	@Transactional
+	@Modifying
 	@Query(nativeQuery = true, 
-			value="delete from auth where auth_code=?1 and user_email=?2")
+			value="delete from auth where user_email=?1 and auth_code=?2")
 	public int user_auth_delete(String user_email, String email_code);
 
 

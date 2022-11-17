@@ -183,8 +183,8 @@ public class UserJoinController {
 	}
 
 	// 회원가입완료
-	@ApiOperation(value="아이디 중복 체크", notes="아이디 중복 체크 입니다.")
-	@GetMapping("/joinOK")
+	@ApiOperation(value="회원가입 성공", notes="회원가입 성공 입니다.")
+	@PostMapping("/joinOK")
 	@ResponseBody
 	public String user_joinOK(UserVO uvo) {
 		logger.info("Welcome! user_joinOK");
