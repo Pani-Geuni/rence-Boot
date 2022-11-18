@@ -25,8 +25,8 @@ import com.rence.dashboard.model.CommentInsertVO;
 import com.rence.dashboard.model.CommentListQView;
 import com.rence.dashboard.model.CommentVO;
 import com.rence.dashboard.model.ReserveSummaryVO;
-import com.rence.dashboard.model.ReserveVO;
-import com.rence.dashboard.model.ReviewListVO;
+import com.rence.dashboard.model.ReserveVIEW;
+import com.rence.dashboard.model.ReviewListView;
 import com.rence.dashboard.model.RoomInsertVO;
 import com.rence.dashboard.model.RoomVO;
 import com.rence.dashboard.service.DashboardService;
@@ -379,14 +379,14 @@ public class DashBoardController {
 	}
 
 	/**
-	 * 리뷰 (리스트) -----에러 엔티티
+	 * 리뷰 (리스트)
 	 */
 	@ApiOperation(value="리뷰 리스트", notes="대쉬보드 공간 관리 페이지 - 리뷰")
 	@GetMapping("/review")
 	public String dashboard_review(Model model, String backoffice_no, @RequestParam(value = "page", defaultValue = "1") Integer page) {
 		log.info("backoffice_review ()...");
 		log.info("{}", backoffice_no);
-		List<ReviewListVO> rvvos = service.backoffice_review_selectAll(backoffice_no,page);
+		List<ReviewListView> rvvos = service.backoffice_review_selectAll(backoffice_no,page);
 		log.info("rvvos : {}", rvvos);
 		model.addAttribute("rv_vos", rvvos);
 		model.addAttribute("cnt", rvvos.size());
@@ -405,7 +405,7 @@ public class DashBoardController {
 	public String dashboard_reserve(Model model, String backoffice_no, String reserve_state, @RequestParam(value = "page", defaultValue = "1") Integer page) {
 		log.info("backoffice_reserve ()...");
 		log.info("{}", backoffice_no);
-		List<ReserveVO> rvos = service.backoffice_reserve_selectAll(backoffice_no, reserve_state, page);
+		List<ReserveVIEW> rvos = service.backoffice_reserve_selectAll(backoffice_no, reserve_state, page);
 		model.addAttribute("r_vos", rvos);
 		model.addAttribute("cnt", rvos.size());
 		model.addAttribute("reserve_state", reserve_state);

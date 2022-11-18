@@ -11,6 +11,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Immutable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,13 +22,14 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="REVIEW")
+@Immutable
+@Table(name="REVIEW_LIST_B_VIEW")
 @Slf4j
-public class ReviewListVO implements Serializable{
+public class ReviewListView implements Serializable{
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "SEQ_REVIEW")
-	@SequenceGenerator(sequenceName = "SEQ_REVIEW",allocationSize = 1,name = "SEQ_REVIEW")
+//	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "SEQ_REVIEW")
+//	@SequenceGenerator(sequenceName = "SEQ_REVIEW",allocationSize = 1,name = "SEQ_REVIEW")
 	@Column(name="review_no")
 	private String review_no;
 	
@@ -39,11 +42,14 @@ public class ReviewListVO implements Serializable{
 	@Column(name="review_date")
 	private String review_date;
 	
-//	@Column(name="user_image")
+	@Column(name="user_no")
+	private String user_no;
+	
 	@Transient
+//	@Column(name="user_image")
 	private String user_image;
 	
-//	@Column(name="user_name")
 	@Transient
+//	@Column(name="user_name")
 	private String user_name;
 }

@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Immutable;
 
 import com.rence.backoffice.model.BackOfficeVO;
 
@@ -24,14 +25,15 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="RESERVEINFO")
+@Immutable
+@Table(name="RESERVE_LIST_B_VIEW")
 @Slf4j
-public class ReserveVO {
+public class ReserveVIEW {
 
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "SEQ_RESERVE")
-	@SequenceGenerator(sequenceName = "SEQ_RESERVE",allocationSize = 1,name = "SEQ_RESERVE")
+//	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "SEQ_RESERVE")
+//	@SequenceGenerator(sequenceName = "SEQ_RESERVE",allocationSize = 1,name = "SEQ_RESERVE")
 	@Column(name="reserve_no")
 	private String reserve_no;
 	
@@ -50,17 +52,17 @@ public class ReserveVO {
 	@Column(name="reserve_state")
 	private String reserve_state;
 	
-	@Column(name="room_no")
-	private String room_no;
-	
-	@Column(name="user_no")
-	private String user_no;
+//	@Column(name="room_no")
+//	private String room_no;
+//	
+//	@Column(name="user_no")
+//	private String user_no;
 	
 	@Column(name="backoffice_no")
 	private String backoffice_no;
 	
-	@Column(name="room_type")
-	private String room_type;
+//	@Column(name="room_type")
+//	private String room_type;
 	
 	@Transient
 	private String room_name;

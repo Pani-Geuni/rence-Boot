@@ -12,6 +12,9 @@ import org.springframework.stereotype.Repository;
 import com.rence.dashboard.repository.CommentAListRepository;
 import com.rence.dashboard.repository.CommentQListRepository;
 import com.rence.dashboard.repository.ReserveRepository;
+import com.rence.dashboard.repository.ReviewRepository;
+import com.rence.dashboard.repository.UserNTERepository;
+import com.rence.user.model.UserVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,6 +30,12 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 	
 	@Autowired
 	ReserveRepository rv_repository;
+	
+	@Autowired
+	ReviewRepository r_repository;
+	
+	@Autowired
+	UserNTERepository u_repository;
 
 	@Override
 	public List<CommentListQView> backoffice_qna_selectAll(String backoffice_no, Integer start_row, Integer end_row) {
@@ -59,18 +68,18 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 	}
 
 	@Override
-	public List<ReserveVO> backoffice_reserve_selectAll(String backoffice_no, String reserve_state, Integer start_row, Integer end_row) {
+	public List<ReserveVIEW> backoffice_reserve_selectAll(String backoffice_no, String reserve_state, Integer start_row, Integer end_row) {
 		log.info("backoffice_reserve_selectAll().....");
 		log.info("reserve_state: {}.....",reserve_state);
 		log.info("start_row: {}.....",start_row);
 		log.info("end_row: {}.....",end_row);
 		
-		List<ReserveVO> reserve = new ArrayList<ReserveVO>();
+		List<ReserveVIEW> reserve = new ArrayList<ReserveVIEW>();
 		
 		if (reserve_state.equals("all")) {
 			log.info("---------------------------------------{}",reserve_state);
 			reserve = rv_repository.backoffice_reserve_selectAll(backoffice_no,start_row,end_row);
-			List<ReserveVO> reserve2 = new ArrayList<ReserveVO>();
+			List<ReserveVIEW> reserve2 = new ArrayList<ReserveVIEW>();
 //			for (ReserveVO reserveVO : reserve) {
 //				rm.room_name, u.user_name, u.user_tel, u.user_email, p.actual_payment, p.payment_state, 
 //			}
@@ -83,6 +92,22 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 			reserve = rv_repository.backoffice_reserve_selectAll_cancel(backoffice_no,start_row,end_row);
 		}
 		return reserve;
+	}
+
+	@Override
+	public List<ReviewListView> backoffice_review_selectAll(String backoffice_no, Integer start_row, Integer end_row) {
+		List<ReviewListView> review = r_repository.backoffice_review_selectAll(backoffice_no,start_row, end_row);
+		log.info("REVIEW : : : : : {}",review);
+		
+		UserVO user = new UserVO();
+		for (ReviewListView reviewListView : review) {
+			user.setUser_no(reviewListView.getUser_no());
+			user = u_repository.select_user_nte(user.getUser_no());
+			reviewListView.setUser_image(user.getUser_image());
+			reviewListView.setUser_name(user.getUser_name());
+		}
+		log.info("REVIEW : : : : : {}",review);
+		return review;
 	}
 
 }

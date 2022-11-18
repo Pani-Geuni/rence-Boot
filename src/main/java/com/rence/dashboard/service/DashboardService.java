@@ -19,8 +19,8 @@ import com.rence.dashboard.model.CommentListQView;
 import com.rence.dashboard.model.CommentVO;
 import com.rence.dashboard.model.DashBoardDAO;
 import com.rence.dashboard.model.ReserveSummaryVO;
-import com.rence.dashboard.model.ReserveVO;
-import com.rence.dashboard.model.ReviewListVO;
+import com.rence.dashboard.model.ReserveVIEW;
+import com.rence.dashboard.model.ReviewListView;
 import com.rence.dashboard.model.RoomInsertVO;
 import com.rence.dashboard.model.RoomVO;
 import com.rence.dashboard.repository.CommentInsertRepository;
@@ -29,6 +29,8 @@ import com.rence.dashboard.repository.CommentRepository;
 import com.rence.dashboard.repository.ReserveRepository;
 import com.rence.dashboard.repository.ReviewRepository;
 import com.rence.dashboard.repository.RoomRepository;
+import com.rence.dashboard.repository.UserNTERepository;
+import com.rence.user.model.UserVO;
 import com.rence.dashboard.repository.RoomInsertRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -60,6 +62,9 @@ public class DashboardService {
 	
 	@Autowired
 	ReviewRepository r_repository;
+	
+	@Autowired
+	UserNTERepository u_repository;
 	
 	@Autowired
 	DashBoardDAO dao;
@@ -206,7 +211,7 @@ public class DashboardService {
 	}
 
 	// 공간 후기
-	public List<ReviewListVO> backoffice_review_selectAll(String backoffice_no, Integer currentPage) {
+	public List<ReviewListView> backoffice_review_selectAll(String backoffice_no, Integer currentPage) {
 		log.info("backoffice_review_selectAll().....");
 		log.info("currentpage:{}", currentPage);
 
@@ -214,11 +219,11 @@ public class DashboardService {
 		Integer start_row = (currentPage - 1) * row_count + 1;
 		Integer end_row = currentPage * row_count;
 		
-		return r_repository.backoffice_review_selectAll(backoffice_no,start_row, end_row);
+		return dao.backoffice_review_selectAll(backoffice_no,start_row, end_row);
 	}
 
 	// 예약 리스트
-	public List<ReserveVO> backoffice_reserve_selectAll(String backoffice_no, String reserve_state, Integer currentPage) {
+	public List<ReserveVIEW> backoffice_reserve_selectAll(String backoffice_no, String reserve_state, Integer currentPage) {
 		log.info("backoffice_reserve_selectAll().....");
 		log.info("currentpage:{}", currentPage);
 
