@@ -117,9 +117,10 @@ public class BackOfficeController {
 			MultipartHttpServletRequest mtfRequest, @RequestParam(value = "multipartFile_room") MultipartFile multipartFile_room, @RequestParam(value = "multipartFile_host") MultipartFile multipartFile_host) throws ParseException {
 
 		BackOfficeOperatingTimeVO_datetype ovo2 = new BackOfficeOperatingTimeVO_datetype();
-		vo = fileService.backoffice_fileupload(vo, mtfRequest, multipartFile_room);
+		
+		vo = fileService.backoffice_image_upload(vo, mtfRequest, multipartFile_room);
 		log.info("filupload room:{}", vo);
-		vo = fileService.host_fileupload(vo, multipartFile_host);
+		vo = fileService.host_image_upload(vo, multipartFile_host);
 		log.info("filupload host:{}", vo);
 
 		// 운영시간
