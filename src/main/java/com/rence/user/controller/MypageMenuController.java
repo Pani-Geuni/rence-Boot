@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.rence.office.model.ReserveInfo_ViewVO;
-import com.rence.user.model.UserShortInfoViewVO;
+import com.rence.user.model.UserDTO;
 import com.rence.user.service.MypageMenuSerivice;
 
 import io.swagger.annotations.Api;
@@ -40,30 +40,39 @@ public class MypageMenuController {
 	@GetMapping(value = "/reserve_info")
 	public String reserve_info(String reserve_no, Model model, HttpServletRequest request) {
 		String user_no = null;
+		
 		Cookie[] cookies = request.getCookies();
-		for (Cookie c : cookies) {
-			if (c.getName().equals("user_no")) {
-				user_no = c.getValue();
+		if(cookies != null) {
+			for (Cookie c : cookies) {
+				if (c.getName().equals("user_no")) {
+					user_no = c.getValue();
+				}
 			}
+			log.info("user_no : {}", user_no);
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			ReserveInfo_ViewVO vo = service.select_one_reserve_info(reserve_no);
+			log.info("ReserveInfo_ViewVO | {}", vo);
+			map.put("reserve_no", reserve_no);
+			map.put("info_obj", vo);
+			
+			UserDTO vo2 = service.select_one_user_info(user_no);
+			log.info("UserDTO | {}", vo2);
+			map.put("user_obj", vo2);
+			model.addAttribute("res", map);
+			
+			log.info("reserve_info : {}", map);
+			
+			model.addAttribute("content", "thymeleaf/html/office/reserve/reserve_detail_now");
+			
+			return "thymeleaf/layouts/office/layout_reserve";
+			
 		}
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		ReserveInfo_ViewVO vo = service.select_one_reserve_info(reserve_no);
-		log.info("ReserveInfo_ViewVO | {}", vo);
-		map.put("reserve_no", reserve_no);
-		map.put("info_obj", vo);
-
-		UserShortInfoViewVO vo2 = service.select_one_user_info(user_no);
-		log.info("UserShortInfoViewVO | {}", vo2);
-		map.put("user_obj", vo2);
-		model.addAttribute("res", map);
-		
-		log.info("reserve_info : {}", map);
-		
-		model.addAttribute("content", "thymeleaf/html/office/reserve/reserve_detail_now");
-
-		return "thymeleaf/layouts/office/layout_reserve";
+		else {
+			return "redirect:/";
+		}
+			
 	}
 	
 	/**
@@ -85,7 +94,8 @@ public class MypageMenuController {
 		map.put("reserve_no", reserve_no);
 		map.put("info_obj", vo);
 		
-		UserShortInfoViewVO vo2 = service.select_one_user_info(user_no);
+		UserDTO vo2 = service.select_one_user_info(user_no);
+		log.info("UserDTO | {}", vo2);
 		map.put("user_obj", vo2);
 		model.addAttribute("res", map);
 		
