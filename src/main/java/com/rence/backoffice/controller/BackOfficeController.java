@@ -7,6 +7,7 @@ package com.rence.backoffice.controller;
 
 import java.security.Principal;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -116,7 +117,6 @@ public class BackOfficeController {
 			MultipartHttpServletRequest mtfRequest, @RequestParam(value = "multipartFile_room") MultipartFile multipartFile_room, @RequestParam(value = "multipartFile_host") MultipartFile multipartFile_host) throws ParseException {
 
 		BackOfficeOperatingTimeVO_datetype ovo2 = new BackOfficeOperatingTimeVO_datetype();
-//		vo = new BackOfficeVO(null, "ss", "dd", "s", "s", "s", "s", "s", "s", "s", "s", "s", "s", "s", "s", "s", "s", "s", "s", null, "s");
 		vo = fileService.backoffice_fileupload(vo, mtfRequest, multipartFile_room);
 		log.info("filupload room:{}", vo);
 		vo = fileService.host_fileupload(vo, multipartFile_host);
@@ -126,6 +126,10 @@ public class BackOfficeController {
 		ovo2 = operatingTime.operatingTime(ovo, ovo2);
 
 		// 백오피스 insert
+		
+		vo.setBackoffice_state("W");
+		vo.setApply_date(new Date());
+		
 		BackOfficeVO bvo2 = service.insertOK(vo);
 		log.info("vo::::::::::::::::::::::::::{}", bvo2);
 
