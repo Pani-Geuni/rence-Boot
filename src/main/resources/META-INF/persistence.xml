@@ -18,7 +18,7 @@
          <property name="javax.persistence.jdbc.password"
             value="Golfzonrence1234" />
           <property name="javax.persistence.jdbc.url"
-            value="jdbc:oracle:thin:@rence_high?TNS_ADMIN=C:/golfzon/DOC/wallet" /> 
+            value="jdbc:oracle:thin:@rence_high?TNS_ADMIN=./src/main/resources/OracleCloud/wallet" /> 
 
 
          <!-- 콘솔에 SQL 출력 여부 -->

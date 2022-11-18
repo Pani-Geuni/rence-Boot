@@ -14,7 +14,6 @@ import com.rence.dashboard.repository.CommentQListRepository;
 import com.rence.dashboard.repository.ReserveRepository;
 import com.rence.dashboard.repository.ReviewRepository;
 import com.rence.dashboard.repository.RoomInsertRepository;
-import com.rence.dashboard.repository.UserNTERepository;
 import com.rence.office.model.OfficeReserveVO;
 import com.rence.office.model.OfficeReserveVO_date;
 import com.rence.office.model.OfficeRoomVO;
@@ -38,9 +37,6 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 	
 	@Autowired
 	ReviewRepository r_repository;
-	
-	@Autowired
-	UserNTERepository u_repository;
 	
 	@Autowired
 	RoomInsertRepository rm_repository;
@@ -83,9 +79,6 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		log.info("end_row: {}.....",end_row);
 		
 		List<ReserveVIEW> reserve = null;
-		OfficeReserveVO r = new OfficeReserveVO();
-		RoomVO rm = new RoomVO();
-		BOPaymentVO p = new BOPaymentVO();
 		
 		if (reserve_state.equals("all")) {
 			reserve = rv_repository.backoffice_reserve_selectAll(backoffice_no,start_row,end_row);
@@ -97,41 +90,35 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 			reserve = rv_repository.backoffice_reserve_selectAll_cancel(backoffice_no,start_row,end_row);
 		}
 		
-//		for (ReserveVIEW reserveVIEW : reserve) {
-//			r.setUser_no(reserveVIEW.getUser_no());
-//			r = rm_repository.select_reserve_info(r.getUser_no());
-//			reserveVIEW.setReserve_sdate(r.getReserve_sdate());
-//			reserveVIEW.setReserve_edate(r.getReserve_edate());
-//			reserveVIEW.setReserve_state(r.getReserve_state());
-//			
-//			rm.setRoom_name(reserveVIEW.getRoom_name());
-//			
-//			p.setUser_no(reserveVIEW.getUser_no());
-//			p = =_repository.select_payment_info(p.getUser_no());
-//			p.setActual_payment(reserveVIEW.getActual_payment());
-//			p.setPayment_state(reserveVIEW.getPayment_state());
-//			
-////		rm.room_name, u.user_name, u.user_tel, u.user_email, p.actual_payment, p.payment_state, 
-//	}
-		
 		log.info("OOOOOOOOOOOOOOOOOOOOO{}",reserve);
 		return reserve;
 	}
 
 	@Override
-	public List<ReviewListView> backoffice_review_selectAll(String backoffice_no, Integer start_row, Integer end_row) {
-		List<ReviewListView> review = r_repository.backoffice_review_selectAll(backoffice_no,start_row, end_row);
-		log.info("REVIEW : : : : : {}",review);
+	public List<ReserveVIEW> backoffice_search_reserve(String backoffice_no, String reserve_state, String searchword,
+			Integer start_row, Integer end_row) {
+		log.info("reserve_state: {}.....",reserve_state);
+		log.info("start_row: {}.....",start_row);
+		log.info("end_row: {}.....",end_row);
+		log.info("end_row: {}.....",searchword);
 		
-		UserVO user = new UserVO();
-		for (ReviewListView reviewListView : review) {
-			user.setUser_no(reviewListView.getUser_no());
-			user = u_repository.select_user_nte(user.getUser_no());
-			reviewListView.setUser_image(user.getUser_image());
-			reviewListView.setUser_name(user.getUser_name());
+		List<ReserveVIEW> reserve = null;
+		
+		if (reserve_state.equals("all")) {
+			reserve = rv_repository.backoffice_reserve_selectAll_search(backoffice_no,start_row,end_row,"%"+searchword+"%");
+		}else if(reserve_state.equals("in_use")){
+			reserve = rv_repository.backoffice_reserve_selectAll_inuse_search(backoffice_no,start_row,end_row,"%"+searchword+"%");
+		}else if(reserve_state.equals("end")){
+			reserve = rv_repository.backoffice_reserve_selectAll_end_search(backoffice_no,start_row,end_row,"%"+searchword+"%");
+		}else if(reserve_state.equals("cancel")){
+			reserve = rv_repository.backoffice_reserve_selectAll_cancel_search(backoffice_no,start_row,end_row,"%"+searchword+"%");
 		}
-		log.info("REVIEW : : : : : {}",review);
-		return review;
+		
+		log.info("OOOOOOOOOOOOOOOOOOOOO{}",reserve);
+		return reserve;
+
 	}
+
+
 
 }

@@ -8,6 +8,8 @@ public interface DashBoardDAO {
 
 	public List<ReserveVIEW> backoffice_reserve_selectAll(String backoffice_no, String reserve_state,Integer start_row, Integer end_row);
 
-	public List<ReviewListView> backoffice_review_selectAll(String backoffice_no, Integer start_row, Integer end_row);
+	public List<ReserveVIEW> backoffice_search_reserve(String backoffice_no, String reserve_state, String searchword,
+			Integer start_row, Integer end_row);
+
 
 }
