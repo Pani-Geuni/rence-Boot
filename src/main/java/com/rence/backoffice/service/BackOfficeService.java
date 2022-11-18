@@ -45,15 +45,8 @@ public class BackOfficeService implements UserDetailsService {//
 		log.info("insertOK().....");
 
 		BackOfficeVO bvo2 = null;
-		
-		vo.setBackoffice_pw(new BCryptPasswordEncoder().encode(vo.getBackoffice_pw()));
-		
-		int flag = repository.insert_backoffice(vo.getBackoffice_no(), vo.getOwner_name(), vo.getBackoffice_id(),
-				vo.getBackoffice_name(), vo.getCompany_name(), vo.getBackoffice_tel(), vo.getBackoffice_email(),
-				vo.getZipcode(), vo.getRoadname_address(), vo.getNumber_address(), vo.getDetail_address(),
-				vo.getBackoffice_tag(), vo.getBackoffice_info(), vo.getBackoffice_option(), vo.getBackoffice_around(),
-				vo.getBackoffice_image(), vo.getHost_image(), vo.getBackoffice_state(), vo.getApply_date(),
-				vo.getBackoffice_type());
+
+		int flag = repository.insert_backoffice(vo, vo.getApply_date());
 
 		if (flag == 1) {
 			bvo2 = repository.select_backoffice_no(vo.getBackoffice_email());
@@ -66,9 +59,11 @@ public class BackOfficeService implements UserDetailsService {//
 	 * 백오피스 신청 처리 - 운영시간
 	 * 
 	 */
-	public String backoffice_operating_insert(BackOfficeOperatingTimeVO_datetype ovo2) {
+	public int backoffice_operating_insert(BackOfficeOperatingTimeVO_datetype ovo2) {
 		log.info("backoffice_operating_insert().....");
-		return oper_repository.save(ovo2).getOpetime_no();
+//		return oper_repository.save(ovo2).getOpetime_no();
+		return oper_repository.insert_operating_time(ovo2, ovo2.getMon_stime(), ovo2.getMon_etime(), ovo2.getTue_stime(), ovo2.getTue_etime(), ovo2.getWed_stime(), ovo2.getWed_etime(), 
+				ovo2.getThu_stime(), ovo2.getThu_etime(), ovo2.getFri_stime(), ovo2.getFri_etime(), ovo2.getSat_stime(), ovo2.getSat_etime(), ovo2.getSun_stime(), ovo2.getSun_etime());
 	}
 
 	/**

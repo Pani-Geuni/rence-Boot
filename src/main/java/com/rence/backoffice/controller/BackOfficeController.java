@@ -136,12 +136,12 @@ public class BackOfficeController {
 
 		// 운영시간 insert
 		ovo2.setBackoffice_no(bvo2.getBackoffice_no());
-		String result = service.backoffice_operating_insert(ovo2);
+		int result = service.backoffice_operating_insert(ovo2);
 		log.info("ovo::::::::::::::::::::::::::{}", ovo2);
 
-		String rt = "redirect:backoffice/landing";
-		if (result == null || bvo2 == null) {
-			return "redirect:backoffice/insert";
+		String rt = "redirect:landing";
+		if (result == 0 || bvo2 == null) {
+			return "redirect:insert";
 		}
 
 		return rt;
