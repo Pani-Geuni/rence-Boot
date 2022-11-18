@@ -10,12 +10,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.rence.office.model.ReserveInfo_ViewVO;
+import com.rence.user.model.MyPageReserveListVO;
 import com.rence.user.model.UserMileageVO;
 import com.rence.user.model.UserMypageVO;
 import com.rence.user.model.UserVO;
 import com.rence.user.repository.MileageRepository;
-import com.rence.user.repository.MypageMenuRepository;
+import com.rence.user.repository.MyReserveRepository;
 import com.rence.user.repository.MypageRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +30,8 @@ public class UserMypageSerivice {
 	@Autowired
 	MileageRepository mileageRepository;
 	
+	@Autowired
+	MyReserveRepository myReserveRepository;
 	
 	public UserMypageSerivice() {
 		log.info("UserSerivice().....");
@@ -47,14 +49,15 @@ public class UserMypageSerivice {
 
 	
 	//총마일리지 
-	public UserMileageVO user_mileage_selectOne(UserVO uvo) {
-		log.info("user_mileage_selectOne()...."+uvo.getUser_no());
-		return repository.findByUser_no(uvo.getUser_no());
+	public UserMileageVO totalMileage_selectOne(UserVO uvo) {
+		log.info("totalMileage_selectOne()...."+uvo.getUser_no());
+		return mileageRepository.totalMileage_selectOne(uvo.getUser_no());
+//		return null;
 
 	}
 
 	public List<UserMileageVO> user_mileage_selectAll(UserVO uvo) {
-		log.info("user_mileage_selectOne()...."+uvo.getUser_no());
+		log.info("user_mileage_selectAll()...."+uvo.getUser_no());
 		return mileageRepository.mileage_selectAll(uvo.getUser_no());
 		
 	}
@@ -111,6 +114,28 @@ public class UserMypageSerivice {
 		log.info("uvo: {}",uvo);
 		
 		return repository.user_img_updateOK(uvo.getUser_image(),uvo.getUser_no());
+	}
+
+	//마이페이지- 현재 예약현황 리스트
+	public List<MyPageReserveListVO> select_all_now_reserve_list(String user_no) {
+		log.info("select_all_now_reserve_list()....");
+		log.info("user_no: {}",user_no);
+		
+		List<MyPageReserveListVO> vos = myReserveRepository.select_all_now_reserve_list(user_no);
+		log.info("vos: {}",vos);
+		
+		return vos;
+	}
+
+	//마이페이지- 과거 예약현황 리스트
+	public List<MyPageReserveListVO> select_all_before_reserve_list(String user_no) {
+		log.info("select_all_before_reserve_list()....");
+		log.info("user_no: {}",user_no);
+		
+		List<MyPageReserveListVO> vos = myReserveRepository.select_all_before_reserve_list(user_no);
+		log.info("vos: {}",vos);
+		
+		return vos;
 	}
 
 
