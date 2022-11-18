@@ -276,7 +276,8 @@ public class DashboardService {
 		log.info("backoffice_select_pw().....");
 		log.info("{}.....",bvo);
 		
-		return b_repository.backoffice_select_pw(bvo.getBackoffice_no(),bvo.getBackoffice_pw());
+		return b_repository.backoffice_select_pw(bvo.getBackoffice_no());
+//		return b_repository.backoffice_select_pw(bvo.getBackoffice_no(),bvo.getBackoffice_pw());
 	}
 
 	// 업체 탈퇴 요청
