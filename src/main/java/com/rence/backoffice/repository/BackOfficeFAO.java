@@ -1,3 +1,8 @@
+/**
+ * 
+ * @author 최진실
+ *
+ */
 package com.rence.backoffice.repository;
 
 import org.springframework.web.multipart.MultipartFile;

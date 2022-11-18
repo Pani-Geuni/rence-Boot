@@ -31,12 +31,10 @@ public class BackOfficeFileService {
 	BackOfficeFAO fao;
 
 	public BackOfficeVO backoffice_image_upload(BackOfficeVO vo, MultipartHttpServletRequest mtfRequest,MultipartFile multipartFile_room) {
-		// TODO Auto-generated method stub
 		return fao.backoffice_fileupload(vo,mtfRequest,multipartFile_room);
 	}
 
 	public BackOfficeVO host_image_upload(BackOfficeVO vo, MultipartFile multipartFile_host) {
-		// TODO Auto-generated method stub
 		return fao.host_fileupload(vo,multipartFile_host);
 	}
 	
