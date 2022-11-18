@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.rence.office.model.ReserveInfo_ViewVO;
-import com.rence.user.model.UserShortInfo_ViewVO;
+import com.rence.user.model.UserShortInfoViewVO;
 import com.rence.user.service.MypageMenuSerivice;
 
 import io.swagger.annotations.Api;
@@ -51,10 +51,12 @@ public class MypageMenuController {
 		
 		ReserveInfo_ViewVO vo = service.select_one_reserve_info(reserve_no);
 		log.info("ReserveInfo_ViewVO | {}", vo);
-		
 		map.put("reserve_no", reserve_no);
 		map.put("info_obj", vo);
-		map.put("user_obj", service.select_one_user_info(user_no));
+
+		UserShortInfoViewVO vo2 = service.select_one_user_info(user_no);
+		log.info("UserShortInfoViewVO | {}", vo2);
+		map.put("user_obj", vo2);
 		model.addAttribute("res", map);
 		
 		log.info("reserve_info : {}", map);
@@ -83,7 +85,7 @@ public class MypageMenuController {
 		map.put("reserve_no", reserve_no);
 		map.put("info_obj", vo);
 		
-		UserShortInfo_ViewVO vo2 = service.select_one_user_info(user_no);
+		UserShortInfoViewVO vo2 = service.select_one_user_info(user_no);
 		map.put("user_obj", vo2);
 		model.addAttribute("res", map);
 		

@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.rence.office.model.ReserveInfo_ViewVO;
-import com.rence.user.model.UserShortInfo_ViewVO;
+import com.rence.user.model.UserShortInfoViewVO;
 import com.rence.user.model.UserVO;
 
 public interface MypageMenuRepository extends JpaRepository<ReserveInfo_ViewVO, Object> {
@@ -23,8 +23,8 @@ public interface MypageMenuRepository extends JpaRepository<ReserveInfo_ViewVO, 
 	public ReserveInfo_ViewVO select_one_reserve_info(String reserve_no);
 
 	@Query(nativeQuery = true, value = 
-			"select * from USER_SHORT_INFO_VIEW where user_no = ?1")
-	public UserShortInfo_ViewVO select_one_user_info(String user_no);
+			"select * from USERSHORTINFOVIEW where user_no = ?1")
+	public UserShortInfoViewVO select_one_user_info(String user_no);
 	
 	
 	@Transactional

@@ -25,11 +25,11 @@
 	                <li class="question-list">
 	                    <div class="question-content-wrap">
 	                        <span class="list-status 
-	                        	<th:block th:if="${obj.state} == 'Y'">complete-label</th>
-	                        	<th:block th:if="${obj.state} == 'N'">un-complete-label</th>
+	                        	<th:block th:if="${obj.state} == 'Y'">complete-label</th:block>
+	                        	<th:block th:if="${obj.state} == 'N'">un-complete-label</th:block>
                         	">
-	                        	<th:block th:if="${obj.state} == 'Y'">처리</th>
-	                        	<th:block th:if="${obj.state} == 'N'">미처리</th>
+	                        	<th:block th:if="${obj.state} == 'Y'">처리</th:block>
+	                        	<th:block th:if="${obj.state} == 'N'">미처리</th:block>
 							</span>
 	                        <span class="list-company-name">[[${obj.backoffice_name}]]</span>
 	                        <span class="list-content">
@@ -45,7 +45,7 @@
 	                                    <div class="question-btn-wrap">
 	                                        <span class="question-btn question-d-btn" th:attr="idx=${obj.comment_no}">삭제</span>
 	                                    </div>
-                                    </th>
+                                    </th:block>
                                 </div>
                                 <span>[[${obj.comment_content}]]</span>
                             </div>
@@ -61,8 +61,7 @@
                                     </div>
 		                            <span>[[${obj.answer_content}]]</span>
 		                        </div>
-	                        </th>
-	                        
+	                        </th:block>
 	                    </div>
 	                </li>
                 </th>

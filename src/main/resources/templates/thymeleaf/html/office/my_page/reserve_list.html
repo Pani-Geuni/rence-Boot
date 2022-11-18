@@ -12,10 +12,10 @@
                 <span class="timePoint-select-wrap">
                 	<th:block th:if="${res.type} == 'now'">
 	                    <span class="timePoint-value" time-point="now">현재</span>
-                	</th>
+                	</th:block>
                 	<th:block th:if="${res.type} == 'before'">
 	                    <span class="timePoint-value" time-point="before">과거</span>
-                	</th>
+                	</th:block>
                     <img src="/static/IMG/space-introduce/full-dropdown.svg" alt="full-dropdown" class="full-dropdown"></img>
                 </span>
                 <span>예약한 내역을 보여드려요.</span>
@@ -38,7 +38,7 @@
                         <input type="button" id="go-home-btn" class="go-home" value="홈으로 가기"/>
 	                </div>
 	            </section>
-        	</th>
+        	</th:block>
         	
         	<th:block th:if="${res.cnt} != 0">
 	            <section class="reserve-not-null">
@@ -69,7 +69,7 @@
 		                            </span>
 		                        </section>
 		                    </div>
-		                </th>
+		                </th:block>
 		                <!-- END forEach -->
 	                </section>
 
@@ -86,7 +86,7 @@
 	                    </div>
 	                </section>
             	</section>
-           </th>
+           </th:block>
         </section>
     </div>
 </div>
