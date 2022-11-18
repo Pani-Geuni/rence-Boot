@@ -541,8 +541,10 @@ public class DashBoardController {
 		log.info("backoffice_update_pw ()...");
 		log.info("{}", bvo);
 		
-		bvo.setBackoffice_pw(new BCryptPasswordEncoder().encode(bvo.getBackoffice_pw()));
-		log.info("{}", bvo);
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		
+//		bvo.setBackoffice_pw(new BCryptPasswordEncoder().encode(bvo.getBackoffice_pw()));
+//		log.info("{}", bvo);
 		
 		
 		Map<String, String> map = new HashMap<String, String>();
@@ -551,13 +553,14 @@ public class DashBoardController {
 		BackOfficeVO bvo2 = service.backoffice_select_pw(bvo);
 		log.info("bvo2:::{}", bvo2);
 		
+		boolean result = encoder.matches(bvo.getBackoffice_pw(), bvo2.getBackoffice_pw());
+		log.info("(비밀번호 확인부분)res: {}",result);
 		
-		if (bvo2 != null) {
+		if (result == true) {
+//		if (bvo2 != null) {
 			log.info("successed...");
 			map.put("result", "1");
-		}
-
-		else {
+		}else {
 			log.info("failed...");
 			map.put("result", "0");
 		}
