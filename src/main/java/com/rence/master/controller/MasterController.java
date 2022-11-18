@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.rence.backoffice.model.BackOfficeListVO;
 import com.rence.backoffice.model.BackOfficeVO;
 import com.rence.backoffice.model.EmailVO;
 import com.rence.master.model.MasterEntity;
@@ -141,7 +142,7 @@ public class MasterController {
 //		long total_rowCount = service.total_rowCount();
 //		model.addAttribute("total_rowCount", total_rowCount);
 		
-		List<BackOfficeVO> bvos = service.backoffice_applyList_selectAll(page);
+		List<BackOfficeListVO> bvos = service.backoffice_applyList_selectAll(page);
 		log.info("result: {}.", bvos.size());
 
 		log.info("bvos : {}", bvos);
@@ -235,7 +236,7 @@ public class MasterController {
 //		long total_rowCount = service.total_rowCount();
 //		model.addAttribute("total_rowCount", total_rowCount);
 		
-		List<BackOfficeVO> bvos = service.backoffice_endList_selectAll(page);
+		List<BackOfficeListVO> bvos = service.backoffice_endList_selectAll(page);
 		log.info("result: {}.", bvos.size());
 		
 		model.addAttribute("vos", bvos);

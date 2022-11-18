@@ -37,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 @Entity
 @Table(name="BACKOFFICEINFO")
 @Slf4j
-public class BackOfficeVO implements Serializable, UserDetails{ //,  
+public class BackOfficeListVO implements Serializable{ 
 
 	@Transient
 	@Column(name="rnum")
@@ -61,6 +61,7 @@ public class BackOfficeVO implements Serializable, UserDetails{ //,
 	@Column(name="company_name")
 	private String company_name;
 	
+	@Transient
 	@Column(name="backoffice_pw")
 	private String backoffice_pw;
 	
@@ -70,91 +71,56 @@ public class BackOfficeVO implements Serializable, UserDetails{ //,
 	@Column(name="backoffice_email")
 	private String backoffice_email;
 	
+	@Transient
 	@Column(name="zipcode")
 	private String zipcode;
 	
+	@Transient
 	@Column(name="roadname_address")
 	private String roadname_address;
 	
+	@Transient
 	@Column(name="number_address")
 	private String number_address;
 	
+	@Transient
 	@Column(name="detail_address")
 	private String detail_address;
 	
+	@Transient
 	@Column(name="backoffice_tag")
 	private String backoffice_tag;
 	
+	@Transient
 	@Column(name="backoffice_info")
 	private String backoffice_info;
 	
+	@Transient
 	@Column(name="backoffice_option")
 	private String backoffice_option;
 	
+	@Transient
 	@Column(name="backoffice_around")
 	private String backoffice_around;
 	
+	@Transient
 	@Column(name="backoffice_image")
 	private String backoffice_image;
 	
+	@Transient
 	@Column(name="host_image")
 	private String host_image;
-	
+
+	@Transient
 	@Column(name="backoffice_state")
-	@ColumnDefault(value="W")
 	private String backoffice_state;
 	
-	@Column(name="apply_date", insertable= false, updatable = false)
-	@ColumnDefault(value="sysdate")
-	private Date apply_date;
+	@Column(name="apply_date")
+	private String apply_date;
 	
+	@Transient
 	@Column(name="backoffice_type")
 	private String backoffice_type;
 	
-	@Override
-	public String getPassword() {
-		// TODO Auto-generated method stub
-		return this.getBackoffice_pw();
-	}
-
-	@Override
-	public String getUsername() {
-		// TODO Auto-generated method stub
-		log.info("id::::::::::::::::::{}",this.getBackoffice_id());
-		return this.getBackoffice_id();
-	}
-
-	@Override
-	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		Set<GrantedAuthority> roles = new HashSet<GrantedAuthority>();
-//		for(String role : auth.split(",")) {
-//			roles.add(new SimpleGrantedAuthority(role));
-//		}
-		return roles;
-	}
 
 }

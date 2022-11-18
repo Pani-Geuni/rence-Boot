@@ -5,6 +5,8 @@
  */
 package com.rence.backoffice.service;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -85,10 +87,15 @@ public class BackOfficeService implements UserDetailsService {//
 	public AuthVO backoffice_auth_insert(AuthVO avo) {
 		log.info("backoffice_auth_insert().....");
 
-		AuthVO avo2 = null;
-		avo = auth_repository.save(avo);
+		log.info("avo {} :",avo);
+		
+		avo.setAuth_stime(new Date());
+		int result = auth_repository.insert_auth_info(avo, avo.getAuth_stime());
+		log.info("avo insertOK {} :",avo);
+//		avo = auth_repository.save(avo);
 
-		if (avo != null) {
+		AuthVO avo2 = new AuthVO();
+		if (result != 0) {
 			avo2 = auth_repository.findbyAuth(avo.getUser_email());
 		}
 

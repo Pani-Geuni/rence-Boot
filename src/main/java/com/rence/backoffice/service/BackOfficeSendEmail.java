@@ -22,6 +22,9 @@ import com.rence.backoffice.model.AuthVO;
 import com.rence.backoffice.model.BackOfficeVO;
 import com.rence.backoffice.model.EmailVO;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class BackOfficeSendEmail {
 
@@ -33,6 +36,8 @@ public class BackOfficeSendEmail {
 	//////////////////////////////
 	public AuthVO sendEmail(AuthVO vo, EmailVO evo) {
 
+		log.info("avo email : {} :",vo);
+		
 		// 이메일 제목, 내용 설정
 		evo.setSubject("[rence] 이메일 인증코드");
 		evo.setContent("해당 코드를 인증번호 란에 기입 후, 인증확인을 마쳐주세요.");
