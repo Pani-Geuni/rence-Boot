@@ -1,7 +1,5 @@
 package com.rence.dashboard.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.hibernate.annotations.Immutable;
 
@@ -18,36 +15,25 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@Entity
+@Immutable
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Immutable
-@Table(name="REVIEW_LIST_B_VIEW")
+@Table(name="ROOM_SUMMARY_VIEW")
 @Slf4j
-public class ReviewListView implements Serializable{
+public class RoomSummaryView {
 
 	@Id
-	@Column(name="review_no")
-	private String review_no;
-	
-	@Column(name="review_content")
-	private String review_content;
-	
 	@Column(name="review_point")
 	private float review_point;
 	
-	@Column(name="review_date")
-	private String review_date;
+	@Column(name="comment_no")
+	private int comment_no;
 	
-	@Column(name="user_no")
-	private String user_no;
+	@Column(name="review_no")
+	private int review_no;
 	
-//	@Transient
-	@Column(name="user_image")
-	private String user_image;
-	
-//	@Transient
-	@Column(name="user_name")
-	private String user_name;
+	@Column(name="reserve_no")
+	private int reserve_no;
 }

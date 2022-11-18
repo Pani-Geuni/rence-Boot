@@ -29,25 +29,19 @@ import lombok.extern.slf4j.Slf4j;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
-@ToString
 @Table(name="RESERVE_LIST_B_VIEW")
 @Slf4j
-public class ReserveVIEW {
+public class ReserveListView {
 	
-//	@Transient
 	@Column(name="reserve_no")
 	private String reserve_no;
 	
-//	@Transient
 	@Column(name="reserve_sdate", insertable= false, updatable = false)
 	private String reserve_sdate;
 	
-//	@Transient
 	@Column(name="reserve_edate", insertable= false, updatable = false)
 	private String reserve_edate;
 	
-//	@Transient
 	@Column(name="reserve_state")
 	private String reserve_state;
 	
@@ -62,11 +56,9 @@ public class ReserveVIEW {
 	@Column(name="user_no")
 	private String user_no;
 	
-//	@Transient
 	@Column(name="backoffice_no")
 	private String backoffice_no;
 	
-//	@Transient
 	@Column(name="room_name")
 	private String room_name;
 	
@@ -80,10 +72,9 @@ public class ReserveVIEW {
 	@Column(name="user_tel")
 	private String user_tel;
 	
-//	@Transient
 	@Column(name="actual_payment")
 	private String actual_payment;
-//	@Transient
+	
 	@Column(name="payment_state")
 	private String payment_state;
 
