@@ -1,7 +1,3 @@
-/* ************ */
-/* @author 김예은 */
-/* ************ */
-
 .popup-background{
     width: 100%;
     height: 100%;
@@ -126,6 +122,14 @@
 
     font-size: 30px;
     font-weight: bold;
+
+    position: relative;
+}
+.closer-img{
+    position: absolute;
+    top: 12px;
+    right: 22px;
+    cursor: pointer;
 }
 /* -------------------*/
 .join-popup-input-section{
@@ -313,4 +317,10 @@
     width: auto;
     font-size: 16px;
     text-align: center;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }

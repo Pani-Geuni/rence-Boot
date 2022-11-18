@@ -1,7 +1,3 @@
-/* ************ */
-/* @author 김예은 */
-/* ************ */
-
 .space-detail-wrap{
     width: 100%;
     height: calc(100vh - 95px - 75px);
@@ -10,6 +6,8 @@
     
     flex-direction: column;
     align-items: center;
+
+    position: relative;
 }
 .question-list-wrap * {
     font-family: 'MICEGothic';
@@ -470,7 +468,212 @@
     color: #ffffff;
     letter-spacing: 0.5px;
 }
+.write-review-btn{
+    width: 200px;
+    height: 45px;
+    background-color: #8D9EFF;
+    border-radius: 6px;
 
+    margin-left: 15px;
+    
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: 'HallymGothic';
+    font-weight: 600;
+    font-size: 14px;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+}
+
+/* ************ */
+/* review popup */
+/* ************ */
+.review-popup-wrap * {
+    font-weight: bold;
+    font-family: 'MICEGothic';
+}
+.review-popup-wrap{
+    width: 350px;
+    height: auto;
+
+    position: absolute;
+
+    top: 60px;
+
+    margin: auto;
+
+    display: flex;
+    flex-direction: column;
+
+    box-sizing: border-box;
+    padding: 17px;
+
+    box-shadow: 1px 1px 4px 2px #e4e4e4;
+    background-color: white;
+}
+
+.popup-star-section{
+    margin-bottom: 12px;
+
+    display: flex;
+    align-items: center;
+}
+
+.popup-star-title{
+    font-size: 13.5px;
+    margin-right: 15px;
+}
+.popup-star-wrap{
+    display: flex;
+    align-items: center;
+}
+.popup-star-li{
+    cursor: pointer;
+}
+.r-star{
+    width: 16px;
+    height: 14px;
+}
+
+.review-upload-section{
+    width: 100%;
+    margin-bottom: 25px;
+    display: flex;
+}
+.review-upload-btn{
+    width: 65px;
+    padding: 4px 10px 4px 10px;
+
+    border-radius: 8px;
+    background-color: #42C2FF;
+    
+    font-family: 'HallymGothic';
+    font-weight: 900;
+    font-size: 13px;
+    color: white;
+    cursor: pointer;
+}
+input[type="file"] {
+    display: none;
+}
+.review-upload-value{
+    max-width: 180px;
+    
+    white-space : nowrap;
+    overflow : hidden;
+    text-overflow : ellipsis;
+    
+    border: none;
+
+    margin-left: 10px;
+}
+.review-popup-title{
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+
+    margin-bottom: 20px;
+}
+.review-popup-small-title{
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+
+    margin-bottom: 5px;
+}
+
+.review-popup-type-select-wrap{
+    display: flex;
+    flex-direction: column;
+
+    position: relative;
+}
+.review-popup-select-val-wrap{
+    width: 96%;
+    box-sizing: border-box;
+    padding: 5px 13px 5px 10px;
+    margin-bottom: 16px;
+
+    display: flex;
+    align-items: center;
+    border: 2px solid #2EE49D;
+    border-radius: 8px;
+}
+.review-popup-select-value{
+    width: 100%;
+    white-space : nowrap;
+    overflow : hidden;
+    text-overflow : ellipsis;
+
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+
+    color: #808080;
+}
+.textarea-section{
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.review-write{
+    width: 300px;
+    height: 190px;
+    border: 2px solid #e4e4e4;
+    resize: none;
+    outline-color: #2EE49D;
+
+    text-align: left;
+    font-family: "HallymGothic" !important;
+    font-size: 13.8px;
+    font-weight: 500px;
+
+    margin-bottom: 5px;
+}
+
+.txt-length-wrap{
+    width: 97%;
+    font-size: 12px;
+    text-align: right;
+}
+
+.review-popup-btn-section{
+    display: flex;
+
+    box-sizing: border-box;
+    padding-left: 5px;
+    padding-right: 5px;
+
+    justify-content: space-between;
+}
+.popup-close-btn{
+    width: 145px;
+    height: 24px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 10px;
+    border: 2px solid #e4e4e4;
+    cursor: pointer;
+}
+.popup-create-btn{
+    width: 145px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    background-color: #2EE49D;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+}
 
 
 .confirm-txt-section{
