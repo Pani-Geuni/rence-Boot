@@ -162,11 +162,15 @@ public class BackOfficeController {
 
 		// 이메일 중복 체크
 		BackOfficeVO emailCheck = service.backoffice_email_check(bvo);
+		log.info("{}:",emailCheck);
+		
 		if (emailCheck == null || emailCheck.getBackoffice_state().equals("X")
 				|| emailCheck.getBackoffice_state().equals("N")) {
 
 			avo.setUser_email(bvo.getBackoffice_email());
 
+			log.info("controller avo {} :",avo);
+			
 			// 이메일 전송
 			avo = authSendEmail.sendEmail(avo, evo);
 			if (avo != null) {
