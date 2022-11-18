@@ -20,7 +20,7 @@ public interface AuthRepository extends JpaRepository<AuthVO, Object> {
 	@Query(nativeQuery = true, value="SELECT * from (SELECT * from auth where user_email=?1 order by rownum desc) where rownum = 1")
 	public AuthVO findbyAuth(String user_email);
 
-	@Query(nativeQuery = true, value=" SELECT * from (SELECT * from (SELECT * from auth where user_email=?1 order by rownum desc) where rownum = 1) where auth_code=?2 and user_email=?1")
+	@Query(nativeQuery = true, value=" SELECT * from (SELECT * from auth where user_email=?1 order by rownum desc) where rownum = 1 and auth_code=?2 and user_email=?1")
 	public AuthVO findbyAuthOK(String backoffice_email, String auth_code);
 	
 	@Modifying
