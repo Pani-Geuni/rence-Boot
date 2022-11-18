@@ -5,8 +5,6 @@
 
 package com.rence.user.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -23,8 +21,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="userinfo")
-public class UserShortInfo_ViewVO implements Serializable{
+@Table(name="USERSHORTINFOVIEW")
+public class UserShortInfoViewVO{
 	
 	@Id //pk설정
 	@Column(name="user_no", insertable = false, updatable = false)
@@ -33,11 +31,11 @@ public class UserShortInfo_ViewVO implements Serializable{
 	@Column(name="user_name")	
 	private String user_name; //실명
 	
-	@Column(name="user_email")	
-	private String user_email; //이메일
-	
 	@Column(name="user_tel")	
 	private String user_tel; //전화번호
+	
+	@Column(name="user_email")	
+	private String user_email; //이메일
 	
 	
 }//end class
