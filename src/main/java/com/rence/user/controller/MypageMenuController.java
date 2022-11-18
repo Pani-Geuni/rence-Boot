@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,6 +30,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/rence")
 public class MypageMenuController {
 
+	@Autowired
+	HttpSession session;
 	
 	@Autowired
 	MypageMenuSerivice service;
@@ -41,28 +44,26 @@ public class MypageMenuController {
 	public String reserve_info(String reserve_no, Model model, HttpServletRequest request) {
 		String user_no = null;
 		
+		String is_login = (String)session.getAttribute("user_id");
 		Cookie[] cookies = request.getCookies();
-		if(cookies != null) {
+		
+		if(is_login != null && cookies != null) {
 			for (Cookie c : cookies) {
 				if (c.getName().equals("user_no")) {
 					user_no = c.getValue();
 				}
 			}
-			log.info("user_no : {}", user_no);
 			
 			Map<String, Object> map = new HashMap<String, Object>();
 			
 			ReserveInfo_ViewVO vo = service.select_one_reserve_info(reserve_no);
-			log.info("ReserveInfo_ViewVO | {}", vo);
 			map.put("reserve_no", reserve_no);
 			map.put("info_obj", vo);
 			
 			UserDTO vo2 = service.select_one_user_info(user_no);
-			log.info("UserDTO | {}", vo2);
 			map.put("user_obj", vo2);
 			model.addAttribute("res", map);
 			
-			log.info("reserve_info : {}", map);
 			
 			model.addAttribute("content", "thymeleaf/html/office/reserve/reserve_detail_now");
 			
@@ -81,29 +82,36 @@ public class MypageMenuController {
 	@GetMapping(value = "/reserved_info")
 	public String reserved_info(String reserve_no, Model model, HttpServletRequest request) {
 		String user_no = null;
+		
+		String is_login = (String)session.getAttribute("user_id");
 		Cookie[] cookies = request.getCookies();
-		for (Cookie c : cookies) {
-			if (c.getName().equals("user_no")) {
-				user_no = c.getValue();
+		
+		if(is_login != null && cookies != null) {
+			for (Cookie c : cookies) {
+				if (c.getName().equals("user_no")) {
+					user_no = c.getValue();
+				}
 			}
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			ReserveInfo_ViewVO vo = service.select_one_reserve_info(reserve_no);
+			map.put("reserve_no", reserve_no);
+			map.put("info_obj", vo);
+			
+			UserDTO vo2 = service.select_one_user_info(user_no);
+			log.info("UserDTO | {}", vo2);
+			map.put("user_obj", vo2);
+			model.addAttribute("res", map);
+			
+			log.info("reserved_info : {}", map);
+			
+			model.addAttribute("content", "thymeleaf/html/office/reserve/reserve_detail_before");
+			
+			return "thymeleaf/layouts/office/layout_reserve";
+		}else {
+			return "redirect:/";
 		}
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		ReserveInfo_ViewVO vo = service.select_one_reserve_info(reserve_no);
-		map.put("reserve_no", reserve_no);
-		map.put("info_obj", vo);
-		
-		UserDTO vo2 = service.select_one_user_info(user_no);
-		log.info("UserDTO | {}", vo2);
-		map.put("user_obj", vo2);
-		model.addAttribute("res", map);
-		
-		log.info("reserved_info : {}", map);
-		
-		model.addAttribute("content", "thymeleaf/html/office/reserve/reserve_detail_before");
-
-		return "thymeleaf/layouts/office/layout_reserve";
 	}
 	
 	/**
@@ -111,9 +119,16 @@ public class MypageMenuController {
 	 */
 	@GetMapping(value = "/delete_review")
 	public String delete_review(String user_no, String review_no, Model model) {
-		int result = service.delete_review(review_no);
+		String is_login = (String)session.getAttribute("user_id");
 		
-		return "redirect:/rence/review_list?user_no="+user_no;
+		if(is_login != null) {
+			int result = service.delete_review(review_no);
+			
+			return "redirect:/rence/review_list?user_no="+user_no;
+		}
+		else {
+			return "redirect:/";
+		}
 	}
 
 	
@@ -122,9 +137,16 @@ public class MypageMenuController {
 	 */
 	@GetMapping(value = "/delete_comment")
 	public String delete_comment(String user_no, String comment_no) {
-		int result = service.delete_comment(comment_no);
+		String is_login = (String)session.getAttribute("user_id");
 		
-		return "redirect:/rence/question_list?user_no="+user_no;
+		if(is_login != null) {
+			int result = service.delete_comment(comment_no);
+			
+			return "redirect:/rence/question_list?user_no="+user_no;
+		}
+		else {
+			return "redirect:/";
+		}
 	}
 	
 }

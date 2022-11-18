@@ -27,7 +27,7 @@
 
 
     /*****************************/ 
-    /******* 버튼 클릭 이벤트 *********/ 
+    /******* 버튼 클릭 이벤트 ********/ 
     /*****************************/ 
     
     // 공용 알러트 창 닫기버튼
@@ -240,6 +240,33 @@
     
 
     /*********** 회원가입 팝업 ************/
+    $(".closer-img").click(function(){
+        //INPUT 초기화
+        $(".join-popup-input").val("");
+        $(".join-popup-input-short").val("");
+        $(".join-popup-input-short").removeClass("readOnly");
+        $(".join-popup-input-short").attr("readonly", false);
+
+        // 에러 메세지 초기화
+        $(".warning-text").addClass("blind");
+
+        // 경고 테두리 초기화
+        $(".join-popup-input").removeClass("null-input-border");
+        $(".join-popup-input-short").removeClass("null-input-border");
+
+        // 버튼 초기화
+        $("#check_id").prop("check", undefined);
+        $("#check_id").val("중복확인");
+        $("#check_email").prop("check", undefined);
+        $("#check_email").val("인증하기");
+        $("#check_email-code").prop("check", undefined);
+        $("#check_email-code").val("확인");
+
+        // 팝업 관련창 닫음
+        $("#join-section").addClass("blind");
+        $(".popup-background:eq(0)").addClass("blind");
+    });
+
     //회원가입 버튼 클릭
     $("#join-btn").click(function(){
         if(

@@ -68,19 +68,8 @@
 				$(".user_profile_img").attr("src", "../../../../static/upload/" + user_image);
 			}
 			
-			$("#review-write-btn").click(function(){
-				if(is_login != null){
-					$("#review-popup").removeClass("blind");
-				}
-				else{
-					$(".popup-background:eq(1)").removeClass("blind");
-		            $("#common-alert-popup").removeClass("blind");
-		            $(".common-alert-txt").text("로그인 후 이용가능한 기능입니다.");
-				}
-			});
-			
 			$("#question-create-btn").click(function(){
-				if(is_login != null){
+				if(is_login2 != null){
 				    $("#question-popup").removeClass("blind");
 				}
 				else{
@@ -142,6 +131,9 @@
         <div id="join-section" class="blind">
             <section class="join-popup-title-section">
                 <span>회원가입</span>
+                <span class="join-closer">
+                    <img src="/static/IMG/common/closer.svg" alt="closer-img" class="closer-img" />
+                </span>
             </section>
             <section class="join-popup-input-section">
                 <div class="input-wrap">
