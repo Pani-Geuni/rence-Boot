@@ -30,7 +30,7 @@ public class UserMileageVO {
 	@Column(name="user_no", insertable = false, updatable = false)
 	private String user_no; // 
 	@Column(name="mileage_total")
-	private int mileage_total;
+	private Integer mileage_total;
 	@Column(name="no")
 	private String no; // mileage_no
 	@Column(name="state")

@@ -32,6 +32,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rence.user.model.MyPageReserveListVO;
+import com.rence.user.model.QuestionVO;
 import com.rence.user.model.UserMileageVO;
 import com.rence.user.model.UserMypageVO;
 import com.rence.user.model.UserVO;
@@ -121,18 +122,21 @@ public class MypageController {
 	/**
 	 * 예약 리스트 이동
 	 */
-	@RequestMapping(value = "/reserve_list", method = RequestMethod.GET)
+	@ApiOperation(value = "예약리스트", notes = "예약리스트 페이지입니다.")
+	@GetMapping("/reserve_list")
+	
 	public String reserve_list(String time_point, String user_no, Model model) {
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		List<MyPageReserveListVO> list = null;
-//		if (time_point.equals("now")) {
-//			list = service.select_all_now_reserve_list(user_no);
-//			map.put("type", "now");
-//		} else if (time_point.equals("before")) {
-//			list = service.select_all_before_reserve_list(user_no);
-//			map.put("type", "before");
-//		}
+		if (time_point.equals("now")) {
+			list = service.select_all_now_reserve_list(user_no);
+			map.put("type", "now");
+		} 
+		else if (time_point.equals("before")) {
+			list = service.select_all_before_reserve_list(user_no);
+			map.put("type", "before");
+		}
 
 		if (list == null)
 			map.put("cnt", 0);
@@ -141,24 +145,30 @@ public class MypageController {
 
 		map.put("list", list);
 		map.put("page", "reserve-list");
+	
 		model.addAttribute("res", map);
 
 		log.info("reserve_list : {}", map);
+		
+		
+		model.addAttribute("content", "thymeleaf/html/office/my_page/reserve_list");
+		model.addAttribute("title", "현재예약리스트");
 
-		return ".my_page/reserve-list";
+//		return ".my_page/reserve-list";
+		return "thymeleaf/layouts/office/layout_myPage";
 	}
 
 	/**
 	 * 마일리지 리스트 페이지 이동
 	 */
 	@ApiOperation(value = "마일리지 리스트", notes = "마일리지 리스트 페이지입니다.")
-	@GetMapping("/go_mileage")
+	@GetMapping("/mileage")
 	public String go_mileage(UserVO uvo, Model model, HttpServletRequest request) {
 		log.info("go_mileage()...");
 		log.info("UserVO(사용자 고유번호): {}", uvo);
 
 		// 총 마일리지 부분
-		UserMileageVO umvo = service.user_mileage_selectOne(uvo);
+		UserMileageVO umvo = service.totalMileage_selectOne(uvo);
 		log.info("umvo: {}", umvo);
 
 		// 마일리지 콤마단위로 변환
@@ -168,9 +178,10 @@ public class MypageController {
 		log.info("mileage_total: " + mileage_total);
 
 		List<UserMileageVO> vos = service.user_mileage_selectAll(uvo);
-		log.info("vos: {}" + vos);
+		log.info("vos: " + vos);
 
 		for (int i = 0; i < vos.size(); i++) {
+			log.info("log**all***"+vos.get(i).getMileage()+"i: "+i);
 			vos.get(i).setMileage(dc.format(Integer.parseInt(vos.get(i).getMileage())));
 		}
 		log.info("Type change vos: {}" + vos);
@@ -199,7 +210,7 @@ public class MypageController {
 		log.info("UserVO(사용자 고유번호): {}", uvo);
 
 		// 총 마일리지 부분
-		UserMileageVO umvo = service.user_mileage_selectOne(uvo);
+		UserMileageVO umvo = service.totalMileage_selectOne(uvo);
 		log.info("umvo: {}", umvo);
 
 //		마일리지 콤마단위로 변환
@@ -209,9 +220,10 @@ public class MypageController {
 		log.info("mileage_total: " + mileage_total);
 
 		List<UserMileageVO> vos = service.user_mileage_search_list(uvo, searchKey);
-		log.info("vos: {}" + vos);
+		log.info("vos: " + vos);
 
 		for (int i = 0; i < vos.size(); i++) {
+			log.info("log*****");
 			vos.get(i).setMileage(dc.format(Integer.parseInt(vos.get(i).getMileage())));
 		}
 		log.info("Type change vos: {}" + vos);
@@ -232,16 +244,32 @@ public class MypageController {
 	/**
 	 * 문의 리스트 페이지 이동
 	 */
-	@ApiOperation(value = "문의 리스트 페이지", notes = "문의 리스트 페이지입니다.")
-	@GetMapping("/go_question_list")
-	public String go_question_list(Model model) {
-		log.info("go_question_list()...");
-
-		model.addAttribute("content", "thymeleaf/html/office/my_page/question-list");
-		model.addAttribute("title", "현재예약리스트");
-
-		return "thymeleaf/layouts/office/layout_myPage";
-	}
+//	@RequestMapping(value = "/question_list", method = RequestMethod.GET)
+//	public String question_list(String user_no, Model model) {
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		List<QuestionVO> list = service.select_all_question(user_no);
+//		if(list != null) {
+//			for(QuestionVO vo : list) {
+//				QuestionVO vo2 = service.select_one_answer(vo.getComment_no());
+//				if(vo2 !=null) {
+//					vo.setAnswer_content(vo2.getAnswer_content());
+//					vo.setAnswer_date(vo2.getAnswer_date());
+//					vo.setState("Y");
+//				}else {
+//					vo.setState("N");
+//				}
+//			}
+//		}
+//		
+//		map.put("page", "question_list");
+//		map.put("list", list);
+//		
+//		model.addAttribute("res", map);
+//		
+//		logger.info("question_list : {}", map);
+//		
+//		return ".my_page/question-list";
+//	}
 
 	/**
 	 * 마이페이지 - 비밀번호 수정
