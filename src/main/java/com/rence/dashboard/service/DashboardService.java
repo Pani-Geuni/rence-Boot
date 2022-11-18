@@ -16,21 +16,27 @@ import com.rence.backoffice.model.BackOfficeVO;
 import com.rence.backoffice.repository.BackOfficeRepository;
 import com.rence.dashboard.model.CommentInsertVO;
 import com.rence.dashboard.model.CommentListQView;
+import com.rence.dashboard.model.CommentSummaryView;
 import com.rence.dashboard.model.CommentVO;
 import com.rence.dashboard.model.DashBoardDAO;
-import com.rence.dashboard.model.ReserveSummaryVO;
-import com.rence.dashboard.model.ReserveVIEW;
+import com.rence.dashboard.model.ReserveSummaryView;
+import com.rence.dashboard.model.ReserveListView;
 import com.rence.dashboard.model.ReviewListView;
 import com.rence.dashboard.model.RoomInsertVO;
+import com.rence.dashboard.model.RoomSummaryView;
 import com.rence.dashboard.model.RoomVO;
+import com.rence.dashboard.model.SalesSettlementDetailView;
+import com.rence.dashboard.model.SalesSettlementSummaryView;
 import com.rence.dashboard.model.SalesSettlementViewVO;
 import com.rence.dashboard.repository.CommentInsertRepository;
 import com.rence.dashboard.repository.CommentQListRepository;
 import com.rence.dashboard.repository.CommentRepository;
 import com.rence.dashboard.repository.ReserveRepository;
+import com.rence.dashboard.repository.ReserveSummaryRepository;
 import com.rence.dashboard.repository.ReviewRepository;
 import com.rence.dashboard.repository.RoomRepository;
 import com.rence.dashboard.repository.SalesSettlementRepository;
+import com.rence.dashboard.repository.CommentSummaryRepository;
 import com.rence.user.model.UserVO;
 import com.rence.dashboard.repository.RoomInsertRepository;
 
@@ -42,6 +48,9 @@ public class DashboardService {
 
 	@Autowired
 	ReserveRepository rv_repository;
+	
+	@Autowired
+	ReserveSummaryRepository r_summary_repository;
 
 	@Autowired
 	RoomRepository rm_repository;
@@ -57,6 +66,9 @@ public class DashboardService {
 	
 	@Autowired
 	CommentRepository c_repository;
+	
+	@Autowired
+	CommentSummaryRepository c_summary_repository;
 	
 	@Autowired
 	CommentInsertRepository c_insert_repository;
@@ -226,7 +238,7 @@ public class DashboardService {
 	}
 
 	// 예약 리스트
-	public List<ReserveVIEW> backoffice_reserve_selectAll(String backoffice_no, String reserve_state, Integer currentPage) {
+	public List<ReserveListView> backoffice_reserve_selectAll(String backoffice_no, String reserve_state, Integer currentPage) {
 		log.info("backoffice_reserve_selectAll().....");
 		log.info("currentpage:{}", currentPage);
 
@@ -238,7 +250,7 @@ public class DashboardService {
 	}
 	
 	//예약 리스트 검색
-	public List<ReserveVIEW> backoffice_search_reserve(String backoffice_no, String searchword, String reserve_state, Integer currentPage) {
+	public List<ReserveListView> backoffice_search_reserve(String backoffice_no, String searchword, String reserve_state, Integer currentPage) {
 		log.info("currentpage:{}", currentPage);
 
 		Integer row_count = 10;
@@ -280,9 +292,35 @@ public class DashboardService {
 		return b_repository.backoffice_updateOK_sales_state_t(backoffice_no,room_no,payment_no);
 	}
 
+	// main - 예약 요약
+	public List<ReserveSummaryView> reserve_summary_selectAll(String backoffice_no) {
+		log.info("reserve_summary_selectAll().....");
+		return r_summary_repository.reserve_summary_selectAll(backoffice_no);
+	}
 
-	
+	// main - 문의 요약
+	public List<CommentSummaryView> comment_summary_selectAll(String backoffice_no) {
+		log.info("comment_summary_selectAll().....");
+		return c_summary_repository.comment_summary_selectAll(backoffice_no);
+	}
 
-	
+	// main - 공간 요약
+	public RoomSummaryView room_summary_selectOne(String backoffice_no) {
+		log.info("room_summary_selectOne().....");
+		return dao.room_summary_selectOne(backoffice_no);
+	}
+
+	// main - 일일 정산
+	public SalesSettlementSummaryView payment_summary_selectOne(String backoffice_no) {
+		log.info("payment_summary_selectOne().....");
+		return dao.payment_summary_selectOne(backoffice_no);
+	}
+
+	// 정산 관리
+	public SalesSettlementDetailView backoffice_sales_selectOne(String backoffice_no, String sales_date) {
+		log.info("SalesSettlementDetailView().....");
+		return dao.SalesSettlementDetailView(backoffice_no,sales_date);
+	}
+
 
 }

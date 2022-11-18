@@ -23,12 +23,16 @@ import com.google.gson.GsonBuilder;
 import com.rence.backoffice.model.BackOfficeVO;
 import com.rence.dashboard.model.CommentInsertVO;
 import com.rence.dashboard.model.CommentListQView;
+import com.rence.dashboard.model.CommentSummaryView;
 import com.rence.dashboard.model.CommentVO;
-import com.rence.dashboard.model.ReserveSummaryVO;
-import com.rence.dashboard.model.ReserveVIEW;
+import com.rence.dashboard.model.ReserveSummaryView;
+import com.rence.dashboard.model.ReserveListView;
 import com.rence.dashboard.model.ReviewListView;
 import com.rence.dashboard.model.RoomInsertVO;
+import com.rence.dashboard.model.RoomSummaryView;
 import com.rence.dashboard.model.RoomVO;
+import com.rence.dashboard.model.SalesSettlementDetailView;
+import com.rence.dashboard.model.SalesSettlementSummaryView;
 import com.rence.dashboard.model.SalesSettlementViewVO;
 import com.rence.dashboard.service.DashboardService;
 
@@ -54,17 +58,21 @@ public class DashBoardController {
 	@GetMapping("/main")
 	public String dashboard_main(Model model, String backoffice_no) {
 
-//		List<ReserveSummaryVO> rvos = service.reserve_summary_selectAll(backoffice_no);
-//		List<CommentSummaryVO> cvos = service.comment_summary_selectAll(backoffice_no);
-//		SalesSettlementSummaryVO svo = service.payment_summary_selectOne(backoffice_no);
-//		RoomSummaryVO rmvo = service.room_summary_selectOne(backoffice_no);
-//
-//		model.addAttribute("r_vos", rvos);
-//		model.addAttribute("r_cnt", rvos.size());
-//		model.addAttribute("c_vos", cvos);
-//		model.addAttribute("c_cnt", cvos.size());
-//		model.addAttribute("svo", svo);
-//		model.addAttribute("rmvo", rmvo);
+		List<ReserveSummaryView> rvos = service.reserve_summary_selectAll(backoffice_no);
+		log.info("dashboard main rvos : {}",rvos);
+		List<CommentSummaryView> cvos = service.comment_summary_selectAll(backoffice_no);
+		log.info("dashboard main cvos : {}",cvos);
+		SalesSettlementSummaryView svo = service.payment_summary_selectOne(backoffice_no);
+		log.info("dashboard main svo : {}",svo);
+		RoomSummaryView rmvo = service.room_summary_selectOne(backoffice_no);
+		log.info("dashboard main rmvo : {}",rmvo);
+
+		model.addAttribute("r_vos", rvos);
+		model.addAttribute("r_cnt", rvos.size());
+		model.addAttribute("c_vos", cvos);
+		model.addAttribute("c_cnt", cvos.size());
+		model.addAttribute("svo", svo);
+		model.addAttribute("rmvo", rmvo);
 
 		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/main");
 		model.addAttribute("title", "대쉬보드 메인");
@@ -406,7 +414,7 @@ public class DashBoardController {
 	public String dashboard_reserve(Model model, String backoffice_no, String reserve_state, @RequestParam(value = "page", defaultValue = "1") Integer page) {
 		log.info("backoffice_reserve ()...");
 		log.info("{}", backoffice_no);
-		List<ReserveVIEW> rvos = service.backoffice_reserve_selectAll(backoffice_no, reserve_state, page);
+		List<ReserveListView> rvos = service.backoffice_reserve_selectAll(backoffice_no, reserve_state, page);
 		model.addAttribute("r_vos", rvos);
 		model.addAttribute("cnt", rvos.size());
 		model.addAttribute("reserve_state", reserve_state);
@@ -425,7 +433,7 @@ public class DashBoardController {
 	public String dashboard_reserve_search(Model model, String backoffice_no, String searchword, String reserve_state, @RequestParam(value = "page", defaultValue = "1") Integer page) {
 		log.info("backoffice_search_reserve ()...");
 		log.info("{}", backoffice_no);
-		List<ReserveVIEW> rvos = service.backoffice_search_reserve(backoffice_no, searchword, reserve_state,page);
+		List<ReserveListView> rvos = service.backoffice_search_reserve(backoffice_no, searchword, reserve_state,page);
 		model.addAttribute("r_vos", rvos);
 		model.addAttribute("cnt", rvos.size());
 		model.addAttribute("reserve_state", reserve_state);
@@ -445,14 +453,15 @@ public class DashBoardController {
 		log.info("backoffice_day_sales()...");
 		log.info("{}", backoffice_no);
 		
-//		SalesSettlementPreVO svo = service.backoffice_sales_selectOne(backoffice_no, sales_date);
-//		model.addAttribute("svo", svo);
-//		model.addAttribute("sales_date",sales_date);
+		SalesSettlementDetailView svo = service.backoffice_sales_selectOne(backoffice_no, sales_date);
+		model.addAttribute("svo", svo);
+		model.addAttribute("sales_date",sales_date);
+		log.info("svo:::{}",svo);
 		
 		List<SalesSettlementViewVO> svos = service.backoffice_sales_selectAll(backoffice_no);
 		model.addAttribute("s_vos", svos);
 		model.addAttribute("cnt", svos.size());
-		log.info("svossvossvos:::{}",svos);
+		log.info("svos:::{}",svos);
 		
 		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/sales_day");
 		model.addAttribute("title", "정산 관리");
