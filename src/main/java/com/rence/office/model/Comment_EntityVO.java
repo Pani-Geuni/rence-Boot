@@ -3,8 +3,6 @@
 */
 package com.rence.office.model;
 
-import java.sql.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,7 +39,7 @@ public class Comment_EntityVO {
 	String comment_content;
 	
 	@Column(name="comment_date")
-	Date comment_date;
+	String comment_date;
 	
 	@Column(name="room_no")
 	String room_no;

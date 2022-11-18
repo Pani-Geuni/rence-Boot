@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
 public class UserMileageVO {
 	
 	@Id
-	@Column(name="user_no", insertable = false, updatable = false)
+	@Column(name="user_no")
 	private String user_no; // 
 	@Column(name="mileage_total")
 	private Integer mileage_total;

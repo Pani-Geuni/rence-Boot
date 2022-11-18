@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rence.office.model.ReserveInfo_ViewVO;
+import com.rence.user.model.UserShortInfo_ViewVO;
 import com.rence.user.model.UserVO;
 import com.rence.user.repository.MypageMenuRepository;
 
@@ -36,8 +37,8 @@ public class MypageMenuSerivice {
 	}
 	
 	// 예약자 정보 불러오기
-	public UserVO select_one_user_info(String user_no){
-		UserVO vo = menuRepository.select_one_user_info(user_no);
+	public UserShortInfo_ViewVO select_one_user_info(String user_no){
+		UserShortInfo_ViewVO vo = menuRepository.select_one_user_info(user_no);
 		
 		return vo;
 	}
