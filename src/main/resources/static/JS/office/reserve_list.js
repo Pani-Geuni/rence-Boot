@@ -11,7 +11,7 @@ $(function(){
         if($(".timePoint-value").attr("time-point") == "before"){
             location.href = "/rence/reserved_info?reserve_no="+$(this).attr("idx");
         }else if($(".timePoint-value").attr("time-point") == "now"){
-            location.href = "/rence/reserve_info?reservation_no="+$(this).attr("idx");
+            location.href = "/rence/reserve_info?reserve_no="+$(this).attr("idx");
         }
     });
 
