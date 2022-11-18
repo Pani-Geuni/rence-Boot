@@ -29,6 +29,7 @@ import com.rence.dashboard.model.ReserveVIEW;
 import com.rence.dashboard.model.ReviewListView;
 import com.rence.dashboard.model.RoomInsertVO;
 import com.rence.dashboard.model.RoomVO;
+import com.rence.dashboard.model.SalesSettlementViewVO;
 import com.rence.dashboard.service.DashboardService;
 
 import io.swagger.annotations.Api;
@@ -379,7 +380,7 @@ public class DashBoardController {
 	}
 
 	/**
-	 * 리뷰 (리스트)
+	 * 리뷰 (리스트) -- 프론트 에러
 	 */
 	@ApiOperation(value="리뷰 리스트", notes="대쉬보드 공간 관리 페이지 - 리뷰")
 	@GetMapping("/review")
@@ -398,7 +399,7 @@ public class DashBoardController {
 	}
 
 	/**
-	 * 예약 관리(리스트) ------에러
+	 * 예약 관리(리스트) -- 프론트 에러
 	 */
 	@ApiOperation(value="예약 리스트", notes="대쉬보드 예약 관리 페이지 - 리스트")
 	@GetMapping("/reserve")
@@ -417,16 +418,16 @@ public class DashBoardController {
 	}
 
 	/**
-	 * 예약 관리(리스트-검색)
+	 * 예약 관리(리스트-검색) -- 프론트 에러
 	 */
 	@ApiOperation(value="예약 리스트 검색", notes="대쉬보드 예약 관리 페이지 - 리스트 검색")
 	@GetMapping("/search_reserve")
-	public String dashboard_reserve_search(Model model, String backoffice_no, String searchword, String reserve_state) {
+	public String dashboard_reserve_search(Model model, String backoffice_no, String searchword, String reserve_state, @RequestParam(value = "page", defaultValue = "1") Integer page) {
 		log.info("backoffice_search_reserve ()...");
 		log.info("{}", backoffice_no);
-//		List<ReserveVO> rvos = service.backoffice_search_reserve(backoffice_no, searchword, reserve_state);
-//		model.addAttribute("r_vos", rvos);
-//		model.addAttribute("cnt", rvos.size());
+		List<ReserveVIEW> rvos = service.backoffice_search_reserve(backoffice_no, searchword, reserve_state,page);
+		model.addAttribute("r_vos", rvos);
+		model.addAttribute("cnt", rvos.size());
 		model.addAttribute("reserve_state", reserve_state);
 		
 		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/reserve_list");
@@ -436,7 +437,7 @@ public class DashBoardController {
 	}
 
 	/**
-	 * 정산 관리(리스트)
+	 * 정산 관리(리스트) -- 프론트 에러
 	 */
 	@ApiOperation(value="정산 관리 리스트", notes="대쉬보드 정산 관리 페이지 - 리스트")
 	@GetMapping("/day_sales")
@@ -447,11 +448,11 @@ public class DashBoardController {
 //		SalesSettlementPreVO svo = service.backoffice_sales_selectOne(backoffice_no, sales_date);
 //		model.addAttribute("svo", svo);
 //		model.addAttribute("sales_date",sales_date);
-//		
-//		List<SalesSettlementVO> svos = service.backoffice_sales_selectAll(backoffice_no);
-//		model.addAttribute("s_vos", svos);
-//		model.addAttribute("cnt", svos.size());
-//		log.info("svossvossvos:::{}",svos);
+		
+		List<SalesSettlementViewVO> svos = service.backoffice_sales_selectAll(backoffice_no);
+		model.addAttribute("s_vos", svos);
+		model.addAttribute("cnt", svos.size());
+		log.info("svossvossvos:::{}",svos);
 		
 		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/sales_day");
 		model.addAttribute("title", "정산 관리");

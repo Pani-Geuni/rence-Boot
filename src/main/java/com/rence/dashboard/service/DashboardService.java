@@ -23,13 +23,14 @@ import com.rence.dashboard.model.ReserveVIEW;
 import com.rence.dashboard.model.ReviewListView;
 import com.rence.dashboard.model.RoomInsertVO;
 import com.rence.dashboard.model.RoomVO;
+import com.rence.dashboard.model.SalesSettlementViewVO;
 import com.rence.dashboard.repository.CommentInsertRepository;
 import com.rence.dashboard.repository.CommentQListRepository;
 import com.rence.dashboard.repository.CommentRepository;
 import com.rence.dashboard.repository.ReserveRepository;
 import com.rence.dashboard.repository.ReviewRepository;
 import com.rence.dashboard.repository.RoomRepository;
-import com.rence.dashboard.repository.UserNTERepository;
+import com.rence.dashboard.repository.SalesSettlementRepository;
 import com.rence.user.model.UserVO;
 import com.rence.dashboard.repository.RoomInsertRepository;
 
@@ -64,13 +65,13 @@ public class DashboardService {
 	ReviewRepository r_repository;
 	
 	@Autowired
-	UserNTERepository u_repository;
+	SalesSettlementRepository s_repository;
 	
 	@Autowired
 	DashBoardDAO dao;
 
 	// Entity Manager
-	EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("persistence");
+//	EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("persistence");
 
 	// 데시보드 메인 - 예약 요약
 //	public List<ReserveSummaryVO> reserve_summary_selectAll(String backoffice_no) {
@@ -221,7 +222,7 @@ public class DashboardService {
 		Integer start_row = (currentPage - 1) * row_count + 1;
 		Integer end_row = currentPage * row_count;
 		
-		return dao.backoffice_review_selectAll(backoffice_no,start_row, end_row);
+		return r_repository.backoffice_review_selectAll(backoffice_no,start_row, end_row);
 	}
 
 	// 예약 리스트
@@ -234,6 +235,17 @@ public class DashboardService {
 		Integer end_row = currentPage * row_count;
 		
 		return dao.backoffice_reserve_selectAll(backoffice_no,reserve_state,start_row, end_row);
+	}
+	
+	//예약 리스트 검색
+	public List<ReserveVIEW> backoffice_search_reserve(String backoffice_no, String searchword, String reserve_state, Integer currentPage) {
+		log.info("currentpage:{}", currentPage);
+
+		Integer row_count = 10;
+		Integer start_row = (currentPage - 1) * row_count + 1;
+		Integer end_row = currentPage * row_count;
+		
+		return dao.backoffice_search_reserve(backoffice_no,reserve_state,searchword,start_row, end_row);
 	}
 
 	// 환경 설정 
@@ -256,11 +268,20 @@ public class DashboardService {
 		return b_repository.update_backoffice_state_o(bvo.getBackoffice_no());
 	}
 
+	// 정산 리스트
+	public List<SalesSettlementViewVO> backoffice_sales_selectAll(String backoffice_no) {
+		log.info("backoffice_sales_selectAll().....");
+		return s_repository.backoffice_sales_selectAll(backoffice_no);
+	}
+	
 	//정산 상태 변경
 	public int backoffice_updateOK_sales(String backoffice_no, String room_no, String payment_no) {
 		log.info("backoffice_updateOK_sales().....");
 		return b_repository.backoffice_updateOK_sales_state_t(backoffice_no,room_no,payment_no);
 	}
+
+
+	
 
 	
 

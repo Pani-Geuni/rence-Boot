@@ -45,11 +45,11 @@ public class ReviewListView implements Serializable{
 	@Column(name="user_no")
 	private String user_no;
 	
-	@Transient
-//	@Column(name="user_image")
+//	@Transient
+	@Column(name="user_image")
 	private String user_image;
 	
-	@Transient
-//	@Column(name="user_name")
+//	@Transient
+	@Column(name="user_name")
 	private String user_name;
 }
