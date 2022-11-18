@@ -38,14 +38,14 @@ public class MypageMenuController {
 	 * 상세 예약 페이지 이동 - 현재
 	 */
 	@GetMapping(value = "/reserve_info")
-	public String reserve_info(String user_no, String reserve_no, Model model, HttpServletRequest request) {
-//		String user_no = null;
-//		Cookie[] cookies = request.getCookies();
-//		for (Cookie c : cookies) {
-//			if (c.getName().equals("user_no")) {
-//				user_no = c.getValue();
-//			}
-//		}
+	public String reserve_info(String reserve_no, Model model, HttpServletRequest request) {
+		String user_no = null;
+		Cookie[] cookies = request.getCookies();
+		for (Cookie c : cookies) {
+			if (c.getName().equals("user_no")) {
+				user_no = c.getValue();
+			}
+		}
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
