@@ -11,7 +11,7 @@ import com.rence.dashboard.model.ReserveVIEW;
 public interface ReserveRepository extends JpaRepository<ReserveVIEW, Object> {
 
 	//d예약 관리 - 리스트(전체)
-	@Query(nativeQuery = true, value=" select * from (select rownum as rnum, reserve_no, reserve_sdate, reserve_edate, room_name, user_name, user_tel, user_email, TO_CHAR(actual_payment) as actual_payment, payment_state, reserve_state \r\n"
+	@Query(nativeQuery = true, value=" select * from (select rownum as rnum, reserve_no, reserve_sdate, reserve_edate, room_name, user_no, user_name, user_tel, user_email, TO_CHAR(actual_payment) as actual_payment, payment_state, reserve_state \r\n"
 			+ "            from ( select * from reserve_list_b_view where backoffice_no=?1 and reserve_state !='false' order by reserve_sdate desc )A where A.no=1)where rnum between ?2 and ?3")
 //	@Query(nativeQuery = true, value=" select * from (select rownum as rnum, reserve_no, reserve_sdate, reserve_edate, room_name, user_name, user_tel, user_email, TO_CHAR(actual_payment) as actual_payment, payment_state, reserve_state from (\r\n"
 //			+ "			select ROW_NUMBER() OVER(PARTITION BY rv.reserve_no ORDER BY rv.reserve_no ASC ) no, rv.reserve_no, TO_CHAR(reserve_sdate, 'YYYY-MM-DD HH24:MI:SS') as reserve_sdate, TO_CHAR(reserve_edate, 'YYYY-MM-DD HH24:MI:SS') as reserve_edate, rm.room_name, u.user_name, u.user_tel, u.user_email, p.actual_payment, p.payment_state, reserve_state\r\n"
