@@ -10,7 +10,7 @@ public class ReserveSummaryVO implements Serializable{
 	private String reserve_edate;
 	private String room_name;
 	private String user_name;
-	private int actual_payment;
+	private int actual_payment; //String
 	private String reserve_state;
 	
 	public ReserveSummaryVO() {}

@@ -9,7 +9,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.rence.backoffice.model.BackOfficeVO;
 
@@ -41,6 +43,7 @@ public interface BackOfficeRepository extends JpaRepository<BackOfficeVO, Object
 	public BackOfficeVO findByBackoffice_email(String backoffice_id); 
 
 
+	// 마스터
 	@Query(nativeQuery = true, value="select * from (select rownum as rnum, backoffice_no,TO_CHAR(apply_date, 'YYYY-MM-DD HH24:MI:SS') as apply_date,company_name,owner_name,backoffice_id,backoffice_name,backoffice_tel,backoffice_email from backofficeinfo where backoffice_state='W' order by apply_date desc) where rnum between ?1 and ?2")
 	public List<BackOfficeVO> selectAll_backoffice_apply(Integer start_row, Integer end_row);
 
@@ -61,7 +64,31 @@ public interface BackOfficeRepository extends JpaRepository<BackOfficeVO, Object
 
 	@Query(nativeQuery = true, value="SELECT * from backofficeinfo where backoffice_id=?1 and backoffice_state !='X'")
 	public BackOfficeVO backoffice_login_info(String username);
-	
+
+	// 대시보드
+	// 공간 관리(추가) - 백오피스 타입
+	@Query(nativeQuery = true, value="select * from backofficeinfo where backoffice_no=?1")
+	public BackOfficeVO select_one_backoffice_info(String backoffice_no);
+
+	// 환경 설정
+	@Query(nativeQuery = true, value="select * from backofficeinfo where backoffice_no=?1")
+	public BackOfficeVO backoffice_setting_selectOne(String backoffice_no);
+
+	// 환경설정 - 비밀번호 변경을 위한 기존 비밀번호 확인
+	@Query(nativeQuery = true, value="SELECT * from backofficeinfo where backoffice_no=?1 and backoffice_pw=?2")
+	public BackOfficeVO backoffice_select_pw(String backoffice_no, String backoffice_pw);
+
+	// 업체 탈퇴 요청
+	@Modifying
+	@Transactional
+	@Query(nativeQuery = true, value="UPDATE backofficeinfo SET backoffice_state='O',apply_date=sysdate where backoffice_no=?1 and backoffice_no not in (select backoffice_no from reserveinfo where backoffice_no=?1 and (reserve_state='begin' or reserve_state='in_use'))")
+	public int update_backoffice_state_o(String backoffice_no);
+
+	// 정산 상태 변경
+	@Modifying
+	@Transactional
+	@Query(nativeQuery = true, value="update paymentinfo set sales_state='T', payment_date=sysdate where backoffice_no=?1 and room_no=?2 and payment_no=?3")
+	public int backoffice_updateOK_sales_state_t(String backoffice_no, String room_no, String payment_no);
 	
 
 
