@@ -73,41 +73,43 @@ public class DashboardService {
 	EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("persistence");
 
 	// 데시보드 메인 - 예약 요약
-	public List<ReserveSummaryVO> reserve_summary_selectAll(String backoffice_no) {
-		log.info("reserve_summary_selectAll().....");
-
-		String sql = "select reserve_no, TO_CHAR(reserve_sdate, 'YYYY-MM-DD HH24:MI:SS') as reserve_sdate , TO_CHAR(reserve_edate, 'YYYY-MM-DD HH24:MI:SS') as reserve_edate, room_name, user_name, actual_payment, reserve_state, BACKOFFICE_NO  \r\n"
-				+ "		from (\r\n"
-				+ "			select ROW_NUMBER() OVER(PARTITION BY r.reserve_no ORDER BY r.reserve_no ASC ) no, r.reserve_no, r.reserve_sdate, r.reserve_edate, rm.room_name, u.user_name, p.actual_payment, r.reserve_state, r.backoffice_no \r\n"
-				+ "			from reserveinfo r left outer join userinfo u on r.user_no=u.user_no \r\n"
-				+ "			left outer join paymentinfo p on u.user_no=p.user_no \r\n"
-				+ "			left outer join backofficeinfo b on p.backoffice_no = b.backoffice_no \r\n"
-				+ "			left outer join roominfo rm on b.backoffice_no = rm.backoffice_no\r\n"
-				+ "			where r.backoffice_no=?1 AND r.reserve_state!='false')A\r\n"
-				+ "		where A.no=1 and ROWNUM <= 6\r\n" + "		order by reserve_sdate desc";
-
-		EntityManager entityManager = entityManagerFactory.createEntityManager();
-
-		entityManager.createNativeQuery(sql).setParameter(1, backoffice_no);
-
-		List<ReserveSummaryVO> vos = null;
-
-		try {
-
-			TypedQuery<ReserveSummaryVO> query = entityManager.createQuery(sql, ReserveSummaryVO.class);
-			vos = query.getResultList();
-
-		} catch (Exception e) {
-			log.info("{}", e);
-			vos = new ArrayList<ReserveSummaryVO>();
-		} finally {
-			entityManager.close();
-		}
-
-		return new ArrayList<ReserveSummaryVO>();
-
-//		return rv_repository.selectAll_reserve_summary(backoffice_no);
-	}
+//	public List<ReserveSummaryVO> reserve_summary_selectAll(String backoffice_no) {
+//		log.info("reserve_summary_selectAll().....");
+//
+//		String sql = "select reserve_no, TO_CHAR(reserve_sdate, 'YYYY-MM-DD HH24:MI:SS') as reserve_sdate , TO_CHAR(reserve_edate, 'YYYY-MM-DD HH24:MI:SS') as reserve_edate, room_name, user_name, actual_payment, reserve_state, backoffice_no  \r\n"
+//				+ "		from (\r\n"
+//				+ "			select ROW_NUMBER() OVER(PARTITION BY r.reserve_no ORDER BY r.reserve_no ASC ) no, r.reserve_no, r.reserve_sdate, r.reserve_edate, rm.room_name, u.user_name, p.actual_payment, r.reserve_state, r.backoffice_no \r\n"
+//				+ "			from reserveinfo r left outer join userinfo u on r.user_no=u.user_no \r\n"
+//				+ "			left outer join paymentinfo p on u.user_no=p.user_no \r\n"
+//				+ "			left outer join backofficeinfo b on p.backoffice_no = b.backoffice_no \r\n"
+//				+ "			left outer join roominfo rm on b.backoffice_no = rm.backoffice_no\r\n"
+//				+ "			where r.backoffice_no=?1 AND r.reserve_state!='false')A\r\n"
+//				+ "		where A.no=1 and ROWNUM <= 6\r\n" + "		order by reserve_sdate desc";
+//
+//		EntityManager entityManager = entityManagerFactory.createEntityManager();
+//
+//		entityManager.createNativeQuery(sql).setParameter(1, backoffice_no);
+//
+//		List<ReserveSummaryVO> vos = null;
+//
+//		try {
+//
+//			TypedQuery<ReserveSummaryVO> query = entityManager.createQuery(sql, ReserveSummaryVO.class);
+//			vos = query.getResultList();
+//
+//		} catch (Exception e) {
+//			log.info("{}", e);
+//			vos = new ArrayList<ReserveSummaryVO>();
+//		} finally {
+//			entityManager.close();
+//		}
+//
+////		return new ArrayList<ReserveSummaryVO>();
+//		log.info("---------------vos : {}",vos);
+//		return vos;
+//
+////		return rv_repository.selectAll_reserve_summary(backoffice_no);
+//	}
 
 	// 공간 관리 - 리스트
 	public List<RoomVO> dashboard_room_list(String backoffice_no) {

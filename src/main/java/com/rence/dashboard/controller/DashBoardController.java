@@ -53,7 +53,7 @@ public class DashBoardController {
 	@GetMapping("/main")
 	public String dashboard_main(Model model, String backoffice_no) {
 
-		List<ReserveSummaryVO> rvos = service.reserve_summary_selectAll(backoffice_no);
+//		List<ReserveSummaryVO> rvos = service.reserve_summary_selectAll(backoffice_no);
 //		List<CommentSummaryVO> cvos = service.comment_summary_selectAll(backoffice_no);
 //		SalesSettlementSummaryVO svo = service.payment_summary_selectOne(backoffice_no);
 //		RoomSummaryVO rmvo = service.room_summary_selectOne(backoffice_no);
