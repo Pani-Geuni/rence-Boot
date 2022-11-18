@@ -3,8 +3,6 @@
 */
 package com.rence.office.model;
 
-import java.sql.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -39,10 +37,10 @@ public class ReserveInfo_ViewVO {
 	String room_type;
 	
 	@Column(name="reserve_sdate")
-	Date reserve_sdate;
+	String reserve_sdate;
 	
 	@Column(name="reserve_edate")
-	Date reserve_edate;
+	String reserve_edate;
 	
 	@Column(name="room_name")
 	String room_name;

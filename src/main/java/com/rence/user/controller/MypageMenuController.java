@@ -15,9 +15,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.rence.office.model.ReserveInfo_ViewVO;
+import com.rence.user.model.UserShortInfo_ViewVO;
 import com.rence.user.service.MypageMenuSerivice;
 
 import io.swagger.annotations.Api;
@@ -38,18 +38,20 @@ public class MypageMenuController {
 	 * 상세 예약 페이지 이동 - 현재
 	 */
 	@GetMapping(value = "/reserve_info")
-	public String reserve_info(String reserve_no, Model model, HttpServletRequest request) {
-		String user_no = null;
-		Cookie[] cookies = request.getCookies();
-		for (Cookie c : cookies) {
-			if (c.getName().equals("user_no")) {
-				user_no = c.getValue();
-			}
-		}
+	public String reserve_info(String user_no, String reserve_no, Model model, HttpServletRequest request) {
+//		String user_no = null;
+//		Cookie[] cookies = request.getCookies();
+//		for (Cookie c : cookies) {
+//			if (c.getName().equals("user_no")) {
+//				user_no = c.getValue();
+//			}
+//		}
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		ReserveInfo_ViewVO vo = service.select_one_reserve_info(reserve_no);
+		log.info("ReserveInfo_ViewVO | {}", vo);
+		
 		map.put("reserve_no", reserve_no);
 		map.put("info_obj", vo);
 		map.put("user_obj", service.select_one_user_info(user_no));
@@ -80,7 +82,9 @@ public class MypageMenuController {
 		ReserveInfo_ViewVO vo = service.select_one_reserve_info(reserve_no);
 		map.put("reserve_no", reserve_no);
 		map.put("info_obj", vo);
-		map.put("user_obj", service.select_one_user_info(user_no));
+		
+		UserShortInfo_ViewVO vo2 = service.select_one_user_info(user_no);
+		map.put("user_obj", vo2);
 		model.addAttribute("res", map);
 		
 		log.info("reserved_info : {}", map);
