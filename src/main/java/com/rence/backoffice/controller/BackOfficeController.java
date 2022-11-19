@@ -127,7 +127,6 @@ public class BackOfficeController {
 		ovo2 = operatingTime.operatingTime(ovo, ovo2);
 
 		// 백오피스 insert
-		
 		vo.setBackoffice_state("W");
 		vo.setApply_date(new Date());
 		
