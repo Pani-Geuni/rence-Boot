@@ -19,7 +19,7 @@ $(function() {
           reserve_state = "end";
           break;
       }
-      location.href="/rence/backoffice_search_reserve?backoffice_no=" + $.cookie("backoffice_no") + "&reserve_state="+ reserve_state + "&searchword=" + $("#input_searchBar").val().trim();
+      location.href="/backoffice/search_reserve?backoffice_no=" + $.cookie("backoffice_no") + "&reserve_state="+ reserve_state + "&searchword=" + $("#input_searchBar").val().trim();
     }
   });
 
@@ -40,6 +40,6 @@ $(function() {
           reserve_state = "end";
           break;
       }
-    location.href="/rence/backoffice_reserve?backoffice_no=" + $.cookie("backoffice_no") + "&reserve_state="+ reserve_state;
+    location.href="/backoffice/reserve?backoffice_no=" + $.cookie("backoffice_no") + "&reserve_state="+ reserve_state;
   });
 });
