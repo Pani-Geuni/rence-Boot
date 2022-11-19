@@ -5,6 +5,7 @@
 package com.rence.master.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ import com.google.gson.GsonBuilder;
 import com.rence.backoffice.model.BackOfficeListVO;
 import com.rence.backoffice.model.BackOfficeVO;
 import com.rence.backoffice.model.EmailVO;
+import com.rence.common.OptionEngToKorMap;
 import com.rence.master.model.MasterEntity;
 import com.rence.master.model.MasterVO;
 import com.rence.master.service.MasterSendEmail;
@@ -292,6 +294,21 @@ public class MasterController {
 		
 		String rt="";
 		if (bvo2!=null) {
+			
+			OptionEngToKorMap optionEngToKorMap = new OptionEngToKorMap();
+			
+			List<String> tag_list = new ArrayList<String>();
+			String[] tag_split  = bvo2.getBackoffice_type().split(",");
+			for (String tag : tag_split) {
+				tag_list.add(optionEngToKorMap.changeType(tag));
+			}
+			
+			List<String> backoffice_option = optionEngToKorMap.splitOption(bvo2.getBackoffice_option());
+			List<String> backoffice_around = optionEngToKorMap.splitAroundOption(bvo2.getBackoffice_around());
+			
+			model.addAttribute("backoffice_tag", tag_list);
+			model.addAttribute("backoffice_option", backoffice_option);
+			model.addAttribute("backoffice_around", backoffice_around);
 			model.addAttribute("vo", bvo2);
 			rt="backoffice/setting";
 		}else { // 굳이 필요없지만 넣어봄,,
