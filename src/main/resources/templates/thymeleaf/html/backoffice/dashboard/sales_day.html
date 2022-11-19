@@ -11,14 +11,17 @@
     <h1>정산</h1>
   </div>
 
-  <div class="boardWrap">
     <div class="boardWrap sales">
       <div class="titleSection sales">
         <h3>일일 정산</h3>
         <ul class="sales-mini-nav">
-          <li id="sales-mini-nav-day" class="nav-item <th:block th:if="${sales_date=='day'}">active</th:block>"><p>일일</p></li>
+          <!-- <li id="sales-mini-nav-day" class="nav-item <th:block th:if="${sales_date=='day'}">active</th:block>"><p>일일</p></li>
           <li id="sales-mini-nav-week" class="nav-item <th:block th:if="${sales_date=='week'}">active</th:block>"><p>주간</p></li>
-          <li id="sales-mini-nav-month" class="nav-item <th:block th:if="${sales_date=='month'}">active</th:block>"><p>월간</p></li>
+          <li id="sales-mini-nav-month" class="nav-item <th:block th:if="${sales_date=='month'}">active</th:block>"><p>월간</p></li> -->
+          
+          <li id="sales-mini-nav-day" class="nav-item" th:classappend="${sales_date}=='day' ? 'active'"><p>일일</p></li>
+          <li id="sales-mini-nav-week" class="nav-item" th:classappend="${sales_date}=='week' ? 'active'"><p>주간</p></li>
+          <li id="sales-mini-nav-month" class="nav-item" th:classappend="${sales_date}=='month' ? 'active'"><p>월간</p></li>
         </ul>
         <!-- END mini-nav -->
       </div>
@@ -57,7 +60,7 @@
             <th:block th:if="${sales_date=='month'}">전월</th:block>
             매출액
           </p>
-          <span id="sales-revenue" class="sales-price">${svo.pre_sales_total}</span>
+          <span id="sales-revenue" class="sales-price">[[ ${svo.pre_sales_total} ]]</span>
         </div>
         <div class="sales-item">
           <p>
@@ -89,31 +92,31 @@
 
       <div class="custom-table">
         <div class="ct-header">
-          <div class="ct-header-cell">예약 날짜</div>
-          <div class="ct-header-cell">대여 공간</div>
-          <div class="ct-header-cell">결제 금액</div>
-          <div class="ct-header-cell">결제 방식</div>
-          <div class="ct-header-cell">정산 여부</div>
+          <div class="ct-header-cell sales">예약 날짜</div>
+          <div class="ct-header-cell sales">대여 공간</div>
+          <div class="ct-header-cell sales">결제 금액</div>
+          <div class="ct-header-cell sales">결제 방식</div>
+          <div class="ct-header-cell sales">정산 여부</div>
         </div>
         <!-- END ct-header -->
         <div class="ct-body">
           <th:block th:each="vos : ${s_vos}">
             <div class="ct-body-row">
-              <div class="ct-body-cell">
+              <div class="ct-body-cell sales">
                 [[ ${vos.reserve_sdate} ]] ~ <br />[[ ${vos.reserve_edate} ]]
               </div>
-              <div class="ct-body-cell">[[${vos.room_name}]]</div>
-              <div class="ct-body-cell">
+              <div class="ct-body-cell sales">[[${vos.room_name}]]</div>
+              <div class="ct-body-cell sales">
                 <p class="sales-price">[[${vos.actual_payment}]]</p>
               </div>
-              <div class="ct-body-cell">
-                <th:block th:if="${vos.payment_state='T'}">선결제</th:block>
-                <th:block th:if="${vos.payment_state='F'}">후결제</th:block>
+              <div class="ct-body-cell sales">
+                <span th:if="${vos.payment_state=='T'}">선결제</span>
+                <span th:if="${vos.payment_state=='F'}">후결제</span>
               </div>
-              <div class="ct-body-cell">
+              <div class="ct-body-cell sales">
                 <th:block th:switch="${vos.sales_state}">
                   <button class="ct-body-btn is_sales_btn" th:case="T" th:attr="end=true">완료</button>
-                  <button class="ct-body-btn is_sales_btn" th:case="F" th:attr="end=false payment_no=${vos.payment_no} room_no=${vos.room_no}"">미완료</button>
+                  <button class="ct-body-btn is_sales_btn" th:case="F" th:attr="end=false, payment_no=${vos.payment_no}, room_no=${vos.room_no}">미완료</button>
                 </th:block>
               </div>
             </div>
@@ -125,8 +128,6 @@
       <!-- END custom-table -->
     </div>
     <!-- END boardWrap sales-list -->
-  </div>
-  <!-- END boardWrap -->
 
 
 </div>

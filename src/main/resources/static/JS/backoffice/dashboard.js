@@ -43,17 +43,6 @@
 
     case '/backoffice/day_sales':
       $('#menu-sales').addClass('active');
-      $('#sales-mini-nav-day').addClass('active');
-      break;
-
-    case '/rence/backoffice_week_sales':
-      $('#menu-sales').addClass('active');
-      $('#sales-mini-nav-week').addClass('active');
-      break;
-
-    case '/rence/backoffice_month_sales':
-      $('#menu-sales').addClass('active');
-      $('#sales-mini-nav-month').addClass('active');
       break;
 
     case '/backoffice/settings':
@@ -68,52 +57,52 @@
   // 좌측 공통 Side Menu
   // *****************
   $('#menu-home').click(function(){
-    location.href = '/rence/backoffice_main?backoffice_no=' + $.cookie("backoffice_no");
+    location.href = '/backoffice/main?backoffice_no=' + $.cookie("backoffice_no");
   });
 
   $('#menu-space').click(function(){
-    location.href = '/rence/backoffice_room?backoffice_no=' + $.cookie("backoffice_no");
+    location.href = '/backoffice/room?backoffice_no=' + $.cookie("backoffice_no");
   });
 
   $('#menu-reserve').click(function(){
-    location.href = "/rence/backoffice_reserve?backoffice_no=" + $.cookie("backoffice_no") + "&reserve_state=all";
+    location.href = "/backoffice/reserve?backoffice_no=" + $.cookie("backoffice_no") + "&reserve_state=all";
   });
 
   $('#menu-sales').click(function(){
-    location.href = '/rence/backoffice_day_sales?backoffice_no=' + $.cookie("backoffice_no") + "&sales_date=day";
+    location.href = '/backoffice/day_sales?backoffice_no=' + $.cookie("backoffice_no") + "&sales_date=day";
   });
 
   $('#menu-settings').click(function(){
-    location.href = '/rence/backoffice_settings?backoffice_no=' + $.cookie("backoffice_no");
+    location.href = '/backoffice/settings?backoffice_no=' + $.cookie("backoffice_no");
   });
 
   // ****************
   // 공간 관리 mini-nav
   // ****************
   $('#mini-nav-list').click(function(){
-    location.href = '/rence/backoffice_room?backoffice_no=' + $.cookie("backoffice_no");
+    location.href = '/backoffice/room?backoffice_no=' + $.cookie("backoffice_no");
   });
 
   $('#mini-nav-qna').click(function(){
-    location.href = '/rence/backoffice_qna?backoffice_no=' + $.cookie("backoffice_no");
+    location.href = '/backoffice/qna?backoffice_no=' + $.cookie("backoffice_no");
   });
 
   $('#mini-nav-review').click(function(){
-    location.href = '/rence/backoffice_review?backoffice_no=' + $.cookie("backoffice_no");
+    location.href = '/backoffice/review?backoffice_no=' + $.cookie("backoffice_no");
   });
 
   // ****************
   // 정산 관리 mini-nav
   // ****************
   $('#sales-mini-nav-day').click(function(){
-    location.href = '/rence/backoffice_day_sales?backoffice_no=' + $.cookie("backoffice_no") + "&sales_date=day";
+    location.href = '/backoffice/day_sales?backoffice_no=' + $.cookie("backoffice_no") + "&sales_date=day";
   });
 
   $('#sales-mini-nav-week').click(function(){
-    location.href = '/rence/backoffice_day_sales?backoffice_no=' + $.cookie("backoffice_no") + "&sales_date=week";
+    location.href = '/backoffice/day_sales?backoffice_no=' + $.cookie("backoffice_no") + "&sales_date=week";
   });
 
   $('#sales-mini-nav-month').click(function(){
-    location.href = '/rence/backoffice_day_sales?backoffice_no=' + $.cookie("backoffice_no") + "&sales_date=month";
+    location.href = '/backoffice/day_sales?backoffice_no=' + $.cookie("backoffice_no") + "&sales_date=month";
   });
 });

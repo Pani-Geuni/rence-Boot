@@ -9,9 +9,9 @@
     <h1>공간 관리</h1>
     <button id="btn-room-add" class="btn-room-add">추가</button>
     <ul class="mini-nav">
-      <li><p id="mini-nav-list" class="nav-item" id="room-list">리스트</p></li>
-      <li><p id="mini-nav-qna" class="nav-item" id="qna-list">문의</p></li>
-      <li><p id="mini-nav-review" class="nav-item" id="review-list">후기</p></li>
+      <li><p id="mini-nav-list" class="nav-item">리스트</p></li>
+      <li><p id="mini-nav-qna" class="nav-item" >문의</p></li>
+      <li><p id="mini-nav-review" class="nav-item">후기</p></li>
     </ul>
     <!-- END mini-nav -->
   </div>
@@ -47,9 +47,9 @@
           </div>
           <div class="ct-body-cell qna">
             <th:block th:switch="${vos.comment_state}">
-              <button th:case="${T}" class="ct-body-btn qna-delete" th:attr="comment_no=${vos.comment_no} room_no = ${vos.room_no} answer_no=${vos.answer_no}">답변 삭제</button>
+              <button th:case="T" class="ct-body-btn qna-delete" th:attr="comment_no=${vos.comment_no}, room_no=${vos.room_no}, answer_no=${vos.answer_no}">답변 삭제</button>
 
-              <button th:case="${F}" class="ct-body-btn qna-add" th:attr="comment_no=${vos.comment_no} room_no = ${vos.room_no} answer_no=${vos.answer_no}">답변 작성</button>
+              <button th:case="F" class="ct-body-btn qna-add" th:attr="comment_no=${vos.comment_no}, room_no=${vos.room_no}, answer_no=${vos.answer_no}">답변 작성</button>
           </th:block>
           </div>
         </div>

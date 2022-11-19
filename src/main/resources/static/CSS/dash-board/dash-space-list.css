@@ -65,6 +65,10 @@ p {
   width: 100%;
 }
 
+#room-type {
+	font-size: 12px;
+}
+
 #room-price {
   font-weight: 700;
 }
