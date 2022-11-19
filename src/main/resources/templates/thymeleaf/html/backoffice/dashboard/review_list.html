@@ -11,9 +11,9 @@
 	<h1>공간 관리</h1>
 	<button id="btn-room-add" class="btn-room-add">추가</button>
 	<ul class="mini-nav">
-		<li><p id="mini-nav-list" class="nav-item" id="room-list">리스트</p></li>
-		<li><p id="mini-nav-qna" class="nav-item" id="qna-list">문의</p></li>
-		<li><p id="mini-nav-review" class="nav-item" id="review-list">후기</p></li>
+		<li><p id="mini-nav-list" class="nav-item">리스트</p></li>
+		<li><p id="mini-nav-qna" class="nav-item" >문의</p></li>
+		<li><p id="mini-nav-review" class="nav-item">후기</p></li>
 	</ul>
 	<!-- END mini-nav -->
 </div>
@@ -24,7 +24,7 @@
     <th:block th:each="vos : ${rv_vos}">
 			<div class="review-item">
 				<div>
-					<img class="profile-image" th:src="/static/upload/${vos.user_image}" alt="profile image" />
+					<img class="profile-image" src="https://rence.s3.ap-northeast-2.amazonaws.com/user/img_host_001.jpg" alt="profile image" />
 				</div>
 				<!-- END profile Image -->
 				<div class="review-main">
