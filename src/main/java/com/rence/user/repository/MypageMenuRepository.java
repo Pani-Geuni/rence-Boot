@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-import com.rence.office.model.ReserveInfo_ViewVO;
+import com.rence.user.model.ReserveInfo_ViewVO;
 import com.rence.user.model.UserDTO;
 
 
@@ -27,6 +27,12 @@ public interface MypageMenuRepository extends JpaRepository<ReserveInfo_ViewVO, 
 			+ "FROM userinfo "
 			+ "where user_no = ?1")
 	public UserDTO select_one_user_info(String user_no);
+	
+	
+	@Query(nativeQuery = true, value = 
+			"SELECT count(review_no) FROM review "
+			+ "where room_no = ?1 and backoffice_no=?2")
+	public int is_write_review(String room_no, String backoffice_no);
 	
 	
 	@Transactional

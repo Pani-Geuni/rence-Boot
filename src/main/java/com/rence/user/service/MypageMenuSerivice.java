@@ -6,7 +6,7 @@ package com.rence.user.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.rence.office.model.ReserveInfo_ViewVO;
+import com.rence.user.model.ReserveInfo_ViewVO;
 import com.rence.user.model.UserDTO;
 import com.rence.user.repository.MypageMenuRepository;
 
@@ -45,6 +45,12 @@ public class MypageMenuSerivice {
 	/** ******************* **/
 	/** 후기 내역 페이지 SECTION **/
 	/** ******************* **/
+	
+	public int is_write_review(String room_no, String backoffice_no) {
+		int result = menuRepository.is_write_review(room_no, backoffice_no);
+		
+		return result;
+	}
 	
 	public int delete_review(String review_no) {
 		int result = menuRepository.delete_review(review_no);

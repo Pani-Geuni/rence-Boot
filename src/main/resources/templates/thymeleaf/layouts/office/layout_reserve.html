@@ -38,8 +38,9 @@
 		$(function(){
 			var user_image = $.cookie("user_image");
 			
+			/** 추후에 변경*/
 			if(is_login2 != null){
-				$(".user_profile_img").attr("src", "../../../../static/upload/" + user_image);
+				$(".user_profile_img").attr("src", "https://rence.s3.ap-northeast-2.amazonaws.com/user/img_host_001.jpg");
 			}
 			
 			$("#write-review-btn").click(function(){
@@ -58,8 +59,8 @@
 				$("#common-alert-popup").addClass("blind");
 				
 				if($(this).attr("is_reload") == true){
-					$(this).attr("is_reload", false);
 					location.reload();
+					$(this).attr("is_reload", false);
 				}
 			});
 			
@@ -74,13 +75,10 @@
 		      $(".review-length").text("0");
 		
 		      $("#review-write").removeClass("null-input-border");
-		      $(".question-popup-select-val-wrap:eq(1)").removeClass("null-input-border");
-		      $(".question-popup-select-val-wrap:eq(1)").removeClass("open-select");
-		    
-		      $("#review-select-choice").text("타입을 선택해 주세요");
-		      $("#review-select-choice").attr("choice_idx", "");
-		      $("#question-select-choice").attr("choice", "");
-		      $(".question-popup-select:eq(1)").addClass("blind");
+		      
+		      // 별점 초기화
+              $(".y-star").addClass("blind");
+			  $(".g-star").removeClass("blind");
 		    
 		      // 팝업 닫기
 		      $("#review-popup").addClass("blind");
@@ -91,19 +89,7 @@
 		    $("#review-write").removeClass("null-input-border");
 		  });
 		
-		  $(".question-popup-select-val-wrap:eq(1)").click(function(){
-		    if($(".question-popup-select:eq(1)").hasClass("blind")){
-		      $(".question-popup-select-val-wrap:eq(1)").addClass("open-select");
-		      $(".question-popup-select:eq(1)").removeClass("blind");
-		      $(".question-popup-select-val-wrap:eq(1)").removeClass("null-input-border");
-		    }
-		    else{
-		      $(".question-popup-select-val-wrap:eq(1)").removeClass("open-select");
-		      $(".question-popup-select:eq(1)").addClass("blind");
-		    }
-		  });
-		
-		  /** 문의글 작성 시 글자수 제한 */
+		  /** 후기 작성 시 글자수 제한 */
 		  $("#review-write").on("keydown keyup", function(){
 		    if($(this).val().length > 500){
 		      $(this).val($(this).val().substring(0,500));
@@ -112,7 +98,7 @@
 		  });
 		
 		  $("#review-create-btn").click(function(){
-		    if($("#review-select-choice").attr("choice") == "true" && $("#review-write").val().trim().length > 0){
+		    if($("#review-write").val().trim().length > 0){
 		      var point = 0;
 		      for(var i = 0; i<5; i++){
 		          if($(".g-star").hasClass("blind")) point++;
@@ -124,8 +110,8 @@
 		        dataType : 'json',
 		        data : {
 		            user_no : $.cookie("user_no"),
-		            backoffice_no : location.href.split("backoffice_no=")[1].split("&")[0],
-		            room_no : $("#review-select-choice").attr("choice_idx"),
+		            backoffice_no : $(this).attr("backoffice_no"),
+		            room_no : $(this).attr("room_no"),
 		            review_point : point,
 		            review_content : $("#review-write").val().trim()
 		        },
@@ -133,17 +119,15 @@
 		            if(res.result == 1){
 		              // TEXTAREA 초기화
 		              $("#review-write").val("");
+		              
 		              // 글자수 초기화
 		              $(".review-length").text("0");
 		
 		              $("#review-write").removeClass("null-input-border");
-		              $(".question-popup-select-val-wrap:eq(1)").removeClass("null-input-border");
-		              $(".question-popup-select-val-wrap:eq(1)").removeClass("open-select");
-		              
-		              $("#review-select-choice").text("타입을 선택해 주세요");
-		              $("#review-select-choice").attr("choice_idx", "");
-		              $("#question-select-choice").attr("choice", "");
-		              $(".question-popup-select:eq(1)").addClass("blind");
+
+		              // 별점 초기화
+		              $(".y-star").addClass("blind");
+					  $(".g-star").removeClass("blind");
 		              
 		              // 팝업 닫기
 		              $("#review-popup").addClass("blind");
@@ -151,7 +135,7 @@
 		              $(".popup-background:eq(1)").removeClass("blind");
 		              $("#common-alert-popup").removeClass("blind");
 		              $(".common-alert-txt").text("성공적으로 후기가 등록되었습니다.");
-		              $(this).attr("is_reload", true);
+		              $("#common-alert-btn").attr("is_reload", true);
 		              
 		            }else{
 		              $(".popup-background:eq(1)").removeClass("blind");
