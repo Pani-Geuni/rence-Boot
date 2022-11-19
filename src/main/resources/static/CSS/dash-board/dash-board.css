@@ -105,16 +105,16 @@
 .boardWrap.sales {
 	flex-direction: column;
 	background-color: #ffffff;
-	width: 48%;
-	height: 400px;
+	width: 100%;
+	height: auto;
 }
 
 .boardWrap.all-sales-list {
 	flex-direction: column;
 	justify-content: flex-start;
 	background-color: #ffffff;
-	width: 48%;
-	height: 700px;
+	width: 100%;
+	height: auto;
 	overflow: scroll;
 }
 

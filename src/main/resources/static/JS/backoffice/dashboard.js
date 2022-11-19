@@ -43,17 +43,6 @@
 
     case '/backoffice/day_sales':
       $('#menu-sales').addClass('active');
-      $('#sales-mini-nav-day').addClass('active');
-      break;
-
-    case '/rence/backoffice_week_sales':
-      $('#menu-sales').addClass('active');
-      $('#sales-mini-nav-week').addClass('active');
-      break;
-
-    case '/rence/backoffice_month_sales':
-      $('#menu-sales').addClass('active');
-      $('#sales-mini-nav-month').addClass('active');
       break;
 
     case '/backoffice/settings':
