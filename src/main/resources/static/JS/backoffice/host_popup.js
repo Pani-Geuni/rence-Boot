@@ -35,16 +35,21 @@ $(function () {
     if($("#login-pw").val().trim().length == 0){
       $("#login-pw").addClass("null-input-border");
     }
+    
+    const token = $("meta[name='_csrf']").attr("content");
+	const header = $("meta[name='_csrf_header']").attr("content");
 
     if($("#login-id").val().trim().length > 0 && $("#login-pw").val().trim().length > 0){
       $.ajax({
-        url : "/rence/backoffice_loginOK",
+        url : "/backoffice/loginOK",
         type : "POST",
         dataType : 'json',
         data : {
-          backoffice_id : $("#login-id").val().trim(),
-          backoffice_pw : CryptoJS.SHA256($("#login-pw").val().trim()).toString()
-        },
+          username : $("#login-id").val().trim(),
+          password : $("#login-pw").val().trim()
+        },beforeSend : function(xhr) {
+		xhr.setRequestHeader(header, token);
+		},
         success : function(res) {
           // 로그인 성공
           if(res.result == 1){
@@ -59,7 +64,7 @@ $(function () {
               $('.popup-background:eq(0)').addClass('blind');
               $('#login-section').addClass('blind');
 
-              location.href = '/rence/backoffice_main?backoffice_no=' + $.cookie("backoffice_no");
+              location.href = '/backoffice/main?backoffice_no=' + $.cookie("backoffice_no");
           }else{
               $(".popup-background:eq(1)").removeClass("blind");
               $("#common-alert-popup").removeClass("blind");
