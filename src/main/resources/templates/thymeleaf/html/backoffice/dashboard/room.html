@@ -27,14 +27,7 @@
         <div class="room-item">
           <div class="item-header">
             <p>
-              [[ ${vos.room_name} ]]&nbsp;
-              <th:block th:switch="${vos.room_type}">
-                <span th:case="desk">(1인 데스크)</span>
-                <span th:case="meeting_04">(4인 회의실)</span>
-                <span th:case="meeting_06">(6인 회의실)</span>
-                <span th:case="meeting_10">(10인 회의실)</span>
-                <span th:case="office">(오피스)</span>
-              </th:block>
+              [[ ${vos.room_name} ]]
             </p>
             <div class="item-buttons">
               <button class="btn-room-edit" th:attr="idx=${vos.room_no}">수정</button>
@@ -46,11 +39,11 @@
           <div class="item-body">
             <p id="room-type">
               <th:block th:switch="${vos.room_type}">
-                <span th:case="desk">(1인 데스크)</span>
-                <span th:case="meeting_04">(4인 회의실)</span>
-                <span th:case="meeting_06">(6인 회의실)</span>
-                <span th:case="meeting_10">(10인 회의실)</span>
-                <span th:case="office">(오피스)</span>
+                <span th:case="desk">데스크</span>
+                <span th:case="meeting_04">4인 회의실</span>
+                <span th:case="meeting_06">6인 회의실</span>
+                <span th:case="meeting_10">10인 회의실</span>
+                <span th:case="office">오피스</span>
               </th:block>
             </p>
             <span id="room-price" class="room-price">[[ ${vos.room_price} ]]</span>
