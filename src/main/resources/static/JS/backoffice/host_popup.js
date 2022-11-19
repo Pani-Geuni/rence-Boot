@@ -174,7 +174,7 @@ $(function () {
   /***********로그아웃 팝업 ********* */
   /********************************* */
   $("#logout-btn").click(function(){
-    location.href="/rence/backoffice_logout";
+    location.href="/backoffice/logout";
   });
   $("#logout-closeBtn").click(function(){
     $('.popup-background:eq(0)').removeClass('blind');
