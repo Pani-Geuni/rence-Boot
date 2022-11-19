@@ -58,13 +58,17 @@
       <div class="host-item">
         <p>공간 옵션</p>
         <ul class="host-option-list">
-          <li class="host-option-item">[[${vo.backoffice_option}]]</li>
+          <th:block th:each="option : ${backoffice_option}">
+          	<li class="host-option-item">[[${option}]]</li>
+          </th:block>
         </ul>
       </div>
       <div class="host-item">
         <p>주변 시설</p>
         <ul class="host-option-list">
-          <li class="host-option-item">[[${vo.backoffice_around}]]</li>
+          <th:block th:each="around : ${backoffice_around}">
+            <li class="host-option-item">[[${around}]]</li>
+          </th:block>
         </ul>
       </div>
       <div class="host-item">
