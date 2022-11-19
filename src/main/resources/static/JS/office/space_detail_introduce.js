@@ -8,30 +8,54 @@
     $(".popup-background:eq(1)").addClass("blind");
     $("#common-alert-popup").addClass("blind");
 
-    if($(".common-alert-txt").text() == "성공적으로 문의가 등록되었습니다." || $(".common-alert-txt").text() == "성공적으로 후기가 등록되었습니다."){
+    if($(this).attr("is_reload") == true){
       location.reload();
+      $(this).attr("is_reload", false);
     }
+    // if($(".common-alert-txt").text() == "성공적으로 문의가 등록되었습니다."){
+    //   location.reload();
+    // }
   });
 
   /***** ************** *****/ 
   /***** 슬라이드 이미지 *****/ 
   /***** ************** *****/ 
-  let position = 0;
-  $(".next").click(function () {
-    if (test < $(".img").length) {
-      position += 960;
-      $(".container").css("transform", "translateX(-"+position+"px)");
-      test = test + 1;
-    }
-  });
+  $(".prev").addClass("hide");
+  
+  if ($(".img").length == 1) {
+    $(".next").addClass("hide");
+  }
 
-  $(".prev").click(function () {
-    if (test != 1) {
-      position -= 960;
-      $(".container").css("transform", "translateX(-"+position+"px)");
-      test = test - 1;
-    }
-  });
+  else{
+	  let position = 0;
+	  $(".next").click(function () {
+	    if (test < $(".img").length) {
+	      position += 960;
+	      $(".container").css("transform", "translateX(-"+position+"px)");
+	      test = test + 1;
+
+	      if(test == $(".img").length){
+	        $(".next").addClass("hide");
+	      }
+	      if(test == 2){
+	        $(".prev").removeClass("hide");
+	      }
+	    }
+	  });
+	
+	  $(".prev").click(function () {
+	    if (test != 1) {
+	      position -= 960;
+	      $(".container").css("transform", "translateX(-"+position+"px)");
+	      test = test - 1;
+
+        if(test == 1){
+	        $(".prev").addClass("hide");
+          $(".next").removeClass("hide");
+	      }
+	    }
+	  });
+  }
 
 
   /***** ************** *****/ 
@@ -176,9 +200,9 @@
 
   /****** 문의 섹션 ******/
   // layout script로 이동
-  // $("#question-create-btn").click(function(){
-  //   $("#question-popup").removeClass("blind");
-  // });
+  $("#question-create-btn").click(function(){
+    $("#question-popup").removeClass("blind");
+  });
 
 
   /***** ************** *****/ 
@@ -271,6 +295,7 @@
                 $(".popup-background:eq(1)").removeClass("blind");
                 $("#common-alert-popup").removeClass("blind");
                 $(".common-alert-txt").text("성공적으로 문의가 등록되었습니다.");
+                $("#common-alert-btn").attr("is_reload", true);
               }else{
                 $(".popup-background:eq(1)").removeClass("blind");
                 $("#common-alert-popup").removeClass("blind");
