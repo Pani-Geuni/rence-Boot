@@ -219,7 +219,7 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 			Integer pay_after_desk_meeting_balance_pre = s_detail_repository.select_pay_after_desk_meeting_balance_sum_pre(backoffice_no);
 			Integer pay_office_pre = s_detail_repository.select_pay_office_sum_pre(backoffice_no);
 			
-			int pre_sales_total = pay_before_desk_meeting+pay_after_desk_meeting_deposit+pay_after_desk_meeting_balance+pay_office;
+			int pre_sales_total = pay_before_desk_meeting_pre+pay_after_desk_meeting_deposit_pre+pay_after_desk_meeting_balance_pre+pay_office_pre;
 			
 			ss.setPre_sales_total(String.valueOf(pre_sales_total));
 			
@@ -227,11 +227,11 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 			Integer pay_after_cancel_pre = s_detail_repository.select_pay_after_cancel_pre(backoffice_no);
 			Integer pay_before_overdue_cancel_pre = s_detail_repository.select_pay_before_overdue_cancel_pre(backoffice_no);
 			
-			int pre_sales_cancel = pay_before_cancel+pay_after_cancel+pay_before_overdue_cancel;
+			int pre_sales_cancel = pay_before_cancel_pre+pay_after_cancel_pre+pay_before_overdue_cancel_pre;
 			
 			ss.setPre_sales_cancel(String.valueOf(pre_sales_cancel));
 			
-			ss.setSales_income(String.valueOf(pre_sales_total-pre_sales_cancel));
+			ss.setPre_sales_income(String.valueOf(pre_sales_total-pre_sales_cancel));
 			
 			ss.setSales_gap(String.valueOf((sales_total-sales_cancel)-(pre_sales_total-pre_sales_cancel)));
 		}else if (sales_date.equals("week")) {
@@ -261,7 +261,7 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 			Integer pay_after_desk_meeting_balance_pre = s_detail_repository.select_pay_after_desk_meeting_balance_sum_pre_week(backoffice_no);
 			Integer pay_office_pre = s_detail_repository.select_pay_office_sum_pre_week(backoffice_no);
 			
-			int pre_sales_total = pay_before_desk_meeting+pay_after_desk_meeting_deposit+pay_after_desk_meeting_balance+pay_office;
+			int pre_sales_total = pay_before_desk_meeting_pre+pay_after_desk_meeting_deposit_pre+pay_after_desk_meeting_balance_pre+pay_office_pre;
 			
 			ss.setPre_sales_total(String.valueOf(pre_sales_total));
 			
@@ -269,11 +269,11 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 			Integer pay_after_cancel_pre = s_detail_repository.select_pay_after_cancel_pre_week(backoffice_no);
 			Integer pay_before_overdue_cancel_pre = s_detail_repository.select_pay_before_overdue_cancel_pre_week(backoffice_no);
 			
-			int pre_sales_cancel = pay_before_cancel+pay_after_cancel+pay_before_overdue_cancel;
+			int pre_sales_cancel = pay_before_cancel_pre+pay_after_cancel_pre+pay_before_overdue_cancel_pre;
 			
 			ss.setPre_sales_cancel(String.valueOf(pre_sales_cancel));
 			
-			ss.setSales_income(String.valueOf(pre_sales_total-pre_sales_cancel));
+			ss.setPre_sales_income(String.valueOf(pre_sales_total-pre_sales_cancel));
 			
 			ss.setSales_gap(String.valueOf((sales_total-sales_cancel)-(pre_sales_total-pre_sales_cancel)));
 		}else if (sales_date.equals("month")) {
@@ -303,7 +303,7 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 			Integer pay_after_desk_meeting_balance_pre = s_detail_repository.select_pay_after_desk_meeting_balance_sum_pre_month(backoffice_no);
 			Integer pay_office_pre = s_detail_repository.select_pay_office_sum_pre_month(backoffice_no);
 			
-			int pre_sales_total = pay_before_desk_meeting+pay_after_desk_meeting_deposit+pay_after_desk_meeting_balance+pay_office;
+			int pre_sales_total = pay_before_desk_meeting_pre+pay_after_desk_meeting_deposit_pre+pay_after_desk_meeting_balance_pre+pay_office_pre;
 			
 			ss.setPre_sales_total(String.valueOf(pre_sales_total));
 			
@@ -311,11 +311,11 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 			Integer pay_after_cancel_pre = s_detail_repository.select_pay_after_cancel_pre_month(backoffice_no);
 			Integer pay_before_overdue_cancel_pre = s_detail_repository.select_pay_before_overdue_cancel_pre_month(backoffice_no);
 			
-			int pre_sales_cancel = pay_before_cancel+pay_after_cancel+pay_before_overdue_cancel;
+			int pre_sales_cancel = pay_before_cancel_pre+pay_after_cancel_pre+pay_before_overdue_cancel_pre;
 			
 			ss.setPre_sales_cancel(String.valueOf(pre_sales_cancel));
 			
-			ss.setSales_income(String.valueOf(pre_sales_total-pre_sales_cancel));
+			ss.setPre_sales_income(String.valueOf(pre_sales_total-pre_sales_cancel));
 			
 			ss.setSales_gap(String.valueOf((sales_total-sales_cancel)-(pre_sales_total-pre_sales_cancel)));
 		}
