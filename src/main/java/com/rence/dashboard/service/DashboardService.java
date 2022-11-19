@@ -328,5 +328,13 @@ public class DashboardService {
 		return dao.SalesSettlementDetailView(backoffice_no,sales_date);
 	}
 
+	
+	
+	// 예약 상태 자동 업데이트
+	public void reserve_state_auto_update() {
+		log.info("reserve_state_auto_update().....");
+		dao.reserve_state_auto_update();
+	}
+
 
 }

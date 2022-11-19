@@ -22,5 +22,7 @@ public interface DashBoardDAO {
 
 	public SalesSettlementDetailView SalesSettlementDetailView(String backoffice_no, String sales_date);
 
+	public Object reserve_state_auto_update();
+
 
 }
