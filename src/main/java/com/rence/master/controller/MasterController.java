@@ -102,11 +102,11 @@ public class MasterController {
 
 		Map<String, String> map = new HashMap<String,String>();
 
-			session.setAttribute("master_id", mvo.getMaster_id());
-			Cookie cookie_no = new Cookie("backoffice_no", mvo.getMaster_no());
+//			session.setAttribute("master_id", mvo.getMaster_id());
+//			Cookie cookie_no = new Cookie("backoffice_no", mvo.getMaster_no());
 			map.put("result", "1");
 			log.info("successed...");
-			response.addCookie(cookie_no);
+//			response.addCookie(cookie_no);
 			
 			String json = gson.toJson(map);
 			

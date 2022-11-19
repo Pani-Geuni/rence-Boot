@@ -42,7 +42,7 @@ public class MultipleSecurityConfiguration {
                                   // 조절할 수 있습니다.
     }
     
-	   @Order(0)
+	   @Order(1)
 	   @Configuration
 	   @RequiredArgsConstructor
 	   public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -98,7 +98,7 @@ public class MultipleSecurityConfiguration {
 
 	   }
 	   
-	   @Order(1)
+	   @Order(0)
 	   @Configuration
 	   @RequiredArgsConstructor
 	   public class MasterSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -142,7 +142,7 @@ public class MultipleSecurityConfiguration {
 	               .failureForwardUrl("/master/loginFail") // 실패시 요청을 처리할 핸들러
 	            .and()
 	               .logout()
-	               .logoutRequestMatcher(new AntPathRequestMatcher("/master/logout")) // 로그아웃 URL
+	               .logoutRequestMatcher(new AntPathRequestMatcher("/master/logoutOK")) // 로그아웃 URL
 	                .logoutSuccessUrl("/master/login") // 성공시 리턴 URL
 	                .invalidateHttpSession(true) // 인증정보를 지우하고 세션을 무효화
 	                .deleteCookies("JSESSIONID") // JSESSIONID 쿠키 삭제
@@ -163,7 +163,7 @@ public class MultipleSecurityConfiguration {
 	       }
 	
 	
-	@Order(3)
+	@Order(2)
 	@Configuration
 	@RequiredArgsConstructor
 	public class UserSecurityConfig extends WebSecurityConfigurerAdapter {
