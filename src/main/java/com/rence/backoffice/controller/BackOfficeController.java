@@ -156,8 +156,6 @@ public class BackOfficeController {
 		log.info("Welcome sendMailOK.do");
 		log.info("{}", bvo);
 		
-//		JSONObject jsonObject = new JSONObject();
-		
 		Map<String, String> map = new HashMap<String,String>();
 
 		// 이메일 중복 체크
@@ -210,7 +208,6 @@ public class BackOfficeController {
 
 		AuthVO avo2 = service.backoffice_authOK_select(backoffice_email, auth_code);
 
-//		JSONObject jsonObject = new JSONObject();
 		Map<String, String> map = new HashMap<String,String>();
 
 		if (avo2 != null) {
@@ -239,14 +236,13 @@ public class BackOfficeController {
 		
 		BackOfficeVO bvo = service.backoffice_login_info(username);
 
-//		JSONObject jsonObject = new JSONObject();
 		Map<String, String> map = new HashMap<String,String>();
 
-			session.setAttribute("backoffice_id", bvo.getBackoffice_id());
+//			session.setAttribute("backoffice_id", bvo.getBackoffice_id());
 			Cookie cookie_no = new Cookie("backoffice_no", bvo.getBackoffice_no());
 			Cookie cookie_profile = new Cookie("host_image", bvo.getHost_image());
-			session.setAttribute("backoffice_no", bvo.getBackoffice_no());
-			session.setAttribute("host_image", bvo.getHost_image());
+//			session.setAttribute("backoffice_no", bvo.getBackoffice_no());
+//			session.setAttribute("host_image", bvo.getHost_image());
 			map.put("result", "1");
 			log.info("successed...");
 			response.addCookie(cookie_no);
@@ -266,8 +262,6 @@ public class BackOfficeController {
 	public String backoffice_loginfail(HttpServletResponse response) {
 		log.info("backoffice_loginfail()...");
 		
-//		JSONObject jsonObject = new JSONObject();
-
 		Map<String, String> map = new HashMap<String,String>();
 		
 		map.put("result", "0");
@@ -277,7 +271,30 @@ public class BackOfficeController {
 
 		return json;
 	}
+	
+	/**
+	 * 로그아웃 처리
+	 */
+	@ApiOperation(value="로그아웃", notes="로그아웃")
+	@GetMapping("/logoutOK")
+	public String backoffice_logoutOK(HttpServletRequest request, HttpServletResponse response) {
+		log.info("backoffice_logoutOK()...");
 
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null) {
+
+			for (int i = 0; i < cookies.length; i++) {
+
+				cookies[i].setMaxAge(0);
+
+				response.addCookie(cookies[i]);
+
+			}
+
+		}
+			
+			return "redirect:landing";
+		}
 	
 	/**
 	 * 비밀번호 초기화(찾기), 이메일로 임시 비밀번호 전송
@@ -290,7 +307,6 @@ public class BackOfficeController {
 		log.info("backoffice_reset_pw ()...");
 		log.info("{}", bvo);
 
-//		JSONObject jsonObject = new JSONObject();
 		Map<String, String> map = new HashMap<String,String>();
 
 		BackOfficeVO bvo2 = service.backoffice_id_email_select(bvo);
@@ -349,7 +365,6 @@ public class BackOfficeController {
 		bvo.setBackoffice_pw(new BCryptPasswordEncoder().encode(bvo.getBackoffice_pw()));
 		int result = service.backoffice_settingOK_pw(bvo);
 
-//		JSONObject jsonObject = new JSONObject();
 		Map<String, String> map = new HashMap<String,String>();
 
 		if (result == 1) {

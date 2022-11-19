@@ -5,7 +5,6 @@
  */
 package com.rence.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -15,11 +14,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.util.concurrent.FailureCallback;
 
 import com.rence.backoffice.service.BackOfficeService;
 import com.rence.master.service.MasterService;
@@ -37,13 +34,15 @@ public class MultipleSecurityConfiguration {
     // BCryptPasswordEncoder는 Spring Security에서 제공하는 비밀번호 암호화 객체 (BCrypt라는 해시 함수를
     // 이용하여 패스워드를 암호화 한다.)
     // 회원 비밀번호 등록시 해당 메서드를 이용하여 암호화해야 로그인 처리시 동일한 해시로 비교한다.
+	
+	
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
        return new BCryptPasswordEncoder();// - 생성자의 인자 값(verstion, strength, SecureRandom instance)을 통해서 해시의 강도를
                                   // 조절할 수 있습니다.
     }
     
-	   @Order(0)
+	   @Order(1)
 	   @Configuration
 	   @RequiredArgsConstructor
 	   public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -69,7 +68,7 @@ public class MultipleSecurityConfiguration {
 
 	         http 
 //	         http.csrf().disable() // csrf 토큰을 비활성화
-	               .authorizeRequests().antMatchers("/backoffice/dashbord/**").authenticated() // 요청 URL에 따라 접근 권한을 설정
+	               .authorizeRequests().antMatchers("backoffice/dashbord/**").authenticated() // 요청 URL에 따라 접근 권한을 설정
 //	         .antMatchers("/**").permitAll() // 해당 경로들은 접근을 허용
 //	         .anyRequest() // 다른 모든 요청은
 //	         .authenticated() // 인증된 유저만 접근을 허용
@@ -85,9 +84,9 @@ public class MultipleSecurityConfiguration {
 	                .csrf()
 	                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 	               .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/backoffice/logout")) // 로그아웃 URL
-	               .logoutSuccessUrl("/backoffice/landing") // 성공시 리턴 URL
+	               .logoutSuccessUrl("/backoffice/logoutOK") // 성공시 리턴 URL
 	               .invalidateHttpSession(true) // 인증정보를 지우하고 세션을 무효화
-	               .deleteCookies("JSESSIONID") // JSESSIONID 쿠키 삭제
+	               .deleteCookies("JSESSIONID","backoffice_no","host_image") // JSESSIONID 쿠키 삭제
 	               .permitAll().and().sessionManagement().maximumSessions(1) // 세션 최대 허용 수 1, -1인 경우 무제한 세션 허용
 	               .maxSessionsPreventsLogin(false) // true면 중복 로그인을 막고, false면 이전 로그인의 세션을 해제
 	               .expiredUrl("/login?error=true&exception=Have been attempted to login from a new place. or session expired") // 세션이 만료된 경우 이동 할 페이지를 지정
@@ -99,7 +98,7 @@ public class MultipleSecurityConfiguration {
 
 	   }
 	   
-	   @Order(1)
+	   @Order(0)
 	   @Configuration
 	   @RequiredArgsConstructor
 	   public class MasterSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -143,7 +142,7 @@ public class MultipleSecurityConfiguration {
 	               .failureForwardUrl("/master/loginFail") // 실패시 요청을 처리할 핸들러
 	            .and()
 	               .logout()
-	               .logoutRequestMatcher(new AntPathRequestMatcher("/master/logout")) // 로그아웃 URL
+	               .logoutRequestMatcher(new AntPathRequestMatcher("/master/logoutOK")) // 로그아웃 URL
 	                .logoutSuccessUrl("/master/login") // 성공시 리턴 URL
 	                .invalidateHttpSession(true) // 인증정보를 지우하고 세션을 무효화
 	                .deleteCookies("JSESSIONID") // JSESSIONID 쿠키 삭제
@@ -164,7 +163,7 @@ public class MultipleSecurityConfiguration {
 	       }
 	
 	
-	@Order(3)
+	@Order(2)
 	@Configuration
 	@RequiredArgsConstructor
 	public class UserSecurityConfig extends WebSecurityConfigurerAdapter {
