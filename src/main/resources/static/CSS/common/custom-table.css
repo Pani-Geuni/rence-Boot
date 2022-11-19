@@ -168,3 +168,47 @@
 .ct-body-cell.qna:nth-child(5) {
   width: 70px;
 }
+
+
+/* ***************************** */
+/* Custom Table for Reserve Page */
+/* ***************************** */
+.ct-header-cell.reserve:nth-child(1),
+.ct-body-cell.reserve:nth-child(1) {
+	width: 130px;
+}
+
+.ct-header-cell.reserve:nth-child(2),
+.ct-body-cell.reserve:nth-child(2) {
+	width: 80px;
+}
+
+.ct-header-cell.reserve:nth-child(3),
+.ct-body-cell.reserve:nth-child(3) {
+	width: 100px;
+}
+
+.ct-header-cell.reserve:nth-child(4),
+.ct-body-cell.reserve:nth-child(4) {
+	width: 80px;
+}
+
+.ct-header-cell.reserve:nth-child(5),
+.ct-body-cell.reserve:nth-child(5) {
+	width: 100px;
+}
+
+.ct-header-cell.reserve:nth-child(6),
+.ct-body-cell.reserve:nth-child(6) {
+	width: 150px;
+}
+
+.ct-header-cell.reserve:nth-child(7),
+.ct-body-cell.reserve:nth-child(7) {
+	width: 100px;
+}
+
+.ct-header-cell.reserve:nth-child(8),
+.ct-body-cell.reserve:nth-child(8) {
+	width: 80px;
+}
