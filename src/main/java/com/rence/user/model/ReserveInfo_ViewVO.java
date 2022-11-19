@@ -1,7 +1,7 @@
 /**
  * @author 김예은
 */
-package com.rence.office.model;
+package com.rence.user.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,8 +30,14 @@ public class ReserveInfo_ViewVO {
 	@Column(name="reserve_no")
 	String reserve_no;
 	
+	@Column(name="backoffice_no")
+	String backoffice_no;
+	
 	@Column(name="company_name")
 	String company_name;
+	
+	@Column(name="room_no")
+	String room_no;
 	
 	@Column(name="room_type")
 	String room_type;

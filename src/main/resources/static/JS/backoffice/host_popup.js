@@ -7,11 +7,16 @@ $(function () {
     $(".popup-background:eq(1)").addClass("blind");
     $("#common-alert-popup").addClass("blind");
 
-    if($(".common-alert-txt").text() == "수정이 완료되었습니다." || $(".common-alert-txt").text() == "공간이 추가되었습니다."
-      || $(".common-alert-txt").text() == "삭제가 완료되었습니다." || $(".common-alert-txt").text() == "답변을 삭제하였습니다."
-      || $(".common-alert-txt").text() == "답글이 등록되었습니다."|| $(".common-alert-txt").text() == "정산처리되었습니다."){
+    if($(this).attr("is_reload") == true){
       location.reload();
+      $(this).attr("is_reload", false);
     }
+
+    // if($(".common-alert-txt").text() == "수정이 완료되었습니다."
+    //   || $(".common-alert-txt").text() == "삭제가 완료되었습니다." || $(".common-alert-txt").text() == "답변을 삭제하였습니다."
+    //   || $(".common-alert-txt").text() == "답글이 등록되었습니다."|| $(".common-alert-txt").text() == "정산처리되었습니다."){
+    //   location.reload();
+    // }
   });
 
   /******************************* */
@@ -31,21 +36,14 @@ $(function () {
       $("#login-pw").addClass("null-input-border");
     }
 
-    // csrf token
-    const token = $("meta[name='_csrf']").attr("content");
-    const header = $("meta[name='_csrf_header']").attr("content");
-
     if($("#login-id").val().trim().length > 0 && $("#login-pw").val().trim().length > 0){
       $.ajax({
-        url : "/backoffice/loginOK",
+        url : "/rence/backoffice_loginOK",
         type : "POST",
         dataType : 'json',
         data : {
-          username : $("#login-id").val().trim(),
-          password : $("#login-pw").val().trim()
-        },
-        beforeSend : function(xhr) {
-          xhr.setRequestHeader(header, token);
+          backoffice_id : $("#login-id").val().trim(),
+          backoffice_pw : CryptoJS.SHA256($("#login-pw").val().trim()).toString()
         },
         success : function(res) {
           // 로그인 성공
@@ -61,7 +59,7 @@ $(function () {
               $('.popup-background:eq(0)').addClass('blind');
               $('#login-section').addClass('blind');
 
-              location.href = '/backoffice/main?backoffice_no=' + $.cookie("backoffice_no");
+              location.href = '/rence/backoffice_main?backoffice_no=' + $.cookie("backoffice_no");
           }else{
               $(".popup-background:eq(1)").removeClass("blind");
               $("#common-alert-popup").removeClass("blind");
@@ -126,7 +124,7 @@ $(function () {
 
     if($("#find-pw-email").val().trim().length > 0 && $("#find-pw-backoffice-code").val().trim().length > 0){
       $.ajax({
-        url : "/backoffice/reset_pw",
+        url : "/rence/backoffice_reset_pw",
         type : "GET",
         dataType : 'json',
         data : {
@@ -171,7 +169,7 @@ $(function () {
   /***********로그아웃 팝업 ********* */
   /********************************* */
   $("#logout-btn").click(function(){
-    location.href="/backoffice/logout";
+    location.href="/rence/backoffice_logout";
   });
   $("#logout-closeBtn").click(function(){
     $('.popup-background:eq(0)').removeClass('blind');
@@ -205,7 +203,7 @@ $(function () {
   // 추가 버튼 클릭 -> 추가 팝업창 SHOW
   $('#btn-room-add').click(function(){
     $.ajax({
-      url:"/backoffice/insert_room",
+      url:"/rence/backoffice_insert_room",
         type : "GET",
         dataType : 'json',
         data : {
@@ -311,7 +309,7 @@ $(function () {
     // 입력값 not null인지 확인
     if($("#input-room-name").val().trim().length > 0 && $('#edit_room_type').val().length > 0){
       if($('#edit_room_type').val() == 'office'){
-        if($("#input-price-name").val().trim().length > 0){
+        if($("#input-price-name").val().trim().length > 0 && $("#input-price-name").val().trim() != 0){
           insert();
         }else{
           $("#input-price-name").addClass("null-input-border");
@@ -347,7 +345,7 @@ $(function () {
   // 수정 버튼 클릭 -> 수정 팝업 오픈
   $('.btn-room-edit').on('click', function(){
     $.ajax({
-      url:"/backoffice/update_room",
+      url:"/rence/backoffice_update_room",
         type : "GET",
         dataType : 'json',
         data : {
@@ -511,7 +509,7 @@ $(function () {
   // 공간 삭제 버튼 클릭 -> 삭제 로직 처리
   $("#delete-space-btn").click(function(){
     $.ajax({
-      url:"/backoffice/deleteOK_room",
+      url:"/rence/backoffice_deleteOK_room",
         type : "POST",
         dataType : 'json',
         data : {
@@ -528,6 +526,7 @@ $(function () {
               $(".popup-background:eq(1)").removeClass("blind");
               $("#common-alert-popup").removeClass("blind");
               $(".common-alert-txt").text("삭제가 완료되었습니다.");
+              $("#common-alert-btn").attr("is_reload", true);
           }else{
               $(".popup-background:eq(1)").removeClass("blind");
               $("#common-alert-popup").removeClass("blind");
@@ -570,7 +569,7 @@ $(function () {
   // 답글 삭제 여부 컴펌창 - "삭제" 버튼 클릭
   $("#delete-answer-btn").click(function(){
     $.ajax({
-      url:"/backoffice/deleteOK_comment",
+      url:"/rence/backoffice_deleteOK_comment",
       type : "POST",
       dataType : 'json',
       data : {
@@ -583,6 +582,7 @@ $(function () {
           $(".popup-background:eq(1)").removeClass("blind");
           $("#common-alert-popup").removeClass("blind");
           $(".common-alert-txt").text("답변을 삭제하였습니다.");
+          $("#common-alert-btn").attr("is_reload", true);
         }else{
           $(".popup-background:eq(1)").removeClass("blind");
           $("#common-alert-popup").removeClass("blind");
@@ -609,7 +609,7 @@ $(function () {
   // 문의 답글 작성
   $('.ct-body-btn.qna-add').on('click', function(){
     $.ajax({
-      url:"/backoffice/insert_comment",
+      url:"/rence/backoffice_insert_comment",
       type : "GET",
       dataType : 'json',
       data : {
@@ -647,7 +647,7 @@ $(function () {
   $("#h_comment_insert").click(function(){
     if($("#host-comment").val().trim().length > 0){
       $.ajax({
-        url:"/backoffice/insertOK_comment",
+        url:"/rence/backoffice_insertOK_comment",
         type : "POST",
         dataType : 'json',
         data : {
@@ -667,6 +667,7 @@ $(function () {
               $(".popup-background:eq(1)").removeClass("blind");
               $("#common-alert-popup").removeClass("blind");
               $(".common-alert-txt").text("답글이 등록되었습니다.");
+              $("#common-alert-btn").attr("is_reload", true);
             }else{
                 $(".popup-background:eq(1)").removeClass("blind");
                 $("#common-alert-popup").removeClass("blind");
@@ -709,7 +710,7 @@ $(function () {
 
   $("#calculate-btn").click(function(){
     $.ajax({
-      url:"/backoffice/updateOK_sales",
+      url:"/rence/backoffice_updateOK_sales",
       type : "POST",
       dataType : 'json',
       data : {
@@ -724,6 +725,7 @@ $(function () {
             $(".popup-background:eq(1)").removeClass("blind");
             $("#common-alert-popup").removeClass("blind");
             $(".common-alert-txt").text("정산처리되었습니다.");
+            $("#common-alert-btn").attr("is_reload", true);
         }else{
             $(".popup-background:eq(1)").removeClass("blind");
             $("#common-alert-popup").removeClass("blind");
@@ -772,7 +774,7 @@ $(function () {
   /** 삭제 요청 버튼 **/
   $("#delete-host-btn").on('click', function(){
     $.ajax({
-      url : "/backoffice/setting_delete",
+      url : "/rence/backoffice_setting_delete",
       type : "POST",
       dataType : 'json',
       data : {
@@ -785,11 +787,11 @@ $(function () {
             $('.popup-background:eq(0)').addClass('blind');
             $('#host-delete-popup').addClass('blind');
 
-            $(".popup-background:eq(1)").removeClass("blind");
+            $(".popup-background:eq(0)").removeClass("blind");
             $("#common-alert-popup").removeClass("blind");
             $(".common-alert-txt").text("마스터에게 삭제 요청되었습니다.");
           }else{
-            $(".popup-background:eq(1)").removeClass("blind");
+            $(".popup-background:eq(0)").removeClass("blind");
             $("#common-alert-popup").removeClass("blind");
             $(".common-alert-txt").text("남은 예약이 존재하여 삭제할 수 없습니다.");
           }
@@ -819,7 +821,7 @@ $(function () {
   $("#btn-popup-confirm").on("click",function(){
     if($(".input-check-pw").val().trim().length > 0){
       $.ajax({
-        url : "/backoffice/update_pw",
+        url : "/rence/backoffice_update_pw",
         type : "GET",
         dataType : 'json',
         data : {
@@ -829,7 +831,7 @@ $(function () {
         success : function(res) {
             // 현재 비밀번호 일치 성공
             if(res.result == 1){
-              location.href="/backoffice/setting_pw?backoffice_no=" + window.btoa($.cookie("backoffice_no"));
+              location.href="/rence/backoffice_setting_pw?backoffice_no=" + window.btoa($.cookie("backoffice_no"));
             }else if(res.result == 0){
               $(".popup-background:eq(1)").removeClass("blind");
               $("#common-alert-popup").removeClass("blind");
@@ -858,7 +860,7 @@ $(function () {
 
   function insert(){
     $.ajax({
-      url:"/backoffice/insertOK_room",
+      url:"/rence/backoffice_insertOK_room",
         type : "POST",
         dataType : 'json',
         data : {
@@ -907,7 +909,7 @@ $(function () {
 
   function update(){
     $.ajax({
-      url:"/backoffice/updateOK_room",
+      url:"/rence/backoffice_updateOK_room",
         type : "POST",
         dataType : 'json',
         data : {
@@ -942,6 +944,7 @@ $(function () {
                 $(".popup-background:eq(1)").removeClass("blind");
                 $("#common-alert-popup").removeClass("blind");
                 $(".common-alert-txt").text("수정이 완료되었습니다.");
+                $("#common-alert-btn").attr("is_reload", true);
             }else{
                 $(".popup-background:eq(1)").removeClass("blind");
                 $("#common-alert-popup").removeClass("blind");

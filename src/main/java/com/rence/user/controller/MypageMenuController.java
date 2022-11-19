@@ -4,6 +4,7 @@
 
 package com.rence.user.controller;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +18,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.rence.office.model.ReserveInfo_ViewVO;
+import com.rence.office.model.ListViewVO;
+import com.rence.user.model.ReserveInfo_ViewVO;
 import com.rence.user.model.UserDTO;
 import com.rence.user.service.MypageMenuSerivice;
 
@@ -60,6 +62,26 @@ public class MypageMenuController {
 			map.put("reserve_no", reserve_no);
 			map.put("info_obj", vo);
 			
+			if(vo != null) {
+				DecimalFormat dc = new DecimalFormat("###,###,###,###");
+				
+				String ch1 = dc.format(Integer.parseInt(vo.getActual_payment()));
+				vo.setActual_payment(ch1);
+				
+				String ch2 = dc.format(Integer.parseInt(vo.getMileage_change()));
+				vo.setMileage_change(ch2);
+				
+				String ch3 = dc.format(Integer.parseInt(vo.getPayment_total()));
+				vo.setPayment_total(ch3);
+				
+				String ch4 = dc.format(Integer.parseInt(vo.getRoom_price()));
+				vo.setRoom_price(ch4);
+			}
+			
+			int is_review = service.is_write_review(vo.getRoom_no(), vo.getBackoffice_no());
+			if(is_review == 0) map.put("is_write_review", false);
+			else map.put("is_write_review", true);
+			
 			UserDTO vo2 = service.select_one_user_info(user_no);
 			map.put("user_obj", vo2);
 			model.addAttribute("res", map);
@@ -98,6 +120,23 @@ public class MypageMenuController {
 			ReserveInfo_ViewVO vo = service.select_one_reserve_info(reserve_no);
 			map.put("reserve_no", reserve_no);
 			map.put("info_obj", vo);
+			
+			
+			if(vo != null) {
+				DecimalFormat dc = new DecimalFormat("###,###,###,###");
+				
+				String ch1 = dc.format(Integer.parseInt(vo.getActual_payment()));
+				vo.setActual_payment(ch1);
+				
+				String ch2 = dc.format(Integer.parseInt(vo.getMileage_change()));
+				vo.setMileage_change(ch2);
+				
+				String ch3 = dc.format(Integer.parseInt(vo.getPayment_total()));
+				vo.setPayment_total(ch3);
+				
+				String ch4 = dc.format(Integer.parseInt(vo.getRoom_price()));
+				vo.setRoom_price(ch4);
+			}
 			
 			UserDTO vo2 = service.select_one_user_info(user_no);
 			log.info("UserDTO | {}", vo2);
