@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rence.backoffice.model.BackOfficeVO;
+import com.rence.common.OptionEngToKorMap;
 import com.rence.dashboard.model.CommentInsertVO;
 import com.rence.dashboard.model.CommentListQView;
 import com.rence.dashboard.model.CommentSummaryView;
@@ -55,6 +56,9 @@ public class DashBoardController {
 	
 	@Autowired
 	DashboardService service;
+	
+//	@Autowired
+//	OptionEngToKorMap optionEngToKorMap;
 
 	/**
 	 * 대쉬보드 메인
@@ -522,7 +526,15 @@ public class DashBoardController {
 		log.info("backoffice_settings()...");
 		BackOfficeVO bvo2 = service.backoffice_setting_selectOne(bvo);
 		log.info("result: {}.", bvo2);
-
+		
+		OptionEngToKorMap optionEngToKorMap = new OptionEngToKorMap();
+		
+		List<String> backoffice_option = optionEngToKorMap.splitOption(bvo2.getBackoffice_option());
+		List<String> backoffice_around = optionEngToKorMap.splitAroundOption(bvo2.getBackoffice_around());
+		
+		
+		model.addAttribute("backoffice_option", backoffice_option);
+		model.addAttribute("backoffice_around", backoffice_around);
 		model.addAttribute("vo", bvo2);
 
 		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/settings");
