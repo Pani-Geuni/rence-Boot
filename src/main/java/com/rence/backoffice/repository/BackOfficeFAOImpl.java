@@ -16,6 +16,7 @@ import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -46,19 +47,19 @@ public class BackOfficeFAOImpl implements BackOfficeFAO {
 		log.info("{} byte", multipartFile_room.getSize());
 
 		if (multipartFile_room.getSize() > 0) {
-			log.info("{} byte", multipartFile_room.getOriginalFilename());
+			log.info("filename : {}", multipartFile_room.getOriginalFilename());
 			List<MultipartFile> imgs = mtfRequest.getFiles("multipartFile_room");
 
 			List<String> img_list = new ArrayList<String>();
 			for (MultipartFile mf : imgs) {
-				img_list.add(UUID.randomUUID() + "-" + mf.getOriginalFilename()); // vo에 저장
 
-				String originFileName = UUID.randomUUID() + "-" + mf.getOriginalFilename();
+				String originFileName = UUID.randomUUID()+"."+StringUtils.getFilenameExtension(mf.getOriginalFilename());
 				long fileSize = mf.getSize();
+
+				img_list.add(originFileName); // vo에 저장
 
 				System.out.println("originFileName : " + originFileName);
 				System.out.println("fileSize : " + fileSize);
-
 
 				ObjectMetadata objectMetaData = new ObjectMetadata();
 				objectMetaData.setContentType(mf.getContentType());
@@ -69,13 +70,12 @@ public class BackOfficeFAOImpl implements BackOfficeFAO {
 							new PutObjectRequest(S3Bucket, originFileName, mf.getInputStream(), objectMetaData)
 									.withCannedAcl(CannedAccessControlList.PublicRead));
 
-					String imagePath = amazonS3Client.getUrl(S3Bucket, originFileName).toString(); // 접근가능한 URL 가져오기
-					log.info("이미지 링크 : {}",imagePath);
-//					img_list.add(imagePath);
+					String imagePath = amazonS3Client.getUrl(S3Bucket, originFileName).toString();
+					log.info("이미지 링크 : {}", imagePath);
 
 					String img_vo = img_list.stream().collect(Collectors.joining(", "));
 					vo.setBackoffice_image(img_vo);
-					
+
 				} catch (IllegalStateException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -85,18 +85,6 @@ public class BackOfficeFAOImpl implements BackOfficeFAO {
 
 		} else if (vo.getBackoffice_image() == null) {
 			vo.setBackoffice_image("img_room_001.jpg");
-//			String dir_path = context.getRealPath("resources/upload");
-//			log.info(dir_path);
-//
-//			File saveFile = new File(dir_path + "/", vo.getBackoffice_image());
-//			try {
-//				multipartFile_room.transferTo(saveFile);
-//			} catch (IllegalStateException e) {
-//				e.printStackTrace();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-
 		}
 
 		return vo;
@@ -104,30 +92,7 @@ public class BackOfficeFAOImpl implements BackOfficeFAO {
 
 	@Override
 	public BackOfficeVO host_fileupload(BackOfficeVO vo, MultipartFile multipartFile_host) {
-//		log.info("{} byte", multipartFile_host.getSize());
-//
-//		if (multipartFile_host.getSize() > 0) {
-//			log.info("{} byte", multipartFile_host.getOriginalFilename());
-//
-//			vo.setHost_image(multipartFile_host.getOriginalFilename());
-//		} else {
-//			if (vo.getHost_image() == null) {
-				vo.setHost_image("img_host_001.jpg");
-//			}
-//			String dir_path = context.getRealPath("resources/upload");
-//			log.info(dir_path);
-//
-//			File saveFile = new File(dir_path + "/", vo.getHost_image());
-//
-//			try {
-//				multipartFile_host.transferTo(saveFile);
-//			} catch (IllegalStateException e) {
-//				e.printStackTrace();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//
-//		}
+		vo.setHost_image("img_host_001.jpg");
 		return vo;
 	}
 }

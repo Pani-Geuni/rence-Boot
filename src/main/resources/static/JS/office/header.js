@@ -39,7 +39,7 @@ $(function(){
     });
 
     $("#go-backOffice").click(function(){
-        location.href="/rence/backoffice_landing";
+        location.href="/backoffice/landing";
     });
 
     // CUSTOM TYPE SELECT
