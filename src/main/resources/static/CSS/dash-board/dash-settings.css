@@ -3,114 +3,172 @@
 /* ************ */
 
 .btn-group-settings {
-	margin: 20px;
+  margin: 20px;
 }
 
-#btn-host-delete {
-	font-family: "HallymGothic";
-	font-weight: 900;
-	letter-spacing : 0.2px;
-	color: #ffffff;
-	
-	background-color: #ff5c71;
-	padding: 8px 12px;
-	border: none;
-	border-radius: 8px;
-	
-	cursor: pointer;
-}
-
+#btn-host-delete,
 #btn-host-logout {
-	font-family: "HallymGothic";
-	font-weight: 900;
-	letter-spacing : 0.2px;
-	color: #ffffff;
-	
-	background-color: #c4c4c4;
-	padding: 8px 12px;
-	border: none;
-	border-radius: 8px;
-	
-	cursor: pointer;
+  font-weight: 700;
+  color: #ffffff;
+  background-color: #ff5c71;
+  padding: 8px 12px;
+
+  border: none;
+  border-radius: 8px;
+
+  cursor: pointer;
 }
 
 /* ****** */
 /* 환경설정 */
 /* ****** */
+
 .host-info-list {
-	display: flex;
-	flex-direction: column;
-	width: 60%;
-	margin: 20px;
-	justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 40px);
+
+  margin: 0 20px 20px 20px;
+
+  justify-content: space-between;
+
+  border-bottom: 1px solid #e4e4e4;
 }
 
 .host-item {
-	display: flex;
-	justify-content: space-between;
+  display: flex;
+  justify-content: flex-start;
+
+  width: 100%;
+
+  margin-bottom: 8px;
 }
 
 .host-item p {
-	margin: 0;
-	width: 300px;
-	margin-bottom: 12px;
+  margin: 0;
+  width: 150px;
+  font-weight: 700;
+  margin-bottom: 12px;
 }
 
 .host-item span {
-	font-weight: 700;
-	width: 100%;
-	margin-bottom: 12px;
+  width: calc(100% - 150px);
+  margin-bottom: 12px;
+}
+
+.host-item pre {
+  box-sizing: border-box;
+  width: calc(100% - 150px);
+  margin: 0 0 12px 0;
+
+  border: 1px solid #e4e4e4;
+  border-radius: 8px;
+
+  padding: 8px 12px;
+
+  overflow: auto;
+  white-space: pre-wrap;
+}
+
+.host-option-list {
+  display: flex;
+  flex-wrap: wrap;
+
+  width: calc(100% - 150px);
+}
+
+.host-option-item {
+  margin-right: 12px;
+  margin-bottom: 8px;
+}
+
+/* ************ */
+/* 운영 시간 테이블 */
+/* ************ */
+.running-time-list {
+  display: flex;
+  flex-direction: column;
+  width: auto;
+
+  font-size: 12px;
+
+  border: 1px solid #e4e4e4;
+  border-radius: 8px;
+
+  padding: 12px 12px 0 12px;
+  margin-bottom: 20px;
+}
+
+.running-time-item {
+  display: flex;
+}
+
+#running-time-day {
+  font-weight: 400;
+  width: 50px;
+}
+
+#running-time {
+  width: auto;
 }
 
 /* ************* */
 /* 비밀번호 변경 팝업 */
 /* ************* */
 #popup-update-pw {
-	box-sizing: border-box;
-	width: 440px;
-	height: auto;
-	background-color: #ffffff;
-	border-radius: 5px;
-	padding: 20px;
+  box-sizing: border-box;
+  width: 440px;
+  height: auto;
+  background-color: #ffffff;
+  border-radius: 5px;
+
+  padding: 20px;
 }
 
 .titleSection h3 {
-	margin: 0;
+  margin: 0;
 }
 
-.input-check-pw, .input-update-pw {
-	box-sizing: border-box;
-	width: 100%;
-	height: 40px;
-	border: 1px solid #e4e4e4;
-	border-radius: 8px;
-	padding: 0 8px;
-	margin-bottom: 12px;
+.input-check-pw {
+  box-sizing: border-box;
+  width: 100%;
+  height: 40px;
+
+  border: 1px solid #e4e4e4;
+  border-radius: 8px;
+
+  padding: 0 8px;
+  margin-bottom: 12px;
 }
 
-.input-check-pw::placeholder, .input-update-pw::placeholder {
-	font-family: 'OTWelcome';
+.input-check-pw::placeholder {
+  color: red;
+  font-family: 'OTWelcome';
 }
 
 .btn-popup-group {
-	display: flex;
-	justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .btn-popup-group button {
-	width: 48%;
-	height: 32px;
-	border: none;
-	border-radius: 8px;
-	cursor: pointer;
+  width: 48%;
+  height: 32px;
+
+  border: none;
+  border-radius: 8px;
+
+  cursor: pointer;
 }
 
 #btn-popup-close {
-	color: #ffffff;
-	background-color: #c4c4c4;
+  color: #ffffff;
+
+  background-color: #c4c4c4;
 }
 
 #btn-popup-confirm {
-	color: #ffffff;
-	background-color: #b2a4ff;
+  color: #ffffff;
+
+  background-color: #b2a4ff;
 }

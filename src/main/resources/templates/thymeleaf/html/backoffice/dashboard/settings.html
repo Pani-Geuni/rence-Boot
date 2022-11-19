@@ -14,7 +14,8 @@
   <div class="boardWrap settings">
     <div class="titleSection settings">
       <h1>호스트 정보</h1>
-      <button id="btn-update-pw" class="btn-update-pw">비밀번호 변경</button>
+      <button id="btn-update-pw" class="btn-update">비밀번호 변경</button>
+      <button id="btn-update-host" class="btn-update">정보 변경</button>
     </div>
     <!-- END titleSection settings -->
 
@@ -45,6 +46,32 @@
       </div>
     </div>
     <!-- END host-info-list -->
+
+    <div class="host-info-list">
+      <div class="host-item">
+        <p>사업체 태그</p>
+        <ul class="host-option-list">
+          <li class="host-option-item">[[${vo.backoffice_tag}]]</li>
+        </ul>
+      </div>
+
+      <div class="host-item">
+        <p>공간 옵션</p>
+        <ul class="host-option-list">
+          <li class="host-option-item">[[${vo.backoffice_option}]]</li>
+        </ul>
+      </div>
+      <div class="host-item">
+        <p>주변 시설</p>
+        <ul class="host-option-list">
+          <li class="host-option-item">[[${vo.backoffice_around}]]</li>
+        </ul>
+      </div>
+      <div class="host-item">
+        <p>사업체 소개</p>
+        <pre>[[${vo.backoffice_info}]]</pre>
+      </div>
+    </div>
   </div>
   <!-- END boardWrap -->
   <div class="btn-group-settings">
