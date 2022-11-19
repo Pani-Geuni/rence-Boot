@@ -283,11 +283,11 @@ public class MasterController {
 	}
 	
 	/**
-	 * 백오피스 상세 페이지
+	 * 백오피스 가입 상세 페이지
 	 */
-	@ApiOperation(value = "백오피스 상세 페이지", notes = "백오피스 상세 페이지")
-	@GetMapping("/backoffice_detail")
-	public String master_backoffice_detail(BackOfficeVO bvo, Model model) {
+	@ApiOperation(value = "백오피스 가입 상세 페이지", notes = "백오피스 가입 상세 페이지")
+	@GetMapping("/backoffice_apply_detail")
+	public String master_backoffice_apply_detail(BackOfficeVO bvo, Model model) {
 		log.info("backoffice_setting()...");
 		BackOfficeVO bvo2 = service.master_backoffice_detail_selectOne(bvo);
 		log.info("result: {}.", bvo2);
@@ -310,11 +310,49 @@ public class MasterController {
 			model.addAttribute("backoffice_option", backoffice_option);
 			model.addAttribute("backoffice_around", backoffice_around);
 			model.addAttribute("vo", bvo2);
+			
 			rt="backoffice/setting";
 		}else { // 굳이 필요없지만 넣어봄,,
 			rt="redirect:master_main";
 		}
 
+		return rt;
+	}
+	
+	/**
+	 * 백오피스 탈퇴 상세 페이지
+	 */
+	@ApiOperation(value = "백오피스 탈퇴 상세 페이지", notes = "백오피스 탈퇴 상세 페이지")
+	@GetMapping("/backoffice_end_detail")
+	public String master_backoffice_end_detail(BackOfficeVO bvo, Model model) {
+		log.info("backoffice_setting()...");
+		BackOfficeVO bvo2 = service.master_backoffice_detail_selectOne(bvo);
+		log.info("result: {}.", bvo2);
+		
+		String rt="";
+		if (bvo2!=null) {
+			
+			OptionEngToKorMap optionEngToKorMap = new OptionEngToKorMap();
+			
+			List<String> tag_list = new ArrayList<String>();
+			String[] tag_split  = bvo2.getBackoffice_type().split(",");
+			for (String tag : tag_split) {
+				tag_list.add(optionEngToKorMap.changeType(tag));
+			}
+			
+			List<String> backoffice_option = optionEngToKorMap.splitOption(bvo2.getBackoffice_option());
+			List<String> backoffice_around = optionEngToKorMap.splitAroundOption(bvo2.getBackoffice_around());
+			
+			model.addAttribute("backoffice_tag", tag_list);
+			model.addAttribute("backoffice_option", backoffice_option);
+			model.addAttribute("backoffice_around", backoffice_around);
+			model.addAttribute("vo", bvo2);
+			
+			rt="backoffice/setting";
+		}else { // 굳이 필요없지만 넣어봄,,
+			rt="redirect:master_main";
+		}
+		
 		return rt;
 	}
 	
