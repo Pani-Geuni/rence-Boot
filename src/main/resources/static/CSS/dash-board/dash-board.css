@@ -15,6 +15,14 @@
 	padding: 60px;
 }
 
+.board-contentWrap.host-update {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-bottom: 50px;
+}
+
 .titleSection {
 	display: flex;
 	align-items: center;
