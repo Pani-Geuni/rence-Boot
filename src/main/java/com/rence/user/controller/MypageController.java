@@ -181,6 +181,7 @@ public class MypageController {
 
 	/**
 	 * 마이페이지 -프로필 수정
+	 * AWS적용
 	 */
 
 	@ApiOperation(value = "프로필 수정", notes = "프로필 수정 입니다.")
