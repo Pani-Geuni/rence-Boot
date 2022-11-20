@@ -43,6 +43,7 @@
     case '/backoffice/reserve':
     case '/rence/backoffice_search_reserve':
       $('#menu-reserve').addClass('active');
+      $('#reserve-list').addClass('active');
       break;
 
     case '/backoffice/day_sales':
