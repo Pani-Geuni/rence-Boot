@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +33,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rence.user.model.MyPageReserveListVO;
-import com.rence.user.model.QuestionVO;
+import com.rence.user.model.UserReviewVO;
+import com.rence.user.model.UserQuestionVO;
 import com.rence.user.model.UserMileageVO;
 import com.rence.user.model.UserMypageVO;
 import com.rence.user.model.UserVO;
@@ -117,158 +119,6 @@ public class MypageController {
 //
 //		
 //		return "thymeleaf/layouts/office/layout_myPage";
-//	}
-
-	/**
-	 * 예약 리스트 이동
-	 */
-	@ApiOperation(value = "예약리스트", notes = "예약리스트 페이지입니다.")
-	@GetMapping("/reserve_list")
-	
-	public String reserve_list(String time_point, String user_no, Model model) {
-		Map<String, Object> map = new HashMap<String, Object>();
-
-		List<MyPageReserveListVO> list = null;
-		if (time_point.equals("now")) {
-			list = service.select_all_now_reserve_list(user_no);
-			map.put("type", "now");
-		} 
-		else if (time_point.equals("before")) {
-			list = service.select_all_before_reserve_list(user_no);
-			map.put("type", "before");
-		}
-
-		if (list == null)
-			map.put("cnt", 0);
-		else
-			map.put("cnt", list.size());
-
-		map.put("list", list);
-		map.put("page", "reserve-list");
-	
-		model.addAttribute("res", map);
-
-		log.info("reserve_list : {}", map);
-		
-		
-		model.addAttribute("content", "thymeleaf/html/office/my_page/reserve_list");
-		model.addAttribute("title", "현재예약리스트");
-
-//		return ".my_page/reserve-list";
-		return "thymeleaf/layouts/office/layout_myPage";
-	}
-
-	/**
-	 * 마일리지 리스트 페이지 이동
-	 */
-	@ApiOperation(value = "마일리지 리스트", notes = "마일리지 리스트 페이지입니다.")
-	@GetMapping("/mileage")
-	public String go_mileage(UserVO uvo, Model model, HttpServletRequest request) {
-		log.info("go_mileage()...");
-		log.info("UserVO(사용자 고유번호): {}", uvo);
-
-		// 총 마일리지 부분
-		UserMileageVO umvo = service.totalMileage_selectOne(uvo);
-		log.info("umvo: {}", umvo);
-
-		// 마일리지 콤마단위로 변환
-		DecimalFormat dc = new DecimalFormat("###,###,###,###,###");
-
-		String mileage_total = dc.format(umvo.getMileage_total());
-		log.info("mileage_total: " + mileage_total);
-
-		List<UserMileageVO> vos = service.user_mileage_selectAll(uvo);
-		log.info("vos: " + vos);
-
-		for (int i = 0; i < vos.size(); i++) {
-			log.info("log**all***"+vos.get(i).getMileage()+"i: "+i);
-			vos.get(i).setMileage(dc.format(Integer.parseInt(vos.get(i).getMileage())));
-		}
-		log.info("Type change vos: {}" + vos);
-
-		Map<String, List<UserMileageVO>> map2 = new HashMap<String, List<UserMileageVO>>();
-
-		map2.put("list", vos);
-		model.addAttribute("res", map2);
-		model.addAttribute("mileage_total", mileage_total);
-		model.addAttribute("searchKey", "all");
-
-		model.addAttribute("content", "thymeleaf/html/office/my_page/mileage");
-		model.addAttribute("title", "마일리지리스트");
-
-		return "thymeleaf/layouts/office/layout_myPage";
-
-	}
-
-	@ApiOperation(value = "마일리지 조건리스트", notes = "마일리지 조건리스트 페이지입니다.")
-	@GetMapping("/mileage_search_list")
-	public String go_mileage_search_list(UserVO uvo, Model model, HttpServletRequest request, String searchKey) {
-
-		log.info("mileage_search_list()...");
-
-		log.info("검색 키워드: " + searchKey);
-		log.info("UserVO(사용자 고유번호): {}", uvo);
-
-		// 총 마일리지 부분
-		UserMileageVO umvo = service.totalMileage_selectOne(uvo);
-		log.info("umvo: {}", umvo);
-
-//		마일리지 콤마단위로 변환
-		DecimalFormat dc = new DecimalFormat("###,###,###,###,###");
-
-		String mileage_total = dc.format(umvo.getMileage_total());
-		log.info("mileage_total: " + mileage_total);
-
-		List<UserMileageVO> vos = service.user_mileage_search_list(uvo, searchKey);
-		log.info("vos: " + vos);
-
-		for (int i = 0; i < vos.size(); i++) {
-			log.info("log*****");
-			vos.get(i).setMileage(dc.format(Integer.parseInt(vos.get(i).getMileage())));
-		}
-		log.info("Type change vos: {}" + vos);
-
-		Map<String, List<UserMileageVO>> map2 = new HashMap<String, List<UserMileageVO>>();
-
-		map2.put("list", vos);
-		model.addAttribute("res", map2);
-		model.addAttribute("mileage_total", mileage_total);
-		model.addAttribute("searchKey", searchKey);
-
-		model.addAttribute("content", "thymeleaf/html/office/my_page/mileage");
-		model.addAttribute("title", "마일리지리스트");
-
-		return "thymeleaf/layouts/office/layout_myPage";
-	}
-
-	/**
-	 * 문의 리스트 페이지 이동
-	 */
-//	@RequestMapping(value = "/question_list", method = RequestMethod.GET)
-//	public String question_list(String user_no, Model model) {
-//		Map<String, Object> map = new HashMap<String, Object>();
-//		List<QuestionVO> list = service.select_all_question(user_no);
-//		if(list != null) {
-//			for(QuestionVO vo : list) {
-//				QuestionVO vo2 = service.select_one_answer(vo.getComment_no());
-//				if(vo2 !=null) {
-//					vo.setAnswer_content(vo2.getAnswer_content());
-//					vo.setAnswer_date(vo2.getAnswer_date());
-//					vo.setState("Y");
-//				}else {
-//					vo.setState("N");
-//				}
-//			}
-//		}
-//		
-//		map.put("page", "question_list");
-//		map.put("list", list);
-//		
-//		model.addAttribute("res", map);
-//		
-//		logger.info("question_list : {}", map);
-//		
-//		return ".my_page/question-list";
 //	}
 
 	/**
@@ -398,6 +248,212 @@ public class MypageController {
 
 		String jsonObject = gson.toJson(map);
 		return jsonObject;
+	}
+
+	/**
+	 * 예약 리스트 이동
+	 */
+	@ApiOperation(value = "예약리스트", notes = "예약리스트 페이지입니다.")
+	@GetMapping("/reserve_list")
+
+	public String reserve_list(String time_point, String user_no, Model model) {
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		List<MyPageReserveListVO> list = null;
+		if (time_point.equals("now")) {
+			list = service.select_all_now_reserve_list(user_no);
+			map.put("type", "now");
+		} else if (time_point.equals("before")) {
+			list = service.select_all_before_reserve_list(user_no);
+			map.put("type", "before");
+		}
+
+		if (list == null)
+			map.put("cnt", 0);
+		else
+			map.put("cnt", list.size());
+
+		map.put("list", list);
+		map.put("page", "reserve-list");
+
+		model.addAttribute("res", map);
+
+		log.info("reserve_list : {}", map);
+
+		model.addAttribute("content", "thymeleaf/html/office/my_page/reserve_list");
+		model.addAttribute("title", "현재예약리스트");
+
+//		return ".my_page/reserve-list";
+		return "thymeleaf/layouts/office/layout_myPage";
+	}
+
+	/**
+	 * 마일리지 리스트 페이지 이동
+	 */
+	@ApiOperation(value = "마일리지 리스트", notes = "마일리지 리스트 페이지입니다.")
+	@GetMapping("/mileage")
+	public String go_mileage(UserVO uvo, Model model, HttpServletRequest request) {
+		log.info("go_mileage()...");
+		log.info("UserVO(사용자 고유번호): {}", uvo);
+
+		// 총 마일리지 부분
+		UserMileageVO umvo = service.totalMileage_selectOne(uvo);
+		log.info("umvo: {}", umvo);
+
+		// 마일리지 콤마단위로 변환
+		DecimalFormat dc = new DecimalFormat("###,###,###,###,###");
+
+		String mileage_total = dc.format(umvo.getMileage_total());
+		log.info("mileage_total: " + mileage_total);
+
+		List<UserMileageVO> vos = service.user_mileage_selectAll(uvo);
+		log.info("vos: " + vos);
+
+		for (int i = 0; i < vos.size(); i++) {
+//			log.info("log**all***"+vos.get(i).getMileage()+"i: "+i);
+			vos.get(i).setMileage(dc.format(Integer.parseInt(vos.get(i).getMileage())));
+		}
+		log.info("Type change vos: {}" + vos);
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		map.put("list", vos);
+		map.put("page", "mileage");
+		model.addAttribute("res", map);
+		model.addAttribute("mileage_total", mileage_total);
+		model.addAttribute("searchKey", "all");
+
+		model.addAttribute("content", "thymeleaf/html/office/my_page/mileage");
+		model.addAttribute("title", "마일리지리스트");
+
+		return "thymeleaf/layouts/office/layout_myPage";
+
+	}
+
+	@ApiOperation(value = "마일리지 조건리스트", notes = "마일리지 조건리스트 페이지입니다.")
+	@GetMapping("/mileage_search_list")
+	public String go_mileage_search_list(UserVO uvo, Model model, HttpServletRequest request, String searchKey) {
+
+		log.info("mileage_search_list()...");
+
+		log.info("검색 키워드: " + searchKey);
+		log.info("UserVO(사용자 고유번호): {}", uvo);
+
+		// 총 마일리지 부분
+		UserMileageVO umvo = service.totalMileage_selectOne(uvo);
+		log.info("umvo: {}", umvo);
+
+//		마일리지 콤마단위로 변환
+		DecimalFormat dc = new DecimalFormat("###,###,###,###,###");
+
+		String mileage_total = dc.format(umvo.getMileage_total());
+		log.info("mileage_total: " + mileage_total);
+
+		List<UserMileageVO> vos = service.user_mileage_search_list(uvo, searchKey);
+		log.info("vos: " + vos);
+
+		for (int i = 0; i < vos.size(); i++) {
+//			log.info("log*****");
+			vos.get(i).setMileage(dc.format(Integer.parseInt(vos.get(i).getMileage())));
+		}
+		log.info("Type change vos: {}" + vos);
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		map.put("list", vos);
+		map.put("page", "mileage");
+
+		model.addAttribute("res", map);
+		model.addAttribute("mileage_total", mileage_total);
+		model.addAttribute("searchKey", searchKey);
+
+		model.addAttribute("content", "thymeleaf/html/office/my_page/mileage");
+		model.addAttribute("title", "마일리지리스트");
+
+		return "thymeleaf/layouts/office/layout_myPage";
+	}
+
+	/**
+	 * 마이페이지 - 문의 리스트
+	 */
+	@ApiOperation(value = "문의 리스트", notes = "문의 리스트 페이지입니다.")
+	@GetMapping("/question_list")
+	public String question_list(String user_no, Model model) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<UserQuestionVO> list = service.select_all_question(user_no);
+		if (list != null) {
+			for (UserQuestionVO vo : list) {
+				UserQuestionVO vo2 = service.select_one_answer(vo.getComment_no());
+				if (vo2 != null) {
+					vo.setAnswer_content(vo2.getAnswer_content());
+					vo.setAnswer_date(vo2.getAnswer_date());
+					vo.setState("Y");
+				} else {
+					vo.setState("N");
+				}
+			}
+		}
+
+		map.put("page", "question_list");
+		map.put("list", list);
+
+		model.addAttribute("res", map);
+
+		log.info("question_list : {}", map);
+
+		model.addAttribute("content", "thymeleaf/html/office/my_page/question_list");
+		model.addAttribute("title", "문의리스트");
+
+		return "thymeleaf/layouts/office/layout_myPage";
+	}
+
+	/**
+	 * 마이페이지 - 문의 리스트 - 문의삭제
+	 */
+
+//	@Transactional
+//	@ApiOperation(value = "문의 삭제", notes = "문의 삭제 입니다.")
+//	@RequestMapping(value = "/delete_comment", method = RequestMethod.GET)
+////	@GetMapping("/delete_comment")
+//	public String delete_comment(String user_no, String comment_no) {
+//		
+//		log.info("delete_comment()...");
+//
+//		log.info("user_no: " + user_no);
+//		log.info("comment_no: " + comment_no);
+//		
+//		
+//		int result = service.delete_comment(comment_no);
+//		
+////		return "redirect:/question_list?user_no="+user_no;
+//		return null;
+//	}
+
+	/**
+	 * 후기 리스트 이동
+	 */
+	@ApiOperation(value = "후기 리스트", notes = "후기 리스트 입니다.")
+	@GetMapping("/review_list")
+//	@RequestMapping(value = "/review_list", method = RequestMethod.GET)
+	public String review_list(String user_no, Model model) {
+		log.info("review_list()...");
+		
+		log.info("user_no: " + user_no);
+		
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<UserReviewVO> list = service.select_all_review(user_no);
+
+		map.put("page", "review");
+		map.put("list", list);
+
+		model.addAttribute("res", map);
+		log.info("review_list : {}", map);
+
+		model.addAttribute("content", "thymeleaf/html/office/my_page/review_list");
+		model.addAttribute("title", "리뷰리스트");
+
+		return "thymeleaf/layouts/office/layout_myPage";
 	}
 
 }// end class
