@@ -48,10 +48,12 @@
 	      position -= 960;
 	      $(".container").css("transform", "translateX(-"+position+"px)");
 	      test = test - 1;
-
+        
+        if(test == $(".img").length-1){
+          $(".next").removeClass("hide");
+	      }
         if(test == 1){
 	        $(".prev").addClass("hide");
-          $(".next").removeClass("hide");
 	      }
 	    }
 	  });
