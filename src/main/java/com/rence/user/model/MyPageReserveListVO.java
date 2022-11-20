@@ -26,10 +26,10 @@ import lombok.NoArgsConstructor;
 @Table(name="USER_RESERVE_VIEW")
 public class MyPageReserveListVO {
 	
-	@Id
+	
 	@Column(name="user_no", insertable = false, updatable = false)
 	private String user_no; 
-	
+	@Id
 	@Column(name="reserve_no")
 	private String reserve_no;
 	

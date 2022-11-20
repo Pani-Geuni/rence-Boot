@@ -9,13 +9,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.rence.user.model.MyPageReserveListVO;
-import com.rence.user.model.QuestionVO;
 import com.rence.user.model.UserMileageVO;
 import com.rence.user.model.UserMypageVO;
+import com.rence.user.model.UserQuestionVO;
+import com.rence.user.model.UserReviewVO;
 import com.rence.user.model.UserVO;
 import com.rence.user.repository.MileageRepository;
 import com.rence.user.repository.MyQuestionRepository;
@@ -23,7 +23,6 @@ import com.rence.user.repository.MyReserveRepository;
 import com.rence.user.repository.MypageRepository;
 import com.rence.user.repository.UserRepository;
 
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -44,6 +43,10 @@ public class UserMypageSerivice {
 	
 	@Autowired
 	MyQuestionRepository myQuestionRepository;
+	
+	@Autowired
+	UserReviewRepository userReviewRepository;
+	
 	
 	public UserMypageSerivice() {
 		log.info("UserSerivice().....");
@@ -178,17 +181,35 @@ public class UserMypageSerivice {
 	}
 
 	//마이페이지 - 문의내역리스트
-	public List<QuestionVO> select_all_question(String user_no) {
+	public List<UserQuestionVO> select_all_question(String user_no) {
 		log.info("select_all_question()....");
 		log.info("user_no: {}",user_no);
 		return myQuestionRepository.select_all_question(user_no);
 	}
 
 	//마이페이지 - 문의내역리스트
-	public QuestionVO select_one_answer(String comment_no) {
+	public UserQuestionVO select_one_answer(String comment_no) {
 		log.info("select_all_question()....");
 		log.info("comment_no: {}",comment_no);
 		return myQuestionRepository.select_one_answer(comment_no);
+	}
+
+	//마이페이지 - 문의내역리스트 - 문의 삭제
+	public int delete_comment(String comment_no) {
+		log.info("delete_comment()....");
+		log.info("comment_no: {}",comment_no);
+		return myQuestionRepository.delete_comment(comment_no);
+//		return 0;
+	}
+
+
+	
+
+	//마이페이지 - 리뷰리스트
+	public List<UserReviewVO> select_all_review(String user_no) {
+		log.info("select_all_review()....");
+		log.info("user_no: {}",user_no);
+		return userReviewRepository.select_all_review(user_no);
 	}
 
 

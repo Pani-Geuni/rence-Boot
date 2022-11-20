@@ -26,11 +26,12 @@ import lombok.NoArgsConstructor;
 @Table(name="USER_DETAIL_MILEAGE_VIEW")
 public class UserMileageVO {
 	
-	@Id
+	
 	@Column(name="user_no")
 	private String user_no; // 
 	@Column(name="mileage_total")
 	private Integer mileage_total;
+	@Id
 	@Column(name="no")
 	private String no; // mileage_no
 	@Column(name="state")

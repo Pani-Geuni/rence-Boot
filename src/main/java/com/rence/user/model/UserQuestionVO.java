@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @NoArgsConstructor
 @Table(name="user_commentpage_view")
 
-public class QuestionVO {
+public class UserQuestionVO {
 	
 	
 	@Id 

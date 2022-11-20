@@ -1,3 +1,8 @@
+/**
+	 * @author 강경석
+	 
+*/
+
 package com.rence.user.repository;
 
 import java.util.List;
@@ -12,8 +17,8 @@ public interface MyReserveRepository extends JpaRepository<MyPageReserveListVO,O
 	
 	//마이페이지- 현재 예약현황 리스트 가져오기
 		@Query(nativeQuery = true, 
-				value= "select * from USER_RESERVE_VIEW where user_no = ?1 ")
-//						+ "and payment_total is not null and sysdate <= reserve_edate")
+				value= "select * from USER_RESERVE_VIEW where user_no = ?1 and payment_total is not null and sysdate <= reserve_edate "
+						+ "and ROWNUM between 1 and 1")
 //				value = "select leftdb.reserve_no, leftdb.user_no, leftdb.reserve_sdate, leftdb.reserve_edate, leftdb.company_name, leftdb.roadname_address, leftdb.backoffice_image, p.payment_total \r\n"
 //						+ "		from(\r\n"
 //						+ "		    select r.reserve_no, r.user_no,r.reserve_sdate, r.reserve_edate, b.company_name, b.roadname_address, b.backoffice_image\r\n"
