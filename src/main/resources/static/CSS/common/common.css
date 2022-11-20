@@ -1,7 +1,3 @@
-/* ************ */
-/* @author 김예은 */
-/* ************ */
-
 @font-face {
     font-family: 'OTWelcome';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2110@1.0/OTWelcomeRA.woff2') format('woff2');
@@ -168,4 +164,9 @@ input[type=button]{
 }
 .null-input-border{
     border: 2px solid #FF5C5C !important;
+}
+
+.spinner-img{
+    width: 140px;
+    height: 140px;
 }

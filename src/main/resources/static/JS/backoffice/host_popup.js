@@ -40,6 +40,10 @@ $(function () {
 	const header = $("meta[name='_csrf_header']").attr("content");
 
     if($("#login-id").val().trim().length > 0 && $("#login-pw").val().trim().length > 0){
+      //로딩 화면
+      $(".popup-background:eq(1)").removeClass("blind");
+      $("#spinner-section").removeClass("blind");
+
       $.ajax({
         url : "/backoffice/loginOK",
         type : "POST",
@@ -48,9 +52,13 @@ $(function () {
           username : $("#login-id").val().trim(),
           password : $("#login-pw").val().trim()
         },beforeSend : function(xhr) {
-		xhr.setRequestHeader(header, token);
-		},
+          xhr.setRequestHeader(header, token);
+        },
         success : function(res) {
+          //로딩 화면 닫기
+          $(".popup-background:eq(1)").addClass("blind");
+          $("#spinner-section").addClass("blind");
+
           // 로그인 성공
           if(res.result == 1){
               //INPUT 초기화
@@ -71,8 +79,11 @@ $(function () {
               $(".common-alert-txt").text("로그인에 실패하였습니다.");
           }
       },
-      error : function(error) {
-          console.log(error);
+      error : function() {
+          //로딩 화면 닫기
+          $(".popup-background:eq(1)").addClass("blind");
+          $("#spinner-section").addClass("blind");
+
           $(".popup-background:eq(1)").removeClass("blind");
           $("#common-alert-popup").removeClass("blind");
           $(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
@@ -95,6 +106,10 @@ $(function () {
 
     $("#login-id").removeClass("null-input-border");
     $("#login-pw").removeClass("null-input-border");
+
+    //로딩 화면 닫기
+    $(".popup-background:eq(1)").addClass("blind");
+    $("#spinner-section").addClass("blind");
 
     // 팝업 관련창 닫음
     $('.popup-background:eq(0)').addClass('blind');
