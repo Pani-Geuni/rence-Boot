@@ -238,7 +238,7 @@ public class BackOfficeController {
 
 		Map<String, String> map = new HashMap<String,String>();
 
-//			session.setAttribute("backoffice_id", bvo.getBackoffice_id());
+			session.setAttribute("backoffice_id", bvo.getBackoffice_id());
 			Cookie cookie_no = new Cookie("backoffice_no", bvo.getBackoffice_no());
 			Cookie cookie_profile = new Cookie("host_image", bvo.getHost_image());
 //			session.setAttribute("backoffice_no", bvo.getBackoffice_no());

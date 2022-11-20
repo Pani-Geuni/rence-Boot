@@ -78,7 +78,12 @@
 </head>
 <body>
   <div class="pageWrap">
-    <div th:replace="thymeleaf/html/backoffice/common/header :: backoffice_header"></div>
+  	<th:block th:if="${session.backoffice_id} == null">
+    	<div th:replace="thymeleaf/html/backoffice/common/header :: backoffice_header"></div>
+    </th:block>
+    <th:block th:if="${session.backoffice_id} != null">
+    	<div th:replace="thymeleaf/html/backoffice/common/header :: after_login_backoffice_header"></div>
+    </th:block>
 
     <section class="contentWrap">
       <div th:replace="${content} :: backoffice_content(${title})"></div>
