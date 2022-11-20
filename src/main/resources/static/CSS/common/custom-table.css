@@ -218,12 +218,12 @@
 
 .ct-header-cell.reserve:nth-child(4),
 .ct-body-cell.reserve:nth-child(4) {
-	width: 80px;
+	width: 50px;
 }
 
 .ct-header-cell.reserve:nth-child(5),
 .ct-body-cell.reserve:nth-child(5) {
-	width: 100px;
+	width: 80px;
 }
 
 .ct-header-cell.reserve:nth-child(6),
@@ -233,10 +233,10 @@
 
 .ct-header-cell.reserve:nth-child(7),
 .ct-body-cell.reserve:nth-child(7) {
-	width: 100px;
+	width: 80px;
 }
 
 .ct-header-cell.reserve:nth-child(8),
 .ct-body-cell.reserve:nth-child(8) {
-	width: 80px;
+	width: 60px;
 }
