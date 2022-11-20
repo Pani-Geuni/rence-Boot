@@ -103,15 +103,23 @@ $(function () {
 
     if ( $('#input-update-pw').val().trim().length > 0 && $('#input-update-pw-re').val().trim().length > 0) {
       if($('#input-update-pw').val().trim() == $('#input-update-pw-re').val().trim() && password.test($('#input-update-pw').val().trim())){
+        //로딩 화면
+        $(".popup-background:eq(1)").removeClass("blind");
+        $("#spinner-section").removeClass("blind");
+
         $.ajax({
           url: '/backoffice/backoffice_settingOK_pw',
           type: 'POST',
           dataType: 'json',
           data: {
             backoffice_no: backoffice_no,
-            backoffice_pw: CryptoJS.SHA256( $('#input-update-pw').val().trim()).toString()
+            backoffice_pw: $('#input-update-pw').val().trim()
           },
           success: function (res) {
+            //로딩 화면 닫기
+            $(".popup-background:eq(1)").addClass("blind");
+            $("#spinner-section").addClass("blind");
+
             if (res.result == 1) {
               location.href = '/backoffice/backoffice_landing';
             } else {
@@ -121,6 +129,10 @@ $(function () {
             }
           },
           error: function () {
+            //로딩 화면 닫기
+            $(".popup-background:eq(1)").addClass("blind");
+            $("#spinner-section").addClass("blind");
+
             $(".popup-background:eq(1)").removeClass("blind");
             $("#common-alert-popup").removeClass("blind");
             $(".common-alert-txt").text("비밀번호 변경에 실패하였습니다.");

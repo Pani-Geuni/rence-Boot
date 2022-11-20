@@ -42,7 +42,7 @@ public class MultipleSecurityConfiguration {
                                   // 조절할 수 있습니다.
     }
     
-	   @Order(1)
+	   @Order(0)
 	   @Configuration
 	   @RequiredArgsConstructor
 	   public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -98,7 +98,7 @@ public class MultipleSecurityConfiguration {
 
 	   }
 	   
-	   @Order(0)
+	   @Order(1)
 	   @Configuration
 	   @RequiredArgsConstructor
 	   public class MasterSecurityConfig extends WebSecurityConfigurerAdapter {

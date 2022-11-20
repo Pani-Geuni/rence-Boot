@@ -7,91 +7,6 @@
 // ******************
 
 $(function () {
-  var tag = {};
-  var counter = 0;
-  
-  var margin_tag_list = [];
-  
-  // server로 보낼 값.
-  var backoffice_tag = "";
-  
-  // 입력한 값을 태그로 생성
-  function addTag(value) {
-	tag[counter] = value;
-	counter++;	// del-btn의 고유 id
-  }
-    
-  // tag 안에 있는 값을 array type으로 만들어서 넘긴다.
-  function marginTag() {
-	  margin_tag_list = [];
-	  return Object.values(tag).filter(function(word) {
-		  return word !== "";
-	  })
-  }
-  
-  function toStringTag(list) {
-	  backoffice_tag = "";
-	  
-	  for (var i = 0; i < list.length; i++) {
-		  if (i != (list.length - 1)) {
-			  backoffice_tag += (list[i] + ",");
-		  } else {
-			  backoffice_tag += list[i];
-		  }
-	  }
-	  
-	  console.log("backoffice tag : ", backoffice_tag);
-	  $("#real-input-tag").val(backoffice_tag);
-  }
-  
-  $("#backoffice_tag").on("keypress", function(e) {
-	var self = $(this);
-	
-	// 엔터나 스페이스바 눌렀을 때 생성
-	if (e.key === "Enter" || e.keyCode == 32) {
-	  var tagValue = self.val();	// 값 가져오기
-	  
-	  // 해시태그 값이 없으면 실행되지 않음.
-	  if (tagValue !== "") {
-		  // 같은 태그가 있는지 검사. 있으면 해당 값이 array로 return
-		  var result = Object.values(tag).filter(function(word) {
-			return word === tagValue;
-		  })
-		  
-		  // 해시태그 중복 확인
-		  if (result.length == 0 && margin_tag_list.length < 5) {
-			$("#tag-list").append("<li class='tag-item'>"+tagValue+"<span class='del-btn' idx='"+counter+"'>x</span></li>");
-			addTag(tagValue);
-			margin_tag_list = marginTag();
-			toStringTag(margin_tag_list);
-			self.val("");
-		  } else if (margin_tag_list.length >= 5) {
-  		    $(".popup-background:eq(1)").removeClass("blind");
-            $("#common-alert-popup").removeClass("blind");
-            $(".common-alert-txt").text("해시태그는 최대 5개 입니다.");
-            self.val("");
-	  	  } else {
-			$(".popup-background:eq(1)").removeClass("blind");
-            $("#common-alert-popup").removeClass("blind");
-            $(".common-alert-txt").text("중복된 해시태그 입니다.");
-            self.val("");
-		  }
-	  } 
-	  e.preventDefault();	// SpaceBar 시 빈공간 생기지 않도록 방지
-	}
-  });
-  
-  // 삭제 버튼
-  // 인덱스 검사 후 삭제
-  $(document).on("click", ".del-btn", function(e) {
-	var index = $(this).attr("idx");
-	tag[index] = "";
-	margin_tag_list = marginTag();
-	toStringTag(margin_tag_list);
-	$(this).parent().remove();
-  });
-	
-	
   /** 공용 알러트 창닫기 버튼 */ 
   $("#common-alert-btn").click(function(){
     $(".popup-background:eq(1)").addClass("blind");
@@ -264,35 +179,46 @@ $(function () {
         var email = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
         
         if(email.test($("#backoffice_email").val().trim())){
+          //로딩 화면
+          $(".popup-background:eq(1)").removeClass("blind");
+          $("#spinner-section").removeClass("blind");
+
           $.ajax({
-            url:"/backoffice/auth",
+            url:"/rence/backoffice_auth",
             type : "GET",
             dataType : 'json',
             data : {
               backoffice_email : $("#backoffice_email").val().trim()
             },
             success : function(res) {
-                // 이메일 중복 성공
-                if(res.result == 1){
-                    $("#btn-certification").prop("check", true);
-                    $("#btn-certification").val("인증완료");
-                    $("#backoffice_email").attr("readonly", true);
-                    $("#backoffice_email").addClass("readOnly");
-  
-                    $(".popup-background:eq(1)").removeClass("blind");
-                    $("#common-alert-popup").removeClass("blind");
-                    $(".common-alert-txt").text("이메일로 인증번호를 발송하였습니다.");
-                }else{
-                    $(".popup-background:eq(1)").removeClass("blind");
-                    $("#common-alert-popup").removeClass("blind");
-                    $(".common-alert-txt").text("이미 존재하는 이메일입니다.");
-                }
+              //로딩 화면 닫기
+              $(".popup-background:eq(1)").addClass("blind");
+              $("#spinner-section").addClass("blind");
+
+              // 이메일 중복 성공
+              if(res.result == 1){
+                  $("#btn-certification").prop("check", true);
+                  $("#btn-certification").val("인증완료");
+                  $("#backoffice_email").attr("readonly", true);
+                  $("#backoffice_email").addClass("readOnly");
+
+                  $(".popup-background:eq(1)").removeClass("blind");
+                  $("#common-alert-popup").removeClass("blind");
+                  $(".common-alert-txt").text("이메일로 인증번호를 발송하였습니다.");
+              }else{
+                  $(".popup-background:eq(1)").removeClass("blind");
+                  $("#common-alert-popup").removeClass("blind");
+                  $(".common-alert-txt").text("이미 존재하는 이메일입니다.");
+              }
             },
-            error : function(error) {
-                console.log(error);
-                $(".popup-background:eq(1)").removeClass("blind");
-                $("#common-alert-popup").removeClass("blind");
-                $(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
+            error : function() {
+              //로딩 화면 닫기
+              $(".popup-background:eq(1)").addClass("blind");
+              $("#spinner-section").addClass("blind");
+              
+              $(".popup-background:eq(1)").removeClass("blind");
+              $("#common-alert-popup").removeClass("blind");
+              $(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
             }            
         });
         }
@@ -307,8 +233,12 @@ $(function () {
   $("#btn-check-certification").click(function(){
     if(!$("#btn-check-certification").prop("check")){
       if($("#auth_code").val().trim().length > 0){
+        //로딩 화면
+        $(".popup-background:eq(1)").removeClass("blind");
+        $("#spinner-section").removeClass("blind");
+        
         $.ajax({
-          url:"/backoffice/authOK",
+          url:"/rence/backoffice_authOK",
           type : "POST",
           dataType : 'json',
           data : {
@@ -316,24 +246,31 @@ $(function () {
             auth_code : $("#auth_code").val().trim()
           },
           success : function(res) {
-              // 이메일 중복 성공
-              if(res.result == 1){
-                  $("#btn-check-certification").prop("check", true);
-                  $("#btn-check-certification").val("인증완료");
-                  $("#auth_code").attr("readonly", true);
-                  $("#auth_code").addClass("readOnly");
-  
-                  $(".popup-background:eq(1)").removeClass("blind");
-                  $("#common-alert-popup").removeClass("blind");
-                  $(".common-alert-txt").text("인증완료 되었습니다.");
-              }else{
-                  $(".popup-background:eq(1)").removeClass("blind");
-                  $("#common-alert-popup").removeClass("blind");
-                  $(".common-alert-txt").text("인증에 실패하였습니다.");
-              }
+            //로딩 화면 닫기
+            $(".popup-background:eq(1)").addClass("blind");
+            $("#spinner-section").addClass("blind");
+
+            // 이메일 중복 성공
+            if(res.result == 1){
+                $("#btn-check-certification").prop("check", true);
+                $("#btn-check-certification").val("인증완료");
+                $("#auth_code").attr("readonly", true);
+                $("#auth_code").addClass("readOnly");
+
+                $(".popup-background:eq(1)").removeClass("blind");
+                $("#common-alert-popup").removeClass("blind");
+                $(".common-alert-txt").text("인증완료 되었습니다.");
+            }else{
+                $(".popup-background:eq(1)").removeClass("blind");
+                $("#common-alert-popup").removeClass("blind");
+                $(".common-alert-txt").text("인증에 실패하였습니다.");
+            }
           },
-          error : function(error) {
-              console.log(error);
+          error : function() {
+              //로딩 화면 닫기
+              $(".popup-background:eq(1)").addClass("blind");
+              $("#spinner-section").addClass("blind");
+
               $(".popup-background:eq(1)").removeClass("blind");
               $("#common-alert-popup").removeClass("blind");
               $(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
