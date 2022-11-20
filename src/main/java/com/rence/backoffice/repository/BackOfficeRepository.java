@@ -92,6 +92,12 @@ public interface BackOfficeRepository extends JpaRepository<BackOfficeVO, Object
 	@Query(nativeQuery = true, value="update paymentinfo set sales_state='T', payment_date=sysdate where backoffice_no=?1 and room_no=?2 and payment_no=?3")
 	public int backoffice_updateOK_sales_state_t(String backoffice_no, String room_no, String payment_no);
 
+	// 탈퇴 요청 성공 시, 공간 삭제
+	@Modifying
+	@Transactional
+	@Query(nativeQuery = true, value="delete from roominfo where backofficE_no=?1")
+	public void backoffice_room_deleteAlL(String backoffice_no);
+
 
 
 

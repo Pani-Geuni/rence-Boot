@@ -597,6 +597,8 @@ public class DashBoardController {
 		int result = service.backoffice_setting_delete(bvo);
 
 		if (result == 1) {
+			service.backoffice_room_deleteAlL(bvo);
+			
 			log.info("successed...");
 			map.put("result", "1");
 		}
@@ -609,5 +611,32 @@ public class DashBoardController {
 		String json = gson.toJson(map);
 
 		return json;
+	}
+	
+	/**
+	 * 환경설정에서 정보 변경
+	 */
+	@ApiOperation(value="업체 정보 변경 폼", notes="대쉬보드 환경설정 페이지 - 업체 정보 변경")
+	@GetMapping("/update_host")
+	public String backoffice_update_host(BackOfficeVO bvo, Model model) {
+		log.info("backoffice_update_host ()...");
+		log.info("{}", bvo);
+		
+		BackOfficeVO bvo2 = service.backoffice_setting_selectOne(bvo);
+		log.info("result: {}.", bvo2);
+		
+		OptionEngToKorMap optionEngToKorMap = new OptionEngToKorMap();
+		
+		List<String> backoffice_option = optionEngToKorMap.splitOption(bvo2.getBackoffice_option());
+		List<String> backoffice_around = optionEngToKorMap.splitAroundOption(bvo2.getBackoffice_around());
+		
+		model.addAttribute("backoffice_option", backoffice_option);
+		model.addAttribute("backoffice_around", backoffice_around);
+		model.addAttribute("vo", bvo2);
+		
+		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/update_host");
+		model.addAttribute("title", "업체 정보 변경");
+
+		return "thymeleaf/layouts/backoffice/layout_dashboard";
 	}
 }
