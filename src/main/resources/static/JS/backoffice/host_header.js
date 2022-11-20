@@ -5,7 +5,7 @@ $(function () {
 
   /** 로고 버튼 클릭 시 메인 페이지 이동 **/ 
   $('.logo-mku').click(function(){
-    location.href = '/backoffice/landing';
+    location.href = '/backoffice/backoffice_landing';
   });
 
   /** 로그인 전 헤더 메뉴 */
@@ -27,18 +27,18 @@ $(function () {
   
   /** RENCE 페이지 이동 메뉴 */
   $('#go-user-home').click(function(){
-    location.href = '/rence/';
+    location.href = '/';
   });
   
   /** 공간등록신청 메뉴 */
   $('#go-backOffice').click(function(){
-    location.href = '/backoffice/insert';
+    location.href = '/backoffice/backoffice_insert';
   });
   
   /** 호스트 메인 페이지 이동 */
   $('.btn-start-hosting').click(function(){
     if($.cookie("backoffice_no") != undefined)
-      location.href = '/backoffice/main?backoffice_no=' + $.cookie("backoffice_no");
+      location.href = '/backoffice/backoffice_main?backoffice_no=' + $.cookie("backoffice_no");
     else{
       $(".popup-background:eq(1)").removeClass("blind");
       $("#common-alert-popup").removeClass("blind");
@@ -48,13 +48,13 @@ $(function () {
   
   /** 호스트 신청 페이지 */
   $('.btn-apply-hosting').click(function () {
-    location.href = '/backoffice/insert';
+    location.href = '/backoffice/backoffice_insert';
   });
 
   /** 호스트 마이페이지 */
   $('#go-myPage').click(function () {
     $('#after_login>.custom-select-host').addClass('blind');
-    location.href = '/rence/go_my_page';
+    location.href = '/backoffice/go_my_page';
   });
   
   /** 호스트 로그아웃 */
@@ -104,7 +104,7 @@ $(function () {
     if ( $('#input-update-pw').val().trim().length > 0 && $('#input-update-pw-re').val().trim().length > 0) {
       if($('#input-update-pw').val().trim() == $('#input-update-pw-re').val().trim() && password.test($('#input-update-pw').val().trim())){
         $.ajax({
-          url: '/rence/backoffice_settingOK_pw',
+          url: '/backoffice/backoffice_settingOK_pw',
           type: 'POST',
           dataType: 'json',
           data: {
@@ -113,7 +113,7 @@ $(function () {
           },
           success: function (res) {
             if (res.result == 1) {
-              location.href = '/rence/backoffice_landing';
+              location.href = '/backoffice/backoffice_landing';
             } else {
               $(".popup-background:eq(1)").removeClass("blind");
               $("#common-alert-popup").removeClass("blind");

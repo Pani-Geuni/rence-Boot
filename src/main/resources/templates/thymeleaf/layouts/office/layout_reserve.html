@@ -99,6 +99,11 @@
 		
 		  $("#review-create-btn").click(function(){
 		    if($("#review-write").val().trim().length > 0){
+				//로딩 화면
+                $(".popup-background:eq(0)").removeClass("blind");
+                $("#spinner-section").removeClass("blind");
+                
+				
 		      var point = 0;
 		      for(var i = 0; i<5; i++){
 		          if($(".g-star").hasClass("blind")) point++;
@@ -116,6 +121,10 @@
 		            review_content : $("#review-write").val().trim()
 		        },
 		        success : function(res) {
+					//로딩 화면 닫기
+                    $(".popup-background:eq(0)").addClass("blind");
+                    $("#spinner-section").addClass("blind");
+                        
 		            if(res.result == 1){
 		              // TEXTAREA 초기화
 		              $("#review-write").val("");
@@ -143,8 +152,11 @@
 		              $(".common-alert-txt").text("비밀번호가 일치하지않습니다.");
 		            }
 		        },
-		        error : function(error) {
-		            console.log(error);
+		        error : function() {
+		            //로딩 화면 닫기
+                    $(".popup-background:eq(0)").addClass("blind");
+                    $("#spinner-section").addClass("blind");
+                        
 		            $(".popup-background:eq(1)").removeClass("blind");
 		            $("#common-alert-popup").removeClass("blind");
 		            $(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
@@ -204,6 +216,7 @@
 	</div>
 	
 	<div class="popup-background blind">
+        
         <!-- START LOGIN SECTION -->
         <div id="login-section" class="blind">
             <section class="login-popup-logo-section">
@@ -363,6 +376,12 @@
     </div>
 
     <div class="popup-background blind">
+    	<!-- START SPINNER SECTION -->
+	    <div id="spinner-section" class="blind">
+	        <img src="/static/IMG/common/spinner.gif" class="spinner-img">
+	    </div>
+	    <!-- END SPINNER SECTION -->
+    
     	<!-- START COMMON CUSTOM ALERT POPUP -->
         <div id ="common-alert-popup" class="alert-popup blind">
             <section class="alert-txt-section">
