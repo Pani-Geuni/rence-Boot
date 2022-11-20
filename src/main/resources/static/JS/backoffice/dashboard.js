@@ -35,6 +35,10 @@
       $('#menu-space').addClass('active');
       $('#mini-nav-review').addClass('active');
       break;
+      
+    case '/backoffice/schedule':
+      $('#menu-schedule').addClass('active');
+      break;
 
     case '/backoffice/reserve':
     case '/rence/backoffice_search_reserve':
