@@ -121,6 +121,34 @@
 }
 
 /* ********************************* */
+/* Custom Table for Main Review Page */
+/* ********************************* */
+.ct-header-cell.main:nth-child(1),
+.ct-body-cell.main:nth-child(1) {
+	width: 110px;
+}
+
+.ct-header-cell.main:nth-child(2),
+.ct-body-cell.main:nth-child(2) {
+	width: 100px;
+}
+
+.ct-header-cell.main:nth-child(3),
+.ct-body-cell.main:nth-child(3) {
+	width: 70px;
+}
+
+.ct-header-cell.main:nth-child(4),
+.ct-body-cell.main:nth-child(4) {
+	width: 80px;
+}
+
+.ct-header-cell.main:nth-child(5),
+.ct-body-cell.main:nth-child(5) {
+	width: 50px;
+}
+
+/* ********************************* */
 /* Custom Table for Host Review Page */
 /* ********************************* */
 .ct-body-row.qna,
