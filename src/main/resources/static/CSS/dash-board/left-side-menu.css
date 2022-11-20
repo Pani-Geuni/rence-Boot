@@ -8,7 +8,7 @@
   align-items: center;
   justify-content: space-between;
 
-  width: 300px;
+  width: 240px;
   height: 100vh;
 
   background-color: #ffffff;
@@ -46,7 +46,7 @@
 .menu-item p {
   margin: 0;
   padding-top: 3.5px;
-  font-size: 20px;
+  font-size: 17px;
   color: #808080;
 }
 

@@ -52,6 +52,10 @@
     case '/backoffice/settings':
       $('#menu-settings').addClass('active');
       break;
+      
+    case '/backoffice/update_host':
+      $('#menu-settings').addClass('active');
+      break;
 
     default:
       break;
