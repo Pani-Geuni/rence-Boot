@@ -155,6 +155,10 @@ $(function() {
       			console.log("결제 금액 : " + payment_all);
       			console.log("결제자 : " + $("#user_name").val());
       			
+      			//로딩 화면
+		        $(".popup-background:eq(1)").removeClass("blind");
+		        $("#spinner-section").removeClass("blind");
+      			
       			$.ajax({
       				url : "/rence/reserve_paymentOK",
       				method : "POST",
@@ -170,6 +174,10 @@ $(function() {
       				},
       				
       				success : function(res) {
+					  	//로딩 화면 닫기
+				        $(".popup-background:eq(1)").addClass("blind");
+				        $("#spinner-section").addClass("blind");
+			        
       					if (res.result == 1) {
       						alert("결제 성공");
       						location.href="/rence/reserve_list?time_point=now&user_no="+$.cookie("user_no");
@@ -178,7 +186,11 @@ $(function() {
       					}
       				},
       				
-      				error : function(error) {
+      				error : function() {
+						//로딩 화면 닫기
+				        $(".popup-background:eq(1)").addClass("blind");
+				        $("#spinner-section").addClass("blind");
+				        
       					alert("결제에 실패했습니다. 에러 내용 : " + rsp.error_msg);
       				}
       			})

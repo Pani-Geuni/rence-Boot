@@ -131,6 +131,10 @@
             let reserve_stime = $(".time-input:eq(0)").val();
             let reserve_etime = $(".time-input:eq(1)").val();
                     
+            //로딩 화면
+            $(".popup-background:eq(1)").removeClass("blind");
+            $("#spinner-section").removeClass("blind");
+                    
             $.ajax({
               url : "/rence/reserve_checkOK",
               type : "POST",
@@ -144,6 +148,10 @@
               },
               
               success : function(res) {
+                //로딩 화면 닫기
+				        $(".popup-background:eq(1)").addClass("blind");
+				        $("#spinner-section").addClass("blind");
+
                 if (res.result == 1) {
                   console.log("success");
                   location.href = "/rence/payment_page?reserve_no=" + res.reserve_no;
@@ -152,8 +160,10 @@
                   $(".using-time-fail-txt:eq(0)").html("해당 시간은 예약 할 수 없습니다.");
                 }
               },
-              error : function(error) {
-                console.log(error)
+              error : function() {
+                //로딩 화면 닫기
+				        $(".popup-background:eq(1)").addClass("blind");
+				        $("#spinner-section").addClass("blind");
               }
             });
           }
@@ -268,6 +278,10 @@
 
   $("#question-createBtn").click(function(){
     if($("#question-select-choice").attr("choice") == "true" && $("#question-write").val().trim().length > 0){
+        //로딩 화면
+        $(".popup-background:eq(1)").removeClass("blind");
+        $("#spinner-section").removeClass("blind");
+
         $.ajax({
           url : "/rence/insert_question",
           type : "GET",
@@ -279,38 +293,45 @@
               comment_content : $("#question-write").val().trim()
           },
           success : function(res) {
-              if(res.result == 1){
-                $(".qna-length").text("0");
-                $("#question-write").val("");
+            //로딩 화면 닫기
+            $(".popup-background:eq(1)").addClass("blind");
+            $("#spinner-section").addClass("blind");
 
-                $(".question-popup-select-val-wrap:eq(0)").removeClass("null-input-border");
-                $("#question-write").removeClass("null-input-border");
-                
-                $("#question-select-choice").text("타입을 선택해 주세요");
-                $("#question-select-choice").attr("choice_idx", "");
-                $("#question-select-choice").attr("choice", "");
-                
-                $(".question-popup-select-val-wrap:eq(0)").removeClass("open-select");
-                $(".question-popup-select:eq(0)").addClass("blind");
-                $("#question-popup").addClass("blind");
+            if(res.result == 1){
+              $(".qna-length").text("0");
+              $("#question-write").val("");
 
-                $(".popup-background:eq(1)").removeClass("blind");
-                $("#common-alert-popup").removeClass("blind");
-                $(".common-alert-txt").text("성공적으로 문의가 등록되었습니다.");
-                $("#common-alert-btn").attr("is_reload", true);
-              }else{
-                $(".popup-background:eq(1)").removeClass("blind");
-                $("#common-alert-popup").removeClass("blind");
-                $(".common-alert-txt").text("비밀번호가 일치하지않습니다.");
-              }
-          },
-          error : function(error) {
-              console.log(error);
+              $(".question-popup-select-val-wrap:eq(0)").removeClass("null-input-border");
+              $("#question-write").removeClass("null-input-border");
+              
+              $("#question-select-choice").text("타입을 선택해 주세요");
+              $("#question-select-choice").attr("choice_idx", "");
+              $("#question-select-choice").attr("choice", "");
+              
+              $(".question-popup-select-val-wrap:eq(0)").removeClass("open-select");
+              $(".question-popup-select:eq(0)").addClass("blind");
+              $("#question-popup").addClass("blind");
+
               $(".popup-background:eq(1)").removeClass("blind");
               $("#common-alert-popup").removeClass("blind");
-              $(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
+              $(".common-alert-txt").text("성공적으로 문의가 등록되었습니다.");
+              $("#common-alert-btn").attr("is_reload", true);
+            }else{
+              $(".popup-background:eq(1)").removeClass("blind");
+              $("#common-alert-popup").removeClass("blind");
+              $(".common-alert-txt").text("비밀번호가 일치하지않습니다.");
+            }
+          },
+          error : function() {
+            //로딩 화면 닫기
+            $(".popup-background:eq(1)").addClass("blind");
+            $("#spinner-section").addClass("blind");
+
+            $(".popup-background:eq(1)").removeClass("blind");
+            $("#common-alert-popup").removeClass("blind");
+            $(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
           }
-      });
+        });
       }
       else{
         if($("#question-write").val().trim().length == 0){

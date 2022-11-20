@@ -98,6 +98,10 @@
     $("#check-now-pw").click(function(){
         if($("#modify-pw-now").val().trim().length > 0){
             if( $(".modify-error-txt:eq(0)").hasClass("blind")){
+                //로딩 화면
+                $(".popup-background:eq(1)").removeClass("blind");
+                $("#spinner-section").removeClass("blind");
+
                 $.ajax({
                     url : "/rence/check_now_pw",
                     type : "POST",
@@ -107,7 +111,10 @@
                         user_pw : $("#modify-pw-now").val().trim()
                     },
                     success : function(res) {
-                        console.log(res.result);
+                        //로딩 화면 닫기
+                        $(".popup-background:eq(1)").addClass("blind");
+                        $("#spinner-section").addClass("blind");
+
                         // 비밀번호 일치 성공
                         if(res.result == 1){
                             $("#check-now-pw").prop("check", true);
@@ -119,8 +126,11 @@
                             $(".common-alert-txt").text("비밀번호가 일치하지않습니다.");
                         }
                     },
-                    error : function(error) {
-                        console.log(error);
+                    error : function() {
+                        //로딩 화면 닫기
+                        $(".popup-background:eq(1)").addClass("blind");
+                        $("#spinner-section").addClass("blind");
+
                         $(".popup-background:eq(1)").removeClass("blind");
                         $("#common-alert-popup").removeClass("blind");
                         $(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
@@ -141,6 +151,11 @@
                 && !$(".modify-popup-input-short").hasClass("null-input-border")
                 && !$(".modify-popup-input:eq(0)").hasClass("null-input-border")
                 && !$(".modify-popup-input:eq(1)").hasClass("null-input-border")){
+
+                //로딩 화면
+                $(".popup-background:eq(1)").removeClass("blind");
+                $("#spinner-section").removeClass("blind");
+
                 // 수정 로직 처리
                 $.ajax({
                     url:"/rence/user_pw_updateOK",
@@ -151,6 +166,10 @@
                         user_pw : $("#modify-pw-renew").val().trim()
                     },
                     success : function(res) {
+                        //로딩 화면 닫기
+                        $(".popup-background:eq(1)").addClass("blind");
+                        $("#spinner-section").addClass("blind");
+
                         // 비밀번호 변경 성공
                         if(res.result == 1){
                             //INPUT 초기화
@@ -271,7 +290,10 @@
 
     // 회원 탈퇴 처리
     $("#user-delete").click(function(){
-        //AJAX
+        //로딩 화면
+        $(".popup-background:eq(1)").removeClass("blind");
+        $("#spinner-section").removeClass("blind");
+
         $.ajax({
             url:"/rence/secedeOK",
             type : "POST",
@@ -280,6 +302,10 @@
                 user_no : $.cookie("user_no")
             },
             success : function(res) {
+                //로딩 화면 닫기
+                $(".popup-background:eq(1)").addClass("blind");
+                $("#spinner-section").addClass("blind");
+
                 // 회원탈퇴 성공
                 if(res.result == 1){
                     // 성공 알림창
@@ -292,8 +318,11 @@
                     $(".common-alert-txt").text("예상치못한 오류로 회원탈퇴에 실패하였습니다.");
                 }
             },
-            error : function(error) {
-                console.log(error);
+            error : function() {
+                //로딩 화면 닫기
+                $(".popup-background:eq(1)").addClass("blind");
+                $("#spinner-section").addClass("blind");
+
                 $(".popup-background:eq(1)").removeClass("blind");
                 $("#common-alert-popup").removeClass("blind");
                 $(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");

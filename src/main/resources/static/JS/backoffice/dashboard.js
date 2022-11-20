@@ -7,7 +7,7 @@
   });
 
   $('#go-rence-home').click(function(){
-    location.href = '/rence/';
+    location.href = '/';
   });
 
   // ****************************************
