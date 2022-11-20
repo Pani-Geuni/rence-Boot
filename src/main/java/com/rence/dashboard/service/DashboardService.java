@@ -336,5 +336,11 @@ public class DashboardService {
 		dao.reserve_state_auto_update();
 	}
 
+	// 탈퇴 신청 시, 공간 삭제
+	public void backoffice_room_deleteAlL(BackOfficeVO bvo) {
+		log.info("backoffice_room_deleteAlL().....");
+		b_repository.backoffice_room_deleteAlL(bvo.getBackoffice_no());
+	}
+
 
 }
