@@ -22,10 +22,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.rence.backoffice.model.BackOfficeOperatingTimeVO;
+import com.rence.backoffice.model.BackOfficeOperatingTimeVO_datetype;
 import com.rence.backoffice.model.BackOfficeVO;
+import com.rence.backoffice.service.BackOfficeFileService;
+import com.rence.backoffice.service.BackOfficeSendEmail;
+import com.rence.backoffice.service.OperatingTime;
 import com.rence.common.OptionEngToKorMap;
 import com.rence.dashboard.model.CommentInsertVO;
 import com.rence.dashboard.model.CommentListQView;
@@ -57,8 +64,12 @@ public class DashBoardController {
 	@Autowired
 	DashboardService service;
 	
-//	@Autowired
-//	OptionEngToKorMap optionEngToKorMap;
+	@Autowired
+	BackOfficeFileService fileService;
+	
+	@Autowired
+	OperatingTime operatingTime;
+
 
 	/**
 	 * 대쉬보드 메인
@@ -626,17 +637,49 @@ public class DashBoardController {
 		log.info("result: {}.", bvo2);
 		
 		OptionEngToKorMap optionEngToKorMap = new OptionEngToKorMap();
-		
-		List<String> backoffice_option = optionEngToKorMap.splitOption(bvo2.getBackoffice_option());
-		List<String> backoffice_around = optionEngToKorMap.splitAroundOption(bvo2.getBackoffice_around());
-		
-		model.addAttribute("backoffice_option", backoffice_option);
-		model.addAttribute("backoffice_around", backoffice_around);
+
 		model.addAttribute("vo", bvo2);
 		
 		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/update_host");
 		model.addAttribute("title", "업체 정보 변경");
 
 		return "thymeleaf/layouts/backoffice/layout_dashboard";
+	}
+	
+	/**
+	 * 환경설정에서 정보 변경
+	 */
+	@ApiOperation(value="업체 정보 변경 폼", notes="대쉬보드 환경설정 페이지 - 업체 정보 변경")
+	@PostMapping("/updateOK_host")
+	public String backoffice_updateOK_host(BackOfficeVO bvo,BackOfficeOperatingTimeVO ovo,MultipartHttpServletRequest mtfRequest, @RequestParam(value = "multipartFile_room") MultipartFile multipartFile_room,  Model model) {
+		log.info("backoffice_updateOK_host ()...");
+		log.info("{}", bvo);
+		
+		// 이미지 파일
+		bvo = fileService.backoffice_image_upload(bvo, mtfRequest, multipartFile_room);
+		log.info("filupload room:{}", bvo);
+
+		// 운영시간
+		BackOfficeOperatingTimeVO_datetype ovo2 = new BackOfficeOperatingTimeVO_datetype();
+		ovo2 = operatingTime.operatingTime(ovo, ovo2);
+		
+		// 백오피스 업체 정보 업데이트
+//		int update_host =  service.backoffice_updateOK_host(bvo);
+		service.backoffice_updateOK_host(bvo);
+		
+		// 백오피스 운영 시간 업데이트
+		ovo2.setBackoffice_no(bvo.getBackoffice_no());
+//		int update_opt =  service.backoffice_updateOK_opt(ovo2);
+		service.backoffice_updateOK_opt(ovo2);
+	
+		String rt = "";
+//		if(update_host==1&&updtae_opt==1) {
+			rt = "redirect:backoffice/settings";
+//		}else {
+//			rt = "redirect:backoffice/update_host";
+//		}
+		
+		
+		return rt;
 	}
 }
