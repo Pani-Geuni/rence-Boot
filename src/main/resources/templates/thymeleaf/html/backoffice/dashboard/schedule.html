@@ -1,0 +1,125 @@
+<!-- ------------ -->
+<!-- @author 전판근 -->
+<!-- ------------ -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <div th:fragment="dashboard_content">
+    <section class="board-contentWrap">
+      <div class="titleSection">
+        <h1>일정관리</h1>
+      </div>
+
+      <div class="boardWrap">
+        <div class="cardSection schedule">
+          <div class="setScheduleSection">
+            <div class="setScheduleWrap">
+              <h3>임시 일정 설정</h3>
+              <input
+                type="radio"
+                name="set_schedule"
+                id="set-dayoff"
+                class="schedule-radio"
+                value="dayoff"
+              />
+              <label for="set-dayoff"> 휴무 설정 </label>
+
+              <input
+                type="radio"
+                name="set_schedule"
+                id="set-breaktime"
+                class="schedule-radio"
+                value="breaktime"
+              />
+              <label for="set-breaktime"> 브레이크 타임 설정 </label>
+            </div>
+            <!-- END setScheduleWrap -->
+            <div class="setScheduleWrap">
+              <h3>날짜 및 시간 설정</h3>
+            </div>
+          </div>
+          <!-- END setScheduleSection -->
+
+          <div class="select-room-section">
+            <div class="select-room-section-title">
+              <h3>적용 공간 선택</h3>
+              <div class="select-all-section">
+                <input type="checkbox" id="select-all-room" />
+                <label for="select-all-room">전체선택</label>
+              </div>
+            </div>
+            <!-- END select-room-section-title -->
+
+            <div class="custom-table">
+              <div class="ct-header">
+                <div class="ct-header-cell schedule">선택</div>
+                <div class="ct-header-cell schedule">공간 타입</div>
+                <div class="ct-header-cell schedule">공간 이름</div>
+                <div class="ct-header-cell schedule">공간 예약 유무</div>
+                <div class="ct-header-cell schedule">예약 수</div>
+              </div>
+            </div>
+            <div class="ct-body">
+              <div class="ct-body-row">
+                <div class="ct-body-cell schedule">
+                  <input
+                    type="checkbox"
+                    name="select-room"
+                    class="room-checkbox"
+                    value=""
+                  />
+                </div>
+                <div class="ct-body-cell schedule">
+                  <span>10인 회의실</span>
+                </div>
+                <div class="ct-body-cell schedule">
+                  <span> 101호 스터디룸101호 </span>
+                </div>
+                <div class="ct-body-cell schedule">
+                  <span
+                    ><img src="../../img/dashBoard/ico-circle.svg" alt=""
+                  /></span>
+                </div>
+                <div class="ct-body-cell schedule">
+                  <span>3명</span>
+                </div>
+              </div>
+              <!-- END ct-body-row -->
+              <div class="ct-body-row">
+                <div class="ct-body-cell schedule">
+                  <input
+                    type="checkbox"
+                    name="select-room"
+                    class="room-checkbox"
+                    value=""
+                  />
+                </div>
+                <div class="ct-body-cell schedule">
+                  <span>10인 회의실</span>
+                </div>
+                <div class="ct-body-cell schedule">
+                  <span> 101호 스터디룸101호 </span>
+                </div>
+                <div class="ct-body-cell schedule">
+                  <span
+                    ><img src="../../img/dashBoard/ico-close.svg" alt=""
+                  /></span>
+                </div>
+                <div class="ct-body-cell schedule">
+                  <span>0명</span>
+                </div>
+              </div>
+              <!-- END ct-body-row -->
+            </div>
+          </div>
+          <!-- END select-room-section -->
+        </div>
+        <!-- END cardSection schedule -->
+      </div>
+      <!-- END boardWrap -->
+    </section>
+    
+    
+  </div>
+</html>

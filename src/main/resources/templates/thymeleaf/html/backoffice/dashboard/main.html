@@ -20,33 +20,33 @@
         </div>
         <div class="custom-table">
           <div class="ct-header">
-            <div class="ct-header-cell">예약 날짜</div>
-            <div class="ct-header-cell">예약 공간</div>
-            <div class="ct-header-cell">예약자</div>
-            <div class="ct-header-cell">결제 금액</div>
-            <div class="ct-header-cell">상태</div>
+            <div class="ct-header-cell main">예약 날짜</div>
+            <div class="ct-header-cell main">예약 공간</div>
+            <div class="ct-header-cell main">예약자</div>
+            <div class="ct-header-cell main">결제 금액</div>
+            <div class="ct-header-cell main">상태</div>
           </div>
           <!-- END ct-header -->
     
           <div class="ct-body">
             <th:block th:each="vos : ${r_vos}">
               <div class="ct-body-row" idx="${vos.reserve_no}" >
-                <div class="ct-body-cell">
+                <div class="ct-body-cell main">
                   <p>
                     <span>[[ ${vos.reserve_sdate} ]]</span> ~ <br />
                     <span>[[ ${vos.reserve_edate} ]]</span>
                   </p>
                 </div>
-                <div class="ct-body-cell">
+                <div class="ct-body-cell main">
                   <p th:text="${vos.room_name}"></p>
                 </div>
-                <div class="ct-body-cell">
+                <div class="ct-body-cell main">
                   <p th:text="${vos.user_name}"></p>
                 </div>
-                <div class="ct-body-cell">
+                <div class="ct-body-cell main">
                   <p class="reserve-price">[[ ${vos.actual_payment} ]]</p>
                 </div>
-                <div class="ct-body-cell">
+                <div class="ct-body-cell main">
                   <th:block th:switch="${vos.reserve_state}">
                     <p th:case="begin">결제완료</p>
                     <p th:case="in_use">이용중</p>
