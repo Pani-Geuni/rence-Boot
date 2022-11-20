@@ -5,71 +5,79 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>대시보드</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>대시보드</title>
 
-  <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
 
-<link rel="stylesheet" href="/static/CSS/common/common.css" />
-<link rel="stylesheet"
-	href="/static/CSS/common/custom-table.css" />
+	<link rel="stylesheet" href="/static/CSS/common/common.css" />
+	<link rel="stylesheet" href="/static/CSS/common/custom-table.css" />
+	<link rel="stylesheet" href="/static/CSS/common/custom-timepicker.css" />
 
+	<link rel="stylesheet" href="/static/CSS/dash-board/dash-commons.css" />
+	<link rel="stylesheet" href="/static/CSS/dash-board/left-side-menu.css" />
+	<link rel="stylesheet" href="/static/CSS/dash-board/dash-board.css" />
+	<link rel="stylesheet" href="/static/CSS/dash-board/dash-space-list.css" />
+	<link rel="stylesheet" href="/static/CSS/dash-board/dash-qna-list.css" />
+	<link rel="stylesheet" href="/static/CSS/dash-board/dash-review-list.css" />
+	<link rel="stylesheet" href="/static/CSS/dash-board/dash-schedule.css" />
+	<link rel="stylesheet" href="/static/CSS/dash-board/dash-reserve-list.css" />
+	<link rel="stylesheet" href="/static/CSS/dash-board/dash-sales-list.css" />
+	<link rel="stylesheet" href="/static/CSS/dash-board/dash-settings.css" />
+	<link rel="stylesheet" href="/static/CSS/dash-board/dash-host-update.css" />
 
-<link rel="stylesheet" href="/static/CSS/dash-board/dash-commons.css" />
-<link rel="stylesheet" href="/static/CSS/dash-board/left-side-menu.css" />
-<link rel="stylesheet" href="/static/CSS/dash-board/dash-board.css" />
-<link rel="stylesheet" href="/static/CSS/dash-board/dash-space-list.css" />
-<link rel="stylesheet" href="/static/CSS/dash-board/dash-qna-list.css" />
-<link rel="stylesheet" href="/static/CSS/dash-board/dash-review-list.css" />
-<link rel="stylesheet" href="/static/CSS/dash-board/dash-schedule.css" />
-<link rel="stylesheet" href="/static/CSS/dash-board/dash-reserve-list.css" />
-<link rel="stylesheet" href="/static/CSS/dash-board/dash-sales-list.css" />
-<link rel="stylesheet" href="/static/CSS/dash-board/dash-settings.css" />
+	<script src="/static/JS/common/jquery-3.6.1.min.js"></script>
+	<script src="/static/JS/common/jquery.cookie.js"></script>
 
-<script src="/static/JS/common/jquery-3.6.1.min.js"></script>
-<script src="/static/JS/common/jquery.cookie.js"></script>
+	<script src="/static/JS/backoffice/dashboard.js"></script>
+	<script src="/static/JS/backoffice/host_popup.js"></script>
+	<script src="/static/JS/backoffice/reserve_list.js"></script>
+	<script src="/static/JS/backoffice/host_update.js"></script>
+	<script src="/static/JS/backoffice/schedule.js"></script>
+	<script src="/static/JS/backoffice/settings.js"></script>
+	<script src="/static/JS/backoffice/custom_timepicker.js"></script>
 
-<script src="/static/JS/backoffice/dashboard.js"></script>
-<script src="/static/JS/backoffice/host_popup.js"></script>
-<script src="/static/JS/backoffice/reserve_list.js"></script>
-<script src="/static/JS/backoffice/host_update.js"></script>
-<script src="/static/JS/backoffice/schedule.js"></script>
+	<script src="/static/JS/backoffice/number_comma.js"></script>
 
-<script src="/static/JS/backoffice/number_comma.js"></script>
+	<!-- timepicker library script -->
+	<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 
-<script type="text/javascript" src="/static/JS/common/core.min.js"></script>
-<script type="text/javascript" src="/static/JS/common/sha256.min.js"></script>
+	<script type="text/javascript" src="/static/JS/common/core.min.js"></script>
+	<script type="text/javascript" src="/static/JS/common/sha256.min.js"></script>
+
 
 </head>
-<body class="bodyWrap">
-  <div th:replace="thymeleaf/html/backoffice/common/sidebar"></div>
-  <section class="board-contentWrap">
-    <div th:replace="${content} :: dashboard_content"></div>
-  </section>
 
-  <!-- **************** -->
+<body class="bodyWrap">
+	<div th:replace="thymeleaf/html/backoffice/common/sidebar"></div>
+	<section class="board-contentWrap">
+		<div th:replace="${content} :: dashboard_content"></div>
+	</section>
+
+	<!-- **************** -->
 	<!-- popup background -->
 	<!-- **************** -->
 	<div class="popup-background blind">
-        
+
 		<!-- START LOGOUT CONFIRM POPUP -->
 		<div id="logout-popup" class="confirm-popup blind">
 			<section class="confirm-txt-section">
 				<span class="logout-txt">
 					로그아웃 하시겠습니까?<br><br>
-                    로그아웃 시 메인페이지로 이동됩니다.
+					로그아웃 시 메인페이지로 이동됩니다.
 				</span>
 			</section>
 			<section class="confirm-btn-section">
-                <div id="logout-btn" class="confirm-yesBtn">로그아웃</div>
+				<div id="logout-btn" class="confirm-yesBtn">로그아웃</div>
 				<div id="logout-closeBtn" class="confirm-noBtn">닫기</div>
 			</section>
 		</div>
 		<!-- END logout popup -->
-		
+
 		<!-- 공간 추가 팝업 Section -->
 		<div id="room-insert-section" class="blind">
 			<section class="room-popup-title-section">
@@ -78,16 +86,15 @@
 			<section class="room-popup-input-section">
 				<div class="room-input-wrap">
 					<p>공간 이름</p>
-					<input type="text" name="room_name" id="input-room-name"
-						class="room-input" placeholder="공간 이름을 입력해 주세요" />
+					<input type="text" name="room_name" id="input-room-name" class="room-input"
+						placeholder="공간 이름을 입력해 주세요" />
 				</div>
 				<div class="room-input-wrap">
 					<p>공간 타입</p>
-					<input type="hidden" name="room_type" id="edit_room_type"
-						class="room_type" value="" />
+					<input type="hidden" name="room_type" id="edit_room_type" class="room_type" value="" />
 					<div class="room-type-select" id="room-type-select">
-						<button name="room_type" id="insert-room-type-label"
-							class="room-type-label">타입을 선택해 주세요</button>
+						<button name="room_type" id="insert-room-type-label" class="room-type-label">타입을 선택해
+							주세요</button>
 						<ul class="insert-type-select-list blind">
 							<li class="insert-type-select-item blind"></li>
 						</ul>
@@ -98,7 +105,8 @@
 				<div class="room-input-wrap">
 					<p>가격을 입력해 주세요.</p>
 					<div>
-						<input type="number" name="room_price" id="input-price-name" class="room-input" placeholder="가격을 입력해 주세요.(숫자만 입력 가능)" value="" />
+						<input type="number" name="room_price" id="input-price-name" class="room-input"
+							placeholder="가격을 입력해 주세요.(숫자만 입력 가능)" value="" />
 						<span class="r-input-warning blind">숫자만 입력가능합니다.</span>
 					</div>
 				</div>
@@ -120,14 +128,15 @@
 			<section class="room-popup-input-section">
 				<div class="room-input-wrap">
 					<p>공간 이름</p>
-					<input type="text" name="room_name" id="m-input-room-name"
-						class="room-input" placeholder="공간 이름을 입력해 주세요" />
+					<input type="text" name="room_name" id="m-input-room-name" class="room-input"
+						placeholder="공간 이름을 입력해 주세요" />
 				</div>
 				<div class="room-input-wrap">
 					<p>공간 타입</p>
 					<input type="hidden" name="room_type" id="m-edit_room_type" class="room_type" value="" />
 					<div class="room-type-select" id="m-room-type-select">
-						<button name="room_type" id="m-edit-room-type-label" class="room-type-label">타입을 선택해 주세요</button>
+						<button name="room_type" id="m-edit-room-type-label" class="room-type-label">타입을 선택해
+							주세요</button>
 						<ul class="edit-type-select-list blind">
 							<li class="edit-type-select-item blind">데스크</li>
 						</ul>
@@ -138,7 +147,8 @@
 				<div class="room-input-wrap">
 					<p>가격을 입력해 주세요.</p>
 					<div>
-						<input type="number" name="room_price" id="m-input-price-name" class="room-input" placeholder="가격을 입력해 주세요.(숫자만 입력 가능)" value="" />
+						<input type="number" name="room_price" id="m-input-price-name" class="room-input"
+							placeholder="가격을 입력해 주세요.(숫자만 입력 가능)" value="" />
 						<span class="r-input-warning blind">숫자만 입력가능합니다.</span>
 					</div>
 				</div>
@@ -155,7 +165,7 @@
 		<!-- START DELETE CONFIRM POPUP -->
 		<div id="space-delete-popup" class="confirm-popup blind">
 			<section class="confirm-txt-section">
-				<span class="delete-txt"> 
+				<span class="delete-txt">
 					해당 공간을 정말 삭제하시겠습니까? <br />
 					삭제하시면 다시 복구 할 수 없습니다
 				</span>
@@ -166,11 +176,11 @@
 			</section>
 		</div>
 		<!-- END DELETE FONFIRM POPUP -->
-		
+
 		<!-- START DELETE CONFIRM POPUP -->
 		<div id="answer-delete-popup" class="confirm-popup blind">
 			<section class="confirm-txt-section">
-				<span class="delete-txt"> 
+				<span class="delete-txt">
 					답글을 삭제하시겠습니까?
 				</span>
 			</section>
@@ -224,13 +234,13 @@
 				<div class="user-comment-content">
 					<h5>문의 내용</h5>
 					<pre id="user_comment">
-문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 </pre>
+						문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용
+						문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 문의내용 </pre>
 				</div>
 			</section>
 			<section class="host-comment-section">
 				<h5>답변</h5>
-				<textarea name="host-comment" id="host-comment"
-					placeholder="문의 답변을 입력해 주세요."></textarea>
+				<textarea name="host-comment" id="host-comment" placeholder="문의 답변을 입력해 주세요."></textarea>
 			</section>
 
 			<div class="button-group">
@@ -246,8 +256,7 @@
 			</div>
 
 			<div>
-				<input class="input-check-pw" type="password"
-					placeholder="현재 비밀번호를 입력해 주세요." />
+				<input class="input-check-pw" type="password" placeholder="현재 비밀번호를 입력해 주세요." />
 			</div>
 
 			<div class="btn-popup-group">
@@ -256,11 +265,11 @@
 			</div>
 		</div>
 		<!-- END popup-update-pw -->
-		
+
 		<!-- START DELETE CONFIRM POPUP -->
 		<div id="host-delete-popup" class="confirm-popup blind">
 			<section class="confirm-txt-section">
-				<span class="delete-txt"> 
+				<span class="delete-txt">
 					탈퇴신청하시겠습니까?
 				</span>
 			</section>
@@ -270,11 +279,11 @@
 			</section>
 		</div>
 		<!-- END DELETE FONFIRM POPUP -->
-		
+
 		<!-- START CONFIRM POPUP -->
 		<div id="calculate-popup" class="confirm-popup blind">
 			<section class="confirm-txt-section">
-				<span class="delete-txt"> 
+				<span class="delete-txt">
 					정산처리 하시겠습니까?
 				</span>
 			</section>
@@ -286,23 +295,24 @@
 		<!-- END DELETE FONFIRM POPUP -->
 	</div>
 	<!-- END popup-background blind -->
-	
-   	<div class="popup-background blind">
-	   	<!-- START SPINNER SECTION -->
-	    <div id="spinner-section" class="blind">
-	        <img src="/static/IMG/common/spinner.gif" class="spinner-img">
-	    </div>
-	    <!-- END SPINNER SECTION -->
-    
-    	<!-- START COMMON CUSTOM ALERT POPUP -->
-        <div id ="common-alert-popup" class="alert-popup blind">
-            <section class="alert-txt-section">
-                <span class="common-alert-txt"></span>
-            </section>
-            <section id = "common-alert-btn" class="alert-btn-section">
-                <span>확인</span>
-            </section>
-        </div>
-   	</div>
+
+	<div class="popup-background blind">
+		<!-- START SPINNER SECTION -->
+		<div id="spinner-section" class="blind">
+			<img src="/static/IMG/common/spinner.gif" class="spinner-img">
+		</div>
+		<!-- END SPINNER SECTION -->
+
+		<!-- START COMMON CUSTOM ALERT POPUP -->
+		<div id="common-alert-popup" class="alert-popup blind">
+			<section class="alert-txt-section">
+				<span class="common-alert-txt"></span>
+			</section>
+			<section id="common-alert-btn" class="alert-btn-section">
+				<span>확인</span>
+			</section>
+		</div>
+	</div>
 </body>
+
 </html>
