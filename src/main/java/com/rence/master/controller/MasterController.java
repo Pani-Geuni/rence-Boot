@@ -313,7 +313,7 @@ public class MasterController {
 			
 			rt="backoffice/setting";
 		}else { // 굳이 필요없지만 넣어봄,,
-			rt="redirect:master_main";
+			rt="redirect:master/main";
 		}
 
 		return rt;
@@ -350,7 +350,7 @@ public class MasterController {
 			
 			rt="backoffice/setting";
 		}else { // 굳이 필요없지만 넣어봄,,
-			rt="redirect:master_main";
+			rt="redirect:master/main";
 		}
 		
 		return rt;

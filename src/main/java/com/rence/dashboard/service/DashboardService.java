@@ -17,7 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.rence.backoffice.model.BackOfficeOperatingTimeVO_datetype;
 import com.rence.backoffice.model.BackOfficeVO;
+import com.rence.backoffice.repository.BackOfficeOperatingTimeRepository;
 import com.rence.backoffice.repository.BackOfficeRepository;
 import com.rence.dashboard.model.CommentInsertVO;
 import com.rence.dashboard.model.CommentListQView;
@@ -83,6 +85,9 @@ public class DashboardService {
 	
 	@Autowired
 	SalesSettlementRepository s_repository;
+	
+	@Autowired
+	BackOfficeOperatingTimeRepository o_repository;
 	
 	@Autowired
 	DashBoardDAO dao;
@@ -340,6 +345,19 @@ public class DashboardService {
 	public void backoffice_room_deleteAlL(BackOfficeVO bvo) {
 		log.info("backoffice_room_deleteAlL().....");
 		b_repository.backoffice_room_deleteAlL(bvo.getBackoffice_no());
+	}
+
+	// 업체 정보 수정
+	public int backoffice_updateOK_host(BackOfficeVO bvo) {
+		log.info("backoffice_updateOK_host().....");
+		return b_repository.backoffice_updateOK_host(bvo);
+	}
+
+	// 업체 정보 수정 - 운영시간
+	public int backoffice_updateOK_opt(BackOfficeOperatingTimeVO_datetype ovo2) {
+		log.info("backoffice_updateOK_opt().....");
+		return o_repository.backoffice_updateOK_opt(ovo2,ovo2.getMon_stime(), ovo2.getMon_etime(), ovo2.getTue_stime(), ovo2.getTue_etime(), ovo2.getWed_stime(), ovo2.getWed_etime(), 
+				ovo2.getThu_stime(), ovo2.getThu_etime(), ovo2.getFri_stime(), ovo2.getFri_etime(), ovo2.getSat_stime(), ovo2.getSat_etime(), ovo2.getSun_stime(), ovo2.getSun_etime());
 	}
 
 
