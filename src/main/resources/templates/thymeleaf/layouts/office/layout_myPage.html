@@ -48,7 +48,6 @@
 	<script th:inline="javascript">
 		/*<![CDATA[*/
 			var is_login2 = /*[[ ${session.user_id} ]]*/ "is_login2";
-			var mypage_img = /*[[${umvo.user_image}]]*/ "mypage_img";
 		/*]]*/
 	</script>
 	
@@ -58,9 +57,6 @@
 			
 			if(is_login2 != null){
 				$(".user_profile_img").attr("src", "https://rence.s3.ap-northeast-2.amazonaws.com/user/"+user_image);
-			}
-			if(mypage_img != null){
-				$(".profile-img-wrap>.profile-img").attr("src", mypage_img);
 			}
 		});
 	</script>
