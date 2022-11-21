@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,6 +26,7 @@ import com.rence.dashboard.repository.RoomInsertRepository;
 import com.rence.dashboard.repository.RoomSummaryRepository;
 import com.rence.dashboard.repository.SalesSettlementDetailRepository;
 import com.rence.dashboard.repository.SalesSettlementSummaryRepository;
+import com.rence.dashboard.repository.ScheduleListRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -58,6 +60,9 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 
 	@Autowired
 	ReserveAutoUpdateRepository reserveAutoUpdateRepository;
+	
+	@Autowired
+	ScheduleListRepository sc_repository;
 
 	// 공간 관리 - 문의 리스트
 	@Override
@@ -420,6 +425,32 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 //		}
 
 		return null;
+	}
+
+	@Override
+	public List<ScheduleListView> backoffice_scheduke_list(String backoffice_no, String not_sdate, String not_edate,
+			String not_stime, String not_etime) {
+		
+		ScheduleListView sc = new ScheduleListView();
+		
+		String reserve_stime = (not_sdate+not_stime);
+		log.info("reserve_stime : {} ",reserve_stime);
+		
+		String reserve_etime = (not_edate+not_etime);
+		log.info("reserve_etime : {} ",reserve_etime);
+		
+		List<ScheduleListView> sc_vos = sc_repository.backoffice_scheduke_list(backoffice_no,reserve_stime,reserve_etime);
+		
+		for (ScheduleListView scvo : sc_vos) {
+			if (scvo.getReserve_cnt()>0) {
+				scvo.setReserve_is("O");
+			}else {
+				scvo.setReserve_is("X");
+			}
+			
+		}
+		
+		return sc_vos;
 	}
 
 }
