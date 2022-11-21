@@ -47,6 +47,8 @@ import com.rence.dashboard.model.RoomVO;
 import com.rence.dashboard.model.SalesSettlementDetailView;
 import com.rence.dashboard.model.SalesSettlementSummaryView;
 import com.rence.dashboard.model.SalesSettlementViewVO;
+import com.rence.dashboard.model.ScheduleListView;
+import com.rence.dashboard.repository.ScheduleListRepository;
 import com.rence.dashboard.service.DashboardService;
 
 import io.swagger.annotations.Api;
@@ -686,5 +688,46 @@ public class DashBoardController {
 		
 		
 		return rt;
+	}
+	
+	
+	/**
+	 * 일정 관리 
+	 */
+	@ApiOperation(value="일정 관리", notes="대쉬보드 - 일정 관리")
+	@GetMapping("/schedule")
+	@ResponseBody
+	public String backoffice_schedule(String backoffice_no, Model model) { // backoffice_no를 받아야 하나..?
+		log.info("backoffice_schedule controller()...");
+		
+		model.addAttribute("backoffic_no",backoffice_no);
+		
+		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/schedule");
+		model.addAttribute("title", "일정 관리");
+
+		return "thymeleaf/layouts/backoffice/layout_dashboard";
+	}
+	
+	/**
+	 * 일정 관리 
+	 */
+	@ApiOperation(value="일정 관리", notes="대쉬보드 - 일정 관리")
+	@GetMapping("/schedule_research")
+	@ResponseBody
+	public String backoffice_schedule_research(String backoffice_no, String not_sdate, String not_edate, String not_stime, String not_etime,Model model) {
+		log.info("backoffice_schedule_research controller()...");
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		List<ScheduleListView> sche = service.backoffice_scheduke_list(backoffice_no,not_sdate,not_edate,not_stime,not_etime);
+		log.info("result: {}.", sche);
+		log.info("cnt: {}.", sche.size());
+		
+		map.put("sc_vos", sche);
+		map.put("cnt", sche.size());
+		
+		String json = gson.toJson(map);
+		
+		return json;
 	}
 }

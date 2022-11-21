@@ -9,7 +9,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,7 @@ import com.rence.dashboard.repository.RoomInsertRepository;
 import com.rence.dashboard.repository.RoomSummaryRepository;
 import com.rence.dashboard.repository.SalesSettlementDetailRepository;
 import com.rence.dashboard.repository.SalesSettlementSummaryRepository;
+import com.rence.dashboard.repository.ScheduleListRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -58,6 +61,9 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 
 	@Autowired
 	ReserveAutoUpdateRepository reserveAutoUpdateRepository;
+	
+	@Autowired
+	ScheduleListRepository sc_repository;
 
 	// 공간 관리 - 문의 리스트
 	@Override
@@ -420,6 +426,55 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 //		}
 
 		return null;
+	}
+
+	@Override
+	public List<ScheduleListView> backoffice_scheduke_list(String backoffice_no, String not_sdate, String not_edate,
+			String not_stime, String not_etime) {
+		
+		ScheduleListView sc = new ScheduleListView();
+		
+		String reserve_stime = (not_sdate+not_stime);
+		log.info("reserve_stime : {} ",reserve_stime);
+		
+		String reserve_etime = (not_edate+not_etime);
+		log.info("reserve_etime : {} ",reserve_etime);
+		
+		List<ScheduleListView> sc_vos_o = sc_repository.backoffice_scheduke_list(backoffice_no,reserve_stime,reserve_etime);
+//		log.info("sc_vos_o : {} ",sc_vos_o);
+		log.info("sc_vos_o : {} ",sc_vos_o.size());
+		List<ScheduleListView> sc_vos_x = sc_repository.backoffice_scheduke_list_All(backoffice_no);
+//		log.info("sc_vos_x : {} ",sc_vos_x);
+		log.info("sc_vos_x : {} ",sc_vos_x.size());
+		
+		for (int i = 0; i < sc_vos_x.size(); i++) {
+			for (int j = 0; j < sc_vos_o.size(); j++) {
+//				log.info("All:{}",sc_vos_x.get(i).getRoom_no());
+//				log.info("reserve_o:{}",sc_vos_o.get(j).getRoom_no());
+				if (sc_vos_x.get(i).getRoom_no().equals(sc_vos_o.get(j).getRoom_no())) {
+					ScheduleListView ss = sc_vos_x.remove(i);
+					log.info("remove:::::::::::{}",ss.getRoom_no());
+				}
+			}
+		}
+		log.info("sc_vos_x : {} ",sc_vos_x.size());
+		
+		for (ScheduleListView scvo : sc_vos_o) {
+			scvo.setReserve_is("O");
+		}
+		
+		for (ScheduleListView scvo : sc_vos_x) {
+			scvo.setReserve_is("X");
+			scvo.setReserve_cnt(0);
+			
+		}
+		
+		List<ScheduleListView> sc_vos = new ArrayList<ScheduleListView>();
+		
+		sc_vos.addAll(sc_vos_o);
+		sc_vos.addAll(sc_vos_x);
+		
+		return sc_vos;
 	}
 
 }
