@@ -4,392 +4,441 @@
 
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <body>
-<section class="space-detail-introduce-section" th:fragment="content">
-	<div class="space-detail-introduce-wrap">
-		<section class="space-detail-title-section">
-            <span  class="space-detail-company-name">
-                [[${ovo.company_name}]]
-            </span>
-            <th:block th:each="type_item : ${type_list}">
-	            <span class="space-detail-type">[[${type_item}]]</span>
-            </th:block>
-        </section>
-        <section class="space-detail-info-section">
-            <div class="space-rating">
-                <img src="/static/IMG/common/grey-star.svg" class="space-rating-icon" alt="space-rating-icon" />
-                <span class="space-info-txt">[[${ovo.avg_rating}]]</span>
-            </div>
-            <div class="space-tags">
-            	<th:block th:each="tag_item : ${tag_list}">
-	                <span class="space-info-txt tag-txt">[[${tag_item}]]</span>
-            	</th:block>
-            </div>
-        </section>
-        <div class="space-location">
-            <img src="/static/IMG/common/location-icon.svg" class="space-location-icon" alt="space-location-icon" />
-            <span class="space-info-txt">[[${ ovo.roadname_address }]] [[${ ovo.detail_address }]]</span>
-        </div>
-		<section class="spage-imgs-section">
-			<div class="window">
-				<ul class="container">
-					<th:block th:each="img_item : ${img_list}">
-						<li class="img">
-							<img th:src="@{https://rence.s3.ap-northeast-2.amazonaws.com/space}+${img_item}" class="company-img" />
-						</li>
+	<section class="space-detail-introduce-section" th:fragment="content">
+		<div class="space-detail-introduce-wrap">
+			<section class="space-detail-title-section">
+				<span class="space-detail-company-name">
+					[[${ovo.company_name}]]
+				</span>
+				<th:block th:each="type_item : ${type_list}">
+					<span class="space-detail-type">[[${type_item}]]</span>
+				</th:block>
+			</section>
+			<section class="space-detail-info-section">
+				<div class="space-rating">
+					<img src="/static/IMG/common/grey-star.svg" class="space-rating-icon" alt="space-rating-icon" />
+					<span class="space-info-txt">[[${ovo.avg_rating}]]</span>
+				</div>
+				<div class="space-tags">
+					<th:block th:each="tag_item : ${tag_list}">
+						<span class="space-info-txt tag-txt">[[${tag_item}]]</span>
 					</th:block>
-				</ul>
-
-				<div class="button-container">
-					<span class="prev button-size">&lt;</span>
-					<span class="next button-size">></span>
-				</div>
-			</div>
-		</section>
-		<section class="dynamic-section">
-			<!-- START un-fixed-section -->
-			<section class="un-fixed-section">
-				<section class="menu-tab-section">
-					<ul class="menu-tab">
-						<li class="menu click-menu" menu="info">공간 소개</li>
-						<li class="menu" menu="qna">문의</li>
-						<li class="menu" menu="review">후기</li>
-					</ul>
-				</section>
-
-				<!-- 공간 소개 -->
-				<div class="space-description-wrap">
-					<span class="space-description"> 
-						[[${ ovo.backoffice_info }]]
-					</span>
-
-					<div class="option-wrap">
-						<label class="section-title"> 옵션 </label>
-						<ul class="option-list-wrap">
-							<th:block th:each="option_item : ${option_list}">
-								<li class="option-list">[[${ option_item }]]</li>
-							</th:block>
-						</ul>
-					</div>
-
-					<div class="around-info-wrap">
-						<label class="section-title"> 주변 시설 </label>
-						<ul id="" class="option-list-wrap">
-							<th:block th:each="around_item : ${around_option_list}">
-								<li class="option-list">[[${around_item}]]</li>
-							</th:block>
-						</ul>
-					</div>
-				</div>
-
-				<!-- 문의 -->
-				<div class="question-wrap blind">
-					<section class="question-wrap-title">
-						<section class="question-left">
-							<span class="big-title">문의</span> <span class="small-title">[[${ cvos_cnt }]]개</span>
-						</section>
-						<section id="question-create-btn" class="question-right">
-							<span>문의하기</span>
-						</section>
-
-						<!-- 문의하기 팝업창 -->
-                        <div id="question-popup" class="question-popup-wrap blind">
-                            <span class="question-popup-title">문의하기</span>
-                            <span class="question-popup-secret">
-                                <span class="question-popup-small-title">비밀문의여부</span>
-                                <input type="checkbox" id="toggle" hidden> 
-
-                                <label for="toggle" class="toggleSwitch">
-                                    <span class="toggleButton"></span>
-                                </label>
-                            </span>
-
-                            <section class="question-popup-type-select-wrap">
-                                <span class="question-popup-small-title">문의할 공간 타입</span>
-
-                                <!-- select 열 때 open-select추가 -->
-                                <div class="question-popup-select-val-wrap">
-                                    <span id="question-select-choice" class="question-popup-select-value">
-                                        타입을 선택해 주세요
-                                    </span>
-                                    <img src="/static/IMG/space-introduce/full-dropdown.svg" alt="full-dropdown" class="full-dropdown"></img>
-                                </div>
-
-                                <ul class="question-popup-select blind">
-                                    <th:block th:each="vos : ${rvos}">
-	                                    <li class="question-popup-select-li" th:attr="idx=${vos.room_no}">
-	                                        [[${vos.room_name}]]
-	                                    </li>
-	                                </th:block>
-                                </ul>
-                            </section>
-                            <section class="textarea-section">
-                                <textarea id="question-write" class="question-write"></textarea>
-                                <div class="txt-length-wrap">
-                                    <span class="qna-length">0</span>
-                                    <span class="total-length">/ 500</span>
-                                </div>
-                            </section>
-                            <section class="quest-popup-btn-section">
-                                <span id="question-createBtn" class="popup-create-btn">등록</span>
-                                <span id="question-close-btn" class="popup-close-btn">취소</span>
-                            </section>
-                        </div>
-					</section>
-
-					<section class="quest-list-section">
-						<ul class="quest-list-wrap">
-							<th:block th:each="cvo : ${cvos}">
-								<li class="quest-list">
-									<section>
-										<img src="/static/IMG/header/loopy.jpg" alt="write-user-img" class="write-user-img" />
-									</section>
-									<section class="quest-content-section">
-										<ul class="quest-content-wrap">
-											<li class="quest-content-list quest-content-writer">
-												<span>[[${ cvo.user_name }]]</span>
-                                                        
-                                                <span class="lock_img">
-                                                    <img src="/static/IMG/space-introduce/lock.svg">
-                                                </span>
-                                            </li>
-											<li class="quest-content-list quest-content">[[${ cvo.comment_content }]]</li>
-											<li class="quest-content-list quest-content-date">
-												[[${ cvo.comment_date }]]
-												<th:block th:if="${cvo.answer_date} != null">
-													<span class="answer_toggle">답변 보기</span>
-												</th:block>
-											</li>
-										</ul>
-									</section>
-								</li>
-								<th:block th:if="${cvo.answer_date} != null">
-									<li class="answer-list">
-                                        <div class="answer_arrow_img">
-                                            <img src="/static/IMG/space-introduce/answer_arrow.svg">
-                                        </div>
-                                        <div class="answer_text_wrap">
-                                            <section>
-												<img src="/static/upload/img_host_001.jpg" alt="write-user-img" class="write-user-img" />
-                                            </section>
-                                            <section class="answer-content-section">
-                                                <ul class="answer-content-wrap">
-                                                    <li class="answer-content-list answer-content-writer">HOST</li>
-                                                    <li class="answer-content-list answer-content">[[${ cvo.answer_content}]]</li>
-                                                    <li class="answer-content-list answer-content-date">[[${cvo.answer_date}]]</li>
-                                                </ul>
-                                            </section>
-                                        </div>
-                                    </li>
-								</th:block>
-							</th:block>
-						</ul>
-					</section>
-				</div>
-
-				<!-- 후기 -->
-				<div id="review-wrap" class="question-wrap blind">
-					<section class="question-wrap-title">
-						<section class="question-left">
-							<span class="big-title">후기</span> <span class="small-title">[[${ review_cnt }]]개</span>
-						</section>
-					</section>
-
-					<section class="quest-list-section">
-						<ul class="quest-list-wrap">
-							<th:block th:each="revo : ${revos}">
-								<li class="quest-list">
-									<section>
-										<img src="/static/IMG/header/loopy.jpg" alt="write-user-img" class="write-user-img" />
-									</section>
-									<section class="quest-content-section">
-										<ul class="quest-content-wrap">
-											<li class="quest-content-list quest-content-writer">
-												<span class="quest-writer">[[${ revo.user_name }]]</span> 
-												
-												<span class="review-star-wrap">
-													<img src="/static/IMG/common/star.svg" class="review-star-img" alt="review-star-img" /> 
-													<span class="review-star-num">[[${ revo.review_point }]]</span>
-												</span>
-											</li>
-											<li class="quest-content-list quest-content">[[${ revo.review_content }]]</li>
-											<li class="quest-content-list quest-content-date">[[${ revo.review_date }]]</li>
-										</ul>
-									</section>
-								</li>
-							</th:block>
-						</ul>
-					</section>
 				</div>
 			</section>
-			<!-- END un-fixed-section -->
-
-			<!-- START fixed-section -->
-			<section class="fixed-section">
-				<section class="fixed-popup blind">
-					<div class="alert-popup">
-						<section class="alert-txt-section">
-							<span class="using-time-fail-txt"> 
-								해당 시간 예약이 불가능합니다.<br>
-								<br>다른 시간대를 선택하여 주십시오.
-							</span>
-						</section>
-						<section id="time-fail-close-btn" class="alert-btn-section">
-							<span>확인</span>
-						</section>
-					</div>
-				</section>
-
-				<section class="fixed-section-top">
-					<section class="running-time-section">
-						<label class="fixed-section-label"> 운영 시간 </label>
-						<ul class="running-time-li-wrap">
-							<li class="running-time-li">
-								<label>일</label> 
-								<th:block th:switch="${otvo.sun_dayoff}">
-									<th:block th:case="'F'">
-										<span>[[${ otvo.sun_stime }]] ~ [[${ otvo.sun_etime }]]</span>
-									</th:block>
-									<th:block th:case="'T'">
-										<span>휴무</span>
-									</th:block>
-								</th:block>
+			<div class="space-location">
+				<img src="/static/IMG/common/location-icon.svg" class="space-location-icon" alt="space-location-icon" />
+				<span class="space-info-txt">[[${ ovo.roadname_address }]] [[${ ovo.detail_address }]]</span>
+			</div>
+			<section class="spage-imgs-section">
+				<div class="window">
+					<ul class="container">
+						<th:block th:each="img_item : ${img_list}">
+							<li class="img">
+								<img th:src="@{https://rence.s3.ap-northeast-2.amazonaws.com/space}+${img_item}"
+									class="company-img" />
 							</li>
-							<li class="running-time-li">
-								<label>월</label>
-								<th:block th:switch="${otvo.mon_dayoff}">
-									<th:block th:case="'F'">
-										<span>[[${ otvo.mon_stime }]] ~ [[${ otvo.mon_etime }]]</span>
-									</th:block>
-									<th:block th:case="'T'">
-										<span>휴무</span>
-									</th:block>
-								</th:block>
-							</li>
-							<li class="running-time-li">
-								<label>화</label> 
-								<th:block th:switch="${otvo.tue_dayoff}">
-									<th:block th:case="'F'">
-										<span>[[${ otvo.tue_stime }]] ~ [[${ otvo.tue_etime }]]</span>
-									</th:block>
-									<th:block th:case="'T'">
-										<span>휴무</span>
-									</th:block>
-								</th:block>
-							</li>
-							<li class="running-time-li">
-								<label>수</label>
-								<th:block th:switch="${otvo.wed_dayoff}">
-									<th:block th:case="'F'">
-										<span>[[${ otvo.wed_stime }]] ~ [[${ otvo.wed_etime }]]</span>
-									</th:block>
-									<th:block th:case="'T'">
-										<span>휴무</span>
-									</th:block>
-								</th:block>
-							</li>
-							<li class="running-time-li">
-								<label>목</label>
-								<th:block th:switch="${otvo.thu_dayoff}">
-									<th:block th:case="'F'">
-										<span>[[${ otvo.thu_stime }]] ~ [[${ otvo.thu_etime }]]</span>
-									</th:block>
-									<th:block th:case="'T'">
-										<span>휴무</span>
-									</th:block>
-								</th:block>
-							</li>
-							<li class="running-time-li">
-								<label>금</label>
-								<th:block th:switch="${otvo.fri_dayoff}">
-									<th:block th:case="'F'">
-										<span>[[${ otvo.fri_stime }]] ~ [[${ otvo.fri_etime }]]</span>
-									</th:block>
-									<th:block th:case="'T'">
-										<span>휴무</span>
-									</th:block>
-								</th:block>
-							</li>
-							<li class="running-time-li">
-								<label>토</label>
-								<th:block th:switch="${otvo.sat_dayoff}">
-									<th:block th:case="'F'">
-										<span>[[${ otvo.sat_stime }]] ~ [[${ otvo.sat_etime }]]</span>
-									</th:block>
-									<th:block th:case="'T'">
-										<span>휴무</span>
-									</th:block>
-								</th:block>
-							</li>
-						</ul>
-					</section>
-					<section class="type-location-txt">
-						<div class="space-type-loca">
-							<label class="fixed-section-label"> 공간 유형 </label>
-							<th:block th:each="type_item : ${type_list}">
-								<span class="fixed-section-txt"> [[${ type_item }]] </span>
-							</th:block> 
-						</div>
-						<div class="space-type-loca">
-							<label class="fixed-section-label"> 위치 </label>
-							<div class="fixed-section-loca">
-								<img src="/static/IMG/common/location-icon.svg" class="space-loca-icon" alt="location-icon"> 
-								<span class="fixed-section-txt"> [[${ short_roadname_address }]] </span>
-							</div>
-						</div>
-					</section>
-				</section>
-				<section class="reserve-type-section">
-					<label class="fixed-section-label"> 예약 타입 </label>
-
-					<!-- 타입 셀렉트 열 때 open-select클래스 add해야함 -->
-					<!-- 타입 셀렉트 닫을 때 open-select클래스 remove해야함 -->
-					<div class="type-border">
-						<!-- <span id="type-choice-value" class="type-border-txt" th:attr="room_no=${rvo.room_no}">타입을 선택해주세요.</span> -->
-						<span id="type-choice-value" class="type-border-txt">타입을 선택해주세요.</span> 
-						<img src="/static/IMG/office/full-dropdown.svg" alt="full-dropdown" class="full-dropdown"></img>
-					</div>
-
-					<!-- CUSTOM SELECT SECTION -->
-					<ul class="custom-select-type blind">
-						<th:block th:each="rvo : ${rvos}">
-							<li class="custom-select-type-list">
-								<span class="room-name" th:attr="room_no=${rvo.room_no}"> [[${ rvo.room_name }]] ([[${ rvo.room_type }]]) </span> 
-								<span class="room-price-unit"> 
-									<span class="room-price-big"> [[${ rvo.room_price}]] 원</span> 
-									<span class="room-unit-small"> /시간 </span> 
-								</span>
-							</li>						
 						</th:block>
 					</ul>
-				</section>
-				<section class="using-time-section">
-					<section class="time-boundary">
-						<label class="fixed-section-label"> 체크인 시간 </label>
-						<div class="time-select-wrap">
-							<input type="text" class="type-border-txt time-input" placeholder="날짜/시간 추가" readonly /> 
-							<img src="/static/IMG/space-introduce/full-dropdown.svg" alt="full-dropdown" class="full-dropdown"></img>
-						</div>
-					</section>
-					<section class="time-boundary">
-						<label class="fixed-section-label"> 체크아웃 시간 </label>
-						<div class="time-select-wrap">
-							<input type="text" class="type-border-txt time-input" placeholder="날짜/시간 추가" readonly /> 
-							<img src="/static/IMG/space-introduce/full-dropdown.svg" alt="full-dropdown" class="full-dropdown"></img>
-						</div>
-					</section>
-				</section>
-				<section class="maybe-pay-section blind">
-					<label class="fixed-section-label"> 예상 결제 금액 </label> 
-					<span class="fixed-section-label"> 40,000원 </span>
-				</section>
-				<section id="check_available" class="btn-section">
-					<span>예약 가능 여부 확인하기</span>
-				</section>
+
+					<div class="button-container">
+						<span class="prev button-size">&lt;</span>
+						<span class="next button-size">></span>
+					</div>
+				</div>
 			</section>
-			<!-- END fixed-section -->
-		</section>
-	</div>
-</section>
+			<section class="dynamic-section">
+				<!-- START un-fixed-section -->
+				<section class="un-fixed-section">
+					<section class="menu-tab-section">
+						<ul class="menu-tab">
+							<li class="menu click-menu" menu="info">공간 소개</li>
+							<li class="menu" menu="qna">문의</li>
+							<li class="menu" menu="review">후기</li>
+						</ul>
+					</section>
+
+					<!-- 공간 소개 -->
+					<div class="space-description-wrap">
+						<span class="space-description">
+							[[${ ovo.backoffice_info }]]
+						</span>
+
+						<div class="option-wrap">
+							<label class="section-title"> 옵션 </label>
+							<ul class="option-list-wrap">
+								<th:block th:each="option_item : ${option_list}">
+									<li class="option-list">[[${ option_item }]]</li>
+								</th:block>
+							</ul>
+						</div>
+
+						<div class="around-info-wrap">
+							<label class="section-title"> 주변 시설 </label>
+							<ul id="" class="option-list-wrap">
+								<th:block th:each="around_item : ${around_option_list}">
+									<li class="option-list">[[${around_item}]]</li>
+								</th:block>
+							</ul>
+						</div>
+					</div>
+
+					<!-- 문의 -->
+					<div class="question-wrap blind">
+						<section class="question-wrap-title">
+							<section class="question-left">
+								<span class="big-title">문의</span> <span class="small-title">[[${ cvos_cnt }]]개</span>
+							</section>
+							<section id="question-create-btn" class="question-right">
+								<span>문의하기</span>
+							</section>
+
+							<!-- 문의하기 팝업창 -->
+							<div id="question-popup" class="question-popup-wrap blind">
+								<span class="question-popup-title">문의하기</span>
+								<span class="question-popup-secret">
+									<span class="question-popup-small-title">비밀문의여부</span>
+									<input type="checkbox" id="toggle" hidden>
+
+									<label for="toggle" class="toggleSwitch">
+										<span class="toggleButton"></span>
+									</label>
+								</span>
+
+								<section class="question-popup-type-select-wrap">
+									<span class="question-popup-small-title">문의할 공간 타입</span>
+
+									<!-- select 열 때 open-select추가 -->
+									<div class="question-popup-select-val-wrap">
+										<span id="question-select-choice" class="question-popup-select-value">
+											타입을 선택해 주세요
+										</span>
+										<img src="/static/IMG/space-introduce/full-dropdown.svg" alt="full-dropdown"
+											class="full-dropdown"></img>
+									</div>
+
+									<ul class="question-popup-select blind">
+										<th:block th:each="vos : ${rvos}">
+											<li class="question-popup-select-li" th:attr="idx=${vos.room_no}">
+												[[${vos.room_name}]]
+											</li>
+										</th:block>
+									</ul>
+								</section>
+								<section class="textarea-section">
+									<textarea id="question-write" class="question-write"></textarea>
+									<div class="txt-length-wrap">
+										<span class="qna-length">0</span>
+										<span class="total-length">/ 500</span>
+									</div>
+								</section>
+								<section class="quest-popup-btn-section">
+									<span id="question-createBtn" class="popup-create-btn">등록</span>
+									<span id="question-close-btn" class="popup-close-btn">취소</span>
+								</section>
+							</div>
+						</section>
+
+						<section class="quest-list-section">
+							<ul class="quest-list-wrap">
+								<th:block th:each="cvo : ${cvos}">
+									<li class="quest-list">
+										<section>
+											<img src="/static/IMG/header/loopy.jpg" alt="write-user-img"
+												class="write-user-img" />
+										</section>
+										<section class="quest-content-section">
+											<ul class="quest-content-wrap">
+												<li class="quest-content-list quest-content-writer">
+													<span>[[${ cvo.user_name }]]</span>
+
+													<span class="lock_img">
+														<img src="/static/IMG/space-introduce/lock.svg">
+													</span>
+												</li>
+												<li class="quest-content-list quest-content">[[${ cvo.comment_content
+													}]]</li>
+												<li class="quest-content-list quest-content-date">
+													[[${ cvo.comment_date }]]
+													<th:block th:if="${cvo.answer_date} != null">
+														<span class="answer_toggle">답변 보기</span>
+													</th:block>
+												</li>
+											</ul>
+										</section>
+									</li>
+									<th:block th:if="${cvo.answer_date} != null">
+										<li class="answer-list">
+											<div class="answer_arrow_img">
+												<img src="/static/IMG/space-introduce/answer_arrow.svg">
+											</div>
+											<div class="answer_text_wrap">
+												<section>
+													<img src="/static/upload/img_host_001.jpg" alt="write-user-img"
+														class="write-user-img" />
+												</section>
+												<section class="answer-content-section">
+													<ul class="answer-content-wrap">
+														<li class="answer-content-list answer-content-writer">HOST</li>
+														<li class="answer-content-list answer-content">[[${
+															cvo.answer_content}]]</li>
+														<li class="answer-content-list answer-content-date">
+															[[${cvo.answer_date}]]</li>
+													</ul>
+												</section>
+											</div>
+										</li>
+									</th:block>
+								</th:block>
+							</ul>
+						</section>
+					</div>
+
+					<!-- 후기 -->
+					<div id="review-wrap" class="question-wrap blind">
+						<section class="question-wrap-title">
+							<section class="question-left">
+								<span class="big-title">후기</span> <span class="small-title">[[${ review_cnt }]]개</span>
+							</section>
+						</section>
+
+						<section class="quest-list-section">
+							<ul class="quest-list-wrap">
+								<th:block th:each="revo : ${revos}">
+									<li class="quest-list">
+										<section>
+											<img src="/static/IMG/header/loopy.jpg" alt="write-user-img"
+												class="write-user-img" />
+										</section>
+										<section class="quest-content-section">
+											<ul class="quest-content-wrap">
+												<li class="quest-content-list quest-content-writer">
+													<span class="quest-writer">[[${ revo.user_name }]]</span>
+
+													<span class="review-star-wrap">
+														<img src="/static/IMG/common/star.svg" class="review-star-img"
+															alt="review-star-img" />
+														<span class="review-star-num">[[${ revo.review_point }]]</span>
+													</span>
+												</li>
+												<li class="quest-content-list quest-content">[[${ revo.review_content
+													}]]</li>
+												<li class="quest-content-list quest-content-date">[[${ revo.review_date
+													}]]</li>
+											</ul>
+										</section>
+									</li>
+								</th:block>
+							</ul>
+						</section>
+					</div>
+				</section>
+				<!-- END un-fixed-section -->
+
+				<!-- START fixed-section -->
+				<section class="fixed-section">
+					<section class="fixed-popup blind">
+						<div class="alert-popup">
+							<section class="alert-txt-section">
+								<span class="using-time-fail-txt">
+									해당 시간 예약이 불가능합니다.<br>
+									<br>다른 시간대를 선택하여 주십시오.
+								</span>
+							</section>
+							<section id="time-fail-close-btn" class="alert-btn-section">
+								<span>확인</span>
+							</section>
+						</div>
+					</section>
+
+					<section class="fixed-section-top">
+						<section class="running-time-section">
+							<label class="fixed-section-label"> 운영 시간 </label>
+							<ul class="running-time-li-wrap">
+								<li class="running-time-li">
+									<label>일</label>
+									<th:block th:switch="${otvo.sun_dayoff}">
+										<th:block th:case="'F'">
+											<span>[[${ otvo.sun_stime }]] ~ [[${ otvo.sun_etime }]]</span>
+										</th:block>
+										<th:block th:case="'T'">
+											<span>휴무</span>
+										</th:block>
+									</th:block>
+								</li>
+								<li class="running-time-li">
+									<label>월</label>
+									<th:block th:switch="${otvo.mon_dayoff}">
+										<th:block th:case="'F'">
+											<span>[[${ otvo.mon_stime }]] ~ [[${ otvo.mon_etime }]]</span>
+										</th:block>
+										<th:block th:case="'T'">
+											<span>휴무</span>
+										</th:block>
+									</th:block>
+								</li>
+								<li class="running-time-li">
+									<label>화</label>
+									<th:block th:switch="${otvo.tue_dayoff}">
+										<th:block th:case="'F'">
+											<span>[[${ otvo.tue_stime }]] ~ [[${ otvo.tue_etime }]]</span>
+										</th:block>
+										<th:block th:case="'T'">
+											<span>휴무</span>
+										</th:block>
+									</th:block>
+								</li>
+								<li class="running-time-li">
+									<label>수</label>
+									<th:block th:switch="${otvo.wed_dayoff}">
+										<th:block th:case="'F'">
+											<span>[[${ otvo.wed_stime }]] ~ [[${ otvo.wed_etime }]]</span>
+										</th:block>
+										<th:block th:case="'T'">
+											<span>휴무</span>
+										</th:block>
+									</th:block>
+								</li>
+								<li class="running-time-li">
+									<label>목</label>
+									<th:block th:switch="${otvo.thu_dayoff}">
+										<th:block th:case="'F'">
+											<span>[[${ otvo.thu_stime }]] ~ [[${ otvo.thu_etime }]]</span>
+										</th:block>
+										<th:block th:case="'T'">
+											<span>휴무</span>
+										</th:block>
+									</th:block>
+								</li>
+								<li class="running-time-li">
+									<label>금</label>
+									<th:block th:switch="${otvo.fri_dayoff}">
+										<th:block th:case="'F'">
+											<span>[[${ otvo.fri_stime }]] ~ [[${ otvo.fri_etime }]]</span>
+										</th:block>
+										<th:block th:case="'T'">
+											<span>휴무</span>
+										</th:block>
+									</th:block>
+								</li>
+								<li class="running-time-li">
+									<label>토</label>
+									<th:block th:switch="${otvo.sat_dayoff}">
+										<th:block th:case="'F'">
+											<span>[[${ otvo.sat_stime }]] ~ [[${ otvo.sat_etime }]]</span>
+										</th:block>
+										<th:block th:case="'T'">
+											<span>휴무</span>
+										</th:block>
+									</th:block>
+								</li>
+							</ul>
+						</section>
+						<section class="type-location-txt">
+							<div class="space-type-loca">
+								<label class="fixed-section-label"> 공간 유형 </label>
+								<th:block th:each="type_item : ${type_list}">
+									<span class="fixed-section-txt"> [[${ type_item }]] </span>
+								</th:block>
+							</div>
+							<div class="space-type-loca">
+								<label class="fixed-section-label"> 위치 </label>
+								<div class="fixed-section-loca">
+									<img src="/static/IMG/common/location-icon.svg" class="space-loca-icon"
+										alt="location-icon">
+									<span class="fixed-section-txt"> [[${ short_roadname_address }]] </span>
+								</div>
+							</div>
+						</section>
+					</section>
+					<section class="reserve-type-section">
+						<label class="fixed-section-label"> 예약 타입 </label>
+
+						<!-- 타입 셀렉트 열 때 open-select클래스 add해야함 -->
+						<!-- 타입 셀렉트 닫을 때 open-select클래스 remove해야함 -->
+						<div class="type-border">
+							<!-- <span id="type-choice-value" class="type-border-txt" th:attr="room_no=${rvo.room_no}">타입을 선택해주세요.</span> -->
+							<span id="type-choice-value" class="type-border-txt">타입을 선택해주세요.</span>
+							<img src="/static/IMG/office/full-dropdown.svg" alt="full-dropdown"
+								class="full-dropdown"></img>
+						</div>
+
+						<!-- CUSTOM SELECT SECTION -->
+						<ul class="custom-select-type blind">
+							<th:block th:each="rvo : ${rvos}">
+								<li class="custom-select-type-list">
+									<span class="room-name" th:attr="room_no=${rvo.room_no}"> [[${ rvo.room_name }]]
+										([[${ rvo.room_type }]]) </span>
+									<span class="room-price-unit">
+										<span class="room-price-big"> [[${ rvo.room_price}]] 원</span>
+										<span class="room-unit-small"> /시간 </span>
+									</span>
+								</li>
+							</th:block>
+						</ul>
+					</section>
+					<section class="using-time-section">
+						<section class="time-boundary">
+							<label class="fixed-section-label">
+								예약 날짜
+							</label>
+							<div class="time-select-wrap">
+								<input type="text" class="type-border-txt time-input" placeholder="날짜 추가" readonly />
+								<img src="/static/IMG/office/full-dropdown.svg" alt="full-dropdown"
+									class="full-dropdown"></img>
+							</div>
+						</section>
+					</section>
+
+					<section class="using-time-section" id="reserve-time-boundary">
+						<section class="time-boundary">
+							<label class="fixed-section-label">
+								사용 시간
+							</label>
+							<div class="time-boundary-selector-wrap">
+								<ul class="time-boundary-list">
+									<li class="time-boundary-item" value="0">00:00</li>
+									<li class="time-boundary-item" value="1">01:00</li>
+									<li class="time-boundary-item" value="2">02:00</li>
+									<li class="time-boundary-item" value="3">03:00</li>
+									<li class="time-boundary-item" value="4">04:00</li>
+									<li class="time-boundary-item" value="5">05:00</li>
+									<li class="time-boundary-item" value="6">06:00</li>
+									<li class="time-boundary-item" value="7">07:00</li>
+									<li class="time-boundary-item" value="8">08:00</li>
+									<li class="time-boundary-item" value="9">09:00</li>
+									<li class="time-boundary-item" value="10">10:00</li>
+									<li class="time-boundary-item" value="11">11:00</li>
+									<li class="time-boundary-item" value="12">12:00</li>
+									<li class="time-boundary-item" value="13">13:00</li>
+									<li class="time-boundary-item" value="14">14:00</li>
+									<li class="time-boundary-item" value="15">15:00</li>
+									<li class="time-boundary-item" value="16">16:00</li>
+									<li class="time-boundary-item" value="17">17:00</li>
+									<li class="time-boundary-item" value="18">18:00</li>
+									<li class="time-boundary-item" value="19">19:00</li>
+									<li class="time-boundary-item" value="20">20:00</li>
+									<li class="time-boundary-item" value="21">21:00</li>
+									<li class="time-boundary-item" value="22">22:00</li>
+									<li class="time-boundary-item" value="23">23:00</li>
+								</ul>
+							</div>
+						</section>
+					</section>
+
+					<section class="maybe-pay-section blind">
+						<label class="fixed-section-label"> 예상 결제 금액 </label>
+						<span class="fixed-section-label"> 40,000원 </span>
+					</section>
+					<section id="check_available" class="btn-section">
+						<span>예약 가능 여부 확인하기</span>
+					</section>
+				</section>
+				<!-- END fixed-section -->
+			</section>
+		</div>
+	</section>
 </body>
+
 </html>
