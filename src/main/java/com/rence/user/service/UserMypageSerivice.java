@@ -100,7 +100,7 @@ public class UserMypageSerivice {
 	
 	//현재 비밀번호 확인
 	public int check_now_pw(UserVO uvo) {
-		log.info("user_pw_updateOK()....");
+		log.info("check_now_pw()....");
 		log.info("(비밀번호 확인부분)uvo: {}",uvo);
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		
@@ -143,7 +143,7 @@ public class UserMypageSerivice {
 
 	//회원탈퇴에 따른 회원상태 수정
 	public int user_secedeOK(UserVO uvo) {
-		log.info("user_pw_updateOK()....");
+		log.info("user_secedeOK()....");
 		log.info("uvo: {}",uvo);
 		
 		return repository.user_secedeOK(uvo.getUser_no());
@@ -152,7 +152,7 @@ public class UserMypageSerivice {
 	
 	//프로필 사진 수정
 	public int user_img_updateOK(UserVO uvo) {
-		log.info("user_pw_updateOK()....");
+		log.info("user_img_updateOK()....");
 		log.info("uvo: {}",uvo);
 		
 		return repository.user_img_updateOK(uvo.getUser_image(),uvo.getUser_no());

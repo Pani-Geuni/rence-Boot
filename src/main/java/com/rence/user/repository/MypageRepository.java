@@ -24,7 +24,7 @@ public interface MypageRepository extends JpaRepository<UserMypageVO, Object>  {
 	//프로필수정
 	@Transactional
 	@Modifying
-	@Query(nativeQuery = true, value= "update USER_MYPAGE_VIEW set user_image=?1 where user_no = ?2")
+	@Query(nativeQuery = true, value= "update userinfo set user_image=?1 where user_no = ?2")
 	public int user_img_updateOK(String user_image, String user_no);
 	
 	
