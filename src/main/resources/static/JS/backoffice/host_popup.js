@@ -7,7 +7,7 @@ $(function () {
     $(".popup-background:eq(1)").addClass("blind");
     $("#common-alert-popup").addClass("blind");
 
-    if($(this).attr("is_reload") == true){
+    if($(this).attr("is_reload") == "true"){
       location.reload();
       $(this).attr("is_reload", false);
     }
@@ -582,6 +582,7 @@ $(function () {
   $('.ct-body-btn.qna-delete').on('click', function(){
     $(".popup-background:eq(0)").removeClass("blind");
     $("#answer-delete-popup").removeClass("blind");
+
     $("#delete-answer-btn").attr("comment_no", $(this).attr("answer_no"));
     $("#delete-answer-btn").attr("mother_no", $(this).attr("comment_no"));
   });
