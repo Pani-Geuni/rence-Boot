@@ -45,7 +45,8 @@ public class UserSendEmail {
 				// 전송
 				MimeMessage msg = javaMailSender.createMimeMessage();
 				msg.setSubject(evo.getSubject());
-				msg.setContent("<html> 안녕하세요 공간공유플랫폼 RENCE 입니다." +
+				msg.setContent(
+						"안녕하세요. 공간공유플랫폼" + "<font color=\"green\"> RENCE</font>"+ "입니다."  +
 						"<br><br>" + 
 						"회원가입 인증코드는 다음과 같습니다."+
 						"<br><br>" + 
@@ -69,6 +70,8 @@ public class UserSendEmail {
 			log.info("uvo: {}", uvo);
 			// 이메일 제목, 내용 설정
 			evo.setSubject("[rence] User 아이디 재설정");
+			
+			
 			//evo.setContent("귀하의 아이디는 다음과 같습니다.");
 
 
@@ -76,7 +79,14 @@ public class UserSendEmail {
 				// 전송
 				MimeMessage msg = javaMailSender.createMimeMessage();
 				msg.setSubject(evo.getSubject());
-				msg.setText("아이디 : " + uvo.getUser_id());
+				msg.setContent(
+						"안녕하세요. 공간공유플랫폼" + "<font color=\"green\"> RENCE</font>"+ "입니다."  +
+								"<br><br>" + 
+								uvo.getUser_name()+ " 회원님의 아이디는 다음과 같습니다"+
+							
+								"<br><br>" + 
+								"<strong>아이디 : </strong>" + uvo.getUser_id()
+								,"text/html; charset=utf-8");
 				msg.setRecipient(RecipientType.TO, new InternetAddress(uvo.getUser_email()));
 
 				javaMailSender.send(msg);
@@ -119,6 +129,15 @@ public class UserSendEmail {
 				// 전송
 				MimeMessage msg = javaMailSender.createMimeMessage();
 				msg.setSubject(evo.getSubject());
+				msg.setContent(
+						"안녕하세요. 공간공유플랫폼" + "<font color=\"green\"> RENCE</font>"+ "입니다."  +
+								"<br><br>" + 
+								uvo.getUser_name()+ " 회원님의 초기화된 비밀번호는 다음과 같습니다"+
+								"<br><br>" + 
+								"<font color=\"red\">로그인후 재설정을 권장합니다 </font>"+
+								"<br><br>" + 
+								"<strong>초기화 비밀번호 : </strong>" + uvo.getUser_pw()
+								,"text/html; charset=utf-8");
 				msg.setText(
 						"초기화된 비밀번호 입니다. 로그인후 재설정을 권장합니다" + "                       " + "초기화 비밀번호  : " + uvo.getUser_pw());
 				msg.setRecipient(RecipientType.TO, new InternetAddress(uvo.getUser_email()));
