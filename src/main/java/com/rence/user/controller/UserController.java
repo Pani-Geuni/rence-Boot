@@ -51,78 +51,60 @@ public class UserController {
 	//자동 개행 및 줄 바꿈 (new Gson은 일자로 나옴)
 	Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-//	/**
-//	 * 로그인 완료
-//	 */
-//	@ApiOperation(value = "로그인 성공", notes = "로그인 성공 입니다")
-//	@PostMapping("/loginSuccess")
-//	@ResponseBody
-//	public String user_loginOK(@RequestParam String username, HttpServletResponse response) {
-//		log.info("user_loginOK ()...");
-//		log.info("username: {}", username);
-//		
-//		UserVO uvo = service.user_login_info(username);
-//		
-//		Map<String, String> map = new HashMap<String, String>();
-//
-////		UserVO uvo2 = service.User_loginOK(uvo);
-//
-//		session.setAttribute("user_id", uvo.getUser_id());
-//
-//		Cookie cookie = new Cookie("user_no", uvo.getUser_no()); // 고유번호 쿠키 저장
-//		Cookie cookie2 = new Cookie("user_image", uvo.getUser_image()); // 고유번호 쿠키 저장
-//		response.addCookie(cookie);
-//		response.addCookie(cookie2);
-//
-//		log.info("User Login success.....");
-//		map.put("result", "1"); // 로그인 성공
-//
-//		String jsonObject = gson.toJson(map);
-//
-//		return jsonObject;
-//	}
-//
-//	/**
-//	 * 로그인 실패
-//	 */
-//	@ApiOperation(value = "로그인 실패", notes = "로그인 실패 입니다")
-//	@PostMapping("/loginFail")
-//	@ResponseBody
-//	public String user_loginFail(UserVO uvo, HttpServletResponse response) {
-//		log.info("user_loginFail ()...");
-//		log.info("result: {}", uvo);
-//		
-//		Map<String, String> map = new HashMap<String, String>();
-//
-//		
-//
-//		log.info("User Login failed.....");
-//		map.put("result", "0"); // 로그인 실패
-//
-//		String jsonObject = gson.toJson(map);
-//
-//		return jsonObject;
-//	}
+	/**
+	 * 로그인 완료
+	 */
+	@ApiOperation(value = "로그인 성공", notes = "로그인 성공 입니다")
+	@PostMapping("/loginSuccess")
+	@ResponseBody
+	public String user_loginOK(@RequestParam String username, HttpServletResponse response) {
+		log.info("user_loginOK ()...");
+		log.info("username: {}", username);
+		
+		UserVO uvo = service.user_login_info(username);
+		
+		Map<String, String> map = new HashMap<String, String>();
+
+//		UserVO uvo2 = service.User_loginOK(uvo);
+
+		session.setAttribute("user_id", uvo.getUser_id());
+
+		Cookie cookie = new Cookie("user_no", uvo.getUser_no()); // 고유번호 쿠키 저장
+		Cookie cookie2 = new Cookie("user_image", uvo.getUser_image()); // 고유번호 쿠키 저장
+		response.addCookie(cookie);
+		response.addCookie(cookie2);
+
+		log.info("User Login success.....");
+		map.put("result", "1"); // 로그인 성공
+
+		String jsonObject = gson.toJson(map);
+
+		return jsonObject;
+	}
 
 	/**
-	 * 로그아웃 완료
+	 * 로그인 실패
 	 */
-//	@ApiOperation(value = "로그아웃 완료", notes = "로그아웃 입니다")
-//	@PostMapping("/user_logoutOK")
-//	public String user_logout(HttpServletRequest request, HttpServletResponse response) {
-//		log.info("user_logoutOK()...");
-//		session.invalidate();
-//
-//		Cookie[] cookies = request.getCookies(); // 모든 쿠키의 정보를 cookies에 저장
-//		if (cookies != null) { // 쿠키가 한개라도 있으면 실행
-//			for (int i = 0; i < cookies.length; i++) {
-//				cookies[i].setMaxAge(0); // 유효시간을 0으로 설정
-//				response.addCookie(cookies[i]); // 응답 헤더에 추가
-//			}
-//		}
-//
-//		return "redirect:/"; // 홈페이지로 이동
-//	}
+	@ApiOperation(value = "로그인 실패", notes = "로그인 실패 입니다")
+	@PostMapping("/loginFail")
+	@ResponseBody
+	public String user_loginFail(UserVO uvo, HttpServletResponse response) {
+		log.info("user_loginFail ()...");
+		log.info("result: {}", uvo);
+		
+		Map<String, String> map = new HashMap<String, String>();
+
+		
+
+		log.info("User Login failed.....");
+		map.put("result", "0"); // 로그인 실패
+
+		String jsonObject = gson.toJson(map);
+
+		return jsonObject;
+	}
+
+	
 
 	/**
 	 * 아이디 찾기
