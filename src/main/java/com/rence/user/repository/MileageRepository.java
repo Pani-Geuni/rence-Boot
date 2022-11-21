@@ -19,17 +19,17 @@ public interface MileageRepository extends JpaRepository<UserMileageVO, Object> 
 	public UserMileageVO totalMileage_selectOne(String user_no);
 
 	// user_mileage_selectAll
-	@Query(nativeQuery = true, value = "select * from user_detail_mileage_view where user_no = ?1")
+	@Query(nativeQuery = true, value = "select * from user_detail_mileage_view where user_no = ?1 order by no desc")
 	List<UserMileageVO> mileage_selectAll(String user_no);
 
 	// user_mileage_search_list
-	@Query(nativeQuery = true, value = "select * from user_detail_mileage_view where user_no = ?1")
+	@Query(nativeQuery = true, value = "select * from user_detail_mileage_view where user_no = ?1 order by no desc")
 	public List<UserMileageVO> mileage_search_list_all(String user_no);
 
-	@Query(nativeQuery = true, value = "select * from user_detail_mileage_view where user_no = ?1 and state='T'")
+	@Query(nativeQuery = true, value = "select * from user_detail_mileage_view where user_no = ?1 and state='T' order by no desc")
 	public List<UserMileageVO> mileage_search_list_plus(String user_no);
 
-	@Query(nativeQuery = true, value = "select * from user_detail_mileage_view where user_no = ?1 and state='F'")
+	@Query(nativeQuery = true, value = "select * from user_detail_mileage_view where user_no = ?1 and state='F' order by no desc")
 	public List<UserMileageVO> mileage_search_list_minus(String user_no);
 
 }// end class
