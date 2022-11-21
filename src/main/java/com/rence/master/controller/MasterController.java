@@ -291,7 +291,6 @@ public class MasterController {
 		BackOfficeVO bvo2 = service.master_backoffice_detail_selectOne(bvo);
 		log.info("result: {}.", bvo2);
 
-
 		OptionEngToKorMap optionEngToKorMap = new OptionEngToKorMap();
 
 		List<String> tag_list = new ArrayList<String>();
@@ -299,17 +298,12 @@ public class MasterController {
 		for (String tag : tag_split) {
 			tag_list.add("#" + tag);
 		}
-		
-		log.info("tag_split :::::::::: {}", tag_split);
-		log.info("tag_split :::::::::: {}", tag_list);
 
 		List<String> backoffice_image = optionEngToKorMap.splitImage(bvo2.getBackoffice_image());
 		List<String> backoffice_type = (optionEngToKorMap.splitType(bvo2.getBackoffice_type()));
 		List<String> backoffice_option = optionEngToKorMap.splitOption(bvo2.getBackoffice_option());
 		List<String> backoffice_around = optionEngToKorMap.splitAroundOption(bvo2.getBackoffice_around());
 
-		log.info("@@@@@@@@@@@@@@@@@ :: {}", backoffice_image);
-		
 		model.addAttribute("backoffice_image", backoffice_image);
 		model.addAttribute("backoffice_tag", tag_list);
 		model.addAttribute("backoffice_type", backoffice_type);
@@ -329,36 +323,32 @@ public class MasterController {
 	 */
 	@ApiOperation(value = "백오피스 탈퇴 상세 페이지", notes = "백오피스 탈퇴 상세 페이지")
 	@GetMapping("/backoffice_end_detail")
-	public String master_backoffice_end_detail(BackOfficeVO bvo, Model model) {
+	public String master_backoffice_end_detail(BackOfficeVO bvo, Model model, String page) {
 		log.info("backoffice_setting()...");
 		BackOfficeVO bvo2 = service.master_backoffice_detail_selectOne(bvo);
 		log.info("result: {}.", bvo2);
 
-		String rt = "";
-		if (bvo2 != null) {
+		OptionEngToKorMap optionEngToKorMap = new OptionEngToKorMap();
 
-			OptionEngToKorMap optionEngToKorMap = new OptionEngToKorMap();
-
-			List<String> tag_list = new ArrayList<String>();
-			String[] tag_split = bvo2.getBackoffice_type().split(",");
-			for (String tag : tag_split) {
-				tag_list.add(optionEngToKorMap.changeType(tag));
-			}
-
-			List<String> backoffice_option = optionEngToKorMap.splitOption(bvo2.getBackoffice_option());
-			List<String> backoffice_around = optionEngToKorMap.splitAroundOption(bvo2.getBackoffice_around());
-
-			model.addAttribute("backoffice_tag", tag_list);
-			model.addAttribute("backoffice_option", backoffice_option);
-			model.addAttribute("backoffice_around", backoffice_around);
-			model.addAttribute("vo", bvo2);
-
-			rt = "backoffice/setting";
-		} else { // 굳이 필요없지만 넣어봄,,
-			rt = "redirect:master/main";
+		List<String> tag_list = new ArrayList<String>();
+		String[] tag_split = bvo2.getBackoffice_type().split(",");
+		for (String tag : tag_split) {
+			tag_list.add(optionEngToKorMap.changeType(tag));
 		}
 
-		return rt;
+		List<String> backoffice_option = optionEngToKorMap.splitOption(bvo2.getBackoffice_option());
+		List<String> backoffice_around = optionEngToKorMap.splitAroundOption(bvo2.getBackoffice_around());
+
+		model.addAttribute("backoffice_tag", tag_list);
+		model.addAttribute("backoffice_option", backoffice_option);
+		model.addAttribute("backoffice_around", backoffice_around);
+		model.addAttribute("vo", bvo2);
+		model.addAttribute("page", page);
+
+		model.addAttribute("title", "신청 상세 보기");
+		model.addAttribute("content", "thymeleaf/html/master/master_main/apply_detail");
+
+		return "thymeleaf/layouts/master/layout_master";
 	}
 
 }

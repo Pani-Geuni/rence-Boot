@@ -10,6 +10,7 @@
 	<section class="space-detail-introduce-section">
 		<div class="space-detail-introduce-wrap">
 			<section class="space-detail-title-section">
+				<span id="backoffice_no" class="space-detail-company-name blind">[[${vo.backoffice_no}]]</span>
 				<span class="space-detail-company-name">[[${vo.company_name}]]</span>
 				<th:block th:each="type : ${backoffice_type}">
 					<span class="space-detail-type">[[${type}]]</span>
@@ -89,7 +90,7 @@
 					</div>
 					<div class="host-info-item">
 						<h5 class="host-info-item-title">사업체 이메일</h5>
-						<span class="host-info-item-content">[[${vo.backoffice_email}]]</span>
+						<span id="backoffice_email" class="host-info-item-content">[[${vo.backoffice_email}]]</span>
 					</div>
 				</div>
 				<!-- END host-info-wrap -->
@@ -102,11 +103,11 @@
 
 			<section class="button-group-section">
 				<th:block th:if="${page}=='apply'">
-					<input type="button" id="btn-accept" class="btn-item accept" value="승인" />
-					<input type="button" id="btn-refuse" class="btn-item refuse" value="거절" />
+					<input type="button" id="btn-grant-host" class="btn-item accept" value="승인" />
+					<input type="button" id="btn-refuse-host" class="btn-item refuse" value="거절" />
 				</th:block>
-				<th:block th:if="${page}=='refuse'">
-					<input type="button" id="btn-delete" class="btn-item delete" value="삭제" />
+				<th:block th:if="${page}=='delete'">
+					<input type="button" id="btn-delete-host" class="btn-item delete" value="삭제" />
 				</th:block>
 			</section>
 		</div>

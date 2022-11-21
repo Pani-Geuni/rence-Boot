@@ -13,6 +13,7 @@ $(function() {
 			break;
 
 		case '/master/backoffice_end':
+		case '/master/backoffice_end_detail':
 			$('#nav-item-delete').addClass('active');
 			break;
 
@@ -95,11 +96,19 @@ $(function() {
 	})
 
 	// 신청 리스트 상세 보기
-	$('.ct-body-row').click(function() {
+	$('.ct-body-cell.apply:not(:last-child)').click(function() {
 		console.log($(this).attr('idx'));
-		const backoffice_no = $(this).attr('idx');
+		const backoffice_no = $('.ct-body-row').attr('idx');
 
 		location.href = '/master/backoffice_apply_detail?backoffice_no=' + backoffice_no + '&page=apply';
+	})
+	
+	// 거절 리스트 상세 보기
+	$('.ct-body-cell.delete:not(:last-child)').click(function() {
+		console.log($(this).attr('idx'));
+		const backoffice_no = $('.ct-body-row').attr('idx');
+
+		location.href = '/master/backoffice_end_detail?backoffice_no=' + backoffice_no + '&page=delete';
 	})
 
 	/***** ************** *****/
@@ -160,7 +169,7 @@ $(function() {
 	$('#grant-btn').click(function() {
 
 		$.ajax({
-			url: "/rence/master_grant",
+			url: "/master/grant",
 			type: "POST",
 			dataType: "json",
 			data: {
@@ -172,7 +181,7 @@ $(function() {
 				console.log("success");
 
 				if (res.result == "1") {
-					location.href = "/rence/master_main";
+					location.href = "/master/main";
 				} else {
 					console.log("ajax fail");
 				}
@@ -200,7 +209,7 @@ $(function() {
 	$('#refuse-btn').click(function() {
 
 		$.ajax({
-			url: "/rence/master_refuse",
+			url: "/master/refuse",
 			type: "POST",
 			dataType: "json",
 			data: {
@@ -212,7 +221,7 @@ $(function() {
 				console.log("success");
 
 				if (res.result == "1") {
-					location.href = "/rence/master_main";
+					location.href = "/master/main";
 				} else {
 					console.log("ajax fail");
 				}
@@ -239,7 +248,7 @@ $(function() {
 	$('#delete-btn').click(function() {
 
 		$.ajax({
-			url: "/rence/master_revoke",
+			url: "/master/revoke",
 			type: "POST",
 			dataType: "json",
 			data: {
