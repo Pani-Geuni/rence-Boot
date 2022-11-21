@@ -20,7 +20,7 @@ public interface AuthRepository extends JpaRepository<AuthVO, Object> {
 	@Query(nativeQuery = true, value="SELECT * from (SELECT * from auth where user_email=?1 order by rownum desc) where rownum = 1")
 	public AuthVO findbyAuth(String user_email);
 
-	@Query(nativeQuery = true, value=" SELECT * from (SELECT * from auth where user_email=?1 order by rownum desc) where rownum = 1 and (sysdate <= auth_stime + 2/(24*60)) and auth_code=?2 and user_email=?1")
+	@Query(nativeQuery = true, value=" SELECT * from (SELECT * from auth where user_email=?1 order by rownum desc) where rownum = 1 and (LOCALTIMESTAMP <= auth_stime + 2/(24*60)) and auth_code=?2 and user_email=?1")
 	public AuthVO findbyAuthOK(String backoffice_email, String auth_code);
 	
 	@Modifying
@@ -35,7 +35,7 @@ public interface AuthRepository extends JpaRepository<AuthVO, Object> {
 
 	@Modifying
 	@Transactional
-	@Query(nativeQuery = true, value="delete from auth where sysdate > auth_stime + 2/(24*60)")
+	@Query(nativeQuery = true, value="delete from auth where LOCALTIMESTAMP > auth_stime + 2/(24*60)")
 	public void auth_auto_delete();
 
 	
