@@ -184,7 +184,7 @@ $(function () {
           $("#spinner-section").removeClass("blind");
 
           $.ajax({
-            url:"/rence/backoffice_auth",
+            url:"/backoffice/auth",
             type : "GET",
             dataType : 'json',
             data : {
@@ -238,7 +238,7 @@ $(function () {
         $("#spinner-section").removeClass("blind");
         
         $.ajax({
-          url:"/rence/backoffice_authOK",
+          url:"/backoffice/authOK",
           type : "POST",
           dataType : 'json',
           data : {
