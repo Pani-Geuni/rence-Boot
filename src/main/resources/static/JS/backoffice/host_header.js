@@ -5,7 +5,7 @@ $(function () {
 
   /** 로고 버튼 클릭 시 메인 페이지 이동 **/ 
   $('.logo-mku').click(function(){
-    location.href = '/backoffice/backoffice_landing';
+    location.href = '/backoffice/landing';
   });
 
   /** 로그인 전 헤더 메뉴 */

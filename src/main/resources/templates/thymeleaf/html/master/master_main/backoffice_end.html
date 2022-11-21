@@ -26,15 +26,15 @@
 
         <div class="ct-body">
           <th:block th:each="vo : ${ vos }">
-            <div class="ct-body-row">
-              <div id="backoffice_no" class="ct-body-cell blind">[[ ${ vo.backoffice_no } ]]</div>
-              <div id="apply_date" class="ct-body-cell">[[ ${ vo.apply_date } ]]</div>
-              <div id="backoffice_name" class="ct-body-cell">[[ ${ vo.backoffice_name } ]]</div>
-              <div id="owner_name" class="ct-body-cell">[[ ${ vo.owner_name } ]]</div>
-              <div id="backoffice_id" class="ct-body-cell">[[ ${ vo.backoffice_id } ]]</div>
-              <div id="company_name" class="ct-body-cell">[[ ${ vo.company_name } ]]</div>
-              <div id="backoffice_tel" class="ct-body-cell">[[ ${ vo.backoffice_tel } ]]</div>
-              <div id="backoffice_email" class="ct-body-cell">[[ ${ vo.backoffice_email } ]]</div>
+            <div class="ct-body-row master" th:attr="idx=${vo.backoffice_no}">
+              <div id="backoffice_no" class="ct-body-cell delete blind">[[ ${ vo.backoffice_no } ]]</div>
+              <div id="apply_date" class="ct-body-cell delete">[[ ${ vo.apply_date } ]]</div>
+              <div id="backoffice_name" class="ct-body-cell delete">[[ ${ vo.backoffice_name } ]]</div>
+              <div id="owner_name" class="ct-body-cell delete">[[ ${ vo.owner_name } ]]</div>
+              <div id="backoffice_id" class="ct-body-cell delete">[[ ${ vo.backoffice_id } ]]</div>
+              <div id="company_name" class="ct-body-cell delete">[[ ${ vo.company_name } ]]</div>
+              <div id="backoffice_tel" class="ct-body-cell delete">[[ ${ vo.backoffice_tel } ]]</div>
+              <div id="backoffice_email" class="ct-body-cell delete">[[ ${ vo.backoffice_email } ]]</div>
                 <div class="ct-body-cell">
                   <div class="btn-group">
                     <button id="btn-delete-host">삭제</button>

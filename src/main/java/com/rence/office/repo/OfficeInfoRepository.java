@@ -44,8 +44,8 @@ public interface OfficeInfoRepository extends JpaRepository<ListViewVO, Object> 
 	@Transactional
 	@Modifying
 	@Query(nativeQuery = true, value = 
-			"insert into comments(comment_no, mother_no, comment_content, comment_date, room_no, backoffice_no, user_no, host_no) "
-			+ "		values('C'||SEQ_COMMENTS.nextval, null, :#{#vo2?.comment_content}, sysdate, :#{#vo2?.room_no}, :#{#vo2?.backoffice_no}, :#{#vo2?.user_no}, null)")
+			"insert into comments(comment_no, mother_no, comment_content, comment_date, room_no, backoffice_no, user_no, host_no, is_secret) "
+			+ "		values('C'||SEQ_COMMENTS.nextval, null, :#{#vo2?.comment_content}, sysdate, :#{#vo2?.room_no}, :#{#vo2?.backoffice_no}, :#{#vo2?.user_no}, null, :#{#vo2?.is_secret})")
 	public int insert_question(@Param("vo2") Comment_EntityVO vo2);
 
 }

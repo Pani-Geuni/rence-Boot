@@ -62,15 +62,14 @@
                         $("#login-section").addClass("blind");
                         $(".popup-background:eq(0)").addClass("blind");
 
-                        location.href="/";
+                        location.reload();
                     }else{
                         $(".popup-background:eq(1)").removeClass("blind");
                         $("#common-alert-popup").removeClass("blind");
                         $(".common-alert-txt").text("로그인에 실패하였습니다.");
                     }
                 },
-                error : function(error) {
-                    console.log(error);
+                error : function() {
                     $(".popup-background:eq(1)").removeClass("blind");
                     $("#common-alert-popup").removeClass("blind");
                     $(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");

@@ -207,6 +207,8 @@
     $("#question-select-choice").attr("choice_idx", "");
     $("#question-select-choice").attr("choice", "");
     $(".question-popup-select:eq(0)").addClass("blind");
+
+    $("#toggle").prop("checked",false);
     
     // 팝업 닫기
     $("#question-popup").addClass("blind");
@@ -249,64 +251,73 @@
 
   $("#question-createBtn").click(function(){
     if($("#question-select-choice").attr("choice") == "true" && $("#question-write").val().trim().length > 0){
-        $.ajax({
-          url : "/rence/insert_question",
-          type : "GET",
-          dataType : 'json',
-          data : {
-              user_no : $.cookie("user_no"),
-              backoffice_no : location.href.split("backoffice_no=")[1].split("&")[0],
-              room_no : $("#question-select-choice").attr("choice_idx"),
-              comment_content : $("#question-write").val().trim()
-          },
-          success : function(res) {
-            //로딩 화면 닫기
-            $(".popup-background:eq(1)").addClass("blind");
-            $("#spinner-section").addClass("blind");
+      //로딩 화면
+      $(".popup-background:eq(1)").removeClass("blind");
+      $("#spinner-section").removeClass("blind");  
+      var is_secret = "";
+      $("#toggle").prop("checked") ? is_secret = 'T' : is_secret = 'F';
 
-            if(res.result == 1){
-              $(".qna-length").text("0");
-              $("#question-write").val("");
+      $.ajax({
+        url : "/rence/insert_question",
+        type : "GET",
+        dataType : 'json',
+        data : {
+            user_no : $.cookie("user_no"),
+            backoffice_no : location.href.split("backoffice_no=")[1].split("&")[0],
+            room_no : $("#question-select-choice").attr("choice_idx"),
+            comment_content : $("#question-write").val().trim(),
+            is_secret : is_secret
+        },
+        success : function(res) {
+          //로딩 화면 닫기
+          $(".popup-background:eq(1)").addClass("blind");
+          $("#spinner-section").addClass("blind");
 
-              $(".question-popup-select-val-wrap:eq(0)").removeClass("null-input-border");
-              $("#question-write").removeClass("null-input-border");
-              
-              $("#question-select-choice").text("타입을 선택해 주세요");
-              $("#question-select-choice").attr("choice_idx", "");
-              $("#question-select-choice").attr("choice", "");
-              
-              $(".question-popup-select-val-wrap:eq(0)").removeClass("open-select");
-              $(".question-popup-select:eq(0)").addClass("blind");
-              $("#question-popup").addClass("blind");
+          if(res.result == 1){
+            $(".qna-length").text("0");
+            $("#question-write").val("");
 
-              $(".popup-background:eq(1)").removeClass("blind");
-              $("#common-alert-popup").removeClass("blind");
-              $(".common-alert-txt").text("성공적으로 문의가 등록되었습니다.");
-              $("#common-alert-btn").attr("is_reload", true);
-            }else{
-              $(".popup-background:eq(1)").removeClass("blind");
-              $("#common-alert-popup").removeClass("blind");
-              $(".common-alert-txt").text("비밀번호가 일치하지않습니다.");
-            }
-          },
-          error : function() {
-            //로딩 화면 닫기
-            $(".popup-background:eq(1)").addClass("blind");
-            $("#spinner-section").addClass("blind");
+            $(".question-popup-select-val-wrap:eq(0)").removeClass("null-input-border");
+            $("#question-write").removeClass("null-input-border");
+            
+            $("#question-select-choice").text("타입을 선택해 주세요");
+            $("#question-select-choice").attr("choice_idx", "");
+            $("#question-select-choice").attr("choice", "");
+            
+            $(".question-popup-select-val-wrap:eq(0)").removeClass("open-select");
+            $(".question-popup-select:eq(0)").addClass("blind");
+            $("#question-popup").addClass("blind");
+
+            $("#toggle").prop("checked",false);
 
             $(".popup-background:eq(1)").removeClass("blind");
             $("#common-alert-popup").removeClass("blind");
-            $(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
+            $(".common-alert-txt").text("성공적으로 문의가 등록되었습니다.");
+            $("#common-alert-btn").attr("is_reload", true);
+          }else{
+            $(".popup-background:eq(1)").removeClass("blind");
+            $("#common-alert-popup").removeClass("blind");
+            $(".common-alert-txt").text("비밀번호가 일치하지않습니다.");
           }
-      });
+        },
+        error : function() {
+          //로딩 화면 닫기
+          $(".popup-background:eq(1)").addClass("blind");
+          $("#spinner-section").addClass("blind");
+
+          $(".popup-background:eq(1)").removeClass("blind");
+          $("#common-alert-popup").removeClass("blind");
+          $(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
+        }
+    });
+    }
+    else{
+      if($("#question-write").val().trim().length == 0){
+        $("#question-write").addClass("null-input-border");
       }
-      else{
-        if($("#question-write").val().trim().length == 0){
-          $("#question-write").addClass("null-input-border");
-        }
-        if($("#question-select-choice").attr("choice") != "true"){
-          $(".question-popup-select-val-wrap:eq(0)").addClass("null-input-border");
-        }
+      if($("#question-select-choice").attr("choice") != "true"){
+        $(".question-popup-select-val-wrap:eq(0)").addClass("null-input-border");
+      }
     }
   });
 });

@@ -16,11 +16,10 @@ $(function(){
     $(".sort-select-list").on("click", function(){
         if(location.href.split("8800/")[1].split("?")[0] == "list_page"){
             var type = location.href.split("?type=")[1].split("&")[0];
-            location.href = "/list_page?type=" + type + "&condition=" + $(this).attr("condition");
-            console.log("/list_page?type=" + type + "&condition=" + $(this).attr("condition"));
+            location.href = "/office/list_page?type=" + type + "&condition=" + $(this).attr("condition") + "&page=1";
         }else if(location.href.split("8800/")[1].split("?")[0] == "search_list"){
             var url = location.href.split("/")[1].split("&condition=")[0];
-            location.href= url+"&condition="+$(this).attr("condition");
+            location.href= url+"&condition="+$(this).attr("condition") + "&page=1";
         }
     });
 
