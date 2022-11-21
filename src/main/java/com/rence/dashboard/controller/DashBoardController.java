@@ -344,8 +344,9 @@ public class DashBoardController {
 	@PostMapping("/insertOK_comment")
 	@ResponseBody
 	public String backoffice_insertOK_comment(String backoffice_no, CommentInsertVO cvo, String comment_no) {
-		log.info("backoffice_insertOK_comment ()...");
-		log.info("{}", backoffice_no);
+		log.info("backoffice_insertOK_comment_controller ()...");
+		log.info("backoffice_no : {}", backoffice_no);
+		log.info("cvo : {}",cvo);
 
 		Map<String, String> map = new HashMap<String, String>();
 		
@@ -355,6 +356,7 @@ public class DashBoardController {
 		cvo.setWriter("관리자");
 		cvo.setComment_state("T");
 		cvo.setComment_date(new Date());
+		log.info("cvo : {}",cvo);
 
 		int result = service.backoffice_insertOK_comment(cvo);
 
