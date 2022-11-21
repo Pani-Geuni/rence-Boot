@@ -166,6 +166,8 @@ public class DashBoardController {
 	public String backoffice_insertOK_room(RoomInsertVO rvo,String backoffice_no) {
 		log.info("backoffice_insertOK_room ()...");
 		log.info("{}", backoffice_no);
+		log.info("rvo :::::::::::; {}", rvo);
+		
 
 		Map<String, String> map = new HashMap<String,String>();
 
@@ -196,9 +198,7 @@ public class DashBoardController {
 		log.info("backoffice_update_room ()...");
 		log.info("{}", backoffice_no);
 
-		Map<String, Object> map1 = new HashMap<String,Object>();
-		Map<String, List<String>> map2 = new HashMap<String,List<String>>();
-		Map<Map<String, Object>, Map<String, List<String>>> map3 = new HashMap<Map<String,Object>, Map<String,List<String>>>();
+		Map<String, Object> map3 = new HashMap<String,Object>();
 		
 		
 		BackOfficeVO bvo = service.select_one_backoffice_info(backoffice_no);
@@ -222,11 +222,14 @@ public class DashBoardController {
 		
 		rmvo = service.select_one_room_info(backoffice_no, room_no);
 		log.info("rmvo : {}",rmvo);
-		map1.put("rmvo", rmvo); 
+		
+		map3.put("rmvo", rmvo); 
 
-		map2.put("room_type", type_list);
-		map3.put(map1, map2);
+		map3.put("room_type", type_list);
+		
 		String json = gson.toJson(map3);
+		
+		log.info("maaaaaaaaaaaaaaaaaaaap{}",map3);
 
 		return json;
 	}
