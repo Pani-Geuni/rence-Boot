@@ -5,6 +5,8 @@
  */
 package com.rence.backoffice.service;
 
+import java.util.Base64;
+import java.util.Base64.Decoder;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -141,6 +143,10 @@ public class BackOfficeService implements UserDetailsService {//
 	 */
 	public int backoffice_settingOK_pw(BackOfficeVO bvo) {
 		log.info("backoffice_settingOK_pw()....");
+		Decoder decoder = Base64.getDecoder();
+		byte[] decodedBytes2 = decoder.decode(bvo.getBackoffice_no());
+
+		bvo.setBackoffice_no(new String(decodedBytes2));
 		return repository.update_backoffice_temp_pw(bvo.getBackoffice_pw(), bvo.getBackoffice_no());
 	}
 

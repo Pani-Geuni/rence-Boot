@@ -59,7 +59,7 @@ public class MasterSendEmail {
 			// 전송
 			MimeMessage msg = javaMailSender.createMimeMessage();
 			msg.setSubject(evo.getSubject());
-			msg.setText("비밀번호 재설정 링크 : " + "http://localhost:8090/rence/backoffice_setting_pw?backoffice_no="
+			msg.setText("비밀번호 재설정 링크 : " + "http://localhost:8800/backoffice/setting_pw?backoffice_no="
 					+ encodedString);
 			msg.setRecipient(RecipientType.TO, new InternetAddress(bvo.getBackoffice_email()));
 
