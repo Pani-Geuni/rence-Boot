@@ -64,9 +64,8 @@
 		$(function(){
 			var user_image = $.cookie("user_image");
 			
-			/** 추후에 변경*/
 			if(is_login2 != null){
-				$(".user_profile_img").attr("src", "https://rence.s3.ap-northeast-2.amazonaws.com/user/img_host_001.jpg");
+				$(".user_profile_img").attr("src", "https://rence.s3.ap-northeast-2.amazonaws.com/user/"+user_image);
 			}
 			
 			$("#question-create-btn").click(function(){

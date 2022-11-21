@@ -39,14 +39,7 @@ public interface OfficeInfoRepository extends JpaRepository<ListViewVO, Object> 
 //	public PaymentInfoVO select_one_final_payment_info(String reserve_no);
 //	
 //	public int reserve_paymentOK(OfficePaymentVO pvo);
-//	
-	
-	@Transactional
-	@Modifying
-	@Query(nativeQuery = true, value = 
-		"insert into review(review_no, review_content, review_point, review_date, room_no, backoffice_no, user_no) "
-		+ "	values('R'||SEQ_REVIEW.nextval, :#{#vo?.review_content}, :review_point, sysdate, :#{#vo?.room_no}, :#{#vo?.backoffice_no}, :#{#vo?.user_no})")
-	void insert_review(@Param("review_point") Float review_point,@Param("vo") ReviewEntityVO vo);
+//
 
 	@Transactional
 	@Modifying

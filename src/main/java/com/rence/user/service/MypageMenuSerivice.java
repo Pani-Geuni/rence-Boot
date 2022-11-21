@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rence.user.model.ReserveInfo_ViewVO;
+import com.rence.user.model.ReviewEntityVO;
 import com.rence.user.model.UserDTO;
 import com.rence.user.repository.MypageMenuRepository;
 
@@ -45,6 +46,18 @@ public class MypageMenuSerivice {
 	/** ******************* **/
 	/** 후기 내역 페이지 SECTION **/
 	/** ******************* **/
+	
+	public int insert_review(ReviewEntityVO vo) {
+		log.info("insert_review | {}", vo);
+		int result = 0;
+		
+		try {
+			menuRepository.insert_review(vo.getReview_point(), vo);
+		} catch (Exception e) {
+			result = -1;
+		}
+		return result; 
+	}
 	
 	public int is_write_review(String room_no, String backoffice_no) {
 		int result = menuRepository.is_write_review(room_no, backoffice_no);

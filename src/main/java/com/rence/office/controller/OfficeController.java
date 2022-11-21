@@ -351,27 +351,7 @@ public class OfficeController {
 //		
 //		return jsonObject;
 //	}
-	
-	@ApiOperation(value="후기 추가 컨트롤러", notes="후기 추가 로직 컨트롤러")
-	@GetMapping(value = "/insert_review")
-	@ResponseBody
-	public String insert_review(ReviewEntityVO vo, Model model) {
-		int result = service.insert_review(vo);
-		
-        Map<String, String> map = new HashMap<>();
- 
-        // Map -> Json 문자열
-        Gson gson = new Gson();
-		if (result != -1) {
-			map.put("result", "1");
-		} else {
-			map.put("result", "0");
-		}
-		
-		String jsonStr = gson.toJson(map);
-		
-		return jsonStr;
-	}
+
 	
 	@ApiOperation(value="문의 추가 컨트롤러", notes="문의 추가 로직 컨트롤러")
 	@GetMapping(value = "/insert_question")

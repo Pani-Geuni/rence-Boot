@@ -22,18 +22,14 @@
 
         <section class="mileage-list-section">
             <section class="mileage-list-menu">
-                <span id = "all" class="menus 
-               		<th:block th:if="${searchKey} == 'all'">choice</th:block>
-               		<th:block th:if="${searchKey} != 'all'">un-choice</th:block>
-                ">전체</span>
-                <span id = "plus" class="menus 
-               		<th:block th:if="${searchKey} == 'plus'">choice</th:block>
-               		<th:block th:if="${searchKey} != 'plus'">un-choice</th:block>
-            	">적립</span>
-                <span id = "minus" class="menus 
-               		<th:block th:if="${searchKey} == 'minus'">choice</th:block>
-               		<th:block th:if="${searchKey} != 'minus'">un-choice</th:block>
-                ">사용</span>
+				<span id = "all" th:if="${searchKey} == 'all'" class="menus choice">전체</span>
+				<span id = "all" th:if="${searchKey} != 'all'" class="menus un-choice">전체</span>
+			
+				<span id = "plus" th:if="${searchKey} == 'plus'" class="menus choice">적립</span>
+				<span id = "plus" th:if="${searchKey} != 'plus'" class="menus un-choice">적립</span>
+			
+				<span id = "minus" th:if="${searchKey} == 'minus'" class="menus choice">사용</span>
+				<span id = "minus" th:if="${searchKey} != 'minus'" class="menus un-choice">사용</span>
             </section>
 
             <section class="mileage-history-section">
@@ -51,18 +47,12 @@
 						<!-- START th:each -->
 						<th:block th:each="obj : ${res.list}">
                             <li class="mileage-list">
-                                <span class="list-status <th:block th:if="${obj.state} == 'T'">plus-price-label</th:block>">
-									<th:block th:if="${obj.state} == 'T'">적립</th:block>
-									<th:block th:if="${obj.state} == 'F'">사용</th:block>
-								</span>
-                                <span class="list-mileage 
-                                		<th:block th:if="${obj.state} == 'T'">plus-price</th:block>
-                                		<th:block th:if="${obj.state} == 'F'">minus-price</th:block>
-                                	">
-                                	<th:block th:if="${obj.state eq 'T'}">+</th:block>
-									<th:block th:if="${obj.state eq 'F'}">-</th:block>
-                                	[[${obj.mileage}]]
-                                </span>
+                                <span th:if="${obj.state} == 'F'" class="list-status ">사용</span>
+                                <span th:if="${obj.state} == 'T'" class="list-status plus-price-label">적립</span>
+                                
+                                <span th:if="${obj.state} == 'T'" class="list-mileage plus-price">+[[${obj.mileage}]]</span>
+                                <span th:if="${obj.state} == 'F'" class="list-mileage minus-price">-[[${obj.mileage}]]</span>
+
                                 <span class="list-content">[[${obj.room}]]</span>
                                 <span class="list-date">[[${obj.date}]]</span>
                             </li>
