@@ -26,16 +26,16 @@
     /****** *************** ******/
     
     $("#reserve-menu").click(function(){
-        location.href="/rence/reserve_list?time_point=now&user_no="+$.cookie("user_no");
+        location.href="/rence/reserve_list?time_point=now&user_no="+$.cookie("user_no")+"&page=1";
     });
     $("#mileage-menu").click(function(){
-        location.href="/rence/mileage?user_no="+$.cookie("user_no");
+        location.href="/rence/mileage?user_no="+$.cookie("user_no")+"&page=1";
     });
     $("#review-menu").click(function(){
-        location.href="/rence/review_list?user_no="+$.cookie("user_no");
+        location.href="/rence/review_list?user_no="+$.cookie("user_no")+"&page=1";
     });
     $("#question-menu").click(function(){
-        location.href="/rence/question_list?user_no="+$.cookie("user_no");
+        location.href="/rence/question_list?user_no="+$.cookie("user_no")+"&page=1";
     });
 
 
