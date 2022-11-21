@@ -13,7 +13,6 @@
     <section class="question-history-section">
         <section class="question-history-title-section">
             <div class="list-title-txt-wrap">
-                <span class="list-title-txt list-num">번호</span>
                 <span class="list-title-txt list-company-name">이용 장소</span>
                 <span class="list-title-txt list-content">후기 내용</span>
                 <span class="list-title-txt list-point">별점</span>
@@ -25,7 +24,6 @@
             	<th:block th:each="obj : ${res.list}">
 	                <li class="question-list">
                          <div class="question-content-wrap">
-                             <span class="list-title-txt list-num"> </span>
                              <span class="list-title-txt list-company-name">[[${obj.company_name}]]</span>
                              <span class="list-title-txt list-content">[[${obj.review_content}]]</span>
                              <span class="list-title-txt list-point">[[${obj.review_point}]]</span>
@@ -48,6 +46,16 @@
                      </li>
             	</th:block>
             </ul>
+        </section>
+        <section class="paging-section">
+			<div class="paging-wrap">
+                <span class="paging-box"><<</span>
+                <span class="paging-box paging-num choice sample">1</span>
+                <span class="paging-box paging-num un-choice sample">2</span>
+                <span class="paging-box paging-num un-choice sample">3</span>
+                <span class="paging-box paging-num un-choice sample">4</span>
+                <span class="paging-box">>></span>
+            </div>
         </section>
     </section>
 </div>
