@@ -8,6 +8,7 @@
 package com.rence.user.controller;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,10 +33,10 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rence.user.model.MyPageReserveListVO;
-import com.rence.user.model.UserReviewVO;
-import com.rence.user.model.UserQuestionVO;
 import com.rence.user.model.UserMileageVO;
 import com.rence.user.model.UserMypageVO;
+import com.rence.user.model.UserQuestionVO;
+import com.rence.user.model.UserReviewVO;
 import com.rence.user.model.UserVO;
 import com.rence.user.service.UserFileuploadService;
 import com.rence.user.service.UserMypageSerivice;
@@ -85,6 +85,8 @@ public class MypageController {
 		// 마일리지 콤마단위로 변환
 		DecimalFormat dc = new DecimalFormat("###,###,###,###,###");
 		umvo.setMileage_total(dc.format(Integer.parseInt(umvo.getMileage_total())));
+		
+		umvo.setUser_image("https://rence.s3.ap-northeast-2.amazonaws.com/user/"+umvo.getUser_image());
 
 		model.addAttribute("umvo", umvo);
 
@@ -94,32 +96,6 @@ public class MypageController {
 		return "thymeleaf/layouts/office/layout_myPage";
 	}
 
-//	/**
-//	 * 현재예약리스트 이동
-//	 */
-//	@ApiOperation(value="현재예약리스트", notes="현재예약리스트 페이지입니다.")
-//	@GetMapping("/go_now_reserve")
-//	public String go_now_reserve(Model model) {
-//
-//		model.addAttribute("content", "thymeleaf/html/office/my_page/reserve-list");
-//		model.addAttribute("title", "현재예약리스트");
-//		
-//		
-//		return "thymeleaf/layouts/office/layout_myPage";
-//	}
-//	/**
-//	 * 과거예약리스트 이동
-//	 */
-//	@ApiOperation(value="과거예약리스트", notes="과거예약리스트 페이지입니다.")
-//	@GetMapping("/go_before_reserve")
-//	public String go_before_reserve(Model model) {
-//		
-//		model.addAttribute("content", "thymeleaf/html/office/my_page/reserve-list");
-//		model.addAttribute("title", "과거예약리스트");
-//
-//		
-//		return "thymeleaf/layouts/office/layout_myPage";
-//	}
 
 	/**
 	 * 마이페이지 - 비밀번호 수정
@@ -182,13 +158,15 @@ public class MypageController {
 	/**
 	 * 마이페이지 -프로필 수정
 	 * AWS적용
+	 * 
+	 *  @throws ParseException
 	 */
 
 	@ApiOperation(value = "프로필 수정", notes = "프로필 수정 입니다.")
 	@RequestMapping(value = "/user_img_updateOK", method = RequestMethod.POST)
 	public String user_img_updateOK(Model model, UserVO uvo, HttpServletRequest request, HttpServletResponse response,
 			MultipartHttpServletRequest mtfRequest,
-			@RequestParam(value = "multipartFile_img") MultipartFile multipartFile) {
+			@RequestParam(value = "multipartFile") MultipartFile multipartFile_user) {
 		log.info("user_img_updateOK()...");
 		log.info("result: {}", uvo);
 
@@ -204,7 +182,7 @@ public class MypageController {
 		log.info("==result==: {}", uvo);
 
 		// 사진(파일)업로드
-		uvo = fileuploadService.FileuploadOK(uvo, mtfRequest, multipartFile);
+		uvo = fileuploadService.FileuploadOK(uvo, mtfRequest, multipartFile_user);
 		log.info("fileresult: {}", uvo);
 
 		Cookie cookie2 = new Cookie("user_image", uvo.getUser_image()); // 고유번호 쿠키 저장
@@ -212,7 +190,7 @@ public class MypageController {
 
 		int result = service.user_img_updateOK(uvo);
 
-		return "redirect:/go_my_page";
+		return "redirect:/rence/go_my_page";
 	}
 
 	/**
