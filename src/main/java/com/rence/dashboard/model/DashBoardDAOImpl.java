@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -439,16 +440,39 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		String reserve_etime = (not_edate+not_etime);
 		log.info("reserve_etime : {} ",reserve_etime);
 		
-		List<ScheduleListView> sc_vos = sc_repository.backoffice_scheduke_list(backoffice_no,reserve_stime,reserve_etime);
+		List<ScheduleListView> sc_vos_o = sc_repository.backoffice_scheduke_list(backoffice_no,reserve_stime,reserve_etime);
+//		log.info("sc_vos_o : {} ",sc_vos_o);
+		log.info("sc_vos_o : {} ",sc_vos_o.size());
+		List<ScheduleListView> sc_vos_x = sc_repository.backoffice_scheduke_list_All(backoffice_no);
+//		log.info("sc_vos_x : {} ",sc_vos_x);
+		log.info("sc_vos_x : {} ",sc_vos_x.size());
 		
-		for (ScheduleListView scvo : sc_vos) {
-			if (scvo.getReserve_cnt()>0) {
-				scvo.setReserve_is("O");
-			}else {
-				scvo.setReserve_is("X");
+		for (int i = 0; i < sc_vos_x.size(); i++) {
+			for (int j = 0; j < sc_vos_o.size(); j++) {
+//				log.info("All:{}",sc_vos_x.get(i).getRoom_no());
+//				log.info("reserve_o:{}",sc_vos_o.get(j).getRoom_no());
+				if (sc_vos_x.get(i).getRoom_no().equals(sc_vos_o.get(j).getRoom_no())) {
+					ScheduleListView ss = sc_vos_x.remove(i);
+					log.info("remove:::::::::::{}",ss.getRoom_no());
+				}
 			}
+		}
+		log.info("sc_vos_x : {} ",sc_vos_x.size());
+		
+		for (ScheduleListView scvo : sc_vos_o) {
+			scvo.setReserve_is("O");
+		}
+		
+		for (ScheduleListView scvo : sc_vos_x) {
+			scvo.setReserve_is("X");
+			scvo.setReserve_cnt(0);
 			
 		}
+		
+		List<ScheduleListView> sc_vos = new ArrayList<ScheduleListView>();
+		
+		sc_vos.addAll(sc_vos_o);
+		sc_vos.addAll(sc_vos_x);
 		
 		return sc_vos;
 	}
