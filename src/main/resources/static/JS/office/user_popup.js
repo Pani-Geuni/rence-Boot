@@ -303,7 +303,7 @@
                                 dataType : 'json',
                                 data : {
                                     user_id : $("#join-id").val().trim(),
-                                    user_pw : CryptoJS.SHA256($("#join-pw").val().trim()).toString(),
+                                    user_pw : $("#join-pw").val().trim(),
                                     user_email : $("#join-email").val().trim(),
                                     user_name : $("#join-name").val().trim(),
                                     user_tel : $("#join-tel").val().trim(),

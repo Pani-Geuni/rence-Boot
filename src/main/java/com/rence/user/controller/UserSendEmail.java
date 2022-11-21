@@ -45,7 +45,13 @@ public class UserSendEmail {
 				// 전송
 				MimeMessage msg = javaMailSender.createMimeMessage();
 				msg.setSubject(evo.getSubject());
-				msg.setText("인증 코드 : " + vo.getAuth_code());
+				msg.setContent("<html> 안녕하세요 공간공유플랫폼 RENCE 입니다." +
+						"<br><br>" + 
+						"회원가입 인증코드는 다음과 같습니다."+
+						"<br><br>" + 
+						"<strong>인증 코드</strong> : " + vo.getAuth_code()
+						,"text/html; charset=utf-8");
+					
 				msg.setRecipient(RecipientType.TO, new InternetAddress(vo.getUser_email()));
 
 				javaMailSender.send(msg);
