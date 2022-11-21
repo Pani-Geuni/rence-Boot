@@ -104,17 +104,5 @@ public class HomeController {
 		String jsonObject = gson.toJson(map);
 
 		return jsonObject;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	}	
 }
