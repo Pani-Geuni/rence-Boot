@@ -15,9 +15,11 @@
 
 	<link rel="stylesheet" href="/static/CSS/common/common.css" />	
 	<link rel="stylesheet" href="/static/CSS/common/custom-table.css" />
+	<link rel="stylesheet" href="/static/CSS/common/footer.css" />
 	
 	<link rel="stylesheet" href="/static/CSS/master/master-header.css" />
 	<link rel="stylesheet" href="/static/CSS/master/master-main.css" />
+	<link rel="stylesheet" href="/static/CSS/master/master-detail.css" />
 	
 	
 	<script src="/static/JS/common/jquery-3.6.1.min.js"></script>
@@ -32,6 +34,8 @@
     <div class="pageWrap">
       <div th:replace="${content} :: master_content(${title})"></div>
     </div>
+    
+<!--    <div th:replace="thymeleaf/html/office/common/footer :: footer"></div>-->
   </div>
 
   <div class="popup-background blind">

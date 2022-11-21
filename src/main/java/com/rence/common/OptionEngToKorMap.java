@@ -106,7 +106,8 @@ public class OptionEngToKorMap {
 			String[] image_split = images.split(",");
 			
 			for (int i = 0; i < image_split.length; i++) {
-				option_list.add(image_split[i]);
+				System.out.println(image_split[i].trim());
+				option_list.add(image_split[i].trim());
 			}
 			
 			return option_list;
