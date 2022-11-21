@@ -25,7 +25,7 @@
   
         <div class="ct-body">
           <th:block th:each="vo : ${ vos }">
-            <div class="ct-body-row">
+            <div class="ct-body-row master" th:attr="idx=${vo.backoffice_no}">
               <div id="backoffice_no" class="ct-body-cell blind">[[ ${ vo.backoffice_no } ]]</div>
               <div id="apply_date" class="ct-body-cell">[[ ${ vo.apply_date } ]]</div>
               <div id="backoffice_name" class="ct-body-cell">[[ ${ vo.backoffice_name } ]]</div>

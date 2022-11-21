@@ -45,7 +45,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/master")
 public class MasterController {
-	
+
 	Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 	@Autowired
@@ -53,7 +53,7 @@ public class MasterController {
 
 	@Autowired
 	MasterSendEmail sendEmail;
-	
+
 	@Autowired
 	HttpSession session;
 
@@ -94,45 +94,44 @@ public class MasterController {
 	/**
 	 * 로그인 성공 처리
 	 */
-	@ApiOperation(value="로그인 성공", notes="로그인 성공")
+	@ApiOperation(value = "로그인 성공", notes = "로그인 성공")
 	@PostMapping("/loginSuccess")
 	@ResponseBody
 	public String master_loginOK(MasterEntity mvo, HttpServletResponse response) {
 		log.info("master_loginOK()...");
 
-		Map<String, String> map = new HashMap<String,String>();
+		Map<String, String> map = new HashMap<String, String>();
 
 //			session.setAttribute("master_id", mvo.getMaster_id());
 //			Cookie cookie_no = new Cookie("backoffice_no", mvo.getMaster_no());
-			map.put("result", "1");
-			log.info("successed...");
+		map.put("result", "1");
+		log.info("successed...");
 //			response.addCookie(cookie_no);
-			
-			String json = gson.toJson(map);
-			
-			return json;
-		}
-	
-	/**
-	 * 로그인 실패 처리
-	 */
-	@ApiOperation(value="로그인 실패", notes="로그인 실패")
-	@PostMapping("/loginFail")
-	@ResponseBody
-	public String master_loginfail(HttpServletResponse response) {
-		log.info("master_loginfail()...");
-		
-		Map<String, String> map = new HashMap<String,String>();
-		
-		map.put("result", "0");
-		log.info("failed...");
-		
+
 		String json = gson.toJson(map);
 
 		return json;
 	}
 
-	
+	/**
+	 * 로그인 실패 처리
+	 */
+	@ApiOperation(value = "로그인 실패", notes = "로그인 실패")
+	@PostMapping("/loginFail")
+	@ResponseBody
+	public String master_loginfail(HttpServletResponse response) {
+		log.info("master_loginfail()...");
+
+		Map<String, String> map = new HashMap<String, String>();
+
+		map.put("result", "0");
+		log.info("failed...");
+
+		String json = gson.toJson(map);
+
+		return json;
+	}
+
 	/**
 	 * 마스터 메인 페이지 (호스트 가입 신청 리스트)
 	 */
@@ -143,7 +142,7 @@ public class MasterController {
 
 //		long total_rowCount = service.total_rowCount();
 //		model.addAttribute("total_rowCount", total_rowCount);
-		
+
 		List<BackOfficeListVO> bvos = service.backoffice_applyList_selectAll(page);
 		log.info("result: {}.", bvos.size());
 
@@ -169,7 +168,7 @@ public class MasterController {
 	public String master_grant(BackOfficeVO bvo, EmailVO evo) throws UnsupportedEncodingException {
 		log.info("BackOfficeVO:{}", bvo);
 //		JSONObject jsonObject = new JSONObject();
-		Map<String, String> map = new HashMap<String,String>();
+		Map<String, String> map = new HashMap<String, String>();
 
 		int flag = service.backoffice_grant(bvo);
 		if (flag == 1) {
@@ -190,12 +189,12 @@ public class MasterController {
 
 			map.put("result", "0");
 		}
-		
+
 		String json = gson.toJson(map);
 
 		return json;
 	}
-	
+
 	/**
 	 * 마스터 메인 페이지 (호스트 가입 신청 리스트 - 거절)
 	 */
@@ -205,7 +204,7 @@ public class MasterController {
 	public String master_refuse(BackOfficeVO bvo, EmailVO evo) {
 		log.info("BackOfficeVO:{}", bvo);
 //		JSONObject jsonObject = new JSONObject();
-		Map<String, String> map = new HashMap<String,String>();
+		Map<String, String> map = new HashMap<String, String>();
 
 		int flag = service.backoffice_refuse(bvo);
 		if (flag == 1) {
@@ -221,7 +220,7 @@ public class MasterController {
 
 			map.put("result", "0");
 		}
-		
+
 		String json = gson.toJson(map);
 
 		return json;
@@ -237,10 +236,10 @@ public class MasterController {
 
 //		long total_rowCount = service.total_rowCount();
 //		model.addAttribute("total_rowCount", total_rowCount);
-		
+
 		List<BackOfficeListVO> bvos = service.backoffice_endList_selectAll(page);
 		log.info("result: {}.", bvos.size());
-		
+
 		model.addAttribute("vos", bvos);
 		model.addAttribute("cnt", bvos.size());
 
@@ -249,7 +248,7 @@ public class MasterController {
 
 		return "thymeleaf/layouts/master/layout_master";
 	}
-	
+
 	/**
 	 * 마스터 - 호스트 탈퇴 승인
 	 */
@@ -259,7 +258,7 @@ public class MasterController {
 	public String master_revoke(BackOfficeVO bvo, EmailVO evo) {
 		log.info("BackOfficeVO:{}", bvo);
 //		JSONObject jsonObject = new JSONObject();
-		Map<String, String> map = new HashMap<String,String>();
+		Map<String, String> map = new HashMap<String, String>();
 
 		int flag = service.backoffice_revoke(bvo);
 		if (flag == 1) {
@@ -276,49 +275,55 @@ public class MasterController {
 			log.info("failed...");
 			map.put("result", "0");
 		}
-		
+
 		String json = gson.toJson(map);
 
 		return json;
 	}
-	
+
 	/**
 	 * 백오피스 가입 상세 페이지
 	 */
 	@ApiOperation(value = "백오피스 가입 상세 페이지", notes = "백오피스 가입 상세 페이지")
 	@GetMapping("/backoffice_apply_detail")
-	public String master_backoffice_apply_detail(BackOfficeVO bvo, Model model) {
+	public String master_backoffice_apply_detail(BackOfficeVO bvo, Model model, String page) {
 		log.info("backoffice_setting()...");
 		BackOfficeVO bvo2 = service.master_backoffice_detail_selectOne(bvo);
 		log.info("result: {}.", bvo2);
-		
-		String rt="";
-		if (bvo2!=null) {
-			
-			OptionEngToKorMap optionEngToKorMap = new OptionEngToKorMap();
-			
-			List<String> tag_list = new ArrayList<String>();
-			String[] tag_split  = bvo2.getBackoffice_type().split(",");
-			for (String tag : tag_split) {
-				tag_list.add(optionEngToKorMap.changeType(tag));
-			}
-			
-			List<String> backoffice_option = optionEngToKorMap.splitOption(bvo2.getBackoffice_option());
-			List<String> backoffice_around = optionEngToKorMap.splitAroundOption(bvo2.getBackoffice_around());
-			
-			model.addAttribute("backoffice_tag", tag_list);
-			model.addAttribute("backoffice_option", backoffice_option);
-			model.addAttribute("backoffice_around", backoffice_around);
-			model.addAttribute("vo", bvo2);
-			
-			rt="backoffice/setting";
-		}else { // 굳이 필요없지만 넣어봄,,
-			rt="redirect:master/main";
-		}
 
-		return rt;
+
+		OptionEngToKorMap optionEngToKorMap = new OptionEngToKorMap();
+
+		List<String> tag_list = new ArrayList<String>();
+		String[] tag_split = bvo2.getBackoffice_tag().split(",");
+		for (String tag : tag_split) {
+			tag_list.add("#" + tag);
+		}
+		
+		log.info("tag_split :::::::::: {}", tag_split);
+		log.info("tag_split :::::::::: {}", tag_list);
+
+		List<String> backoffice_image = optionEngToKorMap.splitImage(bvo2.getBackoffice_image());
+		List<String> backoffice_type = (optionEngToKorMap.splitType(bvo2.getBackoffice_type()));
+		List<String> backoffice_option = optionEngToKorMap.splitOption(bvo2.getBackoffice_option());
+		List<String> backoffice_around = optionEngToKorMap.splitAroundOption(bvo2.getBackoffice_around());
+
+		log.info("@@@@@@@@@@@@@@@@@ :: {}", backoffice_image);
+		
+		model.addAttribute("backoffice_image", backoffice_image);
+		model.addAttribute("backoffice_tag", tag_list);
+		model.addAttribute("backoffice_type", backoffice_type);
+		model.addAttribute("backoffice_option", backoffice_option);
+		model.addAttribute("backoffice_around", backoffice_around);
+		model.addAttribute("vo", bvo2);
+		model.addAttribute("page", page);
+
+		model.addAttribute("title", "신청 상세 보기");
+		model.addAttribute("content", "thymeleaf/html/master/master_main/apply_detail");
+
+		return "thymeleaf/layouts/master/layout_master";
 	}
-	
+
 	/**
 	 * 백오피스 탈퇴 상세 페이지
 	 */
@@ -328,33 +333,32 @@ public class MasterController {
 		log.info("backoffice_setting()...");
 		BackOfficeVO bvo2 = service.master_backoffice_detail_selectOne(bvo);
 		log.info("result: {}.", bvo2);
-		
-		String rt="";
-		if (bvo2!=null) {
-			
+
+		String rt = "";
+		if (bvo2 != null) {
+
 			OptionEngToKorMap optionEngToKorMap = new OptionEngToKorMap();
-			
+
 			List<String> tag_list = new ArrayList<String>();
-			String[] tag_split  = bvo2.getBackoffice_type().split(",");
+			String[] tag_split = bvo2.getBackoffice_type().split(",");
 			for (String tag : tag_split) {
 				tag_list.add(optionEngToKorMap.changeType(tag));
 			}
-			
+
 			List<String> backoffice_option = optionEngToKorMap.splitOption(bvo2.getBackoffice_option());
 			List<String> backoffice_around = optionEngToKorMap.splitAroundOption(bvo2.getBackoffice_around());
-			
+
 			model.addAttribute("backoffice_tag", tag_list);
 			model.addAttribute("backoffice_option", backoffice_option);
 			model.addAttribute("backoffice_around", backoffice_around);
 			model.addAttribute("vo", bvo2);
-			
-			rt="backoffice/setting";
-		}else { // 굳이 필요없지만 넣어봄,,
-			rt="redirect:master/main";
+
+			rt = "backoffice/setting";
+		} else { // 굳이 필요없지만 넣어봄,,
+			rt = "redirect:master/main";
 		}
-		
+
 		return rt;
 	}
-	
 
 }

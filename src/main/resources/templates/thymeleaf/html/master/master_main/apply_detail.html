@@ -1,0 +1,117 @@
+<!-- ------------ -->
+<!-- @author 전판근 -->
+<!-- ------------ -->
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="master_content (title)">
+	<section class="space-detail-introduce-section">
+		<div class="space-detail-introduce-wrap">
+			<section class="space-detail-title-section">
+				<span class="space-detail-company-name">[[${vo.company_name}]]</span>
+				<th:block th:each="type : ${backoffice_type}">
+					<span class="space-detail-type">[[${type}]]</span>
+				</th:block>
+			</section>
+			<!-- END space-detail-title-section -->
+
+			<section class="space-detail-info-section">
+				<div class="space-tags">
+					<th:block th:each="tag : ${backoffice_tag}">
+						<span class="space-info-text tag-txt">[[${tag}]]</span>
+					</th:block>
+				</div>
+			</section>
+
+			<section class="space-imgs-section">
+				<div class="window">
+					<ul class="container">
+						<li class="img" th:each="backoffice_img : ${backoffice_image}">
+							<img th:src="@{https://rence.s3.ap-northeast-2.amazonaws.com/space/}+${backoffice_img}" alt="" class="company-img" />
+						</li>
+					</ul>
+
+					<div class="button-container">
+						<span class="prev button-size">&lt;</span>
+						<span class="next button-size">></span>
+					</div>
+				</div>
+			</section>
+			<!-- END space-imgs-section -->
+
+			<section class="space-description-section">
+				<h3 class="space-description-title">공간 소개</h3>
+				<div class="space-description">
+					[[${vo.backoffice_info}]]
+				</div>
+			</section>
+			<!-- END space-description-section -->
+
+			<section class="space-options-section">
+				<div class="space-option-wrap">
+					<h5 class="space-option-title">옵션</h5>
+					<ul class="option-list-wrap">
+						<li class="option-list" th:each="option: ${backoffice_option}">[[${option}]]</li>
+					</ul>
+				</div>
+				<div class="space-option-wrap">
+					<h5 class="space-option-title">주변 시설</h5>
+					<ul class="option-list-wrap">
+						<li class="option-list" th:each="around: ${backoffice_around}">[[${around}]]</li>
+					</ul>
+				</div>
+			</section>
+			<!-- END space-options-section -->
+
+			<section class="host-info-section">
+				<div class="host-info-wrap">
+					<div class="host-info-item">
+						<h5 class="host-info-item-title">사업자 이름</h5>
+						<span class="host-info-item-content">[[${vo.owner_name}]]</span>
+					</div>
+					<div class="host-info-item">
+						<h5 class="host-info-item-title">상호 명</h5>
+						<span class="host-info-item-content">[[${vo.backoffice_name}]]</span>
+					</div>
+					<div class="host-info-item">
+						<h5 class="host-info-item-title">사업자 등록 번호</h5>
+						<span class="host-info-item-content">[[${vo.backoffice_id}]]</span>
+					</div>
+					<div class="host-info-item">
+						<h5 class="host-info-item-title">사업체 전화 번호</h5>
+						<span class="host-info-item-content">[[${vo.backoffice_tel}]]</span>
+					</div>
+					<div class="host-info-item">
+						<h5 class="host-info-item-title">사업체 명</h5>
+						<span class="host-info-item-content">[[${vo.company_name}]]</span>
+					</div>
+					<div class="host-info-item">
+						<h5 class="host-info-item-title">사업체 이메일</h5>
+						<span class="host-info-item-content">[[${vo.backoffice_email}]]</span>
+					</div>
+				</div>
+				<!-- END host-info-wrap -->
+				<div class="host-info-item">
+					<h5 class="host-info-item-title-location">사업장 위치</h5>
+					<span class="host-info-item-content-location">[[${vo.roadname_address}]] [[${vo.detail_address}]]</span>
+				</div>
+			</section>
+			<!-- END host-info-section -->
+
+			<section class="button-group-section">
+				<th:block th:if="${page}=='apply'">
+					<input type="button" id="btn-accept" class="btn-item accept" value="승인" />
+					<input type="button" id="btn-refuse" class="btn-item refuse" value="거절" />
+				</th:block>
+				<th:block th:if="${page}=='refuse'">
+					<input type="button" id="btn-delete" class="btn-item delete" value="삭제" />
+				</th:block>
+			</section>
+		</div>
+		<!-- END space-detail-introduce-wrap -->
+	</section>
+	<!-- END space-detail-introduce-section -->
+
+</div>

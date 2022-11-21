@@ -42,6 +42,10 @@
   padding: 20px;
 }
 
+.ct-body-row.master {
+	cursor: pointer;
+}
+
 .btn-group button {
   border: none;
   border-radius: 8px;
