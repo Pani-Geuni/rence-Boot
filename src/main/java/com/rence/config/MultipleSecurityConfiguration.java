@@ -5,6 +5,7 @@
  */
 package com.rence.config;
 
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -15,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -29,7 +31,7 @@ import lombok.RequiredArgsConstructor;
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 @Deprecated
 @SuppressWarnings("deprecation")
-@RequiredArgsConstructor // final 객체를 autowired 없이도 사용할 수 있게 함.
+//@RequiredArgsConstructor // final 객체를 autowired 없이도 사용할 수 있게 함.
 public class MultipleSecurityConfiguration {
     // BCryptPasswordEncoder는 Spring Security에서 제공하는 비밀번호 암호화 객체 (BCrypt라는 해시 함수를
     // 이용하여 패스워드를 암호화 한다.)
@@ -42,12 +44,29 @@ public class MultipleSecurityConfiguration {
                                   // 조절할 수 있습니다.
     }
     
+//    @Bean
+//	public FilterRegistrationBean authorityChangeFilter() {
+//		FilterRegistrationBean filter = new FilterRegistrationBean();
+//		filter.setFilter(getAuthorityChangeFilter());
+//
+//		filter.setEnabled(false);  // disabled
+//
+//		return filter;
+//	}
+//
+//	@Bean
+//	public AuthorityChangeFilter getAuthorityChangeFilter() {
+//		return new AuthorityChangeFilter();
+//	}
+    
 	   @Order(0)
 	   @Configuration
 	   @RequiredArgsConstructor
 	   public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	      private final BackOfficeService backOfficeService;
+//	      private final AuthorityChangeFilterauthorityChangeFilter;
+	      private AuthorityChangeFilter authorityChangeFilter;
 
 
 	      // 시큐리티가 로그인 과정에서 password를 가로챌때 해당 해쉬로 암호화해서 비교한다.
@@ -72,6 +91,7 @@ public class MultipleSecurityConfiguration {
 //	         .antMatchers("/**").permitAll() // 해당 경로들은 접근을 허용
 //	         .anyRequest() // 다른 모든 요청은
 //	         .authenticated() // 인증된 유저만 접근을 허용
+//	               .addFilterAfter(authorityChangeFilter, SecurityContextPersistenceFilter.class) // 권한 변경 Filter
 	               .and().formLogin() // 로그인 폼은
 	         .loginPage("/backoffice/landing") // 해당 주소로 로그인 페이지를 호출한다.
 	               .loginProcessingUrl("/backoffice/loginOK") // 해당 URL로 요청이 오면 스프링 시큐리티가 가로채서 로그인처리를 한다. ->
