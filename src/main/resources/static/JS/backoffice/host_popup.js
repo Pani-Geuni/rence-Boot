@@ -144,7 +144,7 @@ $(function () {
 
     if($("#find-pw-email").val().trim().length > 0 && $("#find-pw-backoffice-code").val().trim().length > 0){
       $.ajax({
-        url : "/backoffice/backoffice_reset_pw",
+        url : "/backoffice/reset_pw",
         type : "GET",
         dataType : 'json',
         data : {
@@ -223,7 +223,7 @@ $(function () {
   // 추가 버튼 클릭 -> 추가 팝업창 SHOW
   $('#btn-room-add').click(function(){
     $.ajax({
-      url:"/backoffice/backoffice_insert_room",
+      url:"/backoffice/insert_room",
         type : "GET",
         dataType : 'json',
         data : {
@@ -365,7 +365,7 @@ $(function () {
   // 수정 버튼 클릭 -> 수정 팝업 오픈
   $('.btn-room-edit').on('click', function(){
     $.ajax({
-      url:"/backoffice/backoffice_update_room",
+      url:"/backoffice/update_room",
         type : "GET",
         dataType : 'json',
         data : {
@@ -529,7 +529,7 @@ $(function () {
   // 공간 삭제 버튼 클릭 -> 삭제 로직 처리
   $("#delete-space-btn").click(function(){
     $.ajax({
-      url:"/backoffice/backoffice_deleteOK_room",
+      url:"/backoffice/deleteOK_room",
         type : "POST",
         dataType : 'json',
         data : {
@@ -589,7 +589,7 @@ $(function () {
   // 답글 삭제 여부 컴펌창 - "삭제" 버튼 클릭
   $("#delete-answer-btn").click(function(){
     $.ajax({
-      url:"/backoffice/backoffice_deleteOK_comment",
+      url:"/backoffice/deleteOK_comment",
       type : "POST",
       dataType : 'json',
       data : {
@@ -629,7 +629,7 @@ $(function () {
   // 문의 답글 작성
   $('.ct-body-btn.qna-add').on('click', function(){
     $.ajax({
-      url:"/backoffice/backoffice_insert_comment",
+      url:"/backoffice/insert_comment",
       type : "GET",
       dataType : 'json',
       data : {
@@ -667,7 +667,7 @@ $(function () {
   $("#h_comment_insert").click(function(){
     if($("#host-comment").val().trim().length > 0){
       $.ajax({
-        url:"/backoffice/backoffice_insertOK_comment",
+        url:"/backoffice/insertOK_comment",
         type : "POST",
         dataType : 'json',
         data : {
@@ -730,7 +730,7 @@ $(function () {
 
   $("#calculate-btn").click(function(){
     $.ajax({
-      url:"/backoffice/backoffice_updateOK_sales",
+      url:"/backoffice/updateOK_sales",
       type : "POST",
       dataType : 'json',
       data : {
@@ -794,7 +794,7 @@ $(function () {
   /** 삭제 요청 버튼 **/
   $("#delete-host-btn").on('click', function(){
     $.ajax({
-      url : "/backoffice/backoffice_setting_delete",
+      url : "/backoffice/setting_delete",
       type : "POST",
       dataType : 'json',
       data : {
@@ -841,12 +841,12 @@ $(function () {
   $("#btn-popup-confirm").on("click",function(){
     if($(".input-check-pw").val().trim().length > 0){
       $.ajax({
-        url : "/backoffice/backoffice_update_pw",
+        url : "/backoffice/update_pw",
         type : "GET",
         dataType : 'json',
         data : {
           backoffice_no : $.cookie("backoffice_no"),
-          backoffice_pw : CryptoJS.SHA256($(".input-check-pw").val().trim()).toString()
+          backoffice_pw : $(".input-check-pw").val().trim()
         },
         success : function(res) {
             // 현재 비밀번호 일치 성공
@@ -880,7 +880,7 @@ $(function () {
 
   function insert(){
     $.ajax({
-      url:"/backoffice/backoffice_insertOK_room",
+      url:"/backoffice/insertOK_room",
         type : "POST",
         dataType : 'json',
         data : {
@@ -929,7 +929,7 @@ $(function () {
 
   function update(){
     $.ajax({
-      url:"/backoffice/backoffice_updateOK_room",
+      url:"/backoffice/updateOK_room",
         type : "POST",
         dataType : 'json',
         data : {
@@ -978,4 +978,5 @@ $(function () {
         }
     });
   }
+
 });
