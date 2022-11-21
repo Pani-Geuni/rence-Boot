@@ -108,81 +108,6 @@
     $(".type-border").removeClass("open-select");
   });
 
-  /*** 예약 가능 여부 버튼 클릭 ***/
-  $("#check_available").click(function(){
-    // 예약 타입 선택 O
-    if($(".type-border-txt").prop("check") == true){
-      if($(".time-input:eq(0)").val() != '' && $(".time-input:eq(1)").val() != ''){
-        if($(".time-input:eq(0)").val() > $(".time-input:eq(1)").val()){
-          $(".fixed-popup").removeClass("blind");
-          $(".using-time-fail-txt:eq(0)").html("체크인 시간이 체크아웃 시간보다<br><br>빠를 수는 없습니다.");
-        }
-        else{
-          if($(".time-input:eq(0)").val() == $(".time-input:eq(1)").val()){
-            $(".fixed-popup").removeClass("blind");
-            $(".using-time-fail-txt:eq(0)").html("체크인 시간과 체크아웃 시간이<br><br>같을 수는 없습니다.");
-          }
-          else{
-            // 예약 가능 확인 로직
-            let query = location.search;
-            let param = new URLSearchParams(query);
-            let backoffice_no = param.get('backoffice_no');
-            let room_no = $("#type-choice-value").attr("room_no");
-            let reserve_stime = $(".time-input:eq(0)").val();
-            let reserve_etime = $(".time-input:eq(1)").val();
-                    
-            //로딩 화면
-            $(".popup-background:eq(1)").removeClass("blind");
-            $("#spinner-section").removeClass("blind");
-                    
-            $.ajax({
-              url : "/rence/reserve_checkOK",
-              type : "POST",
-              dataType : "json",
-              data : {
-                reserve_stime : reserve_stime,
-                reserve_etime : reserve_etime,
-                room_no : room_no,
-                backoffice_no : backoffice_no,
-                user_no : $.cookie("user_no")
-              },
-              
-              success : function(res) {
-                //로딩 화면 닫기
-				        $(".popup-background:eq(1)").addClass("blind");
-				        $("#spinner-section").addClass("blind");
-
-                if (res.result == 1) {
-                  console.log("success");
-                  location.href = "/rence/payment_page?reserve_no=" + res.reserve_no;
-                } else if (res.result == 0) {
-                  $(".fixed-popup").removeClass("blind");
-                  $(".using-time-fail-txt:eq(0)").html("해당 시간은 예약 할 수 없습니다.");
-                }
-              },
-              error : function() {
-                //로딩 화면 닫기
-				        $(".popup-background:eq(1)").addClass("blind");
-				        $("#spinner-section").addClass("blind");
-              }
-            });
-          }
-        }
-      }
-      // 예약 타입 선택 O, 체크인 or 체크아웃 시간 X
-      else{
-        $(".fixed-popup").removeClass("blind");
-        $(".using-time-fail-txt:eq(0)").html("체크인 시간과 체크아웃 시간을<br><br>모두 선택하여 주십시오.");
-      }
-    }
-    // 예약 타입 선택 X
-    else{
-      $(".fixed-popup").removeClass("blind");
-      $(".using-time-fail-txt:eq(0)").html("예약 타입을 선택하여 주십시오.");
-    }
-  });
-
-
 
   /***** *** ********** *****/ 
   /***** 고정 안 된 부분 *****/ 
@@ -236,6 +161,8 @@
     $("#question-select-choice").attr("choice_idx", "");
     $("#question-select-choice").attr("choice", "");
     $(".question-popup-select:eq(0)").addClass("blind");
+
+    $("#toggle").prop("checked",false);
     
     // 팝업 닫기
     $("#question-popup").addClass("blind");
@@ -282,6 +209,9 @@
         $(".popup-background:eq(1)").removeClass("blind");
         $("#spinner-section").removeClass("blind");
 
+        var is_secret = "";
+        $("#toggle").prop("checked") ? is_secret = 'T' : is_secret = 'F';
+
         $.ajax({
           url : "/rence/insert_question",
           type : "GET",
@@ -290,7 +220,8 @@
               user_no : $.cookie("user_no"),
               backoffice_no : location.href.split("backoffice_no=")[1].split("&")[0],
               room_no : $("#question-select-choice").attr("choice_idx"),
-              comment_content : $("#question-write").val().trim()
+              comment_content : $("#question-write").val().trim(),
+              is_secret : is_secret
           },
           success : function(res) {
             //로딩 화면 닫기
@@ -311,6 +242,8 @@
               $(".question-popup-select-val-wrap:eq(0)").removeClass("open-select");
               $(".question-popup-select:eq(0)").addClass("blind");
               $("#question-popup").addClass("blind");
+
+              $("#toggle").prop("checked",false);
 
               $(".popup-background:eq(1)").removeClass("blind");
               $("#common-alert-popup").removeClass("blind");

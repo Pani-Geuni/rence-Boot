@@ -59,9 +59,9 @@
 
 				<!-- 공간 소개 -->
 				<div class="space-description-wrap">
-					<div class="space-description"> 
+					<textarea class="space-description"> 
 						[[${ ovo.backoffice_info }]]
-					</div>
+					</textarea>
 
 					<div class="option-wrap">
 						<label class="section-title"> 옵션 </label>
@@ -95,6 +95,14 @@
 						<!-- 문의하기 팝업창 -->
                         <div id="question-popup" class="question-popup-wrap blind">
                             <span class="question-popup-title">문의하기</span>
+                            <span class="question-popup-secret">
+                                <span class="question-popup-small-title">비밀문의여부</span>
+                                <input type="checkbox" id="toggle" hidden> 
+
+                                <label for="toggle" class="toggleSwitch">
+                                    <span class="toggleButton"></span>
+                                </label>
+                            </span>
 
                             <section class="question-popup-type-select-wrap">
                                 <span class="question-popup-small-title">문의할 공간 타입</span>
@@ -138,25 +146,41 @@
 									</section>
 									<section class="quest-content-section">
 										<ul class="quest-content-wrap">
-											<li class="quest-content-list quest-content-writer">[[${ cvo.user_name }]]</li>
+											<li class="quest-content-list quest-content-writer">
+												<span>[[${ cvo.user_name }]]</span>
+                                                        
+                                                <span class="lock_img">
+                                                    <img src="/static/IMG/space-introduce/lock.svg">
+                                                </span>
+                                            </li>
 											<li class="quest-content-list quest-content">[[${ cvo.comment_content }]]</li>
-											<li class="quest-content-list quest-content-date">[[${ cvo.comment_date }]]</li>
+											<li class="quest-content-list quest-content-date">
+												[[${ cvo.comment_date }]]
+												<th:block th:if="${cvo.answer_date} != null">
+													<span class="answer_toggle">답변 보기</span>
+												</th:block>
+											</li>
 										</ul>
 									</section>
 								</li>
 								<th:block th:if="${cvo.answer_date} != null">
-									<li class="quest-list">
-										<section>
-											<img src="/static/upload/img_host_001.jpg" alt="write-user-img" class="write-user-img" />
-										</section>
-										<section class="quest-content-section">
-											<ul class="quest-content-wrap">
-												<li class="quest-content-list quest-content-writer">HOST</li>
-												<li class="quest-content-list quest-content">[[${ cvo.answer_content}]]</li>
-												<li class="quest-content-list quest-content-date">[[${cvo.answer_date}]]</li>
-											</ul>
-										</section>
-									</li>
+									<li class="answer-list">
+                                        <div class="answer_arrow_img">
+                                            <img src="/static/IMG/space-introduce/answer_arrow.svg">
+                                        </div>
+                                        <div class="answer_text_wrap">
+                                            <section>
+												<img src="/static/upload/img_host_001.jpg" alt="write-user-img" class="write-user-img" />
+                                            </section>
+                                            <section class="answer-content-section">
+                                                <ul class="answer-content-wrap">
+                                                    <li class="answer-content-list answer-content-writer">HOST</li>
+                                                    <li class="answer-content-list answer-content">[[${ cvo.answer_content}]]</li>
+                                                    <li class="answer-content-list answer-content-date">[[${cvo.answer_date}]]</li>
+                                                </ul>
+                                            </section>
+                                        </div>
+                                    </li>
 								</th:block>
 							</th:block>
 						</ul>

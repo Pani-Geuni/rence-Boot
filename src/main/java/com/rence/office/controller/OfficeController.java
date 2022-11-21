@@ -397,6 +397,8 @@ public class OfficeController {
 				vo.setMin_room_price(ch);
 				vo.setAvg_rating(Double.toString((Math.round(Double.parseDouble(vo.getAvg_rating())*100)/100.0)));
 				
+				vo.setBackoffice_image("https://rence.s3.ap-northeast-2.amazonaws.com/space/" + vo.getBackoffice_image());
+				
 				if(vo.getRoadname_address().contains(" ")) {
 					String road_name = vo.getRoadname_address().split(" ")[0] + " " + vo.getRoadname_address().split(" ")[1];
 					vo.setRoadname_address(road_name);

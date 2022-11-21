@@ -59,4 +59,7 @@ public class Comment_EntityVO {
 	@Column(name="writer")
 	String writer;
 	
+	@Column(name="is_secret")
+	String is_secret;
+	
 }

@@ -124,14 +124,14 @@
 }
 
 .window{
-    width: 90%;
+    width: 100%;
     height: 305px;
     position: relative;
     overflow: hidden;
 }
 
 .container{
-    width: calc(960px * 7);
+    width: calc(960px * 10);
     transition: transform 1s;
 
     display: flex;
@@ -325,7 +325,7 @@
 /* ******************* */
 .question-popup-wrap{
     width: 350px;
-    height: 420px;
+    height: 450px;
 
     position: absolute;
     top: 30px;
@@ -345,8 +345,50 @@
     font-weight: 900;
     letter-spacing: 0.5px;
 
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
+
+.question-popup-secret{
+    display: flex;
+    align-items: center;
+    height: 30px;
+}
+.toggleSwitch {
+    width: 50px;
+    margin: 30px;
+    height: 20px;
+    display: block;
+    position: relative;
+    border-radius: 30px;
+    background-color: #fff;
+    box-shadow: 0 0 3px 3px rgba(0 0 0 / 11%);
+    cursor: pointer;
+  }
+  
+  .toggleSwitch .toggleButton {
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 50%;
+    left: 4px;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    background: #2EE49D;
+  }
+  
+  #toggle:checked ~ .toggleSwitch {
+    background: #2EE49D;
+  }
+  
+  #toggle:checked ~ .toggleSwitch .toggleButton {
+    left: calc(100% - 20px);
+    background: #fff;
+  }
+  
+  .toggleSwitch, .toggleButton {
+    transition: all 0.2s ease-in;
+  }
+
 .question-popup-small-title{
     font-size: 14px;
     font-weight: 900;
@@ -381,6 +423,10 @@
     font-size: 13px;
     font-weight: 500;
     letter-spacing: 0.5px;
+    
+    white-space : nowrap;
+    overflow : hidden;
+    text-overflow : ellipsis;
 
     color: #808080;
 }
@@ -539,6 +585,90 @@
 }
 .quest-writer{
     margin-right: 14px;
+}
+
+
+.lock_img{
+    margin-left: 10px;
+    box-sizing: border-box;
+    padding-top: 3px;
+}
+.lock_img>img{
+    height: 14px;
+}
+.answer_toggle{
+    margin-left: 10px;
+    text-decoration: underline;
+    cursor: pointer;
+    color: #343A40;
+    font-weight: 800;
+}
+
+
+/****** 답변 *******/
+
+.answer-list{
+    /* margin-left: 50px; */
+    margin-top: 20px;
+
+    width: 100%;
+    display: flex;
+}
+.answer_arrow_img{
+    width:50px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding-bottom: 9px;
+}
+
+.answer_text_wrap{
+    width: calc(100%-50px);
+    display: flex;
+}
+.write-user-img{
+    width: 92px;
+    height: 92px;
+
+    border-radius: 100%;
+
+    box-sizing: border-box;
+
+    margin-right: 15px;
+}
+
+.answer-content-section{
+    width: 100%;
+    height: auto;
+}
+.answer-content-wrap{
+    width: 371px;
+    display: flex;
+    flex-direction: column;
+
+    border-bottom: 2px solid #e4e4e4;
+}
+.answer-content-list{
+    margin-bottom: 6px;
+}
+.answer-content-date{
+    margin-bottom: 15px;
+    color: #808080;
+}
+
+
+.review-star-wrap{
+    display: flex;
+    align-items: center;
+}
+.review-star-img{
+    width: 12px;
+    height: 12px;
+}
+.review-star-num{
+    font-size: 12px;
 }
 
 .review-star-wrap{
