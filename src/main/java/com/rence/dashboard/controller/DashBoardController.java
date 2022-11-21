@@ -649,7 +649,7 @@ public class DashBoardController {
 	/**
 	 * 환경설정에서 정보 변경
 	 */
-	@ApiOperation(value="업체 정보 변경 폼", notes="대쉬보드 환경설정 페이지 - 업체 정보 변경")
+	@ApiOperation(value="업체 정보 변경 처리", notes="대쉬보드 환경설정 페이지 - 업체 정보 변경")
 	@PostMapping("/updateOK_host")
 	public String backoffice_updateOK_host(BackOfficeVO bvo,BackOfficeOperatingTimeVO ovo,MultipartHttpServletRequest mtfRequest, @RequestParam(value = "multipartFile_room") MultipartFile multipartFile_room,  Model model) {
 		log.info("backoffice_updateOK_host ()...");
@@ -673,7 +673,7 @@ public class DashBoardController {
 		service.backoffice_updateOK_opt(ovo2);
 	
 		String rt = "";
-//		if(update_host==1&&updtae_opt==1) {
+//		if(update_host==1&&update_opt==1) {
 			rt = "redirect:backoffice/settings";
 //		}else {
 //			rt = "redirect:backoffice/update_host";

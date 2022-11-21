@@ -355,14 +355,16 @@ public class BackOfficeController {
 	 * 비밀번호 초기화 완료
 	 */
 	@ApiOperation(value="비밀번호 초기화 처리", notes="호스트 비밀번호 변경, 이메일로 전송된 비밀번호 재설정")
-	@GetMapping("/settingOK_pw")
+	@PostMapping("/settingOK_pw")
 	@ResponseBody
 	public String backoffice_settingOK_pw(BackOfficeVO bvo, HttpServletRequest request,
 			HttpServletResponse response) {
 		log.info("backoffice_settingOK_pw ()...");
 		log.info("{}", bvo);
 
-		session = request.getSession();
+//		session = request.getSession();
+		Cookie[] cookies = request.getCookies();
+		
 
 		bvo.setBackoffice_pw(new BCryptPasswordEncoder().encode(bvo.getBackoffice_pw()));
 		int result = service.backoffice_settingOK_pw(bvo);
@@ -370,7 +372,7 @@ public class BackOfficeController {
 		Map<String, String> map = new HashMap<String,String>();
 
 		if (result == 1) {
-			if (session.getAttribute("backoffice_id") != null) {
+			if (cookies != null) {
 				// HOST 로그인 session이 존재할 때
 				// Host 환경설정 > 비밀번호 수정
 				log.info("succeed...");
