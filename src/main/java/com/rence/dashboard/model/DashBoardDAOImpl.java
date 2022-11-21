@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.relational.core.mapping.Embedded.Nullable;
 import org.springframework.stereotype.Repository;
 
 import com.rence.dashboard.repository.CommentAListRepository;
@@ -146,19 +147,35 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 
 	// main - 공간 요약
 	@Override
+	@Nullable
 	public RoomSummaryView room_summary_selectOne(String backoffice_no) {
 
 		RoomSummaryView rs = new RoomSummaryView();
 
-		float review_point = rm_summary_repository.select_avg_review_point(backoffice_no);
+		Float review_point = rm_summary_repository.select_avg_review_point(backoffice_no);
+		if (review_point==null) {
+			rs.setReview_point((float) 0.0);
+		}else {
+			rs.setReview_point(review_point);
+		}
 		Integer comment_no = rm_summary_repository.select_comment_cnt(backoffice_no);
+		if(comment_no==null) {
+			rs.setComment_no(0);
+		}else {
+			rs.setComment_no(comment_no);
+		}
 		Integer review_no = rm_summary_repository.select_review_cnt(backoffice_no);
+		if (review_no==null) {
+			rs.setReview_no(0);
+		}else {
+			rs.setReview_no(review_no);
+		}
 		Integer reserve_no = rm_summary_repository.select_reserve_cnt(backoffice_no);
-
-		rs.setReview_point(review_point);
-		rs.setComment_no(comment_no);
-		rs.setReview_no(review_no);
-		rs.setReserve_no(reserve_no);
+		if (reserve_no==null) {
+			rs.setReserve_no(0);
+		}else {
+			rs.setReserve_no(reserve_no);
+		}
 
 		return rs;
 	}

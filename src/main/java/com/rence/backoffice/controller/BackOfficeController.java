@@ -205,8 +205,10 @@ public class BackOfficeController {
 	@ResponseBody
 	@Transactional
 	public String backoffice_authOK(AuthVO avo, String backoffice_email, String auth_code) {
+		log.info("backoffice_authOK");
 
 		AuthVO avo2 = service.backoffice_authOK_select(backoffice_email, auth_code);
+		log.info("backoffice_authOK : {}",avo2);
 
 		Map<String, String> map = new HashMap<String,String>();
 
