@@ -17,13 +17,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.rence.office.model.ListViewVO;
 import com.rence.user.model.ReserveInfo_ViewVO;
+import com.rence.user.model.ReviewEntityVO;
 import com.rence.user.model.UserDTO;
 import com.rence.user.service.MypageMenuSerivice;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
 @Api(tags="마이페이지 메뉴 내 기능 관련 컨트롤러")
@@ -152,6 +156,29 @@ public class MypageMenuController {
 			return "redirect:/";
 		}
 	}
+	
+	
+	@ApiOperation(value="후기 추가 컨트롤러", notes="후기 추가 로직 컨트롤러")
+	@GetMapping(value = "/insert_review")
+	@ResponseBody
+	public String insert_review(ReviewEntityVO vo, Model model) {
+		int result = service.insert_review(vo);
+		
+        Map<String, String> map = new HashMap<>();
+ 
+        // Map -> Json 문자열
+        Gson gson = new Gson();
+		if (result != -1) {
+			map.put("result", "1");
+		} else {
+			map.put("result", "0");
+		}
+		
+		String jsonStr = gson.toJson(map);
+		
+		return jsonStr;
+	}	
+	
 	
 	/**
 	 * 후기 내역 페이지 - 댓글 삭제

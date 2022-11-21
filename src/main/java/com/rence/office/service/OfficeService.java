@@ -104,17 +104,7 @@ public class OfficeService {
 //		return result; 
 //	}
 //	
-	public int insert_review(ReviewEntityVO vo) {
-		log.info("insert_review | {}", vo);
-		int result = 0;
-		
-		try {
-			repository.insert_review(vo.getReview_point(), vo);
-		} catch (Exception e) {
-			result = -1;
-		}
-		return result; 
-	}
+
 
 	public int insert_question(Comment_EntityVO vo) {
 		int result = repository.insert_question(vo);

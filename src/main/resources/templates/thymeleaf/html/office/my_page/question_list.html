@@ -24,17 +24,12 @@
             	<th:block th:each="obj : ${res.list}">
 	                <li class="question-list">
 	                    <div class="question-content-wrap">
-	                        <span class="list-status 
-	                        	<th:block th:if="${obj.state} == 'Y'">complete-label</th:block>
-	                        	<th:block th:if="${obj.state} == 'N'">un-complete-label</th:block>
-                        	">
-	                        	<th:block th:if="${obj.state} == 'Y'">처리</th:block>
-	                        	<th:block th:if="${obj.state} == 'N'">미처리</th:block>
-							</span>
+	                        <span th:if="${obj.state} == 'Y'" class="list-status complete-label">처리</span>
+	                        <span th:if="${obj.state} == 'N'" class="list-status un-complete-label">미처리</span>
+							
+							
 	                        <span class="list-company-name">[[${obj.backoffice_name}]]</span>
-	                        <span class="list-content">
-	                            [[${obj.comment_content}]]
-	                        </span>
+	                        <span class="list-content">[[${obj.comment_content}]]</span>
 	                        <span class="list-date">[[${obj.comment_date}]]</span>
 	                    </div>
 	                    <div class="detail-question-wrap blind">
