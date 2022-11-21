@@ -235,7 +235,7 @@ public class MypageController {
 	@ApiOperation(value = "예약리스트", notes = "예약리스트 페이지입니다.")
 	@GetMapping("/reserve_list")
 
-	public String reserve_list(String time_point, String user_no, Model model) {
+	public String reserve_list(String time_point, String user_no, Model model, @RequestParam(value = "page", defaultValue = "1") Integer page) {
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		List<MyPageReserveListVO> list = null;
@@ -390,23 +390,7 @@ public class MypageController {
 	 * 마이페이지 - 문의 리스트 - 문의삭제
 	 */
 
-//	@Transactional
-//	@ApiOperation(value = "문의 삭제", notes = "문의 삭제 입니다.")
-//	@RequestMapping(value = "/delete_comment", method = RequestMethod.GET)
-////	@GetMapping("/delete_comment")
-//	public String delete_comment(String user_no, String comment_no) {
-//		
-//		log.info("delete_comment()...");
-//
-//		log.info("user_no: " + user_no);
-//		log.info("comment_no: " + comment_no);
-//		
-//		
-//		int result = service.delete_comment(comment_no);
-//		
-////		return "redirect:/question_list?user_no="+user_no;
-//		return null;
-//	}
+
 
 	/**
 	 * 후기 리스트 이동
