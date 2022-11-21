@@ -17,7 +17,7 @@
         </section>
         <section class="space-detail-info-section">
             <div class="space-rating">
-                <img src="//static/IMG/common/grey-star.svg" class="space-rating-icon" alt="space-rating-icon" />
+                <img src="/static/IMG/common/grey-star.svg" class="space-rating-icon" alt="space-rating-icon" />
                 <span class="space-info-txt">[[${ovo.avg_rating}]]</span>
             </div>
             <div class="space-tags">
@@ -35,7 +35,7 @@
 				<ul class="container">
 					<th:block th:each="img_item : ${img_list}">
 						<li class="img">
-							<img src="${img_item}" class="company-img" />
+							<img th:src="@{https://rence.s3.ap-northeast-2.amazonaws.com/space}+${img_item}" class="company-img" />
 						</li>
 					</th:block>
 				</ul>
@@ -59,9 +59,9 @@
 
 				<!-- 공간 소개 -->
 				<div class="space-description-wrap">
-					<textarea class="space-description"> 
+					<span class="space-description"> 
 						[[${ ovo.backoffice_info }]]
-					</textarea>
+					</span>
 
 					<div class="option-wrap">
 						<label class="section-title"> 옵션 </label>
@@ -334,7 +334,7 @@
 							<label class="fixed-section-label"> 위치 </label>
 							<div class="fixed-section-loca">
 								<img src="/static/IMG/common/location-icon.svg" class="space-loca-icon" alt="location-icon"> 
-								<span class="fixed-section-txt"> [[${ ovo.short_roadname_address }]] </span>
+								<span class="fixed-section-txt"> [[${ short_roadname_address }]] </span>
 							</div>
 						</div>
 					</section>
@@ -345,7 +345,8 @@
 					<!-- 타입 셀렉트 열 때 open-select클래스 add해야함 -->
 					<!-- 타입 셀렉트 닫을 때 open-select클래스 remove해야함 -->
 					<div class="type-border">
-						<span id="type-choice-value" class="type-border-txt" th:attr="room_no=${ rvo.room_no }">타입을 선택해주세요.</span> 
+						<!-- <span id="type-choice-value" class="type-border-txt" th:attr="room_no=${rvo.room_no}">타입을 선택해주세요.</span> -->
+						<span id="type-choice-value" class="type-border-txt">타입을 선택해주세요.</span> 
 						<img src="/static/IMG/office/full-dropdown.svg" alt="full-dropdown" class="full-dropdown"></img>
 					</div>
 
@@ -353,7 +354,7 @@
 					<ul class="custom-select-type blind">
 						<th:block th:each="rvo : ${rvos}">
 							<li class="custom-select-type-list">
-								<span class="room-name" th:attr="room_no=${ rvo.room_no }"> [[${ rvo.room_name }]] ([[${ rvo.room_type }]]) </span> 
+								<span class="room-name" th:attr="room_no=${rvo.room_no}"> [[${ rvo.room_name }]] ([[${ rvo.room_type }]]) </span> 
 								<span class="room-price-unit"> 
 									<span class="room-price-big"> [[${ rvo.room_price}]] 원</span> 
 									<span class="room-unit-small"> /시간 </span> 

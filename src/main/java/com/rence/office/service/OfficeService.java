@@ -4,28 +4,22 @@
 
 package com.rence.office.service;
 
-import java.text.ParseException;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.rence.office.model.Comment_EntityVO;
 import com.rence.office.model.ListViewVO;
 import com.rence.office.model.OfficeInfoVO;
 import com.rence.office.model.OfficeOperatingTimeVO_date;
-import com.rence.office.model.OfficePaymentVO;
-import com.rence.office.model.OfficeQuestionVO;
-import com.rence.office.model.OfficeReserveVO;
-import com.rence.office.model.OfficeReviewVO;
 import com.rence.office.model.OfficeRoomVO;
-import com.rence.office.model.PaymentInfoVO;
-import com.rence.office.model.Comment_EntityVO;
+import com.rence.office.repo.OfficeDetailInfoRepository;
 //import com.rence.user.model.ReviewVO;
 import com.rence.office.repo.OfficeInfoRepository;
 import com.rence.office.repo.OfficeListRepository;
-import com.rence.user.model.ReviewEntityVO;
+import com.rence.office.repo.OfficeOperatingTimeRepository;
+import com.rence.office.repo.OfficeRoomRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,28 +34,37 @@ public class OfficeService {
 	@Autowired
 	OfficeListRepository list_repository;
 	
+	@Autowired
+	OfficeDetailInfoRepository detail_repository;
+	
+	@Autowired
+	OfficeOperatingTimeRepository operating_repository;
+	
+	@Autowired
+	OfficeRoomRepository room_repository;
+	
 	public OfficeService() {
 		log.info("OfficeService()...");
 	}
 	
-//	public OfficeInfoVO select_one_office_info(String backoffice_no) {
-//		OfficeInfoVO vo = repository.select_one_office_info(backoffice_no);
-//		
-//		return vo; 
-//	}
-//	
-//	public OfficeOperatingTimeVO_date select_one_operating_time(String backoffice_no) {
-//		OfficeOperatingTimeVO_date vo = repository.select_one_operating_time(backoffice_no);
-//		
-//		return vo;
-//	}
-//	
-//	public List<OfficeRoomVO> select_all_room(String backoffice_no) {
-//		List<OfficeRoomVO> vos = repository.select_all_room(backoffice_no);
-//		
-//		return vos;
-//	}
-//	
+	public OfficeInfoVO select_one_office_info(String backoffice_no) {
+		OfficeInfoVO vo = detail_repository.select_one_office_info(backoffice_no);
+		
+		return vo; 
+	}
+	
+	public OfficeOperatingTimeVO_date select_one_operating_time(String backoffice_no) {
+		OfficeOperatingTimeVO_date vo = operating_repository.select_one_operating_time(backoffice_no);
+		
+		return vo;
+	}
+	
+	public List<OfficeRoomVO> select_all_room(String backoffice_no) {
+		List<OfficeRoomVO> vos = room_repository.select_all_room_info(backoffice_no);
+		
+		return vos;
+	}
+	
 //	public List<OfficeQuestionVO> select_all_comment(String backoffice_no) {
 //		List<OfficeQuestionVO> vos = repository.select_all_comment(backoffice_no);
 //		
