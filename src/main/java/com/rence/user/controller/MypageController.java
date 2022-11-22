@@ -462,8 +462,8 @@ public class MypageController {
 			for (UserQuestionVO vo : list) {
 				UserQuestionVO vo2 = service.select_one_answer(vo.getComment_no());
 				if (vo2 != null) {
-					vo.setAnswer_content(vo2.getAnswer_content());
-					vo.setAnswer_date(vo2.getAnswer_date());
+					vo.setAnswer_content(vo2.getComment_content());
+					vo.setAnswer_date(vo2.getComment_date());
 					vo.setState("Y");
 				} else {
 					vo.setState("N");
