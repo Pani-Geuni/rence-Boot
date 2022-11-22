@@ -29,7 +29,7 @@ import com.rence.dashboard.model.SalesSettlementDetailView;
 import com.rence.dashboard.model.SalesSettlementSummaryView;
 import com.rence.dashboard.model.SalesSettlementViewVO;
 import com.rence.dashboard.model.ScheduleListView;
-import com.rence.dashboard.model.reservationView;
+import com.rence.dashboard.model.ReservationView;
 import com.rence.dashboard.repository.CommentInsertRepository;
 import com.rence.dashboard.repository.CommentRepository;
 import com.rence.dashboard.repository.CommentSummaryRepository;
@@ -325,7 +325,7 @@ public class DashboardService {
 	}
 
 	// 일정 관리 - 예약자 리스트
-	public List<reservationView> backoffice_reservation(String backoffice_no, String not_sdate, String not_edate,
+	public List<ReservationView> backoffice_reservation(String backoffice_no, String not_sdate, String not_edate,
 			String not_stime, String not_etime, String room_no, String off_type) {
 		log.info("backoffice_schedule_list().....");
 		return dao.backoffice_reservation(backoffice_no,not_sdate,not_edate,not_stime,not_etime,room_no,off_type);
@@ -336,6 +336,19 @@ public class DashboardService {
 		log.info("backoffice_schedueOK().....");
 		return sc_repository.backoffice_schedueOK(backoffice_no,not_stime,not_etime,room_no);
 	}
+
+	// 일정 관리 - 예약 취소
+	public int backoffice_reservation_cancel(String backoffice_no, String room_no, String reserve_no, String user_no) {
+		log.info("backoffice_reservation_cancel().....");
+		return dao.backoffice_reservation_cancel(backoffice_no,room_no,reserve_no,user_no);
+	}
+
+	// 회사명 select
+	public BackOfficeVO backoffice_select_companyname(String backoffice_no) {
+		log.info("backoffice_reservation_cancel().....");
+		return b_repository.select_one_backoffice_info(backoffice_no);
+	}
+
 
 
 }

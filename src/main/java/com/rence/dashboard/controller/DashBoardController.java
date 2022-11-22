@@ -50,8 +50,9 @@ import com.rence.dashboard.model.SalesSettlementDetailView;
 import com.rence.dashboard.model.SalesSettlementSummaryView;
 import com.rence.dashboard.model.SalesSettlementViewVO;
 import com.rence.dashboard.model.ScheduleListView;
-import com.rence.dashboard.model.reservationView;
+import com.rence.dashboard.model.ReservationView;
 import com.rence.dashboard.repository.ScheduleListRepository;
+import com.rence.dashboard.service.DashboardSendEmail;
 import com.rence.dashboard.service.DashboardService;
 
 import io.swagger.annotations.Api;
@@ -74,6 +75,9 @@ public class DashBoardController {
 	
 	@Autowired
 	OperatingTime operatingTime;
+	
+	@Autowired
+	DashboardSendEmail dashboardSendEmail;
 
 
 	/**
@@ -735,7 +739,6 @@ public class DashBoardController {
 	
 	/**
 	 * 일정 관리 - 날짜, 시간 선택 후, 휴무, 브레이크타임 설정
-	 * @throws ParseException 
 	 */
 	@ApiOperation(value="일정 관리 - 휴무, 브레이크타임 설정", notes="대쉬보드 - 일정 관리")
 	@PostMapping("/scheduleOK")
@@ -755,7 +758,6 @@ public class DashBoardController {
 		log.info("not_sdate : {} ",not_sdate);
 		log.info("not_edate : {} ",not_edate);
 		
-//		디비에 이상한 날짜가 들어가는 것을 방지 응 실패~ 돌아가~
 		not_stime = not_sdate+not_stime;
 		not_etime = not_edate+not_etime;
 		log.info("not_stime : {} ",not_stime);
@@ -790,7 +792,7 @@ public class DashBoardController {
 		String reserve_etime = (not_edate+not_etime);
 		log.info("reserve_etime : {} ",reserve_etime);
 		
-		List<reservationView> rv_vos = service.backoffice_reservation(backoffice_no,not_sdate,not_edate,not_stime,not_etime,room_no,off_type);
+		List<ReservationView> rv_vos = service.backoffice_reservation(backoffice_no,not_sdate,not_edate,not_stime,not_etime,room_no,off_type);
 		log.info("result: {}.", rv_vos);
 		log.info("cnt: {}.", rv_vos.size());
 		
@@ -799,9 +801,47 @@ public class DashBoardController {
 		model.addAttribute("rv_vos",rv_vos);
 		model.addAttribute("cnt",rv_vos.size());
 		
-		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/schedule");
-		model.addAttribute("title", "일정 관리");
+		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/reservation");
+		model.addAttribute("title", "일정 관리 - 예약자");
 
 		return "thymeleaf/layouts/backoffice/layout_dashboard";
 	}
+	
+	/**
+	 * 일정 관리 - 예약취소
+	 */
+	@ApiOperation(value="일정 관리 - 예약 취소", notes="대쉬보드 - 일정 관리")
+	@PostMapping("/reservation_cancel")
+	@ResponseBody
+	public String backoffice_reservation_cancel(String backoffice_no, String room_no, String reserve_no, String user_no, String user_email, String reserve_stime, String reserve_etime, Model model) throws ParseException {
+		log.info("backoffice_reservation_cancel controller()...");
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		//  에약 상태 cancel로 변경, 예약자에게 취소 메일 보내기, 결제 상태 false?? , 결제 테이블에서 사용한 마일리지와 돈 환불.
+		
+		int result = service.backoffice_reservation_cancel(backoffice_no,room_no,reserve_no,user_no);
+		
+		if (result==1) {
+			BackOfficeVO bvo = service.backoffice_select_companyname(backoffice_no);
+			String company_name = bvo.getCompany_name();
+			int flag = dashboardSendEmail.reserve_cancel_mail(user_no,user_email,reserve_stime,reserve_etime,company_name);
+			if (flag==1) {
+				log.info("successed...");
+				map.put("result", "1");
+			}else {
+				log.info("mail falied...");
+				map.put("result", "0");
+			}
+		}else {
+			log.info("cancel falied...");
+			map.put("result", "0");
+		}
+		
+		String json = gson.toJson(map);
+		
+		return json;
+	}
+	
+	
 }

@@ -529,7 +529,7 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 
 	// 일정 관리 - 예약자
 	@Override
-	public List<reservationView> backoffice_reservation(String backoffice_no, String not_sdate, String not_edate,
+	public List<ReservationView> backoffice_reservation(String backoffice_no, String not_sdate, String not_edate,
 			String not_stime, String not_etime, String room_no, String off_type) {
 		
 		String reserve_stime = null;
@@ -554,9 +554,16 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 			log.info("reserve_etime : {} ",reserve_etime);
 		}
 		
-		List<reservationView> rv_vos = reservation_repository.backoffice_reservation_list(backoffice_no,reserve_stime,reserve_etime,room_no);
+		List<ReservationView> rv_vos = reservation_repository.backoffice_reservation_list(backoffice_no,reserve_stime,reserve_etime,room_no);
 		
 		return rv_vos;
+	}
+
+	// 일정 관리 - 예약 취소
+	@Override
+	public int backoffice_reservation_cancel(String backoffice_no, String room_no, String reserve_no, String user_no) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

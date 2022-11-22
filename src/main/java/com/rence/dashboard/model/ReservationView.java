@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Immutable
 @Table(name="RESERVATION_VIEW")
-public class reservationView implements Serializable{
+public class ReservationView implements Serializable{
 	
 	@Id
 	@Column(name="user_no")
@@ -46,5 +46,8 @@ public class reservationView implements Serializable{
 	
 	@Column(name="room_no")
 	private String room_no;
+	
+	@Column(name="reserve_no")
+	private String reserve_no;
 
 }
