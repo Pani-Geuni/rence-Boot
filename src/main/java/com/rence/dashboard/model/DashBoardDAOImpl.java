@@ -562,7 +562,11 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 	// 일정 관리 - 예약 취소
 	@Override
 	public int backoffice_reservation_cancel(String backoffice_no, String room_no, String reserve_no, String user_no) {
-		// TODO Auto-generated method stub
+		int flag = reserveAutoUpdateRepository.update_reserve_state_cancel(reserve_no);
+		// 결제 취소, 사용한 마일리지 환불(상태 다시 T로??)
+		if (flag==1) {
+			
+		}
 		return 0;
 	}
 
