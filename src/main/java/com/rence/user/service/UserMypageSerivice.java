@@ -156,6 +156,8 @@ public class UserMypageSerivice {
 		Integer row_count = 8;
 		Integer start_row = (page -1) * row_count + 1;
 		Integer end_row = page * row_count;
+		log.info("start_row: "+start_row);
+		log.info("end_row: "+end_row);
 		
 		return mileageRepository.user_mileage_selectAll_paging(uvo.getUser_no(), start_row, end_row);
 	}
