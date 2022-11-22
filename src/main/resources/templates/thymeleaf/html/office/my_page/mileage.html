@@ -64,7 +64,6 @@
             
            <section class="paging-section">
 				<div class="paging-wrap">
-				[[${res.page}]]
                     <span class="paging-box hide"><<</span>
                     <th:block th:each="num : ${#numbers.sequence(1, res.maxPage)}">
 	                    <span th:if = "${num} == ${res.nowPage}" class="paging-box paging-num choice">[[${num}]]</span>
