@@ -19,7 +19,8 @@ public interface MileageRepository extends JpaRepository<UserMileageVO, Object> 
 	public UserMileageVO totalMileage_selectOne(String user_no);
 
 	// 마일리지 리스트수-전체(페이징 처리를 위해서) all
-	@Query(nativeQuery = true, value = "select count(*) ffrom user_detail_mileage_view where user_no = ?1")
+	@Query(nativeQuery = true, value = "select count(*) from user_detail_mileage_view")
+//			+ " where user_no = ?1")
 	public long count_allmileage(String user_no);
 	
 	// 마일리지 리스트수-적립(페이징 처리를 위해서) plus

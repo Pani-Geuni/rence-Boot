@@ -5,6 +5,8 @@
 */
 package com.rence.user.service;
 
+import static org.hamcrest.CoreMatchers.nullValue;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -211,6 +213,7 @@ public class UserMypageSerivice {
 	public long total_rowCount_reserve_now() {
 		log.info("total_rowCount_reserve_now()....");
 		return myReserveRepository.count_nowReserve();
+		
 	}
 
 	// 마이페이지- 현재 예약현황 리스트
