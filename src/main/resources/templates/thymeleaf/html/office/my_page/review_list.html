@@ -11,42 +11,44 @@
     </section>
 
     <section class="question-history-section">
-        <section class="question-history-title-section">
-            <div class="list-title-txt-wrap">
-                <span class="list-title-txt list-company-name">이용 장소</span>
-                <span class="list-title-txt list-content">후기 내용</span>
-                <span class="list-title-txt list-point">별점</span>
-                <span class="list-title-txt list-date">작성일</span>
-            </div>
-        </section>
-        <section class="question-history-wrap">
-            <ul>
-            	<th:block th:each="obj : ${res.list}">
-	                <li class="question-list">
-                         <div class="question-content-wrap">
-                             <span class="list-title-txt list-company-name">[[${obj.company_name}]]</span>
-                             <span class="list-title-txt list-content">[[${obj.review_content}]]</span>
-                             <span class="list-title-txt list-point">[[${obj.review_point}]]</span>
-                             <span class="list-title-txt list-date">[[${obj.review_date}]]</span>
-                         </div>
-                         <div class="detail-question-wrap blind">
-                             <div class="question-line">
-                                 <div class="q-line">
-                                     <label class="q_label">
-                                         이용 장소&nbsp;&nbsp;|&nbsp;&nbsp;
-                                         [[${obj.company_name}]]&nbsp;[[(${obj.room_name})]]
-                                     </label>
-                                     <div class="question-btn-wrap">
-                                         <span class="question-btn" th:attr="idx=${obj.review_no}">삭제</span>
-                                     </div>
-                                 </div>
-                                 <span>[[${obj.review_content}]]</span>
-                             </div>
-                         </div>
-                     </li>
-            	</th:block>
-            </ul>
-        </section>
+	    <div>
+	        <section class="question-history-title-section">
+	            <div class="list-title-txt-wrap">
+	                <span class="list-title-txt list-company-name">이용 장소</span>
+	                <span class="list-title-txt list-content">후기 내용</span>
+	                <span class="list-title-txt list-point">별점</span>
+	                <span class="list-title-txt list-date">작성일</span>
+	            </div>
+	        </section>
+	        <section class="question-history-wrap">
+	            <ul>
+	            	<th:block th:each="obj : ${res.list}">
+		                <li class="question-list">
+	                         <div class="question-content-wrap">
+	                             <span class="list-title-txt list-company-name">[[${obj.company_name}]]</span>
+	                             <span class="list-title-txt list-content">[[${obj.review_content}]]</span>
+	                             <span class="list-title-txt list-point">[[${obj.review_point}]]</span>
+	                             <span class="list-title-txt list-date">[[${obj.review_date}]]</span>
+	                         </div>
+	                         <div class="detail-question-wrap blind">
+	                             <div class="question-line">
+	                                 <div class="q-line">
+	                                     <label class="q_label">
+	                                         이용 장소&nbsp;&nbsp;|&nbsp;&nbsp;
+	                                         [[${obj.company_name}]]&nbsp;[[(${obj.room_name})]]
+	                                     </label>
+	                                     <div class="question-btn-wrap">
+	                                         <span class="question-btn" th:attr="idx=${obj.review_no}">삭제</span>
+	                                     </div>
+	                                 </div>
+	                                 <span>[[${obj.review_content}]]</span>
+	                             </div>
+	                         </div>
+	                     </li>
+	            	</th:block>
+	            </ul>
+	        </section>
+	    </div>
         <section class="paging-section">
 			<div class="paging-wrap">
                 <span class="paging-box"><<</span>
