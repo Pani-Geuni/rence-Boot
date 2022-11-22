@@ -5,6 +5,7 @@
  */
 package com.rence.dashboard.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -714,12 +715,12 @@ public class DashBoardController {
 	@ApiOperation(value="일정 관리", notes="대쉬보드 - 일정 관리")
 	@GetMapping("/schedule_research")
 	@ResponseBody
-	public String backoffice_schedule_research(String backoffice_no, String not_sdate, String not_edate, String not_stime, String not_etime,Model model) {
+	public String backoffice_schedule_research(String backoffice_no, String not_sdate, String not_edate, String not_stime, String not_etime, String off_type, Model model) {
 		log.info("backoffice_schedule_research controller()...");
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		List<ScheduleListView> sche = service.backoffice_schedule_list(backoffice_no,not_sdate,not_edate,not_stime,not_etime);
+		List<ScheduleListView> sche = service.backoffice_schedule_list(backoffice_no,not_sdate,not_edate,not_stime,not_etime,off_type);
 		log.info("result: {}.", sche);
 		log.info("cnt: {}.", sche.size());
 		
@@ -737,10 +738,19 @@ public class DashBoardController {
 	@ApiOperation(value="일정 관리 - 휴무, 브레이크타임 설정", notes="대쉬보드 - 일정 관리")
 	@PostMapping("/scheduleOK")
 	@ResponseBody
-	public String backoffice_scheduleOK(String backoffice_no, String not_sdate, String not_edate, String not_stime, String not_etime, String room_no, Model model) {
+	public String backoffice_scheduleOK(String backoffice_no, String not_sdate, String not_edate, String not_stime, String not_etime, String room_no, String off_type, Model model) {
 		log.info("backoffice_schedule_research controller()...");
 		
 		Map<String, Object> map = new HashMap<String, Object>();
+		
+		if (off_type.equals("breaktime")) {
+			Date date = new Date();
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			not_sdate = (formatter.format(date));
+			not_edate = (formatter.format(date));
+		}
+		log.info("not_sdate : {} ",not_sdate);
+		log.info("not_edate : {} ",not_edate);
 		
 		int result = service.backoffice_schedueOK(backoffice_no,not_sdate,not_edate,not_stime,not_etime,room_no);
 		
@@ -762,7 +772,7 @@ public class DashBoardController {
 	 */
 	@ApiOperation(value="예약자 리스트", notes="대쉬보드 - 예약자 리스트")
 	@GetMapping("/reservation")
-	public String backoffice_reservation(String backoffice_no, String room_no, String not_sdate, String not_edate, String not_stime, String not_etime, Model model) { 
+	public String backoffice_reservation(String backoffice_no, String room_no, String not_sdate, String not_edate, String not_stime, String not_etime, String off_type, Model model) { 
 		log.info("backoffice_schedule controller()...");
 		
 		String reserve_stime = (not_sdate+not_stime);
@@ -771,7 +781,7 @@ public class DashBoardController {
 		String reserve_etime = (not_edate+not_etime);
 		log.info("reserve_etime : {} ",reserve_etime);
 		
-		List<reservationView> rv_vos = service.backoffice_reservation(backoffice_no,not_sdate,not_edate,not_stime,not_etime,room_no);
+		List<reservationView> rv_vos = service.backoffice_reservation(backoffice_no,not_sdate,not_edate,not_stime,not_etime,room_no,off_type);
 		log.info("result: {}.", rv_vos);
 		log.info("cnt: {}.", rv_vos.size());
 		

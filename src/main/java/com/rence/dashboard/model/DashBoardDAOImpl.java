@@ -432,14 +432,23 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		return null;
 	}
 
+	// 일정 관리 - 리스트
 	@Override
 	public List<ScheduleListView> backoffice_schedule_list(String backoffice_no, String not_sdate, String not_edate,
-			String not_stime, String not_etime) {
+			String not_stime, String not_etime, String off_type) {
 		
 		ScheduleListView sc = new ScheduleListView();
 		
-		String reserve_stime = (not_sdate+not_stime);
-		log.info("reserve_stime : {} ",reserve_stime);
+		String reserve_stime = null;
+		if (off_type.equals("dayoff")) {
+			reserve_stime = (not_sdate+not_stime);
+			log.info("reserve_stime : {} ",reserve_stime);
+		}else {
+			Date date = new Date();
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			reserve_stime = (formatter.format(date));
+			log.info("reserve_stime : {} ",reserve_stime);
+		}
 		
 		String reserve_etime = (not_edate+not_etime);
 		log.info("reserve_etime : {} ",reserve_etime);
@@ -479,13 +488,21 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		return sc_vos;
 	}
 
-	// 예약자
+	// 일저 관리 - 예약자
 	@Override
 	public List<reservationView> backoffice_reservation(String backoffice_no, String not_sdate, String not_edate,
-			String not_stime, String not_etime, String room_no) {
+			String not_stime, String not_etime, String room_no, String off_type) {
 		
-		String reserve_stime = (not_sdate+not_stime);
-		log.info("reserve_stime : {} ",reserve_stime);
+		String reserve_stime = null;
+		if (off_type.equals("dayoff")) {
+			reserve_stime = (not_sdate+not_stime);
+			log.info("reserve_stime : {} ",reserve_stime);
+		}else {
+			Date date = new Date();
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			reserve_stime = (formatter.format(date));
+			log.info("reserve_stime : {} ",reserve_stime);
+		}
 		
 		String reserve_etime = (not_edate+not_etime);
 		log.info("reserve_etime : {} ",reserve_etime);

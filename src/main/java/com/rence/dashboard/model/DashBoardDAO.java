@@ -25,10 +25,10 @@ public interface DashBoardDAO {
 	public Object reserve_state_auto_update();
 
 	public List<ScheduleListView> backoffice_schedule_list(String backoffice_no, String not_sdate, String not_edate,
-			String not_stime, String not_etime);
+			String not_stime, String not_etime,String off_type);
 
 	public List<reservationView> backoffice_reservation(String backoffice_no, String not_sdate, String not_edate,
-			String not_stime, String not_etime, String room_no);
+			String not_stime, String not_etime, String room_no, String off_type);
 
 
 }

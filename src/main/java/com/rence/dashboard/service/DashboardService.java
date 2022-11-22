@@ -319,16 +319,16 @@ public class DashboardService {
 
 	// 일정 관리 - 리스트
 	public List<ScheduleListView> backoffice_schedule_list(String backoffice_no, String not_sdate, String not_edate,
-			String not_stime, String not_etime) {
+			String not_stime, String not_etime, String off_type) {
 		log.info("backoffice_schedule_list().....");
-		return dao.backoffice_schedule_list(backoffice_no,not_sdate,not_edate,not_stime,not_etime);
+		return dao.backoffice_schedule_list(backoffice_no,not_sdate,not_edate,not_stime,not_etime,off_type);
 	}
 
 	// 일정 관리 - 예약자 리스트
 	public List<reservationView> backoffice_reservation(String backoffice_no, String not_sdate, String not_edate,
-			String not_stime, String not_etime, String room_no) {
+			String not_stime, String not_etime, String room_no, String off_type) {
 		log.info("backoffice_schedule_list().....");
-		return dao.backoffice_reservation(backoffice_no,not_sdate,not_edate,not_stime,not_etime,room_no);
+		return dao.backoffice_reservation(backoffice_no,not_sdate,not_edate,not_stime,not_etime,room_no,off_type);
 	}
 
 	// 일정 관리 - 일정(휴무, 브레이크 타임) 추가
