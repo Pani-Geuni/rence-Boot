@@ -13,12 +13,16 @@ import com.rence.office.model.Comment_EntityVO;
 import com.rence.office.model.ListViewVO;
 import com.rence.office.model.OfficeInfoVO;
 import com.rence.office.model.OfficeOperatingTimeVO_date;
+import com.rence.office.model.OfficeQuestionVO;
+import com.rence.office.model.OfficeReviewVO;
 import com.rence.office.model.OfficeRoomVO;
 import com.rence.office.repo.OfficeDetailInfoRepository;
 //import com.rence.user.model.ReviewVO;
 import com.rence.office.repo.OfficeInfoRepository;
 import com.rence.office.repo.OfficeListRepository;
 import com.rence.office.repo.OfficeOperatingTimeRepository;
+import com.rence.office.repo.OfficeQuestionRepository;
+import com.rence.office.repo.OfficeReviewRepository;
 import com.rence.office.repo.OfficeRoomRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +47,12 @@ public class OfficeService {
 	@Autowired
 	OfficeRoomRepository room_repository;
 	
+	@Autowired
+	OfficeQuestionRepository question_repository;
+	
+	@Autowired
+	OfficeReviewRepository review_repository;
+	
 	public OfficeService() {
 		log.info("OfficeService()...");
 	}
@@ -65,24 +75,24 @@ public class OfficeService {
 		return vos;
 	}
 	
-//	public List<OfficeQuestionVO> select_all_comment(String backoffice_no) {
-//		List<OfficeQuestionVO> vos = repository.select_all_comment(backoffice_no);
-//		
-//		return vos;
-//	}
-//	
-//	public OfficeQuestionVO select_one_answer(String mother_no) {
-//		OfficeQuestionVO vo = repository.select_one_answer(mother_no);
-//		
-//		return vo;
-//	}
-//	
-//	public List<OfficeReviewVO> select_all_review(String backoffice_no) {
-//		List<OfficeReviewVO> vos = repository.select_all_review(backoffice_no);
-//		
-//		return vos;
-//	}
-//	
+	public List<OfficeQuestionVO> select_all_comment(String backoffice_no) {
+		List<OfficeQuestionVO> vos = question_repository.select_all_comment(backoffice_no);
+		
+		return vos;
+	}
+	
+	public OfficeQuestionVO select_one_answer(String mother_no) {
+		OfficeQuestionVO vo = question_repository.select_one_answer(mother_no);
+		
+		return vo;
+	}
+	
+	public List<OfficeReviewVO> select_all_review(String backoffice_no) {
+		List<OfficeReviewVO> vos = review_repository.select_all_review(backoffice_no);
+		
+		return vos;
+	}
+	
 //	public int check_reserve(OfficeReserveVO vo) throws ParseException {
 //		int result = repository.check_reserve(vo);
 //		

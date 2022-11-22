@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +29,8 @@ import com.rence.office.model.ListViewVO;
 import com.rence.office.model.OfficeInfoVO;
 import com.rence.office.model.OfficeOperatingTimeVO;
 import com.rence.office.model.OfficeOperatingTimeVO_date;
+import com.rence.office.model.OfficeQuestionVO;
+import com.rence.office.model.OfficeReviewVO;
 import com.rence.office.model.OfficeRoomVO;
 import com.rence.office.service.OfficeService;
 
@@ -36,107 +40,154 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@Api(tags="오피스 컨트롤러")
+@Api(tags = "오피스 컨트롤러")
 @RequestMapping("/office")
 public class OfficeController {
-	
+
 	@Autowired
 	OfficeService service;
-	
-	
+
+	@Autowired
+	HttpSession session;
+
 	/*
 	 * 오피스(공간) 상세 페이지
 	 */
-	@ApiOperation(value="공간 소개 페이지 로드 (데스크,회의실)", notes="데스크 / 회의실 공간 소개 페이지 로드하는 컨트롤러")
+	@ApiOperation(value = "공간 소개 페이지 로드 (데스크,회의실)", notes = "데스크 / 회의실 공간 소개 페이지 로드하는 컨트롤러")
 	@RequestMapping(value = "/space_introduce", method = RequestMethod.GET)
 	public String space_intruduce(BackOfficeVO bvo, String introduce_menu, Model model) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+
 		OptionEngToKorMap info_map = new OptionEngToKorMap();
 		String backoffice_no = bvo.getBackoffice_no();
-//		
-//		// ******************
-//		// backoffice 기본 정보
-//		// ******************
+		
+		// ******************
+		// backoffice 기본 정보
+		// ******************
 		OfficeInfoVO ovo = service.select_one_office_info(backoffice_no);
 		List<String> type_list = new ArrayList<String>();
 		List<String> tag_list = new ArrayList<String>();
 		List<String> img_list = new ArrayList<String>();
 		List<String> option_list = new ArrayList<String>();
 		List<String> around_option_list = new ArrayList<String>();
-//		
+		
 		if (ovo.getBackoffice_type() != null) {
-			type_list = info_map.splitType(ovo.getBackoffice_type());			
+			type_list = info_map.splitType(ovo.getBackoffice_type());
 		} else {
 			type_list.add("타입 없음");
 		}
-		
+
 		if (ovo.getBackoffice_tag() != null) {
-			tag_list = info_map.splitTag(ovo.getBackoffice_tag());			
+			tag_list = info_map.splitTag(ovo.getBackoffice_tag());
 		} else {
 			tag_list.add("태그 없음");
 		}
-		
+
 		img_list = info_map.splitImage(ovo.getBackoffice_image());
-		
+
 		if (ovo.getBackoffice_option() != null) {
-			option_list = info_map.splitOption(ovo.getBackoffice_option());			
+			option_list = info_map.splitOption(ovo.getBackoffice_option());
 		} else {
 			option_list.add("옵션 없음");
 		}
-		
+
 		if (ovo.getBackoffice_around() != null) {
-			around_option_list = info_map.splitAroundOption(ovo.getBackoffice_around());			
+			around_option_list = info_map.splitAroundOption(ovo.getBackoffice_around());
 		} else {
 			around_option_list.add("주변 시설 없음");
 		}
-		
+
 		String short_roadname_address = info_map.makeShortAddress(ovo.getRoadname_address());
-//		
-//		// ******************
-//		// backoffice 운영 시간
-//		// ******************
+		
+		// ******************
+		// backoffice 운영 시간
+		// ******************
 		OfficeOperatingTimeVO_date dotvo = service.select_one_operating_time(backoffice_no);
-//		
+		
 		CustomDateFormatter df = new CustomDateFormatter();
 		OfficeOperatingTimeVO otvo = df.showStringOfficeOperating(dotvo);
-//		
-//		// ************************
-//		// backoffice 운영 공간(Room)
-//		// ************************
+		
+		// ************************
+		// backoffice 운영 공간(Room)
+		// ************************
 		List<OfficeRoomVO> rvos = service.select_all_room(backoffice_no);
-//		
+		
 		for (OfficeRoomVO vo : rvos) {
 			vo.setRoom_type(info_map.changeType(vo.getRoom_type()));
 		}
-//		
-//		// **************
-//		// backoffice 문의
-//		// **************
-//		List<OfficeQuestionVO> cvos = service.select_all_comment(backoffice_no);
-//		
-//		if (cvos != null) {
-//			for (OfficeQuestionVO vo : cvos) {
-//				OfficeQuestionVO vo2 = service.select_one_answer(vo.getComment_no());
-//				if(vo2 != null) {
-//					vo.setAnswer_content(vo2.getAnswer_content());
-//					vo.setAnswer_date(vo2.getAnswer_date());
-//					vo.setState("Y");
-//				} else {
-//					vo.setState("N");
-//				}
-//			}
-//		}
-//		
-//		
-//		// **************
-//		// backoffice 후기
-//		// **************
-//		List<OfficeReviewVO> revos = service.select_all_review(backoffice_no);
-//				
-//		
-//		// backoffice 기본 정보
+
+		// **************
+		// backoffice 문의
+		// **************
+		List<OfficeQuestionVO> cvos = service.select_all_comment(backoffice_no);
+
+		String is_login = (String) session.getAttribute("user_id");
+		
+
+		if (cvos != null) {
+			for (OfficeQuestionVO vo : cvos) {
+				
+				log.info("is_login :::::::::: {}", is_login);
+				log.info("user_no :::::::::: {}", vo.getUser_id());
+				
+				OfficeQuestionVO vo2 = service.select_one_answer(vo.getComment_no());
+				if (vo2 != null) {
+					if (vo.getIs_secret() == null) {
+
+						vo.setAnswer_content(vo2.getComment_content());
+						vo.setAnswer_date(vo2.getComment_date());						
+						vo.setComment_state("Y");
+					}
+				} else {
+					vo.setComment_state("N");
+				}
+				
+				// 이름 마스킹
+				String originName = vo.getUser_name();
+				String firstName = originName.substring(0, 1);
+				String midName = originName.substring(1, originName.length()-1);
+				
+				String maskingMidName = "";
+				for (int i = 0; i < midName.length(); i++) {
+					maskingMidName += "*";
+				}
+				
+				String lastName = originName.substring(originName.length()-1, originName.length());
+				
+				String maskingName = firstName + maskingMidName + lastName;
+				
+				vo.setUser_name(maskingName);
+			}
+		}
+		
+		
+		// **************
+		// backoffice 후기
+		// **************
+		List<OfficeReviewVO> revos = service.select_all_review(backoffice_no);
+		
+		for (OfficeReviewVO vo : revos) {
+			
+			// 이름 마스킹
+			String originName = vo.getUser_name();
+			String firstName = originName.substring(0, 1);
+			String midName = originName.substring(1, originName.length()-1);
+			
+			String maskingMidName = "";
+			for (int i = 0; i < midName.length(); i++) {
+				maskingMidName += "*";
+			}
+			
+			String lastName = originName.substring(originName.length()-1, originName.length());
+			
+			String maskingName = firstName + maskingMidName + lastName;
+			
+			vo.setUser_name(maskingName);
+		}
+				
+		
+		// backoffice 기본 정보
 		model.addAttribute("page", "space_introduce_detail");
 		model.addAttribute("ovo", ovo);
 		model.addAttribute("short_roadname_address", short_roadname_address);
@@ -145,27 +196,24 @@ public class OfficeController {
 		model.addAttribute("img_list", img_list);
 		model.addAttribute("option_list", option_list);
 		model.addAttribute("around_option_list", around_option_list);
-		
+
 		model.addAttribute("introduce_menu", introduce_menu);
 
-//		// backoffice 운영 시간
+		// backoffice 운영 시간
 		model.addAttribute("otvo", otvo);
-		
-//		// backoffice 운영 공간
-		model.addAttribute("rvos", rvos);
-//		
-//		// backoffice 문의
-//		model.addAttribute("cvos", cvos);
-//		model.addAttribute("cvos_cnt", cvos.size());
-//		
-//		// backoffice 후기
-//		model.addAttribute("revos", revos);
-//		model.addAttribute("review_cnt", revos.size());
-//		
-//		
 
-		
-		
+		// backoffice 운영 공간
+		model.addAttribute("rvos", rvos);
+
+		// backoffice 문의
+		model.addAttribute("is_login", is_login);
+		model.addAttribute("cvos", cvos);
+		model.addAttribute("cvos_cnt", cvos.size());
+
+		// backoffice 후기
+		model.addAttribute("revos", revos);
+		model.addAttribute("review_cnt", revos.size());
+
 		model.addAttribute("content", "thymeleaf/html/office/space_detail/space_detail_introduce");
 		model.addAttribute("title", "대쉬보드 메인");
 
@@ -262,7 +310,7 @@ public class OfficeController {
 //		
 //		return ".space/space_detail_introduce_office";
 //	}
-	
+
 	// **********************
 	// 공간 예약 체크
 	// **********************
@@ -324,7 +372,7 @@ public class OfficeController {
 //		
 //		return ".payment_page";
 //	}
-	
+
 //	@ApiOperation(value="결제 컨트롤러", notes="예약 및 결제하는 페이지 결제 로직 컨트롤러")
 //	@PostMapping(value = "/office/reserve_paymentOK")
 //	@ResponseBody
@@ -348,68 +396,70 @@ public class OfficeController {
 //		return jsonObject;
 //	}
 
-	
-	@ApiOperation(value="문의 추가 컨트롤러", notes="문의 추가 로직 컨트롤러")
+	@ApiOperation(value = "문의 추가 컨트롤러", notes = "문의 추가 로직 컨트롤러")
 	@GetMapping(value = "/insert_question")
 	@ResponseBody
 	public String insert_question(Comment_EntityVO vo, Model model) {
 		int result = service.insert_question(vo);
-		
+
 		log.info("insert_question()..");
 		log.info("********** request :: {}", vo);
-		
+
 		Map<String, String> map = new HashMap<>();
-		 
-        // Map -> Json 문자열
-        Gson gson = new Gson();
+
+		// Map -> Json 문자열
+		Gson gson = new Gson();
 		if (result == 1) {
 			map.put("result", "1");
 		} else {
 			map.put("result", "0");
 		}
-		
+
 		String jsonStr = gson.toJson(map);
-		
+
 		return jsonStr;
 	}
-	
+
 	// 리스트 페이지
-	@ApiOperation(value="리스트 페이지 로드 컨트롤러", notes="타입에 따른 리스트 페이지를 로드하는 컨트롤러")
+	@ApiOperation(value = "리스트 페이지 로드 컨트롤러", notes = "타입에 따른 리스트 페이지를 로드하는 컨트롤러")
 	@GetMapping(value = "/list_page")
 	public String list_page(String type, String condition, Model model) {
 		log.info("list_page()...");
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+
 		List<ListViewVO> list = service.select_all_list(type, condition);
-		
-		if(list == null) map.put("cnt", 0);
-		else map.put("cnt", list.size());
-		
-		if(list != null) {
-			for(ListViewVO vo : list) {
-				DecimalFormat dc = new DecimalFormat("###,###,###,###");	
+
+		if (list == null)
+			map.put("cnt", 0);
+		else
+			map.put("cnt", list.size());
+
+		if (list != null) {
+			for (ListViewVO vo : list) {
+				DecimalFormat dc = new DecimalFormat("###,###,###,###");
 				String ch = dc.format(Integer.parseInt(vo.getMin_room_price()));
 				vo.setMin_room_price(ch);
-				vo.setAvg_rating(Double.toString((Math.round(Double.parseDouble(vo.getAvg_rating())*100)/100.0)));
-				
-				vo.setBackoffice_image("https://rence.s3.ap-northeast-2.amazonaws.com/space/" + vo.getBackoffice_image());
-				
-				if(vo.getRoadname_address().contains(" ")) {
-					String road_name = vo.getRoadname_address().split(" ")[0] + " " + vo.getRoadname_address().split(" ")[1];
+				vo.setAvg_rating(Double.toString((Math.round(Double.parseDouble(vo.getAvg_rating()) * 100) / 100.0)));
+
+				vo.setBackoffice_image(
+						"https://rence.s3.ap-northeast-2.amazonaws.com/space/" + vo.getBackoffice_image());
+
+				if (vo.getRoadname_address().contains(" ")) {
+					String road_name = vo.getRoadname_address().split(" ")[0] + " "
+							+ vo.getRoadname_address().split(" ")[1];
 					vo.setRoadname_address(road_name);
 				}
 			}
 		}
-		
+
 		map.put("condition", condition);
 		map.put("page", "list_page");
 		map.put("list", list);
 		model.addAttribute("res", map);
-		
-		
+
 		model.addAttribute("content", "thymeleaf/html/office/list");
-		
+
 		return "thymeleaf/layouts/office/layout_base";
 	}
 }
