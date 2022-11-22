@@ -257,7 +257,12 @@ public class DashboardService {
 	//정산 상태 변경
 	public int backoffice_updateOK_sales(String backoffice_no, String room_no, String payment_no) {
 		log.info("backoffice_updateOK_sales().....");
-		return b_repository.backoffice_updateOK_sales_state_t(backoffice_no,room_no,payment_no);
+		int flag = 0;
+		flag = s_repository.backoffice_updateOK_sales_state_t(backoffice_no,room_no,payment_no);
+		if (flag==1) {
+			s_repository.backoffice_updateOK_mileage_state_t(payment_no);
+		}
+		return flag;
 	}
 
 	// main - 예약 요약
