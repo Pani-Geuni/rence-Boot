@@ -145,7 +145,7 @@
 								<th:block th:each="cvo : ${cvos}">
 									<li class="quest-list">
 										<section>
-											<img src="/static/IMG/header/loopy.jpg" alt="write-user-img"
+											<img th:src="@{https://rence.s3.ap-northeast-2.amazonaws.com/user/}+${cvo.user_image}" alt="write-user-img"
 												class="write-user-img" />
 										</section>
 										<section class="quest-content-section">
@@ -175,7 +175,7 @@
 											</div>
 											<div class="answer_text_wrap">
 												<section>
-													<img src="/static/upload/img_host_001.jpg" alt="write-user-img"
+													<img src="https://rence.s3.ap-northeast-2.amazonaws.com/user/img_host_001.jpg" alt="write-user-img"
 														class="write-user-img" />
 												</section>
 												<section class="answer-content-section">

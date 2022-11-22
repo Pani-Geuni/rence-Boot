@@ -13,6 +13,7 @@ import com.rence.office.model.Comment_EntityVO;
 import com.rence.office.model.ListViewVO;
 import com.rence.office.model.OfficeInfoVO;
 import com.rence.office.model.OfficeOperatingTimeVO_date;
+import com.rence.office.model.OfficeQuestionVO;
 import com.rence.office.model.OfficeReviewVO;
 import com.rence.office.model.OfficeRoomVO;
 import com.rence.office.repo.OfficeDetailInfoRepository;
@@ -74,14 +75,14 @@ public class OfficeService {
 		return vos;
 	}
 	
-	public List<Comment_EntityVO> select_all_comment(String backoffice_no) {
-		List<Comment_EntityVO> vos = question_repository.select_all_comment(backoffice_no);
+	public List<OfficeQuestionVO> select_all_comment(String backoffice_no) {
+		List<OfficeQuestionVO> vos = question_repository.select_all_comment(backoffice_no);
 		
 		return vos;
 	}
 	
-	public Comment_EntityVO select_one_answer(String mother_no) {
-		Comment_EntityVO vo = question_repository.select_one_answer(mother_no);
+	public OfficeQuestionVO select_one_answer(String mother_no) {
+		OfficeQuestionVO vo = question_repository.select_one_answer(mother_no);
 		
 		return vo;
 	}
