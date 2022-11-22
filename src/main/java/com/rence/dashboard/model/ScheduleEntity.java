@@ -34,11 +34,11 @@ public class ScheduleEntity implements Serializable{
 	@Column(name="schedule_no")
 	private String schedule_no;
 	
-	@Column(name="not_sdate")
-	private Date not_sdate;
-	
-	@Column(name="not_edate")
-	private Date not_edate;
+//	@Column(name="not_sdate")
+//	private Date not_sdate;
+//	
+//	@Column(name="not_edate")
+//	private Date not_edate;
 	
 	@Column(name="not_stime")
 	private Date not_stime;

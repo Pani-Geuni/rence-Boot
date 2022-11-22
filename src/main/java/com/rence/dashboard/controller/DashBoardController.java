@@ -5,6 +5,7 @@
  */
 package com.rence.dashboard.controller;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -734,17 +735,19 @@ public class DashBoardController {
 	
 	/**
 	 * 일정 관리 - 날짜, 시간 선택 후, 휴무, 브레이크타임 설정
+	 * @throws ParseException 
 	 */
 	@ApiOperation(value="일정 관리 - 휴무, 브레이크타임 설정", notes="대쉬보드 - 일정 관리")
 	@PostMapping("/scheduleOK")
 	@ResponseBody
-	public String backoffice_scheduleOK(String backoffice_no, String not_sdate, String not_edate, String not_stime, String not_etime, String room_no, String off_type, Model model) {
-		log.info("backoffice_schedule_research controller()...");
+	public String backoffice_scheduleOK(String backoffice_no, String not_sdate, String not_edate, String not_stime, String not_etime, String room_no, String off_type, Model model) throws ParseException {
+		log.info("backoffice_scheduleOK controller()...");
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
+		// 브레이크 타임
 		if (off_type.equals("breaktime")) {
-			Date date = new Date();
+			Date date = new Date(); // 현재 날짜로 설정
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			not_sdate = (formatter.format(date));
 			not_edate = (formatter.format(date));
@@ -752,7 +755,13 @@ public class DashBoardController {
 		log.info("not_sdate : {} ",not_sdate);
 		log.info("not_edate : {} ",not_edate);
 		
-		int result = service.backoffice_schedueOK(backoffice_no,not_sdate,not_edate,not_stime,not_etime,room_no);
+//		디비에 이상한 날짜가 들어가는 것을 방지 응 실패~ 돌아가~
+		not_stime = not_sdate+not_stime;
+		not_etime = not_edate+not_etime;
+		log.info("not_stime : {} ",not_stime);
+		log.info("not_etime : {} ",not_etime);
+		
+		int result = service.backoffice_schedueOK(backoffice_no,not_stime,not_etime,room_no);
 		
 		if (result==1) {
 			log.info("successed...");
@@ -773,7 +782,7 @@ public class DashBoardController {
 	@ApiOperation(value="예약자 리스트", notes="대쉬보드 - 예약자 리스트")
 	@GetMapping("/reservation")
 	public String backoffice_reservation(String backoffice_no, String room_no, String not_sdate, String not_edate, String not_stime, String not_etime, String off_type, Model model) { 
-		log.info("backoffice_schedule controller()...");
+		log.info("backoffice_reservation controller()...");
 		
 		String reserve_stime = (not_sdate+not_stime);
 		log.info("reserve_stime : {} ",reserve_stime);

@@ -332,10 +332,9 @@ public class DashboardService {
 	}
 
 	// 일정 관리 - 일정(휴무, 브레이크 타임) 추가
-	public int backoffice_schedueOK(String backoffice_no, String not_sdate, String not_edate, String not_stime,
-			String not_etime, String room_no) {
+	public int backoffice_schedueOK(String backoffice_no, String not_stime, String not_etime, String room_no) {
 		log.info("backoffice_schedueOK().....");
-		return sc_repository.backoffice_schedueOK(backoffice_no,not_sdate,not_edate,not_stime,not_etime,room_no);
+		return sc_repository.backoffice_schedueOK(backoffice_no,not_stime,not_etime,room_no);
 	}
 
 

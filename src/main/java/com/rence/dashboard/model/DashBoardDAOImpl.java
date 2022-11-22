@@ -29,6 +29,7 @@ import com.rence.dashboard.repository.RoomSummaryRepository;
 import com.rence.dashboard.repository.SalesSettlementDetailRepository;
 import com.rence.dashboard.repository.SalesSettlementSummaryRepository;
 import com.rence.dashboard.repository.ScheduleListRepository;
+import com.rence.dashboard.repository.ScheduleRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -68,6 +69,9 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 	
 	@Autowired
 	ReservationRepository reservation_repository;
+	
+	@Autowired
+	ScheduleRepository schedule_repository; 
 
 	// 공간 관리 - 문의 리스트
 	@Override
@@ -439,37 +443,62 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		
 		ScheduleListView sc = new ScheduleListView();
 		
+		// 1, 2 날짜 형태 변환
 		String reserve_stime = null;
-		if (off_type.equals("dayoff")) {
+		String reserve_etime = null;
+		if (off_type.equals("dayoff")) { // 휴무일 때
+			log.info("휴무");
 			reserve_stime = (not_sdate+not_stime);
 			log.info("reserve_stime : {} ",reserve_stime);
-		}else {
+			reserve_etime = (not_edate+not_etime);
+			log.info("reserve_etime : {} ",reserve_etime);
+		}else { // 브레이크 타임일 때
+			log.info("브레이크타임");
 			Date date = new Date();
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-			reserve_stime = (formatter.format(date));
+			
+			not_sdate = (formatter.format(date));
+			log.info("not_sdate : {} ",not_sdate);
+			reserve_stime = (not_sdate+not_stime);
 			log.info("reserve_stime : {} ",reserve_stime);
+			
+			not_edate = (formatter.format(date));
+			log.info("not_edate : {} ",not_edate);
+			reserve_etime = (not_edate+not_etime);
+			log.info("reserve_etime : {} ",reserve_etime);
 		}
 		
-		String reserve_etime = (not_edate+not_etime);
-		log.info("reserve_etime : {} ",reserve_etime);
 		
-		// 해당 날짜, 시간에 예약이 있는 리스트
+		// 1.해당 날짜, 시간에 예약이 있는 리스트
 		List<ScheduleListView> sc_vos_o = sc_repository.backoffice_schedule_list(backoffice_no,reserve_stime,reserve_etime);
 		log.info("sc_vos_o : {} ",sc_vos_o.size());
-		// 백오피스가 가진 모든 공간 리스트
+		// 2.백오피스가 가진 모든 공간 리스트
 		List<ScheduleListView> sc_vos_x = sc_repository.backoffice_schedule_list_All(backoffice_no);
 		log.info("sc_vos_x : {} ",sc_vos_x.size());
+		// 3.휴무, 브레이크 타임이 설정된 공간 리스트 (단, 부분집합 관계 3 ⊂ 2)
+		not_stime = not_sdate+not_stime;
+		not_etime = not_edate+not_etime;
+		log.info("not_stime : {} ",not_stime);
+		log.info("not_etime : {} ",not_etime);
+		List<ScheduleEntity> off_list = schedule_repository.backoffice_schedule_list_exist_off(backoffice_no,not_stime,not_etime);
+		log.info("off_list : {} ",off_list);
+		log.info("off_list : {} ",off_list.size());
 		
+		// 2 - 1 (중복 제거)
 		for (int i = 0; i < sc_vos_x.size(); i++) {
 			for (int j = 0; j < sc_vos_o.size(); j++) {
 				if (sc_vos_x.get(i).getRoom_no().equals(sc_vos_o.get(j).getRoom_no())) {
-					ScheduleListView ss = sc_vos_x.remove(i);
-					log.info("remove:::::::::::{}",ss.getRoom_no());
+//					ScheduleListView ss = sc_vos_x.remove(i);
+//					log.info("remove:::::::::::{}",ss.getRoom_no());
+					sc_vos_x.remove(i);
 				}
 			}
 		}
 		log.info("sc_vos_x : {} ",sc_vos_x.size());
 		
+	
+		
+		// 공간 예약 상태 설정
 		for (ScheduleListView scvo : sc_vos_o) {
 			scvo.setReserve_is("O");
 		}
@@ -477,7 +506,6 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		for (ScheduleListView scvo : sc_vos_x) {
 			scvo.setReserve_is("X");
 			scvo.setReserve_cnt(0);
-			
 		}
 		
 		List<ScheduleListView> sc_vos = new ArrayList<ScheduleListView>();
@@ -485,27 +513,46 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		sc_vos.addAll(sc_vos_o);
 		sc_vos.addAll(sc_vos_x);
 		
+		
+		// (휴무, 브레이크 타임이 설정된 공간 제외)
+		for (int i = 0; i < sc_vos.size(); i++) {
+			for (int j = 0; j < off_list.size(); j++) {
+				if (sc_vos.get(i).getRoom_no().equals(off_list.get(j).getRoom_no())) {
+					sc_vos.remove(i);
+				}
+			}
+		}
+		log.info("sc_vos : {} ",sc_vos.size());
+		
 		return sc_vos;
 	}
 
-	// 일저 관리 - 예약자
+	// 일정 관리 - 예약자
 	@Override
 	public List<reservationView> backoffice_reservation(String backoffice_no, String not_sdate, String not_edate,
 			String not_stime, String not_etime, String room_no, String off_type) {
 		
 		String reserve_stime = null;
-		if (off_type.equals("dayoff")) {
+		String reserve_etime = null;
+		if (off_type.equals("dayoff")) { // 휴무일 때
 			reserve_stime = (not_sdate+not_stime);
 			log.info("reserve_stime : {} ",reserve_stime);
-		}else {
+			reserve_etime = (not_edate+not_etime);
+			log.info("reserve_etime : {} ",reserve_etime);
+		}else { // 브레이크 타임일 때
 			Date date = new Date();
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-			reserve_stime = (formatter.format(date));
+			
+			not_sdate = (formatter.format(date));
+			log.info("not_sdate : {} ",not_sdate);
+			reserve_stime = (not_sdate+not_stime);
 			log.info("reserve_stime : {} ",reserve_stime);
+			
+			not_edate = (formatter.format(date));
+			log.info("not_edate : {} ",not_edate);
+			reserve_etime = (not_edate+not_etime);
+			log.info("reserve_etime : {} ",reserve_etime);
 		}
-		
-		String reserve_etime = (not_edate+not_etime);
-		log.info("reserve_etime : {} ",reserve_etime);
 		
 		List<reservationView> rv_vos = reservation_repository.backoffice_reservation_list(backoffice_no,reserve_stime,reserve_etime,room_no);
 		
