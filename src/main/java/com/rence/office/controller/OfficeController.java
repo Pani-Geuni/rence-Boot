@@ -27,6 +27,7 @@ import com.rence.office.model.ListViewVO;
 import com.rence.office.model.OfficeInfoVO;
 import com.rence.office.model.OfficeOperatingTimeVO;
 import com.rence.office.model.OfficeOperatingTimeVO_date;
+import com.rence.office.model.OfficeReviewVO;
 import com.rence.office.model.OfficeRoomVO;
 import com.rence.office.service.OfficeService;
 
@@ -110,30 +111,30 @@ public class OfficeController {
 		for (OfficeRoomVO vo : rvos) {
 			vo.setRoom_type(info_map.changeType(vo.getRoom_type()));
 		}
-//		
-//		// **************
-//		// backoffice 문의
-//		// **************
-//		List<OfficeQuestionVO> cvos = service.select_all_comment(backoffice_no);
-//		
-//		if (cvos != null) {
-//			for (OfficeQuestionVO vo : cvos) {
-//				OfficeQuestionVO vo2 = service.select_one_answer(vo.getComment_no());
-//				if(vo2 != null) {
-//					vo.setAnswer_content(vo2.getAnswer_content());
-//					vo.setAnswer_date(vo2.getAnswer_date());
-//					vo.setState("Y");
-//				} else {
-//					vo.setState("N");
-//				}
-//			}
-//		}
+		
+		// **************
+		// backoffice 문의
+		// **************
+		List<Comment_EntityVO> cvos = service.select_all_comment(backoffice_no);
+		
+		if (cvos != null) {
+			for (Comment_EntityVO vo : cvos) {
+				Comment_EntityVO vo2 = service.select_one_answer(vo.getComment_no());
+				if(vo2 != null) {
+					vo.setComment_content(vo2.getComment_content());
+					vo.setComment_date(vo2.getComment_date());
+					vo.setComment_state("Y");
+				} else {
+					vo.setComment_state("N");
+				}
+			}
+		}
 //		
 //		
 //		// **************
 //		// backoffice 후기
 //		// **************
-//		List<OfficeReviewVO> revos = service.select_all_review(backoffice_no);
+		List<OfficeReviewVO> revos = service.select_all_review(backoffice_no);
 //				
 //		
 //		// backoffice 기본 정보
@@ -148,21 +149,21 @@ public class OfficeController {
 		
 		model.addAttribute("introduce_menu", introduce_menu);
 
-//		// backoffice 운영 시간
+		// backoffice 운영 시간
 		model.addAttribute("otvo", otvo);
 		
-//		// backoffice 운영 공간
+		// backoffice 운영 공간
 		model.addAttribute("rvos", rvos);
-//		
-//		// backoffice 문의
+		
+		// backoffice 문의
 //		model.addAttribute("cvos", cvos);
 //		model.addAttribute("cvos_cnt", cvos.size());
-//		
-//		// backoffice 후기
-//		model.addAttribute("revos", revos);
-//		model.addAttribute("review_cnt", revos.size());
-//		
-//		
+		
+		// backoffice 후기
+		model.addAttribute("revos", revos);
+		model.addAttribute("review_cnt", revos.size());
+		
+		
 
 		
 		
