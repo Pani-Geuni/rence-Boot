@@ -24,8 +24,13 @@ public interface DashBoardDAO {
 
 	public Object reserve_state_auto_update();
 
-	public List<ScheduleListView> backoffice_scheduke_list(String backoffice_no, String not_sdate, String not_edate,
-			String not_stime, String not_etime);
+	public List<ScheduleListView> backoffice_schedule_list(String backoffice_no, String not_sdate, String not_edate,
+			String not_stime, String not_etime,String off_type);
+
+	public List<ReservationView> backoffice_reservation(String backoffice_no, String not_sdate, String not_edate,
+			String not_stime, String not_etime, String room_no, String off_type);
+
+	public int backoffice_reservation_cancel(String backoffice_no, String room_no, String reserve_no, String user_no);
 
 
 }

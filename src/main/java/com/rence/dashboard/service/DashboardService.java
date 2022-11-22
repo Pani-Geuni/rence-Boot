@@ -5,17 +5,10 @@
  */
 package com.rence.dashboard.service;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.rence.backoffice.model.BackOfficeOperatingTimeVO_datetype;
 import com.rence.backoffice.model.BackOfficeVO;
@@ -26,8 +19,8 @@ import com.rence.dashboard.model.CommentListQView;
 import com.rence.dashboard.model.CommentSummaryView;
 import com.rence.dashboard.model.CommentVO;
 import com.rence.dashboard.model.DashBoardDAO;
-import com.rence.dashboard.model.ReserveSummaryView;
 import com.rence.dashboard.model.ReserveListView;
+import com.rence.dashboard.model.ReserveSummaryView;
 import com.rence.dashboard.model.ReviewListView;
 import com.rence.dashboard.model.RoomInsertVO;
 import com.rence.dashboard.model.RoomSummaryView;
@@ -36,18 +29,17 @@ import com.rence.dashboard.model.SalesSettlementDetailView;
 import com.rence.dashboard.model.SalesSettlementSummaryView;
 import com.rence.dashboard.model.SalesSettlementViewVO;
 import com.rence.dashboard.model.ScheduleListView;
+import com.rence.dashboard.model.ReservationView;
 import com.rence.dashboard.repository.CommentInsertRepository;
-import com.rence.dashboard.repository.CommentQListRepository;
 import com.rence.dashboard.repository.CommentRepository;
+import com.rence.dashboard.repository.CommentSummaryRepository;
 import com.rence.dashboard.repository.ReserveRepository;
 import com.rence.dashboard.repository.ReserveSummaryRepository;
 import com.rence.dashboard.repository.ReviewRepository;
+import com.rence.dashboard.repository.RoomInsertRepository;
 import com.rence.dashboard.repository.RoomRepository;
 import com.rence.dashboard.repository.SalesSettlementRepository;
-import com.rence.dashboard.repository.ScheduleListRepository;
-import com.rence.dashboard.repository.CommentSummaryRepository;
-import com.rence.user.model.UserVO;
-import com.rence.dashboard.repository.RoomInsertRepository;
+import com.rence.dashboard.repository.ScheduleRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -90,6 +82,9 @@ public class DashboardService {
 	
 	@Autowired
 	BackOfficeOperatingTimeRepository o_repository;
+	
+	@Autowired
+	ScheduleRepository sc_repository;
 	
 	
 	@Autowired
@@ -323,11 +318,37 @@ public class DashboardService {
 	}
 
 	// 일정 관리 - 리스트
-	public List<ScheduleListView> backoffice_scheduke_list(String backoffice_no, String not_sdate, String not_edate,
-			String not_stime, String not_etime) {
-		log.info("backoffice_scheduke_list().....");
-		return dao.backoffice_scheduke_list(backoffice_no,not_sdate,not_edate,not_stime,not_etime);
+	public List<ScheduleListView> backoffice_schedule_list(String backoffice_no, String not_sdate, String not_edate,
+			String not_stime, String not_etime, String off_type) {
+		log.info("backoffice_schedule_list().....");
+		return dao.backoffice_schedule_list(backoffice_no,not_sdate,not_edate,not_stime,not_etime,off_type);
 	}
+
+	// 일정 관리 - 예약자 리스트
+	public List<ReservationView> backoffice_reservation(String backoffice_no, String not_sdate, String not_edate,
+			String not_stime, String not_etime, String room_no, String off_type) {
+		log.info("backoffice_schedule_list().....");
+		return dao.backoffice_reservation(backoffice_no,not_sdate,not_edate,not_stime,not_etime,room_no,off_type);
+	}
+
+	// 일정 관리 - 일정(휴무, 브레이크 타임) 추가
+	public int backoffice_schedueOK(String backoffice_no, String not_stime, String not_etime, String room_no) {
+		log.info("backoffice_schedueOK().....");
+		return sc_repository.backoffice_schedueOK(backoffice_no,not_stime,not_etime,room_no);
+	}
+
+	// 일정 관리 - 예약 취소
+	public int backoffice_reservation_cancel(String backoffice_no, String room_no, String reserve_no, String user_no) {
+		log.info("backoffice_reservation_cancel().....");
+		return dao.backoffice_reservation_cancel(backoffice_no,room_no,reserve_no,user_no);
+	}
+
+	// 회사명 select
+	public BackOfficeVO backoffice_select_companyname(String backoffice_no) {
+		log.info("backoffice_reservation_cancel().....");
+		return b_repository.select_one_backoffice_info(backoffice_no);
+	}
+
 
 
 }

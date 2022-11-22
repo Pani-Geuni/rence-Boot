@@ -52,7 +52,7 @@ public class BackOfficeSendEmail {
 			// 전송
 			MimeMessage msg = javaMailSender.createMimeMessage();
 			msg.setSubject(evo.getSubject());
-			msg.setText("인증 코드 : " + vo.getAuth_code());
+			msg.setText("해당 코드를 인증번호 란에 기입 후, 인증확인을 마쳐주세요."+"<br><br>"+"<strong>인증 코드 : </strong>" + vo.getAuth_code());
 			msg.setRecipient(RecipientType.TO, new InternetAddress(vo.getUser_email()));
 
 			javaMailSender.send(msg);
