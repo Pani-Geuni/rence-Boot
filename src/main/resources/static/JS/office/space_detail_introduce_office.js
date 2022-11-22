@@ -12,9 +12,7 @@
       location.reload();
       $(this).attr("is_reload", false);
     }
-    // if($(".common-alert-txt").text() == "성공적으로 문의가 등록되었습니다."){
-    //   location.reload();
-    // }
+
   });
 
   /***** ************** *****/ 
@@ -181,11 +179,20 @@
     }
   });
 
-  /****** 문의 섹션 ******/
-  // layout script로 이동
-  // $("#question-create-btn").click(function(){
-  //   $("#question-popup").removeClass("blind");
-  // });
+
+  /***** ************* *****/ 
+  /***** QUESTION MENU *****/ 
+  /***** ************* *****/
+  $(".answer_toggle").click(function(){
+    var answer_li = $(this).parents(".quest-list").next(".answer-list");
+    if(answer_li.hasClass("blind")){
+      answer_li.removeClass("blind");
+      $(".answer_toggle").text("답변 닫기");
+    }else{
+      answer_li.addClass("blind");
+      $(".answer_toggle").text("답변 보기");
+    }
+  });
 
 
   /***** ************** *****/ 
@@ -258,7 +265,7 @@
       $("#toggle").prop("checked") ? is_secret = 'T' : is_secret = 'F';
 
       $.ajax({
-        url : "/rence/insert_question",
+        url : "/office/insert_question",
         type : "GET",
         dataType : 'json',
         data : {

@@ -213,7 +213,7 @@
 															</th:block>
 														</th:block>
 
-														<!-- 비밀 댓글이 아닐 때 때 -->
+														<!-- 비밀 댓글이 아닐 때 -->
 														<th:block th:if="${cvo.is_secret} != 'T'">
 															<span>[[${ cvo.user_name }]]</span>
 														</th:block>
@@ -244,8 +244,9 @@
 													<!-- 비밀 댓글일 때 -->
 													<th:block th:if="${cvo.is_secret} == 'T'">
 														<th:block th:if="${is_login} == ${cvo.user_id}">
-															<li class="quest-content-list quest-content">[[${
-																cvo.comment_content}]]</li>
+															<li class="quest-content-list quest-content">
+																[[${cvo.comment_content}]]
+															</li>
 														</th:block>
 														<th:block th:if="${is_login} != ${cvo.user_id}">
 															<li class="quest-content-list quest-content">비밀 문의입니다.</li>
@@ -253,8 +254,9 @@
 													</th:block>
 
 													<th:block th:if="${cvo.is_secret} != 'T'">
-														<li class="quest-content-list quest-content">[[${
-															cvo.comment_content}]]</li>
+														<li class="quest-content-list quest-content">
+															[[${cvo.comment_content}]]
+														</li>
 													</th:block>
 												</th:block>
 
@@ -282,7 +284,7 @@
 										</section>
 									</li>
 									<th:block th:if="${cvo.answer_date} != null">
-										<li class="answer-list">
+										<li class="answer-list blind">
 											<div class="answer_arrow_img">
 												<img src="/static/IMG/space-introduce/answer_arrow.svg">
 											</div>
