@@ -341,7 +341,7 @@ public class MypageController {
 		log.info("maxPage: " + maxPage);
 		
 		map.put("totalPageCnt", totalPageCnt);
-		map.put("nowpage", nowPage);
+		map.put("page", page);
 		map.put("maxPage", maxPage);
 		
 		//페이징처리를 위한 페이지 계산 로직끝
@@ -422,7 +422,7 @@ public class MypageController {
 				log.info("maxPage: " + maxPage);
 				
 				map.put("totalPageCnt", totalPageCnt);
-				map.put("nowpage", nowPage);
+				map.put("page", page);
 				map.put("maxPage", maxPage);
 				
 				//페이징처리를 위한 페이지 계산 로직끝
