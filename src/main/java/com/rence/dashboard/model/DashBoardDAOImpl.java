@@ -20,6 +20,7 @@ import org.springframework.stereotype.Repository;
 
 import com.rence.dashboard.repository.CommentAListRepository;
 import com.rence.dashboard.repository.CommentQListRepository;
+import com.rence.dashboard.repository.ReservationRepository;
 import com.rence.dashboard.repository.ReserveAutoUpdateRepository;
 import com.rence.dashboard.repository.ReserveRepository;
 import com.rence.dashboard.repository.ReviewRepository;
@@ -64,6 +65,9 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 	
 	@Autowired
 	ScheduleListRepository sc_repository;
+	
+	@Autowired
+	ReservationRepository reservation_repository;
 
 	// 공간 관리 - 문의 리스트
 	@Override
@@ -429,7 +433,7 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 	}
 
 	@Override
-	public List<ScheduleListView> backoffice_scheduke_list(String backoffice_no, String not_sdate, String not_edate,
+	public List<ScheduleListView> backoffice_schedule_list(String backoffice_no, String not_sdate, String not_edate,
 			String not_stime, String not_etime) {
 		
 		ScheduleListView sc = new ScheduleListView();
@@ -440,17 +444,15 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		String reserve_etime = (not_edate+not_etime);
 		log.info("reserve_etime : {} ",reserve_etime);
 		
-		List<ScheduleListView> sc_vos_o = sc_repository.backoffice_scheduke_list(backoffice_no,reserve_stime,reserve_etime);
-//		log.info("sc_vos_o : {} ",sc_vos_o);
+		// 해당 날짜, 시간에 예약이 있는 리스트
+		List<ScheduleListView> sc_vos_o = sc_repository.backoffice_schedule_list(backoffice_no,reserve_stime,reserve_etime);
 		log.info("sc_vos_o : {} ",sc_vos_o.size());
-		List<ScheduleListView> sc_vos_x = sc_repository.backoffice_scheduke_list_All(backoffice_no);
-//		log.info("sc_vos_x : {} ",sc_vos_x);
+		// 백오피스가 가진 모든 공간 리스트
+		List<ScheduleListView> sc_vos_x = sc_repository.backoffice_schedule_list_All(backoffice_no);
 		log.info("sc_vos_x : {} ",sc_vos_x.size());
 		
 		for (int i = 0; i < sc_vos_x.size(); i++) {
 			for (int j = 0; j < sc_vos_o.size(); j++) {
-//				log.info("All:{}",sc_vos_x.get(i).getRoom_no());
-//				log.info("reserve_o:{}",sc_vos_o.get(j).getRoom_no());
 				if (sc_vos_x.get(i).getRoom_no().equals(sc_vos_o.get(j).getRoom_no())) {
 					ScheduleListView ss = sc_vos_x.remove(i);
 					log.info("remove:::::::::::{}",ss.getRoom_no());
@@ -475,6 +477,22 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		sc_vos.addAll(sc_vos_x);
 		
 		return sc_vos;
+	}
+
+	// 예약자
+	@Override
+	public List<reservationView> backoffice_reservation(String backoffice_no, String not_sdate, String not_edate,
+			String not_stime, String not_etime, String room_no) {
+		
+		String reserve_stime = (not_sdate+not_stime);
+		log.info("reserve_stime : {} ",reserve_stime);
+		
+		String reserve_etime = (not_edate+not_etime);
+		log.info("reserve_etime : {} ",reserve_etime);
+		
+		List<reservationView> rv_vos = reservation_repository.backoffice_reservation_list(backoffice_no,reserve_stime,reserve_etime,room_no);
+		
+		return rv_vos;
 	}
 
 }

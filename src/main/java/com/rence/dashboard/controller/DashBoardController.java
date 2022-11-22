@@ -48,6 +48,7 @@ import com.rence.dashboard.model.SalesSettlementDetailView;
 import com.rence.dashboard.model.SalesSettlementSummaryView;
 import com.rence.dashboard.model.SalesSettlementViewVO;
 import com.rence.dashboard.model.ScheduleListView;
+import com.rence.dashboard.model.reservationView;
 import com.rence.dashboard.repository.ScheduleListRepository;
 import com.rence.dashboard.service.DashboardService;
 
@@ -692,11 +693,10 @@ public class DashBoardController {
 	
 	
 	/**
-	 * 일정 관리 
+	 * 일정 관리 페이지 
 	 */
 	@ApiOperation(value="일정 관리", notes="대쉬보드 - 일정 관리")
 	@GetMapping("/schedule")
-	@ResponseBody
 	public String backoffice_schedule(String backoffice_no, Model model) { // backoffice_no를 받아야 하나..?
 		log.info("backoffice_schedule controller()...");
 		
@@ -709,7 +709,7 @@ public class DashBoardController {
 	}
 	
 	/**
-	 * 일정 관리 
+	 * 일정 관리 날짜, 시간 선택 후
 	 */
 	@ApiOperation(value="일정 관리", notes="대쉬보드 - 일정 관리")
 	@GetMapping("/schedule_research")
@@ -719,7 +719,7 @@ public class DashBoardController {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		List<ScheduleListView> sche = service.backoffice_scheduke_list(backoffice_no,not_sdate,not_edate,not_stime,not_etime);
+		List<ScheduleListView> sche = service.backoffice_schedule_list(backoffice_no,not_sdate,not_edate,not_stime,not_etime);
 		log.info("result: {}.", sche);
 		log.info("cnt: {}.", sche.size());
 		
@@ -729,5 +729,26 @@ public class DashBoardController {
 		String json = gson.toJson(map);
 		
 		return json;
+	}
+	
+	/**
+	 * 일정 관리 - 해당 날짜, 시간에 예약자 리스트 
+	 */
+	@ApiOperation(value="예약자 리스트", notes="대쉬보드 - 예약자 리스트")
+	@GetMapping("/reservation")
+	public String backoffice_reservation(String backoffice_no, String room_no, String not_sdate, String not_edate, String not_stime, String not_etime, Model model) { 
+		log.info("backoffice_schedule controller()...");
+		
+		List<reservationView> rv_vos = service.backoffice_reservation(backoffice_no,not_sdate,not_edate,not_stime,not_etime,room_no);
+		log.info("result: {}.", rv_vos);
+		log.info("cnt: {}.", rv_vos.size());
+		
+		model.addAttribute("rv_vos",rv_vos);
+		model.addAttribute("cnt",rv_vos.size());
+		
+		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/schedule");
+		model.addAttribute("title", "일정 관리");
+
+		return "thymeleaf/layouts/backoffice/layout_dashboard";
 	}
 }

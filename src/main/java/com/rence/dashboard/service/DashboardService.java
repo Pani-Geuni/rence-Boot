@@ -21,6 +21,7 @@ import com.rence.backoffice.model.BackOfficeOperatingTimeVO_datetype;
 import com.rence.backoffice.model.BackOfficeVO;
 import com.rence.backoffice.repository.BackOfficeOperatingTimeRepository;
 import com.rence.backoffice.repository.BackOfficeRepository;
+import com.rence.dashboard.model.reservationView;
 import com.rence.dashboard.model.CommentInsertVO;
 import com.rence.dashboard.model.CommentListQView;
 import com.rence.dashboard.model.CommentSummaryView;
@@ -323,10 +324,17 @@ public class DashboardService {
 	}
 
 	// 일정 관리 - 리스트
-	public List<ScheduleListView> backoffice_scheduke_list(String backoffice_no, String not_sdate, String not_edate,
+	public List<ScheduleListView> backoffice_schedule_list(String backoffice_no, String not_sdate, String not_edate,
 			String not_stime, String not_etime) {
-		log.info("backoffice_scheduke_list().....");
-		return dao.backoffice_scheduke_list(backoffice_no,not_sdate,not_edate,not_stime,not_etime);
+		log.info("backoffice_schedule_list().....");
+		return dao.backoffice_schedule_list(backoffice_no,not_sdate,not_edate,not_stime,not_etime);
+	}
+
+	// 예약자 리스트
+	public List<reservationView> backoffice_reservation(String backoffice_no, String not_sdate, String not_edate,
+			String not_stime, String not_etime, String room_no) {
+		log.info("backoffice_schedule_list().....");
+		return dao.backoffice_reservation(backoffice_no,not_sdate,not_edate,not_stime,not_etime,room_no);
 	}
 
 
