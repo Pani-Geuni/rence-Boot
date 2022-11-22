@@ -65,12 +65,12 @@
            <section class="paging-section">
 				<div class="paging-wrap">
                     <span class="paging-box hide"><<</span>
-                    <th:block th:each="num : ${#numbers.sequence(1,res.maxPage)}">
-	                    <span thif="${num} == ${res.nowPage}" class="paging-box paging-num choice">[[${num}]]</span>
-	                    <span thif="${num} != ${res.nowPage}" class="paging-box paging-num un-choice sample">[[${num}]]</span>
+                    <th:block th:each="num : ${#numbers.sequence(1, res.maxPage)}">
+	                    <span th:if = "${num} == ${res.nowPage}" class="paging-box paging-num choice">[[${num}]]</span>
+	                    <span th:if = "${num} != ${res.nowPage}" class="paging-box paging-num un-choice">[[${num}]]</span>
                     </th:block>
-                    <span thif="${res.maxPage} > 5" class="paging-box">>></span>
-                    <input type="hidden" id="maxPage" th:value="${res.maxPage}">
+                    <span th:if="${res.maxPage} > 5" class="paging-box">>></span>
+                    <input type="hidden" id="totalPageCnt" th:value="${res.totalPageCnt}">
                 </div>
             </section>
         </section>
