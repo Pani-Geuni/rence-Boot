@@ -5,30 +5,22 @@
  */
 package com.rence.dashboard.service;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.rence.backoffice.model.BackOfficeOperatingTimeVO_datetype;
 import com.rence.backoffice.model.BackOfficeVO;
 import com.rence.backoffice.repository.BackOfficeOperatingTimeRepository;
 import com.rence.backoffice.repository.BackOfficeRepository;
-import com.rence.dashboard.model.reservationView;
 import com.rence.dashboard.model.CommentInsertVO;
 import com.rence.dashboard.model.CommentListQView;
 import com.rence.dashboard.model.CommentSummaryView;
 import com.rence.dashboard.model.CommentVO;
 import com.rence.dashboard.model.DashBoardDAO;
-import com.rence.dashboard.model.ReserveSummaryView;
 import com.rence.dashboard.model.ReserveListView;
+import com.rence.dashboard.model.ReserveSummaryView;
 import com.rence.dashboard.model.ReviewListView;
 import com.rence.dashboard.model.RoomInsertVO;
 import com.rence.dashboard.model.RoomSummaryView;
@@ -37,18 +29,17 @@ import com.rence.dashboard.model.SalesSettlementDetailView;
 import com.rence.dashboard.model.SalesSettlementSummaryView;
 import com.rence.dashboard.model.SalesSettlementViewVO;
 import com.rence.dashboard.model.ScheduleListView;
+import com.rence.dashboard.model.reservationView;
 import com.rence.dashboard.repository.CommentInsertRepository;
-import com.rence.dashboard.repository.CommentQListRepository;
 import com.rence.dashboard.repository.CommentRepository;
+import com.rence.dashboard.repository.CommentSummaryRepository;
 import com.rence.dashboard.repository.ReserveRepository;
 import com.rence.dashboard.repository.ReserveSummaryRepository;
 import com.rence.dashboard.repository.ReviewRepository;
+import com.rence.dashboard.repository.RoomInsertRepository;
 import com.rence.dashboard.repository.RoomRepository;
 import com.rence.dashboard.repository.SalesSettlementRepository;
-import com.rence.dashboard.repository.ScheduleListRepository;
-import com.rence.dashboard.repository.CommentSummaryRepository;
-import com.rence.user.model.UserVO;
-import com.rence.dashboard.repository.RoomInsertRepository;
+import com.rence.dashboard.repository.ScheduleRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -91,6 +82,9 @@ public class DashboardService {
 	
 	@Autowired
 	BackOfficeOperatingTimeRepository o_repository;
+	
+	@Autowired
+	ScheduleRepository sc_repository;
 	
 	
 	@Autowired
@@ -330,11 +324,18 @@ public class DashboardService {
 		return dao.backoffice_schedule_list(backoffice_no,not_sdate,not_edate,not_stime,not_etime);
 	}
 
-	// 예약자 리스트
+	// 일정 관리 - 예약자 리스트
 	public List<reservationView> backoffice_reservation(String backoffice_no, String not_sdate, String not_edate,
 			String not_stime, String not_etime, String room_no) {
 		log.info("backoffice_schedule_list().....");
 		return dao.backoffice_reservation(backoffice_no,not_sdate,not_edate,not_stime,not_etime,room_no);
+	}
+
+	// 일정 관리 - 일정(휴무, 브레이크 타임) 추가
+	public int backoffice_schedueOK(String backoffice_no, String not_sdate, String not_edate, String not_stime,
+			String not_etime, String room_no) {
+		log.info("backoffice_schedueOK().....");
+		return sc_repository.backoffice_schedueOK(backoffice_no,not_sdate,not_edate,not_stime,not_etime,room_no);
 	}
 
 

@@ -709,7 +709,7 @@ public class DashBoardController {
 	}
 	
 	/**
-	 * 일정 관리 날짜, 시간 선택 후
+	 * 일정 관리 - 날짜, 시간 선택 후
 	 */
 	@ApiOperation(value="일정 관리", notes="대쉬보드 - 일정 관리")
 	@GetMapping("/schedule_research")
@@ -732,6 +732,32 @@ public class DashBoardController {
 	}
 	
 	/**
+	 * 일정 관리 - 날짜, 시간 선택 후, 휴무, 브레이크타임 설정
+	 */
+	@ApiOperation(value="일정 관리 - 휴무, 브레이크타임 설정", notes="대쉬보드 - 일정 관리")
+	@PostMapping("/scheduleOK")
+	@ResponseBody
+	public String backoffice_scheduleOK(String backoffice_no, String not_sdate, String not_edate, String not_stime, String not_etime, String room_no, Model model) {
+		log.info("backoffice_schedule_research controller()...");
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		int result = service.backoffice_schedueOK(backoffice_no,not_sdate,not_edate,not_stime,not_etime,room_no);
+		
+		if (result==1) {
+			log.info("successed...");
+			map.put("result", "1");
+		}else {
+			log.info("falied...");
+			map.put("result", "0");
+		}
+		
+		String json = gson.toJson(map);
+		
+		return json;
+	}
+	
+	/**
 	 * 일정 관리 - 해당 날짜, 시간에 예약자 리스트 
 	 */
 	@ApiOperation(value="예약자 리스트", notes="대쉬보드 - 예약자 리스트")
@@ -739,10 +765,18 @@ public class DashBoardController {
 	public String backoffice_reservation(String backoffice_no, String room_no, String not_sdate, String not_edate, String not_stime, String not_etime, Model model) { 
 		log.info("backoffice_schedule controller()...");
 		
+		String reserve_stime = (not_sdate+not_stime);
+		log.info("reserve_stime : {} ",reserve_stime);
+		
+		String reserve_etime = (not_edate+not_etime);
+		log.info("reserve_etime : {} ",reserve_etime);
+		
 		List<reservationView> rv_vos = service.backoffice_reservation(backoffice_no,not_sdate,not_edate,not_stime,not_etime,room_no);
 		log.info("result: {}.", rv_vos);
 		log.info("cnt: {}.", rv_vos.size());
 		
+		model.addAttribute("reserve_stime",reserve_stime);
+		model.addAttribute("reserve_etime",reserve_etime);
 		model.addAttribute("rv_vos",rv_vos);
 		model.addAttribute("cnt",rv_vos.size());
 		
