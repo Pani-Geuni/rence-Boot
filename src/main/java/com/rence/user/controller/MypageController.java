@@ -85,8 +85,8 @@ public class MypageController {
 		// 마일리지 콤마단위로 변환
 		DecimalFormat dc = new DecimalFormat("###,###,###,###,###");
 		umvo.setMileage_total(dc.format(Integer.parseInt(umvo.getMileage_total())));
-		
-		umvo.setUser_image("https://rence.s3.ap-northeast-2.amazonaws.com/user/"+umvo.getUser_image());
+
+		umvo.setUser_image("https://rence.s3.ap-northeast-2.amazonaws.com/user/" + umvo.getUser_image());
 
 		model.addAttribute("umvo", umvo);
 
@@ -95,7 +95,6 @@ public class MypageController {
 
 		return "thymeleaf/layouts/office/layout_myPage";
 	}
-
 
 	/**
 	 * 마이페이지 - 비밀번호 수정
@@ -156,10 +155,9 @@ public class MypageController {
 	}
 
 	/**
-	 * 마이페이지 -프로필 수정
-	 * AWS적용
+	 * 마이페이지 -프로필 수정 AWS적용
 	 * 
-	 *  @throws ParseException
+	 * @throws ParseException
 	 */
 
 	@ApiOperation(value = "프로필 수정", notes = "프로필 수정 입니다.")
@@ -235,23 +233,44 @@ public class MypageController {
 	@ApiOperation(value = "예약리스트", notes = "예약리스트 페이지입니다.")
 	@GetMapping("/reserve_list")
 
-	public String reserve_list(String time_point, String user_no, Model model, @RequestParam(value = "page", defaultValue = "1") Integer page) {
+	public String reserve_list(String time_point, String user_no, Model model,
+			@RequestParam(value = "page", defaultValue = "1") Integer page) {
 		Map<String, Object> map = new HashMap<String, Object>();
 
+		log.info("reserve_list");
 		List<MyPageReserveListVO> list = null;
+		log.info("current page: {}", page);
+
+		long total_rowCount_reserve_now;
+//		= service.total_rowCount_reserve();
+		long totalPageCnt;
+		long maxPage;
+		long nowPage = page;
+
+
+
 		if (time_point.equals("now")) {
+			total_rowCount_reserve_now = service.total_rowCount_reserve_now();
+			log.info("total_rowCount_reserve_now: {}", total_rowCount_reserve_now);
+
+			totalPageCnt = (long) Math.ceil(total_rowCount_reserve_now / 8.0);
+			log.info("totalPageCnt: {}", totalPageCnt);
+
+			maxPage = ((nowPage / 5) + 1) * 5;
+
 			list = service.select_all_now_reserve_list(user_no);
 			map.put("type", "now");
+			map.put("totalPageCnt", totalPageCnt);
+
+			map.put("nowpage", nowPage);
 		} else if (time_point.equals("before")) {
 			list = service.select_all_before_reserve_list(user_no);
 			map.put("type", "before");
 		}
-
 		if (list == null)
 			map.put("cnt", 0);
 		else
 			map.put("cnt", list.size());
-
 		map.put("list", list);
 		map.put("page", "reserve-list");
 
@@ -271,21 +290,64 @@ public class MypageController {
 	 */
 	@ApiOperation(value = "마일리지 리스트", notes = "마일리지 리스트 페이지입니다.")
 	@GetMapping("/mileage")
-	public String go_mileage(UserVO uvo, Model model, HttpServletRequest request) {
+	public String go_mileage(UserVO uvo, Model model, HttpServletRequest request,
+			@RequestParam(value = "page", defaultValue = "1") Integer page) {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		
 		log.info("go_mileage()...");
 		log.info("UserVO(사용자 고유번호): {}", uvo);
+
+		log.info("current page: {}", page);
 
 		// 총 마일리지 부분
 		UserMileageVO umvo = service.totalMileage_selectOne(uvo);
 		log.info("umvo: {}", umvo);
-
+		
 		// 마일리지 콤마단위로 변환
 		DecimalFormat dc = new DecimalFormat("###,###,###,###,###");
-
 		String mileage_total = dc.format(umvo.getMileage_total());
 		log.info("mileage_total: " + mileage_total);
+		
+		//페이징 처리 로직
+		// 리스트 수
+		long total_rowCount_mileage_all = service.total_rowCount_mileage_all(uvo);
+		log.info("total_rowCount_reserve_now: {}", total_rowCount_mileage_all);
 
-		List<UserMileageVO> vos = service.user_mileage_selectAll(uvo);
+		// 총 페이징되는 수
+		long totalPageCnt = (long) Math.ceil(total_rowCount_mileage_all / 8.0);
+		log.info("totalPageCnt: {}", totalPageCnt);
+
+		// 현재페이지
+		long nowPage = page;
+
+		// 5page씩 끊으면 끝 페이지 번호( ex, 총 9페이지이고, 현재페이지가 6이면 maxpage = 9)
+		long maxPage = 0;
+
+		if (nowPage % 5 != 0) {
+			if (nowPage == totalPageCnt) {
+				maxPage = nowPage;
+			} else if (((nowPage / 5) + 1) * 5 >= totalPageCnt) {
+				maxPage = totalPageCnt;
+			} else if (((nowPage / 5) + 1) * 5 < totalPageCnt) {
+				maxPage = ((nowPage / 5) + 1) * 5;
+			}
+		} else if (nowPage % 5 == 0) {
+			if (nowPage <= totalPageCnt) {
+				maxPage = nowPage;
+			}
+		}
+		log.info("maxPage: " + maxPage);
+		
+		map.put("totalPageCnt", totalPageCnt);
+		map.put("page", page);
+		map.put("maxPage", maxPage);
+		
+		//페이징처리를 위한 페이지 계산 로직끝
+	
+		
+		List<UserMileageVO> vos = service.user_mileage_selectAll_paging(uvo,page);
 		log.info("vos: " + vos);
 
 		for (int i = 0; i < vos.size(); i++) {
@@ -294,7 +356,7 @@ public class MypageController {
 		}
 		log.info("Type change vos: {}" + vos);
 
-		Map<String, Object> map = new HashMap<String, Object>();
+		
 
 		map.put("list", vos);
 		map.put("page", "mileage");
@@ -311,8 +373,10 @@ public class MypageController {
 
 	@ApiOperation(value = "마일리지 조건리스트", notes = "마일리지 조건리스트 페이지입니다.")
 	@GetMapping("/mileage_search_list")
-	public String go_mileage_search_list(UserVO uvo, Model model, HttpServletRequest request, String searchKey) {
+	public String go_mileage_search_list(UserVO uvo, Model model, HttpServletRequest request, String searchKey,
+			@RequestParam(value = "page", defaultValue = "1") Integer page) {
 
+		Map<String, Object> map = new HashMap<String, Object>();
 		log.info("mileage_search_list()...");
 
 		log.info("검색 키워드: " + searchKey);
@@ -324,11 +388,46 @@ public class MypageController {
 
 //		마일리지 콤마단위로 변환
 		DecimalFormat dc = new DecimalFormat("###,###,###,###,###");
-
 		String mileage_total = dc.format(umvo.getMileage_total());
 		log.info("mileage_total: " + mileage_total);
+		
+		//페이징 처리 로직
+				// 리스트 수
+				long total_rowCount_mileage_all = service.total_rowCount_mileage_searchKey(uvo,searchKey);
+				log.info("total_rowCount_reserve_now: {}", total_rowCount_mileage_all);
 
-		List<UserMileageVO> vos = service.user_mileage_search_list(uvo, searchKey);
+				// 총 페이징되는 수
+				long totalPageCnt = (long) Math.ceil(total_rowCount_mileage_all / 8.0);
+				log.info("totalPageCnt: {}", totalPageCnt);
+
+				// 현재페이지
+				long nowPage = page;
+
+				// 5page씩 끊으면 끝 페이지 번호( ex, 총 9페이지이고, 현재페이지가 6이면 maxpage = 9)
+				long maxPage = 0;
+
+				if (nowPage % 5 != 0) {
+					if (nowPage == totalPageCnt) {
+						maxPage = nowPage;
+					} else if (((nowPage / 5) + 1) * 5 >= totalPageCnt) {
+						maxPage = totalPageCnt;
+					} else if (((nowPage / 5) + 1) * 5 < totalPageCnt) {
+						maxPage = ((nowPage / 5) + 1) * 5;
+					}
+				} else if (nowPage % 5 == 0) {
+					if (nowPage <= totalPageCnt) {
+						maxPage = nowPage;
+					}
+				}
+				log.info("maxPage: " + maxPage);
+				
+				map.put("totalPageCnt", totalPageCnt);
+				map.put("page", page);
+				map.put("maxPage", maxPage);
+				
+				//페이징처리를 위한 페이지 계산 로직끝
+
+		List<UserMileageVO> vos = service.user_mileage_search_list_paging(uvo, searchKey, page);
 		log.info("vos: " + vos);
 
 		for (int i = 0; i < vos.size(); i++) {
@@ -337,7 +436,6 @@ public class MypageController {
 		}
 		log.info("Type change vos: {}" + vos);
 
-		Map<String, Object> map = new HashMap<String, Object>();
 
 		map.put("list", vos);
 		map.put("page", "mileage");
@@ -390,8 +488,6 @@ public class MypageController {
 	 * 마이페이지 - 문의 리스트 - 문의삭제
 	 */
 
-
-
 	/**
 	 * 후기 리스트 이동
 	 */
@@ -400,9 +496,8 @@ public class MypageController {
 //	@RequestMapping(value = "/review_list", method = RequestMethod.GET)
 	public String review_list(String user_no, Model model) {
 		log.info("review_list()...");
-		
+
 		log.info("user_no: " + user_no);
-		
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<UserReviewVO> list = service.select_all_review(user_no);
