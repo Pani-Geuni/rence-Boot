@@ -54,8 +54,7 @@
 					<!-- START LIST BOX -->
 			          <div class="list-box" th:attr="idx=${obj.backoffice_no}">
 			              <section>
-			                  <!-- <img src="${obj.backoffice_image}" alt="default-space-img" class="list-thumbnail" /> -->
-			                  <img src="/static/IMG/office/location-icon.svg" alt="default-space-img" class="list-thumbnail" />
+			                  <img th:src="${obj.backoffice_image}" alt="default-space-img" class="list-thumbnail" />
 			              </section>
 			              <section class="list-box-info">
 			                  <ul>

@@ -44,22 +44,7 @@ public class MultipleSecurityConfiguration {
                                   // 조절할 수 있습니다.
     }
     
-//    @Bean
-//	public FilterRegistrationBean authorityChangeFilter() {
-//		FilterRegistrationBean filter = new FilterRegistrationBean();
-//		filter.setFilter(getAuthorityChangeFilter());
-//
-//		filter.setEnabled(false);  // disabled
-//
-//		return filter;
-//	}
-//
-//	@Bean
-//	public AuthorityChangeFilter getAuthorityChangeFilter() {
-//		return new AuthorityChangeFilter();
-//	}
-    
-	   @Order(0)
+	   @Order(1)
 	   @Configuration
 	   @RequiredArgsConstructor
 	   public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -118,7 +103,7 @@ public class MultipleSecurityConfiguration {
 
 	   }
 	   
-	   @Order(1)
+	   @Order(0)
 	   @Configuration
 	   @RequiredArgsConstructor
 	   public class MasterSecurityConfig extends WebSecurityConfigurerAdapter {

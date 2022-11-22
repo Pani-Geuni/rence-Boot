@@ -1,0 +1,300 @@
+@font-face {
+  font-family: 'OTWelcome';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2110@1.0/OTWelcomeRA.woff2')
+    format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'MICEGothic';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-01@1.0/MICEGothic Bold.woff2')
+    format('woff2');
+  font-style: normal;
+}
+@font-face {
+  font-family: 'MonoplexKR';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_Monoplex-kr@1.0/MonoplexKR-Regular.woff2')
+    format('woff2');
+  font-style: normal;
+}
+
+.space-detail-introduce-section {
+  display: flex;
+
+  flex-direction: column;
+
+  width: 100%;
+  height: auto;
+
+  align-items: center;
+}
+
+.space-detail-introduce-wrap {
+  display: flex;
+  flex-direction: column;
+
+  width: 80%;
+}
+
+/* ************************** */
+/* space-detail-title-section */
+/* ************************** */
+.space-detail-title-section {
+  width: 100%;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+
+  margin-bottom: 16px;
+}
+
+.space-detail-company-name {
+  font-family: 'OTWelcome';
+  font-size: 29px;
+  margin-right: 10px;
+  max-width: 900px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.space-detail-type {
+  width: auto;
+  background-color: #b2a4ff;
+
+  font-family: 'OTWelcome';
+  font-size: 10.9px;
+  color: white;
+
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+
+  border-radius: 16px;
+}
+
+/* ************************* */
+/* space-detail-info-section */
+/* ************************* */
+.space-detail-info-section {
+  display: flex;
+  align-items: center;
+
+  margin-bottom: 9px;
+}
+
+.space-tags {
+  display: flex;
+  align-items: center;
+}
+.tag-txt {
+  font-family: 'OTWelcome';
+  margin-right: 6px;
+  color: #808080;
+}
+
+/* ****************** */
+/* spage-imgs-section */
+/* ****************** */
+.space-imgs-section{
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+
+    margin-bottom: 35px;
+}
+
+.window{
+    width: 100%;
+    height: 305px;
+    position: relative;
+    overflow: hidden;
+}
+
+.container{
+    width: calc(960px * 10);
+    transition: transform 1s;
+
+    display: flex;
+    overflow: hidden;
+    flex-wrap: wrap;
+}
+.img{
+    width: 960px;
+}
+.company-img{
+    width: 960px;
+    height: 300px;
+    object-fit: contain;
+}
+
+.button-container{
+    position: absolute;
+    
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: 15px;
+    padding-right: 15px;
+    top:140px;
+
+    display: flex;
+    justify-content: space-between;
+}
+.button-size{
+    font-size: 21px;
+    color: #808080;
+    font-family: 'MICEGothic';
+    cursor: pointer;
+}
+
+
+
+/* ************************* */
+/* space-description-section */
+/* ************************* */
+
+.space-description-section {
+  width: 100%;
+  padding-top: 20px;
+}
+
+.space-description-title {
+  font-family: 'OTWelcome';
+
+  margin-top: 0;
+}
+
+.space-description {
+  font-family: 'HallymGothic';
+  font-weight: 500;
+  font-size: 15.5px;
+
+  padding-bottom: 20px;
+
+  border-bottom: 1px solid #e4e4e4;
+}
+
+/* ********************* */
+/* space-options-section */
+/* ********************* */
+.space-options-section {
+  display: flex;
+  justify-content: space-between;
+
+  border-bottom: 1px solid #e4e4e4;
+}
+
+.space-option-wrap {
+  width: 100%;
+}
+
+.space-option-title {
+  font-family: 'OTWelcome';
+
+  font-size: 18px;
+  font-weight: 700;
+  margin: 20px 0;
+}
+
+.option-list-wrap {
+  list-style: none;
+  padding: 0;
+
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.option-list-wrap * {
+  font-family: 'HallymGothic';
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.option-list {
+  width: 49%;
+  margin-bottom: 15px;
+}
+
+/* ***************** */
+/* host-info-section */
+/* ***************** */
+.host-info-section * {
+  font-family: 'HallymGothic';
+  font-size: 16px;
+
+  margin: 0;
+}
+
+.host-info-section {
+  width: 100%;
+}
+
+.host-info-wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.host-info-item {
+  display: flex;
+  width: 50%;
+  padding: 20px 0;
+}
+
+.host-info-item-title {
+  width: 30%;
+}
+
+.host-info-item:last-child {
+  display: flex;
+}
+
+.host-info-item-title-location {
+  width: 30%;
+}
+
+.host-info-item-content-location {
+  width: 70%;
+}
+
+/* ******************** */
+/* button-group-section */
+/* ******************** */
+
+.button-group-section {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+  margin: 20px 0;
+}
+
+.btn-item {
+  width: 120px;
+  height: 40px;
+
+  border: none;
+  border-radius: 8px;
+
+  color: white;
+
+  font-size: 16px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+#btn-accept {
+  background-color: #b2a4ff;
+}
+
+#btn-refuse,
+#btn-delete {
+  background-color: #ff5c71;
+}
+
+.btn-item:not(:last-child) {
+  margin-right: 8px;
+}

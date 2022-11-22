@@ -24,5 +24,8 @@ public interface DashBoardDAO {
 
 	public Object reserve_state_auto_update();
 
+	public List<ScheduleListView> backoffice_scheduke_list(String backoffice_no, String not_sdate, String not_edate,
+			String not_stime, String not_etime);
+
 
 }

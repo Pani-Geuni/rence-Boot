@@ -35,6 +35,7 @@ import com.rence.dashboard.model.RoomVO;
 import com.rence.dashboard.model.SalesSettlementDetailView;
 import com.rence.dashboard.model.SalesSettlementSummaryView;
 import com.rence.dashboard.model.SalesSettlementViewVO;
+import com.rence.dashboard.model.ScheduleListView;
 import com.rence.dashboard.repository.CommentInsertRepository;
 import com.rence.dashboard.repository.CommentQListRepository;
 import com.rence.dashboard.repository.CommentRepository;
@@ -43,6 +44,7 @@ import com.rence.dashboard.repository.ReserveSummaryRepository;
 import com.rence.dashboard.repository.ReviewRepository;
 import com.rence.dashboard.repository.RoomRepository;
 import com.rence.dashboard.repository.SalesSettlementRepository;
+import com.rence.dashboard.repository.ScheduleListRepository;
 import com.rence.dashboard.repository.CommentSummaryRepository;
 import com.rence.user.model.UserVO;
 import com.rence.dashboard.repository.RoomInsertRepository;
@@ -89,50 +91,10 @@ public class DashboardService {
 	@Autowired
 	BackOfficeOperatingTimeRepository o_repository;
 	
+	
 	@Autowired
 	DashBoardDAO dao;
 
-	// Entity Manager
-//	EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("persistence");
-
-	// 데시보드 메인 - 예약 요약
-//	public List<ReserveSummaryVO> reserve_summary_selectAll(String backoffice_no) {
-//		log.info("reserve_summary_selectAll().....");
-//
-//		String sql = "select reserve_no, TO_CHAR(reserve_sdate, 'YYYY-MM-DD HH24:MI:SS') as reserve_sdate , TO_CHAR(reserve_edate, 'YYYY-MM-DD HH24:MI:SS') as reserve_edate, room_name, user_name, actual_payment, reserve_state, backoffice_no  \r\n"
-//				+ "		from (\r\n"
-//				+ "			select ROW_NUMBER() OVER(PARTITION BY r.reserve_no ORDER BY r.reserve_no ASC ) no, r.reserve_no, r.reserve_sdate, r.reserve_edate, rm.room_name, u.user_name, p.actual_payment, r.reserve_state, r.backoffice_no \r\n"
-//				+ "			from reserveinfo r left outer join userinfo u on r.user_no=u.user_no \r\n"
-//				+ "			left outer join paymentinfo p on u.user_no=p.user_no \r\n"
-//				+ "			left outer join backofficeinfo b on p.backoffice_no = b.backoffice_no \r\n"
-//				+ "			left outer join roominfo rm on b.backoffice_no = rm.backoffice_no\r\n"
-//				+ "			where r.backoffice_no=?1 AND r.reserve_state!='false')A\r\n"
-//				+ "		where A.no=1 and ROWNUM <= 6\r\n" + "		order by reserve_sdate desc";
-//
-//		EntityManager entityManager = entityManagerFactory.createEntityManager();
-//
-//		entityManager.createNativeQuery(sql).setParameter(1, backoffice_no);
-//
-//		List<ReserveSummaryVO> vos = null;
-//
-//		try {
-//
-//			TypedQuery<ReserveSummaryVO> query = entityManager.createQuery(sql, ReserveSummaryVO.class);
-//			vos = query.getResultList();
-//
-//		} catch (Exception e) {
-//			log.info("{}", e);
-//			vos = new ArrayList<ReserveSummaryVO>();
-//		} finally {
-//			entityManager.close();
-//		}
-//
-////		return new ArrayList<ReserveSummaryVO>();
-//		log.info("---------------vos : {}",vos);
-//		return vos;
-//
-////		return rv_repository.selectAll_reserve_summary(backoffice_no);
-//	}
 
 	// 공간 관리 - 리스트
 	public List<RoomVO> dashboard_room_list(String backoffice_no) {
@@ -150,13 +112,13 @@ public class DashboardService {
 	public int backoffice_insertOK_room(String backoffice_no, RoomInsertVO rvo) {
 		log.info("backoffice_insertOK_room().....");
 		log.info(backoffice_no);
-		if (rvo.getRoom_type()=="desk") {
+		if (rvo.getRoom_type().equals("desk")) {
 			rvo.setRoom_price(10000);
-		}else if(rvo.getRoom_type()=="meeting_04"){
+		}else if(rvo.getRoom_type().equals("meeting_04")){
 			rvo.setRoom_price(20000);
-		}else if(rvo.getRoom_type()=="meeting_06"){
+		}else if(rvo.getRoom_type().equals("meeting_06")){
 			rvo.setRoom_price(30000);
-		}else if(rvo.getRoom_type()=="meeting_10"){
+		}else if(rvo.getRoom_type().equals("meeting_10")){
 			rvo.setRoom_price(50000);
 		}
 		rvo.setBackoffice_no(backoffice_no);
@@ -358,6 +320,13 @@ public class DashboardService {
 		log.info("backoffice_updateOK_opt().....");
 		return o_repository.backoffice_updateOK_opt(ovo2,ovo2.getMon_stime(), ovo2.getMon_etime(), ovo2.getTue_stime(), ovo2.getTue_etime(), ovo2.getWed_stime(), ovo2.getWed_etime(), 
 				ovo2.getThu_stime(), ovo2.getThu_etime(), ovo2.getFri_stime(), ovo2.getFri_etime(), ovo2.getSat_stime(), ovo2.getSat_etime(), ovo2.getSun_stime(), ovo2.getSun_etime());
+	}
+
+	// 일정 관리 - 리스트
+	public List<ScheduleListView> backoffice_scheduke_list(String backoffice_no, String not_sdate, String not_edate,
+			String not_stime, String not_etime) {
+		log.info("backoffice_scheduke_list().....");
+		return dao.backoffice_scheduke_list(backoffice_no,not_sdate,not_edate,not_stime,not_etime);
 	}
 
 

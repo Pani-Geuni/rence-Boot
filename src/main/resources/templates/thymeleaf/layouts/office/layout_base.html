@@ -5,92 +5,182 @@
 <!-- 공간 리스트 페이지 // 공간 소개 페이지 - 데스크,회의룸/오피스 -->
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>RENCE</title>
-	
-	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+	<title>RENCE</title>
+
+	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon" />
 
 	<script src="/static/JS/common/jquery-3.6.1.min.js"></script>
-    <script src="/static/JS/common/jquery.cookie.js"></script>
-    
-    <script src="/static/JS/common/core.min.js"></script>
-    <script src="/static/JS/common/sha256.min.js"></script>
-    
-    <script src="/static/JS/office/header.js"></script>
-    <script src="/static/JS/office/user_popup.js"></script>
+	<script src="/static/JS/common/jquery.cookie.js"></script>
+
+	<script src="/static/JS/common/core.min.js"></script>
+	<script src="/static/JS/common/sha256.min.js"></script>
+
+	<script src="/static/JS/office/header.js"></script>
+	<script src="/static/JS/office/user_popup.js"></script>
 
 	<link rel="stylesheet" href="/static/CSS/common/common.css" />
 	<link rel="stylesheet" href="/static/CSS/office/login.css" />
 	<link rel="stylesheet" href="/static/CSS/office/header.css" />
 	<link rel="stylesheet" href="/static/CSS/common/footer.css" />
 
-	
+
 	<link rel="stylesheet" href="/static/CSS/office/home.css" />
-    
-    <script src="/static/JS/office/home.js"></script>
-    
-    <th:block th:if="${res} != null">
+	
+	<!-- res.page 설정 전. 2022년 11월 21일 전판근 -->
+	<link rel="stylesheet" href="/static/CSS/office/space-detail-introduce.css" />
+	<link rel="stylesheet" href="/static/CSS/office/jquery-ui.css" />
+	<link rel="stylesheet" href="/static/CSS/office/jquery-ui-timepicker.css" />
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<script src="/static/JS/office/timepicker.js"></script>
+	<script src="/static/JS/office/space_detail_introduce.js"></script>
+	<!-- ------- -->
+
+	<script src="/static/JS/office/home.js"></script>
+
+	<th:block th:if="${res} != null">
 		<th:block th:if="${res.page} == 'list_page'">
 			<link rel="stylesheet" href="/static/CSS/office/list-page.css" />
-		    <script src="/static/JS/office/list-page.js"></script>
+			<script src="/static/JS/office/list-page.js"></script>
 		</th:block>
-		
+
 		<th:block th:if="${res.page} == 'space_introduce_detail'">
 			<link rel="stylesheet" href="/static/CSS/office/space-detail-introduce.css" />
-		    <link rel="stylesheet" href="/static/CSS/office/jquery-ui.css" />
-		    <link rel="stylesheet" href="/static/CSS/office/jquery-ui-timepicker.css" />
-		    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-		    <script src="/static/JS/office/timepicker.js"></script>
-		    <script src="/static/JS/office/space_detail_introduce.js"></script>
+			<link rel="stylesheet" href="/static/CSS/office/jquery-ui.css" />
+			<link rel="stylesheet" href="/static/CSS/office/jquery-ui-timepicker.css" />
+			<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+			<script src="/static/JS/office/timepicker.js"></script>
+			<script src="/static/JS/office/space_detail_introduce.js"></script>
 		</th:block>
-		
+
 		<th:block th:if="${res.page} == 'space_introduce_detail_office'">
 			<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 			<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 			<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-			
+
 			<link rel="stylesheet" href="/static/CSS/office/space-detail-introduce-office.css" />
-		    <script src="/static/JS/office/space_detail_introduce_office.js"></script>
+			<script src="/static/JS/office/space_detail_introduce_office.js"></script>
 		</th:block>
-    </th:block>
-    
-	<script type="text/javascript" th:inline="javascript">
+	</th:block>
+
+	<script th:inline="javascript">
 		/*<![CDATA[*/
-			var is_login2 = /*[[ ${session.user_id} ]]*/
-		/*]]*/	
+		var is_login2 = /*[[${session.user_id}]]*/ "is_login2";
+		/*]]*/
 	</script>
-	
+
 	<script>
-		$(function(){
+		$(function () {
 			var user_image = $.cookie("user_image");
-			
-			if(is_login2 != null){
-				$(".user_profile_img").attr("src", "https://rence.s3.ap-northeast-2.amazonaws.com/user/"+user_image);
+
+			if (is_login2 != null) {
+				$(".user_profile_img").attr("src", "https://rence.s3.ap-northeast-2.amazonaws.com/user/" + user_image);
 			}
-			
-			$("#question-create-btn").click(function(){
-				if(is_login2 != null){
-				    $("#question-popup").removeClass("blind");
+
+			$("#question-create-btn").click(function () {
+				if (is_login2 != null) {
+					$("#question-popup").removeClass("blind");
 				}
-				else{
+				else {
 					$(".popup-background:eq(1)").removeClass("blind");
-		            $("#common-alert-popup").removeClass("blind");
-		            $(".common-alert-txt").text("로그인 후 이용가능한 기능입니다.");
+					$("#common-alert-popup").removeClass("blind");
+					$(".common-alert-txt").text("로그인 후 이용가능한 기능입니다.");
+				}
+			});
+
+			/*** 예약 가능 여부 버튼 클릭 ***/
+			$("#check_available").click(function () {
+				if (is_login2 != null) {
+					// 예약 타입 선택 O
+					if ($(".type-border-txt").prop("check") == true) {
+						if ($(".time-input:eq(0)").val() != '' && $(".time-input:eq(1)").val() != '') {
+							if ($(".time-input:eq(0)").val() > $(".time-input:eq(1)").val()) {
+								$(".fixed-popup").removeClass("blind");
+								$(".using-time-fail-txt:eq(0)").html("체크인 시간이 체크아웃 시간보다<br><br>빠를 수는 없습니다.");
+							}
+							else {
+								if ($(".time-input:eq(0)").val() == $(".time-input:eq(1)").val()) {
+									$(".fixed-popup").removeClass("blind");
+									$(".using-time-fail-txt:eq(0)").html("체크인 시간과 체크아웃 시간이<br><br>같을 수는 없습니다.");
+								}
+								else {
+									// 예약 가능 확인 로직
+									let query = location.search;
+									let param = new URLSearchParams(query);
+									let backoffice_no = param.get('backoffice_no');
+									let room_no = $("#type-choice-value").attr("room_no");
+									let reserve_stime = $(".time-input:eq(0)").val();
+									let reserve_etime = $(".time-input:eq(1)").val();
+
+									//로딩 화면
+									$(".popup-background:eq(1)").removeClass("blind");
+									$("#spinner-section").removeClass("blind");
+
+									$.ajax({
+										url: "/rence/reserve_checkOK",
+										type: "POST",
+										dataType: "json",
+										data: {
+											reserve_stime: reserve_stime,
+											reserve_etime: reserve_etime,
+											room_no: room_no,
+											backoffice_no: backoffice_no,
+											user_no: $.cookie("user_no")
+										},
+
+										success: function (res) {
+											//로딩 화면 닫기
+											$(".popup-background:eq(1)").addClass("blind");
+											$("#spinner-section").addClass("blind");
+
+											if (res.result == 1) {
+												location.href = "/rence/payment_page?reserve_no=" + res.reserve_no;
+											} else if (res.result == 0) {
+												$(".fixed-popup").removeClass("blind");
+												$(".using-time-fail-txt:eq(0)").html("해당 시간은 예약 할 수 없습니다.");
+											}
+										},
+										error: function () {
+											//로딩 화면 닫기
+											$(".popup-background:eq(1)").addClass("blind");
+											$("#spinner-section").addClass("blind");
+										}
+									});
+								}
+							}
+						}
+						// 예약 타입 선택 O, 체크인 or 체크아웃 시간 X
+						else {
+							$(".fixed-popup").removeClass("blind");
+							$(".using-time-fail-txt:eq(0)").html("체크인 시간과 체크아웃 시간을<br><br>모두 선택하여 주십시오.");
+						}
+					}
+					// 예약 타입 선택 X
+					else {
+						$(".fixed-popup").removeClass("blind");
+						$(".using-time-fail-txt:eq(0)").html("예약 타입을 선택하여 주십시오.");
+					}
+				} else {
+					$(".popup-background:eq(1)").removeClass("blind");
+					$("#common-alert-popup").removeClass("blind");
+					$(".common-alert-txt").text("로그인 후 이용가능한 기능입니다.");
 				}
 			});
 		});
 	</script>
 </head>
+
 <body>
-	<div class ="pageWrap">
+	<div class="pageWrap">
 		<th:block th:if="${session.user_id} == null">
 			<div th:replace="thymeleaf/html/office/common/header :: header"></div>
 		</th:block>
 		<th:block th:if="${session.user_id} != null">
 			<div th:replace="thymeleaf/html/office/common/header :: after_login_header"></div>
 		</th:block>
-	
-		<section class ="contentWrap">
+
+		<section class="contentWrap">
 			<th:block th:if="${res} != null and ${res.page} == 'list_page'">
 				<th:block th:if="${res.cnt} == 0">
 					<div th:replace="${content} :: content_null"></div>
@@ -105,174 +195,184 @@
 			<div th:replace="thymeleaf/html/office/common/footer :: footer"></div>
 		</section>
 	</div>
-	
+
 	<div class="popup-background blind">
-        
-        <!-- START LOGIN SECTION -->
-        <div id="login-section" class="blind">
-            <section class="login-popup-logo-section">
-                <img src="/static/IMG/common/RENCE.svg" class="popup-logo">
-            </section>
-            <section class="login-popup-input-section">
-                <input type="text" id="login-id" class="login-popup-input" placeholder="아이디를 입력하세요." autocomplete="off"/>
-                <input type="password" id="login-pw" class="login-popup-input" placeholder="비밀번호를 입력하세요."/>
-            </section>
-            <section class="login-popup-btn-section">
-                <input type="button" id="login-btn" value="로그인">
-                <div class="txt-btn-wrap">
-                    <span id="go-find-id" class="txt-btn">아이디 찾기</span>
-                    <span id="go-find-pw" class="txt-btn">비밀번호 찾기</span>
+		<!-- START LOGIN SECTION -->
+		<div id="login-section" class="blind">
+			<section class="login-popup-logo-section">
+				<img src="/static/IMG/common/RENCE.svg" class="popup-logo">
+			</section>
+			<section class="login-popup-input-section">
+				<input type="text" id="login-id" class="login-popup-input" placeholder="아이디를 입력하세요."
+					autocomplete="off" />
+				<input type="password" id="login-pw" class="login-popup-input" placeholder="비밀번호를 입력하세요." />
+			</section>
+			<section class="login-popup-btn-section">
+				<input type="button" id="login-btn" value="로그인">
+				<div class="txt-btn-wrap">
+					<span id="go-find-id" class="txt-btn">아이디 찾기</span>
+					<span id="go-find-pw" class="txt-btn">비밀번호 찾기</span>
 					<span class="txt-btn login-close">창닫기</span>
-                </div>
-            </section>
-        </div>
-        <!-- END LOGIN SECTION -->
-        
-        <!-- START JOIN SECTION -->
-        <div id="join-section" class="blind">
-            <section class="join-popup-title-section">
-                <span>회원가입</span>
-                <span class="join-closer">
-                    <img src="/static/IMG/common/closer.svg" alt="closer-img" class="closer-img" />
-                </span>
-            </section>
-            <section class="join-popup-input-section">
-                <div class="input-wrap">
-                    <div class="input-check">
-                        <input type="email" id="join-email" class="join-popup-input-short" placeholder="이메일" autocomplete="off"/>
-                        <input type = "button" id="check_email" class="join-popup-check-btn" value="인증하기"/>
-                    </div>
-                    <span class="warning-text blind">다시 시도해주세요.</span>
-                </div>
-                <div class="input-wrap">
-                    <div class="input-check">
-                        <input type="text" id="join-email-code" class="join-popup-input-short" placeholder="인증번호" autocomplete="off"/>
-                        <input type = "button" id="check_email-code" class="join-popup-check-btn" value="확인"/>
-                    </div>
-                    <span class="warning-text blind">다시 시도해주세요.</span>
-                </div>
-                <div class="input-wrap">
-                    <div class="input-check">
-                        <input type="text" id="join-id" class="join-popup-input-short" placeholder="아이디(소문자, 숫자만 입력 = 5~10자))" autocomplete="off"/>
-                        <input type = "button" id="check_id" class="join-popup-check-btn" value="중복확인"/>
-                    </div>
-                    <span class="warning-text blind">이미 아이디가 존재합니다.</span>
-                </div>
-                <div class="input-wrap">
-                    <input type="password" id="join-pw" class="join-popup-input" placeholder="비밀번호(영문+숫자+특수문자 = 8~10글자)"/>
-                    <span class="warning-text blind">다시 시도해주세요.</span>
-                </div>
-                <div class="input-wrap">
-                    <input type="password" id="join-re-pw" class="join-popup-input" placeholder="비밀번호 재입력"/>
-                    <span class="warning-text blind">다시 시도해주세요.</span>
-                </div>
-                <div class="input-wrap">
-                    <input type="text" id="join-name" class="join-popup-input" placeholder="이름" autocomplete="off"/>
-                </div>
-                <div class="input-wrap">
-                    <input type="number" id="join-tel" class="join-popup-input" placeholder="전화번호(-없이 입력)" autocomplete="off"/>
-                    <span class="warning-text blind">-없이 입력하세요.</span>
-                </div>
-                <div class="input-wrap">
-                    <input type="number" id="join-birth" class="join-popup-input" placeholder="생년월일(숫자로만 입력)" autocomplete="off"/>
-                    <span class="warning-text blind">숫자로만 입력가능합니다.</span>
-                </div>
-            </section>
-            <section class="join-popup-btn-section">
-                <input type="button" id="join-btn" value="회원가입">
-            </section>
-        </div>
-        <!-- END JOIN SECTION -->
+				</div>
+			</section>
+		</div>
+		<!-- END LOGIN SECTION -->
 
-        <!-- START FIND-ID SECTION -->
-        <div id="find-id-section" class="find-section blind">
-            <section class="find-popup-logo-section">
-                <span>아이디 찾기</span>
-            </section>
-            <section class="find-popup-input-section">
-                <span class="find-guide-txt">회원가입 시 입력한 이메일을 입력해주세요.</span>
-                <input type="email" id="find-id-email" class="find-popup-input" placeholder="이메일을 입력하세요." autocomplete="off"/>
-            </section>
-            <section class="find-popup-btn-section">
-                <input type="button" id="find-id-btn" class="find-btn" value="메일 보내기">
-                <input type="button" id="find-id-close" class="p-close" value="창닫기">
-            </section>
-        </div>
-        <!-- END FIND-ID SECTION -->
+		<!-- START JOIN SECTION -->
+		<div id="join-section" class="blind">
+			<section class="join-popup-title-section">
+				<span>회원가입</span>
+				<span class="join-closer">
+					<img src="/static/IMG/common/closer.svg" alt="closer-img" class="closer-img" />
+				</span>
+			</section>
+			<section class="join-popup-input-section">
+				<div class="input-wrap">
+					<div class="input-check">
+						<input type="email" id="join-email" class="join-popup-input-short" placeholder="이메일"
+							autocomplete="off" />
+						<input type="button" id="check_email" class="join-popup-check-btn" value="인증하기" />
+					</div>
+					<span class="warning-text blind">다시 시도해주세요.</span>
+				</div>
+				<div class="input-wrap">
+					<div class="input-check">
+						<input type="text" id="join-email-code" class="join-popup-input-short" placeholder="인증번호"
+							autocomplete="off" />
+						<input type="button" id="check_email-code" class="join-popup-check-btn" value="확인" />
+					</div>
+					<span class="warning-text blind">다시 시도해주세요.</span>
+				</div>
+				<div class="input-wrap">
+					<div class="input-check">
+						<input type="text" id="join-id" class="join-popup-input-short"
+							placeholder="아이디(소문자, 숫자만 입력 = 5~10자))" autocomplete="off" />
+						<input type="button" id="check_id" class="join-popup-check-btn" value="중복확인" />
+					</div>
+					<span class="warning-text blind">이미 아이디가 존재합니다.</span>
+				</div>
+				<div class="input-wrap">
+					<input type="password" id="join-pw" class="join-popup-input"
+						placeholder="비밀번호(영문+숫자+특수문자 = 8~10글자)" />
+					<span class="warning-text blind">다시 시도해주세요.</span>
+				</div>
+				<div class="input-wrap">
+					<input type="password" id="join-re-pw" class="join-popup-input" placeholder="비밀번호 재입력" />
+					<span class="warning-text blind">다시 시도해주세요.</span>
+				</div>
+				<div class="input-wrap">
+					<input type="text" id="join-name" class="join-popup-input" placeholder="이름" autocomplete="off" />
+				</div>
+				<div class="input-wrap">
+					<input type="number" id="join-tel" class="join-popup-input" placeholder="전화번호(-없이 입력)"
+						autocomplete="off" />
+					<span class="warning-text blind">-없이 입력하세요.</span>
+				</div>
+				<div class="input-wrap">
+					<input type="number" id="join-birth" class="join-popup-input" placeholder="생년월일(숫자로만 입력)"
+						autocomplete="off" />
+					<span class="warning-text blind">숫자로만 입력가능합니다.</span>
+				</div>
+			</section>
+			<section class="join-popup-btn-section">
+				<input type="button" id="join-btn" value="회원가입">
+			</section>
+		</div>
+		<!-- END JOIN SECTION -->
 
-        <!-- START FIND-PW SECTION -->
-        <div id="find-pw-section" class="find-section blind">
-            <section class="find-popup-logo-section">
-                <span>비밀번호 찾기</span>
-            </section>
-            <section class="find-popup-input-section">
-                <div class="email-wrap">
-                    <span class="find-guide-txt">회원가입 시 입력한 이메일을 입력해주세요.</span>
-                    <input type="email" id="find-pw-email" class="find-popup-input" placeholder="이메일을 입력하세요." autocomplete="off"/>
-                </div>
-                <div>
-                    <span class="find-guide-txt">회원가입 시 입력한 아이디를 입력해 주세요.</span>
-                    <input type="text" id="find-pw-id" class="find-popup-input" placeholder="아이디를 입력하세요." autocomplete="off"/>
-                </div>
-            </section>
-            <section class="find-popup-btn-section">
-                <input type="button" id="find-pw-btn" class="find-btn" value="비밀번호 찾기">
-                <input type="button" id="find-pw-close" class="p-close" value="창닫기">
-            </section>
-        </div>
-        <!-- END FIND-PW SECTION -->
+		<!-- START FIND-ID SECTION -->
+		<div id="find-id-section" class="find-section blind">
+			<section class="find-popup-logo-section">
+				<span>아이디 찾기</span>
+			</section>
+			<section class="find-popup-input-section">
+				<span class="find-guide-txt">회원가입 시 입력한 이메일을 입력해주세요.</span>
+				<input type="email" id="find-id-email" class="find-popup-input" placeholder="이메일을 입력하세요."
+					autocomplete="off" />
+			</section>
+			<section class="find-popup-btn-section">
+				<input type="button" id="find-id-btn" class="find-btn" value="메일 보내기">
+				<input type="button" id="find-id-close" class="p-close" value="창닫기">
+			</section>
+		</div>
+		<!-- END FIND-ID SECTION -->
 
-        <!-- START LOGOUT CONFIRM POPUP -->
-        <div id ="logout-popup" class="confirm-popup blind">
-            <section class="confirm-txt-section">
-                <span class="logout-txt">
-                	로그아웃 하시겠습니까?<br><br>
-                    로그아웃 시 메인페이지로 이동됩니다.
-                </span>
-            </section>
-            <section class="confirm-btn-section">
-                <div id="logout-btn" class="confirm-yesBtn">로그아웃</div>
-                <div id="logout-closeBtn" class="confirm-noBtn">닫기</div>
-            </section>
-        </div>
-    </div>
+		<!-- START FIND-PW SECTION -->
+		<div id="find-pw-section" class="find-section blind">
+			<section class="find-popup-logo-section">
+				<span>비밀번호 찾기</span>
+			</section>
+			<section class="find-popup-input-section">
+				<div class="email-wrap">
+					<span class="find-guide-txt">회원가입 시 입력한 이메일을 입력해주세요.</span>
+					<input type="email" id="find-pw-email" class="find-popup-input" placeholder="이메일을 입력하세요."
+						autocomplete="off" />
+				</div>
+				<div>
+					<span class="find-guide-txt">회원가입 시 입력한 아이디를 입력해 주세요.</span>
+					<input type="text" id="find-pw-id" class="find-popup-input" placeholder="아이디를 입력하세요."
+						autocomplete="off" />
+				</div>
+			</section>
+			<section class="find-popup-btn-section">
+				<input type="button" id="find-pw-btn" class="find-btn" value="비밀번호 찾기">
+				<input type="button" id="find-pw-close" class="p-close" value="창닫기">
+			</section>
+		</div>
+		<!-- END FIND-PW SECTION -->
 
-    <div class="popup-background blind">
-    	<!-- START SPINNER SECTION -->
-	    <div id="spinner-section" class="blind">
-	        <img src="/static/IMG/common/spinner.gif" class="spinner-img">
-	    </div>
-	    <!-- END SPINNER SECTION -->
-    
-    	<!-- START COMMON CUSTOM ALERT POPUP -->
-        <div id ="common-alert-popup" class="alert-popup blind">
-            <section class="alert-txt-section">
-                <span class="common-alert-txt"></span>
-            </section>
-            <section id = "common-alert-btn" class="alert-btn-section">
-                <span>확인</span>
-            </section>
-        </div>
-        
-        <!-- START SUCCESS CUSTOM ALERT POPUP -->
-        <div id ="success-alert-popup" class="alert-popup blind">
-            <section class="alert-txt-section">
-                <span>해당 이메일로 비밀번호를 전송하였습니다.</span>
-            </section>
-            <section id = "success-alert-btn" class="alert-btn-section">
-                <span>확인</span>
-            </section>
-        </div>
+		<!-- START LOGOUT CONFIRM POPUP -->
+		<div id="logout-popup" class="confirm-popup blind">
+			<section class="confirm-txt-section">
+				<span class="logout-txt">
+					로그아웃 하시겠습니까?<br><br>
+					로그아웃 시 메인페이지로 이동됩니다.
+				</span>
+			</section>
+			<section class="confirm-btn-section">
+				<div id="logout-btn" class="confirm-yesBtn">로그아웃</div>
+				<div id="logout-closeBtn" class="confirm-noBtn">닫기</div>
+			</section>
+		</div>
+	</div>
 
-        <!-- START FAIL CUSTOM ALERT POPUP -->
-        <div id ="fail-alert-popup" class="alert-popup blind">
-            <section class="alert-txt-section">
-                <span>해당 이메일로 가입된 회원이 없습니다.</span>
-            </section>
-            <section id = "fail-alert-btn" class="alert-btn-section">
-                <span>확인</span>
-            </section>
-        </div>
-    </div>
+	<div class="popup-background blind">
+		<!-- START SPINNER SECTION -->
+		<div id="spinner-section" class="blind">
+			<img src="/static/IMG/common/spinner.gif" class="spinner-img">
+		</div>
+		<!-- END SPINNER SECTION -->
+
+		<!-- START COMMON CUSTOM ALERT POPUP -->
+		<div id="common-alert-popup" class="alert-popup blind">
+			<section class="alert-txt-section">
+				<span class="common-alert-txt"></span>
+			</section>
+			<section id="common-alert-btn" class="alert-btn-section">
+				<span>확인</span>
+			</section>
+		</div>
+
+		<!-- START SUCCESS CUSTOM ALERT POPUP -->
+		<div id="success-alert-popup" class="alert-popup blind">
+			<section class="alert-txt-section">
+				<span>해당 이메일로 비밀번호를 전송하였습니다.</span>
+			</section>
+			<section id="success-alert-btn" class="alert-btn-section">
+				<span>확인</span>
+			</section>
+		</div>
+
+		<!-- START FAIL CUSTOM ALERT POPUP -->
+		<div id="fail-alert-popup" class="alert-popup blind">
+			<section class="alert-txt-section">
+				<span>해당 이메일로 가입된 회원이 없습니다.</span>
+			</section>
+			<section id="fail-alert-btn" class="alert-btn-section">
+				<span>확인</span>
+			</section>
+		</div>
+	</div>
 </body>
+
 </html>

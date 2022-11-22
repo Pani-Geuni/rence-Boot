@@ -47,6 +47,8 @@ import com.rence.dashboard.model.RoomVO;
 import com.rence.dashboard.model.SalesSettlementDetailView;
 import com.rence.dashboard.model.SalesSettlementSummaryView;
 import com.rence.dashboard.model.SalesSettlementViewVO;
+import com.rence.dashboard.model.ScheduleListView;
+import com.rence.dashboard.repository.ScheduleListRepository;
 import com.rence.dashboard.service.DashboardService;
 
 import io.swagger.annotations.Api;
@@ -166,6 +168,8 @@ public class DashBoardController {
 	public String backoffice_insertOK_room(RoomInsertVO rvo,String backoffice_no) {
 		log.info("backoffice_insertOK_room ()...");
 		log.info("{}", backoffice_no);
+		log.info("rvo :::::::::::; {}", rvo);
+		
 
 		Map<String, String> map = new HashMap<String,String>();
 
@@ -196,9 +200,7 @@ public class DashBoardController {
 		log.info("backoffice_update_room ()...");
 		log.info("{}", backoffice_no);
 
-		Map<String, Object> map1 = new HashMap<String,Object>();
-		Map<String, List<String>> map2 = new HashMap<String,List<String>>();
-		Map<Map<String, Object>, Map<String, List<String>>> map3 = new HashMap<Map<String,Object>, Map<String,List<String>>>();
+		Map<String, Object> map3 = new HashMap<String,Object>();
 		
 		
 		BackOfficeVO bvo = service.select_one_backoffice_info(backoffice_no);
@@ -222,11 +224,14 @@ public class DashBoardController {
 		
 		rmvo = service.select_one_room_info(backoffice_no, room_no);
 		log.info("rmvo : {}",rmvo);
-		map1.put("rmvo", rmvo); 
+		
+		map3.put("rmvo", rmvo); 
 
-		map2.put("room_type", type_list);
-		map3.put(map1, map2);
+		map3.put("room_type", type_list);
+		
 		String json = gson.toJson(map3);
+		
+		log.info("maaaaaaaaaaaaaaaaaaaap{}",map3);
 
 		return json;
 	}
@@ -344,8 +349,9 @@ public class DashBoardController {
 	@PostMapping("/insertOK_comment")
 	@ResponseBody
 	public String backoffice_insertOK_comment(String backoffice_no, CommentInsertVO cvo, String comment_no) {
-		log.info("backoffice_insertOK_comment ()...");
-		log.info("{}", backoffice_no);
+		log.info("backoffice_insertOK_comment_controller ()...");
+		log.info("backoffice_no : {}", backoffice_no);
+		log.info("cvo : {}",cvo);
 
 		Map<String, String> map = new HashMap<String, String>();
 		
@@ -355,6 +361,7 @@ public class DashBoardController {
 		cvo.setWriter("관리자");
 		cvo.setComment_state("T");
 		cvo.setComment_date(new Date());
+		log.info("cvo : {}",cvo);
 
 		int result = service.backoffice_insertOK_comment(cvo);
 
@@ -649,7 +656,7 @@ public class DashBoardController {
 	/**
 	 * 환경설정에서 정보 변경
 	 */
-	@ApiOperation(value="업체 정보 변경 폼", notes="대쉬보드 환경설정 페이지 - 업체 정보 변경")
+	@ApiOperation(value="업체 정보 변경 처리", notes="대쉬보드 환경설정 페이지 - 업체 정보 변경")
 	@PostMapping("/updateOK_host")
 	public String backoffice_updateOK_host(BackOfficeVO bvo,BackOfficeOperatingTimeVO ovo,MultipartHttpServletRequest mtfRequest, @RequestParam(value = "multipartFile_room") MultipartFile multipartFile_room,  Model model) {
 		log.info("backoffice_updateOK_host ()...");
@@ -673,7 +680,7 @@ public class DashBoardController {
 		service.backoffice_updateOK_opt(ovo2);
 	
 		String rt = "";
-//		if(update_host==1&&updtae_opt==1) {
+//		if(update_host==1&&update_opt==1) {
 			rt = "redirect:backoffice/settings";
 //		}else {
 //			rt = "redirect:backoffice/update_host";
@@ -681,5 +688,46 @@ public class DashBoardController {
 		
 		
 		return rt;
+	}
+	
+	
+	/**
+	 * 일정 관리 
+	 */
+	@ApiOperation(value="일정 관리", notes="대쉬보드 - 일정 관리")
+	@GetMapping("/schedule")
+	@ResponseBody
+	public String backoffice_schedule(String backoffice_no, Model model) { // backoffice_no를 받아야 하나..?
+		log.info("backoffice_schedule controller()...");
+		
+		model.addAttribute("backoffic_no",backoffice_no);
+		
+		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/schedule");
+		model.addAttribute("title", "일정 관리");
+
+		return "thymeleaf/layouts/backoffice/layout_dashboard";
+	}
+	
+	/**
+	 * 일정 관리 
+	 */
+	@ApiOperation(value="일정 관리", notes="대쉬보드 - 일정 관리")
+	@GetMapping("/schedule_research")
+	@ResponseBody
+	public String backoffice_schedule_research(String backoffice_no, String not_sdate, String not_edate, String not_stime, String not_etime,Model model) {
+		log.info("backoffice_schedule_research controller()...");
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		List<ScheduleListView> sche = service.backoffice_scheduke_list(backoffice_no,not_sdate,not_edate,not_stime,not_etime);
+		log.info("result: {}.", sche);
+		log.info("cnt: {}.", sche.size());
+		
+		map.put("sc_vos", sche);
+		map.put("cnt", sche.size());
+		
+		String json = gson.toJson(map);
+		
+		return json;
 	}
 }

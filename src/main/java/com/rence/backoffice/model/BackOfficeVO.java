@@ -120,7 +120,6 @@ public class BackOfficeVO implements Serializable, UserDetails{ //,
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		log.info("id::::::::::::::::::{}",this.getBackoffice_id());
 		return this.getBackoffice_id();
 	}
 

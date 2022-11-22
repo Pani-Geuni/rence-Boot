@@ -5,7 +5,7 @@ $(function () {
 
   /** 로고 버튼 클릭 시 메인 페이지 이동 **/ 
   $('.logo-mku').click(function(){
-    location.href = '/backoffice/backoffice_landing';
+    location.href = '/backoffice/landing';
   });
 
   /** 로그인 전 헤더 메뉴 */
@@ -45,17 +45,6 @@ $(function () {
       $(".common-alert-txt").text("로그인 후 사용가능한 페이지입니다.");
     }
   });
-  
-  /** 호스트 메인 페이지 이동 - Header */
-  $('#go-dashboard').click(function() {
-	if($.cookie("backoffice_no") != undefined)
-      location.href = '/backoffice/main?backoffice_no=' + $.cookie("backoffice_no");
-    else{
-      $(".popup-background:eq(1)").removeClass("blind");
-      $("#common-alert-popup").removeClass("blind");
-      $(".common-alert-txt").text("로그인 후 사용가능한 페이지입니다.");
-    }
-  })
   
   /** 호스트 신청 페이지 */
   $('.btn-apply-hosting').click(function () {
@@ -119,7 +108,7 @@ $(function () {
         $("#spinner-section").removeClass("blind");
 
         $.ajax({
-          url: '/backoffice/backoffice_settingOK_pw',
+          url: '/backoffice/settingOK_pw',
           type: 'POST',
           dataType: 'json',
           data: {
@@ -132,7 +121,7 @@ $(function () {
             $("#spinner-section").addClass("blind");
 
             if (res.result == 1) {
-              location.href = '/backoffice/backoffice_landing';
+              location.href = '/backoffice/landing';
             } else {
               $(".popup-background:eq(1)").removeClass("blind");
               $("#common-alert-popup").removeClass("blind");

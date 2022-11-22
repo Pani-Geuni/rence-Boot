@@ -31,14 +31,14 @@ public class RoomSummaryView {
 
 	@Id
 	@Column(name="review_point")
-	private float review_point;
+	private Float review_point;
 	
 	@Column(name="comment_no")
-	private int comment_no;
+	private Integer comment_no;
 	
 	@Column(name="review_no")
-	private int review_no;
+	private Integer review_no;
 	
 	@Column(name="reserve_no")
-	private int reserve_no;
+	private Integer reserve_no;
 }

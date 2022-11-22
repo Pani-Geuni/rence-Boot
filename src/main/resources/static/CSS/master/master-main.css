@@ -42,6 +42,14 @@
   padding: 20px;
 }
 
+.ct-body-row.master {
+	cursor: pointer;
+}
+
+.apply-info-section {
+	display: flex;
+}
+
 .btn-group button {
   border: none;
   border-radius: 8px;

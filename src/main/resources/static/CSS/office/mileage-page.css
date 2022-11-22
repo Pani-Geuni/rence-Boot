@@ -1,7 +1,3 @@
-/* ************ */
-/* @author 김예은 */
-/* ************ */
-
 .mileage-list-wrap{
     width: 100%;
     height: calc(100vh - 95px - 75px);
@@ -81,10 +77,11 @@
 /******************************/
 .mileage-list-section{
     width: 920px;
-    height: calc(100vh - 95px - 275px);
+    height: calc(100vh - 356px);
 
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 }
 
 .mileage-list-menu{
@@ -144,12 +141,15 @@
     text-align: center;
 }
 
+.mileage-history-wrap{
+    min-height: 246px;
+    max-height: 246px;
+    overflow-y: overlay;
+
+}
 .mileage-history-wrap *{
     font-family: 'OTWelcome';
     font-size: 14px;
-
-    max-height: 260px;
-    overflow-y: overlay;
 }
 .mileage-list{
     height: 39px;
@@ -176,9 +176,7 @@
 /**** PAGING SECTION ******/
 /**************************/
 .paging-section{
-    position: absolute;
-    bottom: 3px;
-    left: -20px;
+    margin-bottom: 3px;
 
     width: 100%;
     height: 10%;
