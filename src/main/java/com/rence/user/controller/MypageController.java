@@ -66,7 +66,7 @@ public class MypageController {
 	// 마이페이지 이동
 	@ApiOperation(value = "마이페이지", notes = "마이페이지 입니다.")
 	@GetMapping("/go_my_page")
-	public String go_my_page(Model model, HttpServletRequest request) {
+	public String go_my_page(Model model, HttpServletRequest request, HttpServletResponse response) {
 		log.info("go_my_page()...");
 
 		UserVO uvo = new UserVO();
@@ -86,7 +86,12 @@ public class MypageController {
 		DecimalFormat dc = new DecimalFormat("###,###,###,###,###");
 		umvo.setMileage_total(dc.format(Integer.parseInt(umvo.getMileage_total())));
 
+		Cookie cookie2 = new Cookie("user_image", umvo.getUser_image()); // 고유번호 쿠키 저장
+		cookie2.setPath("/");
+		response.addCookie(cookie2);
+		
 		umvo.setUser_image("https://rence.s3.ap-northeast-2.amazonaws.com/user/" + umvo.getUser_image());
+		
 
 		model.addAttribute("umvo", umvo);
 
@@ -184,6 +189,7 @@ public class MypageController {
 		log.info("fileresult: {}", uvo);
 
 		Cookie cookie2 = new Cookie("user_image", uvo.getUser_image()); // 고유번호 쿠키 저장
+		cookie2.setPath("/");
 		response.addCookie(cookie2);
 
 		int result = service.user_img_updateOK(uvo);
