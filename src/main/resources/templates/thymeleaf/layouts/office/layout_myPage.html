@@ -25,10 +25,7 @@
 	<link rel="stylesheet" href="/static/CSS/common/footer.css" />
 	
 	<link rel="stylesheet" href="/static/CSS/office/my-page.css" />
-	<link rel="stylesheet" href="/static/CSS/office/mileage-page.css" />
-	
 	<script src="/static/JS/office/my_page.js"></script>
-	<script src="/static/JS/office/mileage_list.js"></script>
 	
 	<th:block th:if="${res} != null">
 		<th:block th:if="${res.page} == 'reserve-list'">
@@ -42,6 +39,10 @@
 		<th:block th:if="${res.page} == 'question_list'">
 			<link rel="stylesheet" href="/static/CSS/office/question-page.css" />
 			<script src="/static/JS/office/question_page.js"></script>
+		</th:block>
+		<th:block th:if="${res.page} == 'mileage'">
+			<link rel="stylesheet" href="/static/CSS/office/mileage-page.css" />
+			<script src="/static/JS/office/mileage_list.js"></script>
 		</th:block>
 	</th:block>
 	
