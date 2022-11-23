@@ -163,7 +163,6 @@ public class MypageController {
 	 * 
 	 * @throws ParseException
 	 */
-
 	@ApiOperation(value = "프로필 수정", notes = "프로필 수정 입니다.")
 	@RequestMapping(value = "/user_img_updateOK", method = RequestMethod.POST)
 	public String user_img_updateOK(Model model, UserVO uvo, HttpServletRequest request, HttpServletResponse response,
@@ -311,7 +310,7 @@ public class MypageController {
 	}
 
 	/**
-	 * 마일리지 리스트 페이지 이동
+	 * 마일리지 리스트
 	 */
 	@ApiOperation(value = "마일리지 리스트", notes = "마일리지 리스트 페이지입니다.")
 	@GetMapping("/mileage")
@@ -391,7 +390,10 @@ public class MypageController {
 		return "thymeleaf/layouts/office/layout_myPage";
 
 	}
-
+	
+	/**
+	 * 마일리지 리스트 - searchKey
+	 */
 	@ApiOperation(value = "마일리지 조건리스트", notes = "마일리지 조건리스트 페이지입니다.")
 	@GetMapping("/mileage_search_list")
 	public String go_mileage_search_list(UserVO uvo, Model model, HttpServletRequest request, String searchKey,
@@ -475,9 +477,48 @@ public class MypageController {
 	 */
 	@ApiOperation(value = "문의 리스트", notes = "문의 리스트 페이지입니다.")
 	@GetMapping("/question_list")
-	public String question_list(String user_no, Model model) {
+	public String question_list(String user_no, Model model, @RequestParam(value = "page", defaultValue = "1") Integer page) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<UserQuestionVO> list = service.select_all_question(user_no);
+		
+		
+		// 페이징 처리 로직
+				// 리스트 수
+				long total_rowCount_question = service.total_rowCount_question(user_no);
+				log.info("total_rowCount_question: {}", total_rowCount_question);
+
+				// 총 페이징되는 수
+				long totalPageCnt = (long) Math.ceil(total_rowCount_question / 8.0);
+				log.info("totalPageCnt: {}", totalPageCnt);
+
+				// 현재페이지
+				long nowPage = page;
+
+				// 5page씩 끊으면 끝 페이지 번호( ex, 총 9페이지이고, 현재페이지가 6이면 maxpage = 9)
+				long maxPage = 0;
+
+				if (nowPage % 5 != 0) {
+					if (nowPage == totalPageCnt) {
+						maxPage = nowPage;
+					} else if (((nowPage / 5) + 1) * 5 >= totalPageCnt) {
+						maxPage = totalPageCnt;
+					} else if (((nowPage / 5) + 1) * 5 < totalPageCnt) {
+						maxPage = ((nowPage / 5) + 1) * 5;
+					}
+				} else if (nowPage % 5 == 0) {
+					if (nowPage <= totalPageCnt) {
+						maxPage = nowPage;
+					}
+				}
+				log.info("maxPage: " + maxPage);
+
+				map.put("totalPageCnt", totalPageCnt);
+				map.put("nowPage", nowPage);
+				map.put("maxPage", maxPage);
+
+				// 페이징처리를 위한 페이지 계산 로직끝
+		
+		
+		List<UserQuestionVO> list = service.select_all_question_paging(user_no, page);
 		if (list != null) {
 			for (UserQuestionVO vo : list) {
 				UserQuestionVO vo2 = service.select_one_answer(vo.getComment_no());
@@ -491,6 +532,7 @@ public class MypageController {
 			}
 		}
 
+		
 		map.put("page", "question_list");
 		map.put("list", list);
 
