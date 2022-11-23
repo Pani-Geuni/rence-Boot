@@ -55,6 +55,19 @@ public class HeaderController {
 				vo.setMin_room_price(ch);
 				vo.setAvg_rating(Double.toString((Math.round(Double.parseDouble(vo.getAvg_rating())*100)/100.0)));
 				
+				if(vo.getBackoffice_tag() != null) {
+					String []tags = vo.getBackoffice_tag().split(",");
+					
+					int i = 0;
+					for(String tag : tags) {
+						tag = "#" + tag;
+						tags[i] = tag;
+						i++;
+					}
+					
+					vo.setBackoffice_tag(String.join(" ", tags));
+				}
+				
 				if(vo.getRoadname_address().contains(" ")) {
 					String road_name = vo.getRoadname_address().split(" ")[0] + " " + vo.getRoadname_address().split(" ")[1];
 					vo.setRoadname_address(road_name);
