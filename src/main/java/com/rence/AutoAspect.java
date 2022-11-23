@@ -30,16 +30,16 @@ public class AutoAspect {
 	BackOfficeService b_service;
 
 //	@Pointcut("execution(public * com..*Service**.*selectOne*(..))") // || 사용하면 두개도 가능
-//	@Pointcut("execution(* *..controller.*.*(..))")
-//	public void updatePointcut() {
-//
-//	}
-//		
-//	@Before("updatePointcut()")
-//	public void reserveAutoUpdate() {
-//		log.info("ReserveAutoUpdate()...");
-//		service.reserve_state_auto_update();
-//	}
+	@Pointcut("execution(* *..controller.*.*(..))")
+	public void updatePointcut() {
+
+	}
+		
+	@Before("updatePointcut()")
+	public void reserveAutoUpdate() {
+		log.info("ReserveAutoUpdate()...");
+		service.reserve_state_auto_update();
+	}
 	
 	@Pointcut("execution(* com.rence.*.*.*SendEmail.*(..))")
 	public void deletePointcut() {

@@ -59,8 +59,8 @@ public class MasterSendEmail {
 			// 전송
 			MimeMessage msg = javaMailSender.createMimeMessage();
 			msg.setSubject(evo.getSubject());
-			msg.setText("가입 승인을 축하드립니다!"+"<br><br>"+"아래의 링크에 접속하여 비밀번호를 재설정 해주시길 바랍니다."+"<br><br>"+"<strong>비밀번호 재설정 링크 : </strong>" + "http://localhost:8800/backoffice/setting_pw?backoffice_no="
-					+ encodedString);
+			msg.setContent("가입 승인을 축하드립니다!"+"<br><br>"+"아래의 링크에 접속하여 비밀번호를 재설정 해주시길 바랍니다."+"<br><br>"+"<strong>비밀번호 재설정 링크 : </strong>" + "http://localhost:8800/backoffice/setting_pw?backoffice_no="
+					+ encodedString,"text/html; charset=utf-8");
 			msg.setRecipient(RecipientType.TO, new InternetAddress(bvo.getBackoffice_email()));
 
 			
@@ -78,13 +78,12 @@ public class MasterSendEmail {
 	//////////////////////////////
 	public BackOfficeVO result_refuse(BackOfficeVO bvo, EmailVO evo) {
 		evo.setSubject("[rence] 호스트 가입 신청 결과");
-		evo.setContent("죄송합니다."+"<br><br>"+"호스트 신청을 거절당하셨습니다.");
 		
 		try {
 			// 전송
 			MimeMessage msg = javaMailSender.createMimeMessage();
 			msg.setSubject(evo.getSubject());
-			msg.setText(evo.getContent());
+			msg.setContent("죄송합니다."+"<br><br>"+"호스트 신청을 거절당하셨습니다.","text/html; charset=utf-8");
 			msg.setRecipient(RecipientType.TO, new InternetAddress(bvo.getBackoffice_email()));
 
 			javaMailSender.send(msg);
@@ -107,7 +106,7 @@ public class MasterSendEmail {
 			// 전송
 			MimeMessage msg = javaMailSender.createMimeMessage();
 			msg.setSubject(evo.getSubject());
-			msg.setText(evo.getContent()+"<br><br>"+"그동안 우리 [rence] 플랫폼을 이용해 주셔서 감사합니다.");
+			msg.setContent(evo.getContent()+"<br><br>"+"그동안 우리 [rence] 플랫폼을 이용해 주셔서 감사합니다.","text/html; charset=utf-8");
 			msg.setRecipient(RecipientType.TO, new InternetAddress(bvo.getBackoffice_email()));
 
 			javaMailSender.send(msg);
