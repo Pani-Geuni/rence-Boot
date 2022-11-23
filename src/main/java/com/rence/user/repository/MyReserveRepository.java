@@ -19,14 +19,13 @@ public interface MyReserveRepository extends JpaRepository<MyPageReserveListVO,O
 	public long count_Reserve(String user_no, String time_point);
 
 	// 마이페이지- 현재 예약현황 리스트 - 페이징
-	@Query(nativeQuery = true, value = "select * from(select ROWNUM as rn, u.* from (select * from USER_RESERVE_VIEW where user_no = ?1 and payment_total is not null and sysdate <= reserve_edate order by reserve_no desc) u) where rn between ?2 and ?3")
-	public List<MyPageReserveListVO> select_all_now_reserve_list_paging(String user_no, Integer start_row, Integer end_row);
+//	@Query(nativeQuery = true, value = "select * from(select ROWNUM as rn, u.* from (select * from USER_RESERVE_VIEW where user_no = ?1 and payment_total is not null and sysdate <= reserve_edate order by reserve_no desc) u) where rn between ?2 and ?3")
+//	public List<MyPageReserveListVO> select_all_now_reserve_list_paging(String user_no, Integer start_row, Integer end_row);
 
 	
 	// 마이페이지- 과거 예약현황 리스트 - 페이징
-	@Query(nativeQuery = true, value = "select * from(select ROWNUM as rn, u.* from (select * from USER_RESERVE_VIEW where user_no = ?1 and payment_total is not null and sysdate ? reserve_edate order by reserve_no desc) u) where rn between ?2 and ?3")
-	public List<MyPageReserveListVO> select_all_before_reserve_list_paging(String user_no, Integer start_row,
-			Integer end_row);
+//	@Query(nativeQuery = true, value = "select * from(select ROWNUM as rn, u.* from (select * from USER_RESERVE_VIEW where user_no = ?1 and payment_total is not null and sysdate ? reserve_edate order by reserve_no desc) u) where rn between ?2 and ?3")
+//	public List<MyPageReserveListVO> select_all_before_reserve_list_paging(String user_no, Integer start_row, Integer end_row);
 	
 	
 //	// 마이페이지- 현재 예약현황 리스트 가져오기
