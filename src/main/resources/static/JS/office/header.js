@@ -39,7 +39,7 @@ $(function(){
     });
 
     $("#go-backOffice").click(function(){
-        location.href="/backoffice/landing";
+        location.href="/rence/backoffice_landing";
     });
 
     // CUSTOM TYPE SELECT
@@ -155,7 +155,7 @@ $(function(){
                 location = "";
             }
 
-            window.location.href="/common/search_list?type="+ type +"&location="+ location +"&searchWord="+$("#input_searchBar").val()+"&condition=date";
+            window.location.href="/common/search_list?type="+ type +"&location="+ location +"&searchWord="+$("#input_searchBar").val()+"&condition=date&page=1";
         }
         else{
             $(".popup-background:eq(1)").removeClass("blind");

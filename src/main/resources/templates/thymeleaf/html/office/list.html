@@ -20,6 +20,7 @@
 	
 	<!-- 리스트 NOT NULL일 때 -->
 	<section class="listPage-section" th:fragment="content_not_null">
+	
 	    <div class="sort-wrap">
 	        <div class="sort">
 	            <span class="choice-sort-text">
@@ -49,6 +50,7 @@
 	    </div>
 	    
 	    <div class="listPage-wrap">
+			<input type="hidden" th:attr="maxCnt=${res.maxCnt}, nowCnt=${res.nowCnt}" id="maxCnt" />
 	        <div class="list-box-wrap">
 		        <th:block th:each="obj : ${res.list}">
 					<!-- START LIST BOX -->

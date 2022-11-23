@@ -35,13 +35,16 @@ public class HeaderController {
 	 * 서치바 검색
 	 */
 	@RequestMapping(value = "/search_list", method = RequestMethod.GET)
-	public String search_list(String type, String location, String searchWord, String condition, Model model) {
+	public String search_list(String type, String location, String searchWord, String condition, Integer page, Model model) {
 		log.info("search_list()...");
 
 		Map<String, Object> map = new HashMap<String, Object>();
+		
+		int total_cnt = office_service.search_list_totalCnt(type, location, searchWord);
+		log.info("total_cnt : {}", total_cnt);
 
 		List<ListViewVO> list = null;
-		list = office_service.search_list(type, location, searchWord, condition);
+		list = office_service.search_list(type, location, searchWord, condition, 9 * (page - 1) + 1, 9 * (page));
 
 		if (list == null)
 			map.put("cnt", 0);
@@ -54,6 +57,8 @@ public class HeaderController {
 				String ch = dc.format(Integer.parseInt(vo.getMin_room_price()));
 				vo.setMin_room_price(ch);
 				vo.setAvg_rating(Double.toString((Math.round(Double.parseDouble(vo.getAvg_rating())*100)/100.0)));
+				
+				vo.setBackoffice_image("https://rence.s3.ap-northeast-2.amazonaws.com/space/" + vo.getBackoffice_image());
 				
 				if(vo.getBackoffice_tag() != null) {
 					String []tags = vo.getBackoffice_tag().split(",");
@@ -78,6 +83,13 @@ public class HeaderController {
 		map.put("condition", condition);
 		map.put("page", "list_page");
 		map.put("list", list);
+		map.put("nowCnt", 1);
+
+		if(total_cnt > 0)
+			map.put("maxCnt", total_cnt);
+		else
+			map.put("maxCnt", 0);
+		
 		model.addAttribute("res", map);
 		
 		model.addAttribute("content", "thymeleaf/html/office/list");

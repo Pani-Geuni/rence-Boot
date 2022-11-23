@@ -423,12 +423,14 @@ public class OfficeController {
 	// 리스트 페이지
 	@ApiOperation(value = "리스트 페이지 로드 컨트롤러", notes = "타입에 따른 리스트 페이지를 로드하는 컨트롤러")
 	@GetMapping(value = "/list_page")
-	public String list_page(String type, String condition, Model model) {
+	public String list_page(String type, Integer page, String condition, Model model) {
 		log.info("list_page()...");
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		List<ListViewVO> list = service.select_all_list(type, condition);
+		int total_cnt = service.list_totalCnt("%" + type + "%");
+		
+		List<ListViewVO> list = service.select_all_list(type, condition, 9 * (page - 1) + 1, 9 * (page));
 
 		if (list == null)
 			map.put("cnt", 0);
@@ -470,11 +472,130 @@ public class OfficeController {
 
 		map.put("condition", condition);
 		map.put("page", "list_page");
+		map.put("nowCnt", 1);
+		
+		if(total_cnt > 0)
+			map.put("maxCnt", total_cnt);
+		else
+			map.put("maxCnt", 0);
+		
 		map.put("list", list);
 		model.addAttribute("res", map);
 
 		model.addAttribute("content", "thymeleaf/html/office/list");
 
 		return "thymeleaf/layouts/office/layout_base";
+	}
+	
+	// 리스트 페이지 페이징
+	@ApiOperation(value = "리스트 페이지 페이징 컨트롤러", notes = "타입에 따른 리스트 페이지를 페이징하는 컨트롤러")
+	@GetMapping(value = "/list_paging")
+	@ResponseBody
+	public String list_paging(String type, Integer page, String condition) {
+		log.info("list_paging()...");
+		log.info("{}...{}...{}", type, page, condition);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		List<ListViewVO> list = service.select_all_list(type, condition, 9 * (page - 1) + 1, 9 * (page));
+		
+		if (list == null)
+			map.put("cnt", 0);
+		else
+			map.put("cnt", list.size());
+		
+		if (list != null) {
+			for (ListViewVO vo : list) {
+				DecimalFormat dc = new DecimalFormat("###,###,###,###");
+				String ch = dc.format(Integer.parseInt(vo.getMin_room_price()));
+				vo.setMin_room_price(ch);
+				vo.setAvg_rating(Double.toString((Math.round(Double.parseDouble(vo.getAvg_rating()) * 100) / 100.0)));
+				
+				vo.setBackoffice_image("https://rence.s3.ap-northeast-2.amazonaws.com/space/" + vo.getBackoffice_image());
+				
+				
+				if(vo.getBackoffice_tag() != null) {
+					String []tags = vo.getBackoffice_tag().split(",");
+					
+					int i = 0;
+					for(String tag : tags) {
+						tag = "#" + tag;
+						tags[i] = tag;
+						i++;
+					}
+					
+					vo.setBackoffice_tag(String.join(" ", tags));
+				}
+				
+				
+				if (vo.getRoadname_address().contains(" ")) {
+					String road_name = vo.getRoadname_address().split(" ")[0] + " "
+							+ vo.getRoadname_address().split(" ")[1];
+					vo.setRoadname_address(road_name);
+				}
+			}
+		}
+		
+		map.put("list", list);
+		
+		Gson gson = new Gson();
+		String jsonStr = gson.toJson(map);
+		
+		return jsonStr;
+	}
+	
+	// 검색 리스트 페이지 페이징
+	@ApiOperation(value = "검색 리스트 페이지 페이징 컨트롤러", notes = "검색 리스트 페이지를 페이징하는 컨트롤러")
+	@GetMapping(value = "/search_list_paging")
+	@ResponseBody
+	public String search_list_paging(String type, String location, String searchWord, String condition, Integer page) {
+		log.info("search_list_paging()...");
+		log.info("search_list()...");
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		List<ListViewVO> list = null;
+		list = service.search_list(type, location, searchWord, condition,  9 * (page - 1) + 1, 9 * (page));
+
+		if (list == null)
+			map.put("cnt", 0);
+		else
+			map.put("cnt", list.size());
+		
+		if(list != null) {
+			for(ListViewVO vo : list) {
+				DecimalFormat dc = new DecimalFormat("###,###,###,###");	
+				String ch = dc.format(Integer.parseInt(vo.getMin_room_price()));
+				vo.setMin_room_price(ch);
+				vo.setAvg_rating(Double.toString((Math.round(Double.parseDouble(vo.getAvg_rating())*100)/100.0)));
+				
+				vo.setBackoffice_image("https://rence.s3.ap-northeast-2.amazonaws.com/space/" + vo.getBackoffice_image());
+				
+				if(vo.getBackoffice_tag() != null) {
+					String []tags = vo.getBackoffice_tag().split(",");
+					
+					int i = 0;
+					for(String tag : tags) {
+						tag = "#" + tag;
+						tags[i] = tag;
+						i++;
+					}
+					
+					vo.setBackoffice_tag(String.join(" ", tags));
+				}
+				
+				if(vo.getRoadname_address().contains(" ")) {
+					String road_name = vo.getRoadname_address().split(" ")[0] + " " + vo.getRoadname_address().split(" ")[1];
+					vo.setRoadname_address(road_name);
+				}
+			}
+		}
+
+		map.put("list", list);
+		
+		Gson gson = new Gson();
+		String jsonStr = gson.toJson(map);
+		
+		return jsonStr;
 	}
 }
