@@ -217,7 +217,16 @@ public class UserMypageSerivice {
 		log.info("total_rowCount_reserve_now()....");
 		log.info("user_no: {}", user_no);
 		log.info("time_point: {}", time_point);
-		return myReserveRepository.count_Reserve(user_no,time_point);
+		long total_rowCount_reserve = 0;
+		if(time_point.equals("now")){
+			total_rowCount_reserve = myReserveRepository.count_Reserve_now(user_no);
+		}
+		else if(time_point.equals("before")){
+			total_rowCount_reserve =myReserveRepository.count_Reserve_before(user_no);
+		}
+		
+	
+		return total_rowCount_reserve;
 	}
 	
 	// 마이페이지- 현재 예약현황 리스트 - 페이징

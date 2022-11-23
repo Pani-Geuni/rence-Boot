@@ -249,7 +249,7 @@ public class MypageController {
 		// 페이징 처리 로직
 		// 총 리스트 수
 		long total_rowCount_reserve = service.total_rowCount_reserve(user_no, time_point);
-		log.info("total_rowCount_reserve_now: {}", total_rowCount_reserve);
+		log.info("total_rowCount_reserve: {}", total_rowCount_reserve);
 
 		// 총 페이징되는 수(한페이지에 4개의 목록을 보여줄시 만들어지는 페이지 수)
 		long totalPageCnt = (long) Math.ceil(total_rowCount_reserve / 4.0);
