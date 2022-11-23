@@ -284,11 +284,11 @@ public class MypageController {
 		// 페이징처리를 위한 페이지 계산 로직끝
 
 		if (time_point.equals("now")) {
-//			list = service.select_all_now_reserve_list_paging(user_no,page);
+			list = service.select_all_now_reserve_list_paging(user_no,page);
 			map.put("type", "now");
 
 		} else if (time_point.equals("before")) {
-//			list = service.select_all_before_reserve_list_paging(user_no,page);
+			list = service.select_all_before_reserve_list_paging(user_no,page);
 			map.put("type", "before");
 		}
 		if (list == null) {

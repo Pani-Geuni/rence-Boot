@@ -172,6 +172,8 @@ public class UserMypageSerivice {
 		Integer row_count = 8;
 		Integer start_row = (page -1) * row_count + 1;
 		Integer end_row = page * row_count;
+		log.info("start_row: "+start_row);
+		log.info("end_row: "+end_row);
 		
 		
 		if (searchKey.equals("all")) {
@@ -219,35 +221,41 @@ public class UserMypageSerivice {
 		return myReserveRepository.count_Reserve(user_no,time_point);
 	}
 	
-//	// 마이페이지- 현재 예약현황 리스트 - 페이징
-//	public List<MyPageReserveListVO> select_all_now_reserve_list_paging(String user_no, Integer page) {
-//		log.info("select_all_now_reserve_list_paging()....");
-//		log.info("user_no: {}", user_no);
-//
-//		Integer row_count = 4;
-//		Integer start_row = (page -1) * row_count + 1;
-//		Integer end_row = page * row_count;
-//		
-//		List<MyPageReserveListVO> vos = myReserveRepository.select_all_now_reserve_list_paging(user_no, start_row, end_row);
-//		log.info("vos: {}", vos);
-//
-//		return vos;
-//	}
+	// 마이페이지- 현재 예약현황 리스트 - 페이징
+	public List<MyPageReserveListVO> select_all_now_reserve_list_paging(String user_no, Integer page) {
+		log.info("select_all_now_reserve_list_paging()....");
+		log.info("user_no: {}", user_no);
+
+		Integer row_count = 4;
+		Integer start_row = (page -1) * row_count + 1;
+		Integer end_row = page * row_count;
+		
+		log.info("start_row: "+start_row);
+		log.info("end_row: "+end_row);
+		
+		List<MyPageReserveListVO> vos = myReserveRepository.select_all_now_reserve_list_paging(user_no, start_row, end_row);
+		log.info("vos: {}", vos);
+
+		return vos;
+	}
 	
 	// 마이페이지- 과거 예약현황 리스트 - 페이징
-//	public List<MyPageReserveListVO> select_all_before_reserve_list_paging(String user_no, Integer page) {
-//		log.info("select_all_before_reserve_list_paging()....");
-//		log.info("user_no: {}", user_no);
-//
-//		Integer row_count = 4;
-//		Integer start_row = (page -1) * row_count + 1;
-//		Integer end_row = page * row_count;
-//		
-//		List<MyPageReserveListVO> vos = myReserveRepository.select_all_before_reserve_list_paging(user_no, start_row, end_row);
-//		log.info("vos: {}", vos);
-//
-//		return vos;
-//	}
+	public List<MyPageReserveListVO> select_all_before_reserve_list_paging(String user_no, Integer page) {
+		log.info("select_all_before_reserve_list_paging()....");
+		log.info("user_no: {}", user_no);
+
+		Integer row_count = 4;
+		Integer start_row = (page -1) * row_count + 1;
+		Integer end_row = page * row_count;
+		
+		log.info("start_row: "+start_row);
+		log.info("end_row: "+end_row);
+		
+		List<MyPageReserveListVO> vos = myReserveRepository.select_all_before_reserve_list_paging(user_no, start_row, end_row);
+		log.info("vos: {}", vos);
+
+		return vos;
+	}
 
 
 
