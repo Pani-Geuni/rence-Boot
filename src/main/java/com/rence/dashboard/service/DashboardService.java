@@ -132,13 +132,13 @@ public class DashboardService {
 	public int backoffice_updateOK_room(String backoffice_no, RoomInsertVO rvo) {
 		log.info("backoffice_updateOK_room().....");
 		rvo.setBackoffice_no(backoffice_no);
-		if (rvo.getRoom_type()=="desk") {
+		if (rvo.getRoom_type().equals("desk")) {
 			rvo.setRoom_price(10000);
-		}else if(rvo.getRoom_type()=="meeting_04"){
+		}else if(rvo.getRoom_type().equals("meeting_04")){
 			rvo.setRoom_price(20000);
-		}else if(rvo.getRoom_type()=="meeting_06"){
+		}else if(rvo.getRoom_type().equals("meeting_06")){
 			rvo.setRoom_price(30000);
-		}else if(rvo.getRoom_type()=="meeting_10"){
+		}else if(rvo.getRoom_type().equals("meeting_10")){
 			rvo.setRoom_price(50000);
 		}
 		return rm_repository2.backoffice_updateOK_room(rvo,rvo.getRoom_price());
