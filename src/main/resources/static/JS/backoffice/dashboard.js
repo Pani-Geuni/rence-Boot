@@ -76,6 +76,10 @@
   $('#menu-reserve').click(function(){
     location.href = "/backoffice/reserve?backoffice_no=" + $.cookie("backoffice_no") + "&reserve_state=all";
   });
+  
+  $('#menu-schedule').click(function(){
+    location.href = "/backoffice/schedule?backoffice_no=" + $.cookie("backoffice_no");
+  });
 
   $('#menu-sales').click(function(){
     location.href = '/backoffice/day_sales?backoffice_no=' + $.cookie("backoffice_no") + "&sales_date=day";
