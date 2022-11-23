@@ -27,6 +27,7 @@ import com.rence.dashboard.repository.ReviewRepository;
 import com.rence.dashboard.repository.RoomInsertRepository;
 import com.rence.dashboard.repository.RoomSummaryRepository;
 import com.rence.dashboard.repository.SalesSettlementDetailRepository;
+import com.rence.dashboard.repository.SalesSettlementRepository;
 import com.rence.dashboard.repository.SalesSettlementSummaryRepository;
 import com.rence.dashboard.repository.ScheduleListRepository;
 import com.rence.dashboard.repository.ScheduleRepository;
@@ -60,6 +61,9 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 
 	@Autowired
 	SalesSettlementDetailRepository s_detail_repository;
+	
+	@Autowired
+	SalesSettlementRepository s_repository;
 
 	@Autowired
 	ReserveAutoUpdateRepository reserveAutoUpdateRepository;
@@ -563,9 +567,9 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 	@Override
 	public int backoffice_reservation_cancel(String backoffice_no, String room_no, String reserve_no, String user_no) {
 		int flag = reserveAutoUpdateRepository.update_reserve_state_cancel(reserve_no);
-		// 결제 취소, 사용한 마일리지 환불(상태 다시 T로??)
+		// 결제 취소, 
 		if (flag==1) {
-			
+//			s_repository.update_sales_state_
 		}
 		return 0;
 	}
