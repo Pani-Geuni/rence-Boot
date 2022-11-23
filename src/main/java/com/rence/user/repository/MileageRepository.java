@@ -42,9 +42,10 @@ public interface MileageRepository extends JpaRepository<UserMileageVO, Object> 
 
 	
 	// user_mileage_search_list paging
+	//적립
 	@Query(nativeQuery = true, value = "select  * from (select ROWNUM as rn, u.* from (select *  from user_detail_mileage_view  where  user_no = ?1 and state='T' order by no desc) u) where rn between ?2 and ?3")
 	public List<UserMileageVO> mileage_search_list_plus_paging(String user_no, Integer start_row, Integer end_row);
-	
+	//사용
 	@Query(nativeQuery = true, value = "select  * from (select ROWNUM as rn, u.* from (select *  from user_detail_mileage_view  where  user_no = ?1 and state='F' order by no desc) u) where rn between ?2 and ?3")
 	public List<UserMileageVO> mileage_search_list_minus_paging(String user_no, Integer start_row, Integer end_row);
 
