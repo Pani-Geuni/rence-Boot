@@ -456,21 +456,24 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		String reserve_etime = null;
 		if (off_type.equals("dayoff")) { // 휴무일 때
 			log.info("휴무");
+			not_stime="00:00:00";
 			reserve_stime = (not_sdate+not_stime);
 			log.info("reserve_stime : {} ",reserve_stime);
+			not_etime="00:00:00";
 			reserve_etime = (not_edate+not_etime);
 			log.info("reserve_etime : {} ",reserve_etime);
 		}else { // 브레이크 타임일 때
 			log.info("브레이크타임");
-			Date date = new Date();
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//			Date date = new Date();
+//			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			
-			not_sdate = (formatter.format(date));
+//			not_sdate = (formatter.format(date));
 			log.info("not_sdate : {} ",not_sdate);
 			reserve_stime = (not_sdate+not_stime);
 			log.info("reserve_stime : {} ",reserve_stime);
 			
-			not_edate = (formatter.format(date));
+//			not_edate = (formatter.format(date));
+			not_edate = (not_sdate);
 			log.info("not_edate : {} ",not_edate);
 			reserve_etime = (not_edate+not_etime);
 			log.info("reserve_etime : {} ",reserve_etime);
@@ -543,20 +546,23 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		String reserve_stime = null;
 		String reserve_etime = null;
 		if (off_type.equals("dayoff")) { // 휴무일 때
+			not_stime="00:00:00";
 			reserve_stime = (not_sdate+not_stime);
 			log.info("reserve_stime : {} ",reserve_stime);
+			not_etime="00:00:00";
 			reserve_etime = (not_edate+not_etime);
 			log.info("reserve_etime : {} ",reserve_etime);
 		}else { // 브레이크 타임일 때
-			Date date = new Date();
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//			Date date = new Date();
+//			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			
-			not_sdate = (formatter.format(date));
+//			not_sdate = (formatter.format(date));
 			log.info("not_sdate : {} ",not_sdate);
 			reserve_stime = (not_sdate+not_stime);
 			log.info("reserve_stime : {} ",reserve_stime);
 			
-			not_edate = (formatter.format(date));
+//			not_edate = (formatter.format(date));
+			not_edate = (not_sdate);
 			log.info("not_edate : {} ",not_edate);
 			reserve_etime = (not_edate+not_etime);
 			log.info("reserve_etime : {} ",reserve_etime);

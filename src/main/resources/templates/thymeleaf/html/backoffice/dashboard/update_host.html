@@ -16,16 +16,16 @@
 				<p>사업체 태그</p>
 				<div class="hashTag-area">
 					<div class="hashTag-group">
-						<input type="hidden" value="" name="backoffice_tag" id="real-input-tag" />
+						<input type="hidden" value="${backoffice_tag}" name="backoffice_tag" id="real-input-tag" />
 					</div>
-					<input type="text" id="backoffice_tag" placeholder="사업체의 태그를 입력해 주세요 (최대 10글자)" maxlength="10" />
+					<input type="text" id="backoffice_tag" th:value="${backoffice_tag}" placeholder="사업체의 태그를 입력해 주세요 (최대 10글자)" maxlength="10" />
 					<ul id="tag-list"></ul>
 				</div>
 			</div>
 			<!-- 공간 태그 -->
 			<div class="inputWrap info">
 				<p>사업체 소개</p>
-				<textarea id="backoffice_info" name="backoffice_info" placeholder="공간 소개를 입력해 주세요"></textarea>
+				<textarea id="backoffice_info" name="backoffice_info" placeholder="공간 소개를 입력해 주세요">[[${vo.backoffice_info}]]</textarea>
 			</div>
 
 			<div class="inputWrap backoffice_type">
