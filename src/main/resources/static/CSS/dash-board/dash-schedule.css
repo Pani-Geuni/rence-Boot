@@ -183,7 +183,8 @@
   box-shadow: none;
 }
 
-.schedule-confirm-btn {
+.schedule-confirm-btn,
+.btn-reserve-cancel {
 	margin: 20px auto;
 	width: 150px;
 	height: 40px;

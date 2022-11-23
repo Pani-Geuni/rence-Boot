@@ -1,0 +1,79 @@
+<!-- ------------ -->
+<!-- @author 전판근 -->
+<!-- ------------ -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="dashboard_content">
+	<div class="titleSection">
+		<h1>예약자 리스트</h1>
+	</div>
+	
+	<div class="boardWrap">
+		<div class="cardSection schedule">
+			<div class="setScheduleSection">
+				<div class="setScheduleWrap">
+					<h3>예약일자</h3>
+					<p>2022/11/30 00:00:00 ~ 2022/12/01 00:00:00</p>
+				</div>
+				<!-- setScheduleWrap -->
+			</div>
+			<!-- END setScheduleSection -->
+			
+			<div class="select-room-section">
+				<div class="select-room-section-title">
+					<h3>예약자 정보</h3>
+					<div class="select-all-section">
+						<label for="select-all-room">전체선택</label>
+						<input type="checkbox" id="select-all-room" />
+					</div>
+					<!-- END select-all-section -->
+				</div>
+				<!-- select-room-section-title -->
+				
+				<div class="custom-table">
+					<div class="ct-header">
+						<div class="ct-header-cell reservation">선택</div>
+						<div class="ct-header-cell reservation">이름</div>
+						<div class="ct-header-cell reservation">이메일</div>
+						<div class="ct-header-cell reservation">전화번호</div>
+						<div class="ct-header-cell reservation">예약 기간</div>
+					</div>
+					<!-- END ct-header -->
+					<div class="ct-body">
+						<div class="ct-body-row">
+							<div class="ct-body-cell reservation">
+								<input type="hidden" name="room_no" />
+								<input type="hidden" name="backoffice_no" />
+								<input type="checkbox" name="reserve_no" id="reserve_no" class="room-checkbox" value="" />
+							</div>
+							<div class="ct-body-cell reservation">
+								<span class="user_name">김선아</span>
+							</div>
+							<div class="ct-body-cell reservation">
+								<span class="user_email">tjsdk@hi.com</span>
+							</div>
+							<div class="ct-body-cell reservation">
+								<span class="user_tel">010-0000-0000</span>
+							</div>
+							<div class="ct-body-cell reservation">
+								<span class="reserve-stime">2022/11/30 00:00:00 ~ 2022/12/01 00:00:00</span>
+							</div>
+							
+						</div>
+						<!-- END ct-body-row" -->
+						<input type='button' id='btn-reserve-cancel' class='btn-reserve-cancel' value='예약 취소' />
+					</div>
+					<!-- END ct-body -->
+				</div>
+				<!-- END custom-table -->
+			</div>
+			<!-- select-room-section -->
+		</div>
+		<!-- cardSection schedule -->
+	</div>
+	<!-- boardWrap -->
+<div>
+
+</html>
