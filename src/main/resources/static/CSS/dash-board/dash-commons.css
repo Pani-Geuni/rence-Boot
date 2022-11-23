@@ -101,7 +101,7 @@ input::-webkit-inner-spin-button {
   border: 1px solid #e4e4e4;
   border-radius: 8px;
 
-  background: url('/rence/resources/IMG/dash-board/ico-down.svg') calc(100% - 4px) center no-repeat;
+  background: url('/static/IMG/dash-board/ico-down.svg') calc(100% - 4px) center no-repeat;
   background-size: 20px;
 
   cursor: pointer;

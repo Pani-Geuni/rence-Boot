@@ -570,6 +570,7 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		// 결제 취소, 
 		if (flag==1) {
 //			s_repository.update_sales_state_
+			s_repository.backoffice_cancel_mileage_state_t(reserve_no);
 		}
 		return 0;
 	}
