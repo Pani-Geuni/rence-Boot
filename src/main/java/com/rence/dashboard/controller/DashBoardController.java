@@ -577,7 +577,7 @@ public class DashBoardController {
 	}
 
 	/**
-	 * 환경설정에서 비밀번호 수정 --> 에러 - 암호화 결과값 다름 
+	 * 환경설정에서 비밀번호 수정  
 	 */
 	@ApiOperation(value="비밀번호 변경", notes="대쉬보드 환경설정 페이지 - 비밀번호 변경")
 	@GetMapping("/update_pw")
@@ -586,11 +586,7 @@ public class DashBoardController {
 		log.info("backoffice_update_pw ()...");
 		log.info("{}", bvo);
 		
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		
-//		bvo.setBackoffice_pw(new BCryptPasswordEncoder().encode(bvo.getBackoffice_pw()));
-//		log.info("{}", bvo);
-		
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();		
 		
 		Map<String, String> map = new HashMap<String, String>();
 
@@ -602,7 +598,6 @@ public class DashBoardController {
 		log.info("(비밀번호 확인부분)res: {}",result);
 		
 		if (result == true) {
-//		if (bvo2 != null) {
 			log.info("successed...");
 			map.put("result", "1");
 		}else {
@@ -659,9 +654,37 @@ public class DashBoardController {
 		log.info("result: {}.", bvo2);
 		
 		OptionEngToKorMap optionEngToKorMap = new OptionEngToKorMap();
-		List<String> tags = optionEngToKorMap.splitTag(bvo2.getBackoffice_tag());
+		List<String> tags = new ArrayList<String>();
+		if (bvo2.getBackoffice_tag() != null) {
+			optionEngToKorMap.splitTag(bvo2.getBackoffice_tag());
+		}
+		List<String> types = new ArrayList<String>();
+		if (bvo2.getBackoffice_type() != null) {
+			String[] type_split = bvo2.getBackoffice_type().split(",");
+			for (int i=0; i < type_split.length; i++) {
+				types.add(type_split[i]);
+			}
+		} 
+		List<String> options = new ArrayList<String>();
+		if (bvo2.getBackoffice_option() != null) {
+			String[] option_split = bvo2.getBackoffice_option().split(",");
+			for (int i=0; i < option_split.length; i++) {
+				options.add(option_split[i]);
+			}
+		} 
+		List<String> arounds = new ArrayList<String>();
+		if (bvo2.getBackoffice_around() != null) {
+			String[] around_split = bvo2.getBackoffice_around().split(",");
+			for (int i=0; i < around_split.length; i++) {
+				arounds.add(around_split[i]);
+			}
+		} 
+		
 		
 		model.addAttribute("backoffice_tag", tags);
+		model.addAttribute("backoffice_type", types);
+		model.addAttribute("backoffice_option", options);
+		model.addAttribute("backoffice_around", arounds);
 		model.addAttribute("vo", bvo2);
 		
 		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/update_host");
@@ -760,10 +783,12 @@ public class DashBoardController {
 		
 		// 브레이크 타임
 		if (off_type.equals("breaktime")) {
-			Date date = new Date(); // 현재 날짜로 설정
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-			not_sdate = (formatter.format(date));
-			not_edate = (formatter.format(date));
+			log.info("브레이크 타임");
+			not_edate = (not_sdate);
+		}else if(off_type.equals("dayoff")){
+			log.info("휴무");
+			not_stime="00:00:00";
+			not_etime="00:00:00";
 		}
 		log.info("not_sdate : {} ",not_sdate);
 		log.info("not_edate : {} ",not_edate);

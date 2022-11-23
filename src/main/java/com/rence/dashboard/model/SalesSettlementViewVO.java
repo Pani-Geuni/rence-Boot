@@ -32,7 +32,6 @@ public class SalesSettlementViewVO {
 	@Column(name="reserve_edate")
 	private String reserve_edate;
 	
-	@Id
 	@Column(name="room_name")
 	private String room_name;
 	
@@ -45,6 +44,7 @@ public class SalesSettlementViewVO {
 	@Column(name="sales_state")
 	private String sales_state;
 	
+	@Id
 	@Column(name="payment_no")
 	private String payment_no;
 	

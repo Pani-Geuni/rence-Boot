@@ -28,7 +28,7 @@ public interface SalesSettlementRepository extends JpaRepository<SalesSettlement
 	// 마일리지 상태 변경 - 적립
 	@Modifying
 	@Transactional
-	@Query(nativeQuery = true, value = "update mileage set mileage_state= 'T' where mileage_no in (select mileage_no from mileage where payment_no=?1 and sales_state='T' and mileage_state='W')")
+	@Query(nativeQuery = true, value = "update mileage set mileage_state= 'T' where mileage_no in (select mileage_no from mileage where payment_no=?1 and mileage_state='W')")
 	public void backoffice_updateOK_mileage_state_t(String payment_no);
 
 	// 결제 취소 후, 마일리지 상태 변경 - 재적립
