@@ -22,6 +22,7 @@ import com.rence.user.repository.MyQuestionRepository;
 import com.rence.user.repository.MyReserveRepository;
 import com.rence.user.repository.MypageRepository;
 import com.rence.user.repository.UserRepository;
+import com.rence.user.repository.UserReviewRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -122,13 +123,13 @@ public class UserMypageSerivice {
 
 		return repository.user_img_updateOK(uvo.getUser_image(), uvo.getUser_no());
 	}
-	
+
 	// 마일리지 리스트수-현재(페이징 처리를 위해서) all
 	public long total_rowCount_mileage_all(UserVO uvo) {
 		log.info("total_rowCount_mileage_all()....");
 		return mileageRepository.count_allmileage(uvo.getUser_no());
 	}
-	
+
 	// 마일리지 리스트수-현재(페이징 처리를 위해서) plus/minus
 	public long total_rowCount_mileage_searchKey(UserVO uvo, String searchKey) {
 		log.info("total_rowCount_mileage_searchKey()....");
@@ -143,21 +144,21 @@ public class UserMypageSerivice {
 		} else if (searchKey.equals("minus")) {
 			total_rowCount_mileage_all = mileageRepository.count_minusmileage(uvo.getUser_no());
 		}
-		return total_rowCount_mileage_all;	
+		return total_rowCount_mileage_all;
 	}
-	
+
 	// 마일리지 리스트 페이징 - all
 	public List<UserMileageVO> user_mileage_selectAll_paging(UserVO uvo, Integer page) {
 		log.info("user_mileage_selectAll_paging");
-		log.info("uvo: {}",uvo);
-		log.info("current page: {}",page);
-		
+		log.info("uvo: {}", uvo);
+		log.info("current page: {}", page);
+
 		Integer row_count = 8;
-		Integer start_row = (page -1) * row_count + 1;
+		Integer start_row = (page - 1) * row_count + 1;
 		Integer end_row = page * row_count;
-		log.info("start_row: "+start_row);
-		log.info("end_row: "+end_row);
-		
+		log.info("start_row: " + start_row);
+		log.info("end_row: " + end_row);
+
 		return mileageRepository.user_mileage_selectAll_paging(uvo.getUser_no(), start_row, end_row);
 	}
 
@@ -167,14 +168,13 @@ public class UserMypageSerivice {
 		log.info("uvo: {}", uvo);
 		log.info("searchKey: {}", searchKey);
 		List<UserMileageVO> vos = null;
-		
+
 		Integer row_count = 8;
-		Integer start_row = (page -1) * row_count + 1;
+		Integer start_row = (page - 1) * row_count + 1;
 		Integer end_row = page * row_count;
-		log.info("start_row: "+start_row);
-		log.info("end_row: "+end_row);
-		
-		
+		log.info("start_row: " + start_row);
+		log.info("end_row: " + end_row);
+
 		if (searchKey.equals("all")) {
 			vos = mileageRepository.user_mileage_selectAll_paging(uvo.getUser_no(), start_row, end_row);
 		} else if (searchKey.equals("plus")) {
@@ -185,8 +185,6 @@ public class UserMypageSerivice {
 		return vos;
 	}
 
-	
-	
 //	public List<UserMileageVO> user_mileage_selectAll(UserVO uvo) {
 //		log.info("user_mileage_selectAll()...." + uvo.getUser_no());
 //		return mileageRepository.mileage_selectAll(uvo.getUser_no());
@@ -218,56 +216,54 @@ public class UserMypageSerivice {
 		log.info("user_no: {}", user_no);
 		log.info("time_point: {}", time_point);
 		long total_rowCount_reserve = 0;
-		if(time_point.equals("now")){
+		if (time_point.equals("now")) {
 			total_rowCount_reserve = myReserveRepository.count_Reserve_now(user_no);
+		} else if (time_point.equals("before")) {
+			total_rowCount_reserve = myReserveRepository.count_Reserve_before(user_no);
 		}
-		else if(time_point.equals("before")){
-			total_rowCount_reserve =myReserveRepository.count_Reserve_before(user_no);
-		}
-		
-	
+
 		return total_rowCount_reserve;
 	}
-	
+
 	// 마이페이지- 현재 예약현황 리스트 - 페이징
 	public List<MyPageReserveListVO> select_all_now_reserve_list_paging(String user_no, Integer page) {
 		log.info("select_all_now_reserve_list_paging()....");
 		log.info("user_no: {}", user_no);
-		log.info("current page: {}",page);
+		log.info("current page: {}", page);
 
 		Integer row_count = 4;
-		Integer start_row = (page -1) * row_count + 1;
+		Integer start_row = (page - 1) * row_count + 1;
 		Integer end_row = page * row_count;
-		
-		log.info("start_row: "+start_row);
-		log.info("end_row: "+end_row);
-		
-		List<MyPageReserveListVO> vos = myReserveRepository.select_all_now_reserve_list_paging(user_no, start_row, end_row);
+
+		log.info("start_row: " + start_row);
+		log.info("end_row: " + end_row);
+
+		List<MyPageReserveListVO> vos = myReserveRepository.select_all_now_reserve_list_paging(user_no, start_row,
+				end_row);
 		log.info("vos: {}", vos);
 
 		return vos;
 	}
-	
+
 	// 마이페이지- 과거 예약현황 리스트 - 페이징
 	public List<MyPageReserveListVO> select_all_before_reserve_list_paging(String user_no, Integer page) {
 		log.info("select_all_before_reserve_list_paging()....");
 		log.info("user_no: {}", user_no);
-		log.info("current page: {}",page);
+		log.info("current page: {}", page);
 
 		Integer row_count = 4;
-		Integer start_row = (page -1) * row_count + 1;
+		Integer start_row = (page - 1) * row_count + 1;
 		Integer end_row = page * row_count;
 		
-		log.info("start_row: "+start_row);
-		log.info("end_row: "+end_row);
-		
-		List<MyPageReserveListVO> vos = myReserveRepository.select_all_before_reserve_list_paging(user_no, start_row, end_row);
+		log.info("start_row: " + start_row);
+		log.info("end_row: " + end_row);
+
+		List<MyPageReserveListVO> vos = myReserveRepository.select_all_before_reserve_list_paging(user_no, start_row,
+				end_row);
 		log.info("vos: {}", vos);
 
 		return vos;
 	}
-
-
 
 //	// 마이페이지- 현재 예약현황 리스트
 //	public List<MyPageReserveListVO> select_all_now_reserve_list(String user_no) {
@@ -290,28 +286,28 @@ public class UserMypageSerivice {
 //
 //		return vos;
 //	}
-	
+
 	// 문의 리스트수-현재(페이징 처리를 위해서)
 	public long total_rowCount_question(String user_no) {
 		log.info("total_rowCount_question()....");
 		log.info("user_no: {}", user_no);
-		
+
 		return myQuestionRepository.count_question(user_no);
 	}
-	
+
 	// 마이페이지 - 문의내역리스트 페이징
 	public List<UserQuestionVO> select_all_question_paging(String user_no, Integer page) {
 		log.info("select_all_question_paging()....");
 		log.info("user_no: {}", user_no);
-		log.info("current page: {}",page);
+		log.info("current page: {}", page);
 
 		Integer row_count = 8;
-		Integer start_row = (page -1) * row_count + 1;
+		Integer start_row = (page - 1) * row_count + 1;
 		Integer end_row = page * row_count;
-		
-		log.info("start_row: "+start_row);
-		log.info("end_row: "+end_row);
-		
+
+		log.info("start_row: " + start_row);
+		log.info("end_row: " + end_row);
+
 		List<UserQuestionVO> vos = myQuestionRepository.select_all_question_paging(user_no, start_row, end_row);
 		log.info("vos: {}", vos);
 
@@ -340,26 +336,40 @@ public class UserMypageSerivice {
 //		return 0;
 	}
 
-	// 마이페이지 - 리뷰리스트
-	public List<UserReviewVO> select_all_review(String user_no) {
-		log.info("select_all_review()....");
+	// 리뷰 리스트수(페이징 처리를 위해서)
+	public long total_rowCount_review(String user_no) {
+		log.info("total_rowCount_review()....");
 		log.info("user_no: {}", user_no);
-		return userReviewRepository.select_all_review(user_no);
+
+		return userReviewRepository.total_rowCount_review(user_no);
+	}
+
+	
+	// 마이페이지 - 리뷰리스트 페이징
+	public List<UserReviewVO> select_all_review_paging(String user_no, Integer page) {
+		log.info("select_all_review_paging()....");
+		log.info("user_no: {}", user_no);
+		log.info("current page: {}", page);
+
+		Integer row_count = 8;
+		Integer start_row = (page - 1) * row_count + 1;
+		Integer end_row = page * row_count;
+
+		log.info("start_row: " + start_row);
+		log.info("end_row: " + end_row);
+
+		List<UserReviewVO> vos = userReviewRepository.select_all_review_paging(user_no, start_row, end_row);
+		log.info("vos: {}", vos);
+
+		return vos;
 	}
 
 
-
-
-
-	
-
-	
-	
-	
-
-	
-	
-	
-
+//	// 마이페이지 - 리뷰리스트
+//	public List<UserReviewVO> select_all_review(String user_no) {
+//		log.info("select_all_review()....");
+//		log.info("user_no: {}", user_no);
+//		return userReviewRepository.select_all_review(user_no);
+//	}
 
 }// end class
