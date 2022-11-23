@@ -14,6 +14,7 @@ import com.rence.backoffice.model.BackOfficeOperatingTimeVO_datetype;
 import com.rence.backoffice.model.BackOfficeVO;
 import com.rence.backoffice.repository.BackOfficeOperatingTimeRepository;
 import com.rence.backoffice.repository.BackOfficeRepository;
+import com.rence.dashboard.model.BOPaymentVO;
 import com.rence.dashboard.model.CommentInsertVO;
 import com.rence.dashboard.model.CommentListQView;
 import com.rence.dashboard.model.CommentSummaryView;
@@ -131,13 +132,13 @@ public class DashboardService {
 	public int backoffice_updateOK_room(String backoffice_no, RoomInsertVO rvo) {
 		log.info("backoffice_updateOK_room().....");
 		rvo.setBackoffice_no(backoffice_no);
-		if (rvo.getRoom_type()=="desk") {
+		if (rvo.getRoom_type().equals("desk")) {
 			rvo.setRoom_price(10000);
-		}else if(rvo.getRoom_type()=="meeting_04"){
+		}else if(rvo.getRoom_type().equals("meeting_04")){
 			rvo.setRoom_price(20000);
-		}else if(rvo.getRoom_type()=="meeting_06"){
+		}else if(rvo.getRoom_type().equals("meeting_06")){
 			rvo.setRoom_price(30000);
-		}else if(rvo.getRoom_type()=="meeting_10"){
+		}else if(rvo.getRoom_type().equals("meeting_10")){
 			rvo.setRoom_price(50000);
 		}
 		return rm_repository2.backoffice_updateOK_room(rvo,rvo.getRoom_price());
@@ -343,9 +344,9 @@ public class DashboardService {
 	}
 
 	// 일정 관리 - 예약 취소
-	public int backoffice_reservation_cancel(String backoffice_no, String room_no, String reserve_no, String user_no) {
+	public BOPaymentVO backoffice_reservation_cancel(String backoffice_no, String reserve_no, String user_no) {
 		log.info("backoffice_reservation_cancel().....");
-		return dao.backoffice_reservation_cancel(backoffice_no,room_no,reserve_no,user_no);
+		return dao.backoffice_reservation_cancel(backoffice_no,reserve_no,user_no);
 	}
 
 	// 회사명 select
