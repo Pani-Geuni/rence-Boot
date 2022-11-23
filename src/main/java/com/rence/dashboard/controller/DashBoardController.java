@@ -706,7 +706,7 @@ public class DashBoardController {
 	public String backoffice_schedule(String backoffice_no, Model model) { // backoffice_no를 받아야 하나..?
 		log.info("backoffice_schedule controller()...");
 		
-		model.addAttribute("backoffic_no",backoffice_no);
+		model.addAttribute("backoffice_no",backoffice_no);
 		
 		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/schedule");
 		model.addAttribute("title", "일정 관리");
