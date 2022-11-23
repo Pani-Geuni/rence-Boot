@@ -3,7 +3,7 @@
  * 마이페이지에 관련된 전반적 기술을 처리하는 컨트롤러
  * 마이페이지의 페이징
  * 회원 탈퇴
- * 
+ *
  */
 package com.rence.user.controller;
 
@@ -89,9 +89,8 @@ public class MypageController {
 		Cookie cookie2 = new Cookie("user_image", umvo.getUser_image()); // 고유번호 쿠키 저장
 		cookie2.setPath("/");
 		response.addCookie(cookie2);
-		
+
 		umvo.setUser_image("https://rence.s3.ap-northeast-2.amazonaws.com/user/" + umvo.getUser_image());
-		
 
 		model.addAttribute("umvo", umvo);
 
@@ -247,36 +246,56 @@ public class MypageController {
 		List<MyPageReserveListVO> list = null;
 		log.info("current page: {}", page);
 
-		long total_rowCount_reserve_now;
-//		= service.total_rowCount_reserve();
-		long totalPageCnt;
-		long maxPage;
+
+		// 페이징 처리 로직
+		// 총 리스트 수
+		long total_rowCount_reserve = service.total_rowCount_reserve(user_no, time_point);
+		log.info("total_rowCount_reserve_now: {}", total_rowCount_reserve);
+
+		// 총 페이징되는 수(한페이지에 4개의 목록을 보여줄시 만들어지는 페이지 수)
+		long totalPageCnt = (long) Math.ceil(total_rowCount_reserve / 4.0);
+		log.info("totalPageCnt: {}", totalPageCnt);
+
+		// 현재페이지
 		long nowPage = page;
 
+		// 5page씩 끊으면 끝 페이지 번호( ex, 총 9페이지이고, 현재페이지가 6이면 maxpage = 9)
+		long maxPage = 0;
 
+		if (nowPage % 5 != 0) {
+			if (nowPage == totalPageCnt) {
+				maxPage = nowPage;
+			} else if (((nowPage / 5) + 1) * 5 >= totalPageCnt) {
+				maxPage = totalPageCnt;
+			} else if (((nowPage / 5) + 1) * 5 < totalPageCnt) {
+				maxPage = ((nowPage / 5) + 1) * 5;
+			}
+		} else if (nowPage % 5 == 0) {
+			if (nowPage <= totalPageCnt) {
+				maxPage = nowPage;
+			}
+		}
+		log.info("maxPage: " + maxPage);
+
+		map.put("totalPageCnt", totalPageCnt);
+		map.put("nowPage", nowPage);
+		map.put("maxPage", maxPage);
+
+		// 페이징처리를 위한 페이지 계산 로직끝
 
 		if (time_point.equals("now")) {
-			total_rowCount_reserve_now = service.total_rowCount_reserve_now();
-			log.info("total_rowCount_reserve_now: {}", total_rowCount_reserve_now);
-
-			totalPageCnt = (long) Math.ceil(total_rowCount_reserve_now / 8.0);
-			log.info("totalPageCnt: {}", totalPageCnt);
-
-			maxPage = ((nowPage / 5) + 1) * 5;
-
-			list = service.select_all_now_reserve_list(user_no);
+			list = service.select_all_now_reserve_list_paging(user_no,page);
 			map.put("type", "now");
-			map.put("totalPageCnt", totalPageCnt);
 
-			map.put("nowPage", nowPage);
 		} else if (time_point.equals("before")) {
-			list = service.select_all_before_reserve_list(user_no);
+			list = service.select_all_before_reserve_list_paging(user_no,page);
 			map.put("type", "before");
 		}
-		if (list == null)
+		if (list == null) {
 			map.put("cnt", 0);
-		else
+		} else {
 			map.put("cnt", list.size());
+		}
 		map.put("list", list);
 		map.put("page", "reserve-list");
 
@@ -298,10 +317,9 @@ public class MypageController {
 	@GetMapping("/mileage")
 	public String go_mileage(UserVO uvo, Model model, HttpServletRequest request,
 			@RequestParam(value = "page", defaultValue = "1") Integer page) {
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
-		
-		
+
 		log.info("go_mileage()...");
 		log.info("UserVO(사용자 고유번호): {}", uvo);
 
@@ -310,13 +328,13 @@ public class MypageController {
 		// 총 마일리지 부분
 		UserMileageVO umvo = service.totalMileage_selectOne(uvo);
 		log.info("umvo: {}", umvo);
-		
+
 		// 마일리지 콤마단위로 변환
 		DecimalFormat dc = new DecimalFormat("###,###,###,###,###");
 		String mileage_total = dc.format(umvo.getMileage_total());
 		log.info("mileage_total: " + mileage_total);
-		
-		//페이징 처리 로직
+
+		// 페이징 처리 로직
 		// 리스트 수
 		long total_rowCount_mileage_all = service.total_rowCount_mileage_all(uvo);
 		log.info("total_rowCount_reserve_now: {}", total_rowCount_mileage_all);
@@ -345,15 +363,14 @@ public class MypageController {
 			}
 		}
 		log.info("maxPage: " + maxPage);
-		
+
 		map.put("totalPageCnt", totalPageCnt);
 		map.put("nowPage", nowPage);
 		map.put("maxPage", maxPage);
-		
-		//페이징처리를 위한 페이지 계산 로직끝
-	
-		
-		List<UserMileageVO> vos = service.user_mileage_selectAll_paging(uvo,page);
+
+		// 페이징처리를 위한 페이지 계산 로직끝
+
+		List<UserMileageVO> vos = service.user_mileage_selectAll_paging(uvo, page);
 		log.info("vos: " + vos);
 
 		for (int i = 0; i < vos.size(); i++) {
@@ -361,8 +378,6 @@ public class MypageController {
 			vos.get(i).setMileage(dc.format(Integer.parseInt(vos.get(i).getMileage())));
 		}
 		log.info("Type change vos: {}" + vos);
-
-		
 
 		map.put("list", vos);
 		map.put("page", "mileage");
@@ -396,42 +411,42 @@ public class MypageController {
 		DecimalFormat dc = new DecimalFormat("###,###,###,###,###");
 		String mileage_total = dc.format(umvo.getMileage_total());
 		log.info("mileage_total: " + mileage_total);
-		
-		//페이징 처리 로직
-				// 리스트 수
-				long total_rowCount_mileage_all = service.total_rowCount_mileage_searchKey(uvo,searchKey);
-				log.info("total_rowCount_reserve_now: {}", total_rowCount_mileage_all);
 
-				// 총 페이징되는 수
-				long totalPageCnt = (long) Math.ceil(total_rowCount_mileage_all / 8.0);
-				log.info("totalPageCnt: {}", totalPageCnt);
+		// 페이징 처리 로직
+		// 리스트 수
+		long total_rowCount_mileage_search = service.total_rowCount_mileage_searchKey(uvo, searchKey);
+		log.info("total_rowCount_reserve_now: {}", total_rowCount_mileage_search);
 
-				// 현재페이지
-				long nowPage = page;
+		// 총 페이징되는 수
+		long totalPageCnt = (long) Math.ceil(total_rowCount_mileage_search / 8.0);
+		log.info("totalPageCnt: {}", totalPageCnt);
 
-				// 5page씩 끊으면 끝 페이지 번호( ex, 총 9페이지이고, 현재페이지가 6이면 maxpage = 9)
-				long maxPage = 0;
+		// 현재페이지
+		long nowPage = page;
 
-				if (nowPage % 5 != 0) {
-					if (nowPage == totalPageCnt) {
-						maxPage = nowPage;
-					} else if (((nowPage / 5) + 1) * 5 >= totalPageCnt) {
-						maxPage = totalPageCnt;
-					} else if (((nowPage / 5) + 1) * 5 < totalPageCnt) {
-						maxPage = ((nowPage / 5) + 1) * 5;
-					}
-				} else if (nowPage % 5 == 0) {
-					if (nowPage <= totalPageCnt) {
-						maxPage = nowPage;
-					}
-				}
-				log.info("maxPage: " + maxPage);
-				
-				map.put("totalPageCnt", totalPageCnt);
-				map.put("nowPage", nowPage);
-				map.put("maxPage", maxPage);
-				
-				//페이징처리를 위한 페이지 계산 로직끝
+		// 5page씩 끊으면 끝 페이지 번호( ex, 총 9페이지이고, 현재페이지가 6이면 maxpage = 9)
+		long maxPage = 0;
+
+		if (nowPage % 5 != 0) {
+			if (nowPage == totalPageCnt) {
+				maxPage = nowPage;
+			} else if (((nowPage / 5) + 1) * 5 >= totalPageCnt) {
+				maxPage = totalPageCnt;
+			} else if (((nowPage / 5) + 1) * 5 < totalPageCnt) {
+				maxPage = ((nowPage / 5) + 1) * 5;
+			}
+		} else if (nowPage % 5 == 0) {
+			if (nowPage <= totalPageCnt) {
+				maxPage = nowPage;
+			}
+		}
+		log.info("maxPage: " + maxPage);
+
+		map.put("totalPageCnt", totalPageCnt);
+		map.put("nowPage", nowPage);
+		map.put("maxPage", maxPage);
+
+		// 페이징처리를 위한 페이지 계산 로직끝
 
 		List<UserMileageVO> vos = service.user_mileage_search_list_paging(uvo, searchKey, page);
 		log.info("vos: " + vos);
@@ -441,7 +456,6 @@ public class MypageController {
 			vos.get(i).setMileage(dc.format(Integer.parseInt(vos.get(i).getMileage())));
 		}
 		log.info("Type change vos: {}" + vos);
-
 
 		map.put("list", vos);
 		map.put("page", "mileage");

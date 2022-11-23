@@ -148,7 +148,7 @@ public class UserMypageSerivice {
 		return total_rowCount_mileage_all;	
 	}
 	
-	
+	// 마일리지 리스트 페이징 - all
 	public List<UserMileageVO> user_mileage_selectAll_paging(UserVO uvo, Integer page) {
 		log.info("user_mileage_selectAll_paging");
 		log.info("uvo: {}",uvo);
@@ -162,7 +162,7 @@ public class UserMypageSerivice {
 		return mileageRepository.user_mileage_selectAll_paging(uvo.getUser_no(), start_row, end_row);
 	}
 
-	
+	// 마일리지 리스트 페이징 - plus,minus
 	public List<UserMileageVO> user_mileage_search_list_paging(UserVO uvo, String searchKey, Integer page) {
 		log.info("user_mileage_search_list()....");
 		log.info("uvo: {}", uvo);
@@ -175,11 +175,11 @@ public class UserMypageSerivice {
 		
 		
 		if (searchKey.equals("all")) {
-			vos= mileageRepository.user_mileage_selectAll_paging(uvo.getUser_no(),start_row, end_row);
+			vos = mileageRepository.user_mileage_selectAll_paging(uvo.getUser_no(), start_row, end_row);
 		} else if (searchKey.equals("plus")) {
-			vos= mileageRepository.mileage_search_list_plus_paging(uvo.getUser_no(),start_row, end_row);
+			vos = mileageRepository.mileage_search_list_plus_paging(uvo.getUser_no(), start_row, end_row);
 		} else if (searchKey.equals("minus")) {
-			vos= mileageRepository.mileage_search_list_minus_paging(uvo.getUser_no(),start_row, end_row);
+			vos = mileageRepository.mileage_search_list_minus_paging(uvo.getUser_no(), start_row, end_row);
 		}
 		return vos;
 	}
@@ -212,33 +212,66 @@ public class UserMypageSerivice {
 //	}
 
 	// 예약 리스트수-현재(페이징 처리를 위해서)
-	public long total_rowCount_reserve_now() {
+	public long total_rowCount_reserve(String user_no, String time_point) {
 		log.info("total_rowCount_reserve_now()....");
-		return myReserveRepository.count_nowReserve();
+		log.info("user_no: {}", user_no);
+		log.info("time_point: {}", time_point);
+		return myReserveRepository.count_Reserve(user_no,time_point);
+	}
+	
+	// 마이페이지- 현재 예약현황 리스트 - 페이징
+	public List<MyPageReserveListVO> select_all_now_reserve_list_paging(String user_no, Integer page) {
+		log.info("select_all_now_reserve_list_paging()....");
+		log.info("user_no: {}", user_no);
+
+		Integer row_count = 4;
+		Integer start_row = (page -1) * row_count + 1;
+		Integer end_row = page * row_count;
 		
-	}
+		List<MyPageReserveListVO> vos = myReserveRepository.select_all_now_reserve_list_paging(user_no, start_row, end_row);
+		log.info("vos: {}", vos);
 
-	// 마이페이지- 현재 예약현황 리스트
-	public List<MyPageReserveListVO> select_all_now_reserve_list(String user_no) {
-		log.info("select_all_now_reserve_list()....");
+		return vos;
+	}
+	
+	// 마이페이지- 과거 예약현황 리스트 - 페이징
+	public List<MyPageReserveListVO> select_all_before_reserve_list_paging(String user_no, Integer page) {
+		log.info("select_all_before_reserve_list_paging()....");
 		log.info("user_no: {}", user_no);
 
-		List<MyPageReserveListVO> vos = myReserveRepository.select_all_now_reserve_list(user_no);
+		Integer row_count = 4;
+		Integer start_row = (page -1) * row_count + 1;
+		Integer end_row = page * row_count;
+		
+		List<MyPageReserveListVO> vos = myReserveRepository.select_all_before_reserve_list_paging(user_no, start_row, end_row);
 		log.info("vos: {}", vos);
 
 		return vos;
 	}
 
-	// 마이페이지- 과거 예약현황 리스트
-	public List<MyPageReserveListVO> select_all_before_reserve_list(String user_no) {
-		log.info("select_all_before_reserve_list()....");
-		log.info("user_no: {}", user_no);
 
-		List<MyPageReserveListVO> vos = myReserveRepository.select_all_before_reserve_list(user_no);
-		log.info("vos: {}", vos);
 
-		return vos;
-	}
+//	// 마이페이지- 현재 예약현황 리스트
+//	public List<MyPageReserveListVO> select_all_now_reserve_list(String user_no) {
+//		log.info("select_all_now_reserve_list()....");
+//		log.info("user_no: {}", user_no);
+//
+//		List<MyPageReserveListVO> vos = myReserveRepository.select_all_now_reserve_list(user_no);
+//		log.info("vos: {}", vos);
+//
+//		return vos;
+//	}
+//
+//	// 마이페이지- 과거 예약현황 리스트
+//	public List<MyPageReserveListVO> select_all_before_reserve_list(String user_no) {
+//		log.info("select_all_before_reserve_list()....");
+//		log.info("user_no: {}", user_no);
+//
+//		List<MyPageReserveListVO> vos = myReserveRepository.select_all_before_reserve_list(user_no);
+//		log.info("vos: {}", vos);
+//
+//		return vos;
+//	}
 
 	// 마이페이지 - 문의내역리스트
 	public List<UserQuestionVO> select_all_question(String user_no) {
@@ -269,6 +302,10 @@ public class UserMypageSerivice {
 		return userReviewRepository.select_all_review(user_no);
 	}
 
+	
+
+	
+	
 	
 
 	
