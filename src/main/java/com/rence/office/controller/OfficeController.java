@@ -444,6 +444,21 @@ public class OfficeController {
 
 				vo.setBackoffice_image(
 						"https://rence.s3.ap-northeast-2.amazonaws.com/space/" + vo.getBackoffice_image());
+				
+				
+				if(vo.getBackoffice_tag() != null) {
+					String []tags = vo.getBackoffice_tag().split(",");
+					
+					int i = 0;
+					for(String tag : tags) {
+						tag = "#" + tag;
+						tags[i] = tag;
+						i++;
+					}
+					
+					vo.setBackoffice_tag(String.join(" ", tags));
+				}
+				
 
 				if (vo.getRoadname_address().contains(" ")) {
 					String road_name = vo.getRoadname_address().split(" ")[0] + " "
