@@ -431,7 +431,7 @@ public class OfficeController {
 		int total_cnt = service.list_totalCnt("%" + type + "%");
 		
 		List<ListViewVO> list = service.select_all_list(type, condition, 9 * (page - 1) + 1, 9 * (page));
-
+		
 		if (list == null)
 			map.put("cnt", 0);
 		else
