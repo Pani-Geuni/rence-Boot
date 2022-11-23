@@ -90,8 +90,8 @@
 							<div class="ct-body-cell reserve">[[ ${vos.user_email} ]]</div>
 							<div class="ct-body-cell reserve reserve-price">[[ ${vos.actual_payment} ]]</div>
 							<div class="ct-body-cell reserve">
-								<th:block th:if="${vos.payment_state=='T'}">선결제</th:block>
-								<th:block th:if="${vos.payment_state=='F'}">후불제</th:block>
+								<th:block th:if="${vos.payment_state=='T'}">선</th:block>
+								<th:block th:if="${vos.payment_state=='F'}">후</th:block>
 							</div>
 						</div>
 						<!-- END ct-body-row reserve -->

@@ -344,9 +344,9 @@ public class DashboardService {
 	}
 
 	// 일정 관리 - 예약 취소
-	public BOPaymentVO backoffice_reservation_cancel(String backoffice_no, String room_no, String reserve_no, String user_no) {
+	public BOPaymentVO backoffice_reservation_cancel(String backoffice_no, String reserve_no, String user_no) {
 		log.info("backoffice_reservation_cancel().....");
-		return dao.backoffice_reservation_cancel(backoffice_no,room_no,reserve_no,user_no);
+		return dao.backoffice_reservation_cancel(backoffice_no,reserve_no,user_no);
 	}
 
 	// 회사명 select

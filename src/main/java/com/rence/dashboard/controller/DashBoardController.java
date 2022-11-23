@@ -449,8 +449,12 @@ public class DashBoardController {
 		log.info("backoffice_reserve ()...");
 		log.info("{}", backoffice_no);
 		List<ReserveListView> rvos = service.backoffice_reserve_selectAll(backoffice_no, reserve_state, page);
+		if (rvos==null) {
+			model.addAttribute("cnt", 0);
+		}else {
+			model.addAttribute("cnt", rvos.size());
+		}
 		model.addAttribute("r_vos", rvos);
-		model.addAttribute("cnt", rvos.size());
 		model.addAttribute("reserve_state", reserve_state);
 		
 		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/reserve_list");
@@ -468,8 +472,12 @@ public class DashBoardController {
 		log.info("backoffice_search_reserve ()...");
 		log.info("{}", backoffice_no);
 		List<ReserveListView> rvos = service.backoffice_search_reserve(backoffice_no, searchword, reserve_state,page);
+		if (rvos==null) {
+			model.addAttribute("cnt", 0);
+		}else {
+			model.addAttribute("cnt", rvos.size());
+		}
 		model.addAttribute("r_vos", rvos);
-		model.addAttribute("cnt", rvos.size());
 		model.addAttribute("reserve_state", reserve_state);
 		
 		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/reserve_list");
@@ -815,14 +823,14 @@ public class DashBoardController {
 	@ApiOperation(value="일정 관리 - 예약 취소", notes="대쉬보드 - 일정 관리")
 	@PostMapping("/reservation_cancel")
 	@ResponseBody
-	public String backoffice_reservation_cancel(String backoffice_no, String room_no, String reserve_no, String user_no, String user_email, String reserve_stime, String reserve_etime, Model model) throws ParseException {
+	public String backoffice_reservation_cancel(String backoffice_no, String reserve_no, String user_no, String user_email, String reserve_stime, String reserve_etime, Model model) throws ParseException {
 		log.info("backoffice_reservation_cancel controller()...");
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		//  에약 상태 cancel로 변경, 예약자에게 취소 메일 보내기, 결제 상태 false?? , 결제 테이블에서 사용한 마일리지와 돈 환불.
 		
-		BOPaymentVO pvo = service.backoffice_reservation_cancel(backoffice_no,room_no,reserve_no,user_no);
+		BOPaymentVO pvo = service.backoffice_reservation_cancel(backoffice_no,reserve_no,user_no);
 		
 		if (pvo!=null) {
 			BackOfficeVO bvo = service.backoffice_select_companyname(backoffice_no);

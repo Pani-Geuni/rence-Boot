@@ -569,7 +569,7 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 
 	// 일정 관리 - 예약 취소
 	@Override
-	public BOPaymentVO backoffice_reservation_cancel(String backoffice_no, String room_no, String reserve_no, String user_no) {
+	public BOPaymentVO backoffice_reservation_cancel(String backoffice_no, String reserve_no, String user_no) {
 		int flag = reserveAutoUpdateRepository.update_reserve_state_cancel(reserve_no);
 		BOPaymentVO pvo = new BOPaymentVO();
 		// 결제 취소, 
