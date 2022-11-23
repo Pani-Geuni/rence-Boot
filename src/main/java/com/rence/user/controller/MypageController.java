@@ -556,13 +556,49 @@ public class MypageController {
 	@ApiOperation(value = "후기 리스트", notes = "후기 리스트 입니다.")
 	@GetMapping("/review_list")
 //	@RequestMapping(value = "/review_list", method = RequestMethod.GET)
-	public String review_list(String user_no, Model model) {
+	public String review_list(String user_no, Model model, @RequestParam(value = "page", defaultValue = "1") Integer page) {
 		log.info("review_list()...");
-
 		log.info("user_no: " + user_no);
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<UserReviewVO> list = service.select_all_review(user_no);
+		
+		// 페이징 처리 로직
+		// 리스트 수
+		long total_rowCount_review = service.total_rowCount_review(user_no);
+		log.info("total_rowCount_review: {}", total_rowCount_review);
+
+		// 총 페이징되는 수
+		long totalPageCnt = (long) Math.ceil(total_rowCount_review / 8.0);
+		log.info("totalPageCnt: {}", totalPageCnt);
+
+		// 현재페이지
+		long nowPage = page;
+
+		// 5page씩 끊으면 끝 페이지 번호( ex, 총 9페이지이고, 현재페이지가 6이면 maxpage = 9)
+		long maxPage = 0;
+
+		if (nowPage % 5 != 0) {
+			if (nowPage == totalPageCnt) {
+				maxPage = nowPage;
+			} else if (((nowPage / 5) + 1) * 5 >= totalPageCnt) {
+				maxPage = totalPageCnt;
+			} else if (((nowPage / 5) + 1) * 5 < totalPageCnt) {
+				maxPage = ((nowPage / 5) + 1) * 5;
+			}
+		} else if (nowPage % 5 == 0) {
+			if (nowPage <= totalPageCnt) {
+				maxPage = nowPage;
+			}
+		}
+		log.info("maxPage: " + maxPage);
+
+		map.put("totalPageCnt", totalPageCnt);
+		map.put("nowPage", nowPage);
+		map.put("maxPage", maxPage);
+
+		// 페이징처리를 위한 페이지 계산 로직끝
+	
+		List<UserReviewVO> list = service.select_all_review_paging(user_no,page);
 
 		map.put("page", "review");
 		map.put("list", list);
