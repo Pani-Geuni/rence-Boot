@@ -48,9 +48,11 @@ public class ScheduleListView implements Serializable{
 	@Column(name="reserve_cnt")
 	private Integer reserve_cnt;
 	
+	@Transient
 	@Column(name="reserve_stime")
 	private Date reserve_stime;
 	
+	@Transient
 	@Column(name="reserve_etime")
 	private Date reserve_etime;
 	

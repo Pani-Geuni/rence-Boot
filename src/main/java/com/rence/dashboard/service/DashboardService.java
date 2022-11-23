@@ -29,7 +29,9 @@ import com.rence.dashboard.model.RoomVO;
 import com.rence.dashboard.model.SalesSettlementDetailView;
 import com.rence.dashboard.model.SalesSettlementSummaryView;
 import com.rence.dashboard.model.SalesSettlementViewVO;
+import com.rence.dashboard.model.ScheduleEntity;
 import com.rence.dashboard.model.ScheduleListView;
+import com.rence.dashboard.model.ScheduleVO;
 import com.rence.dashboard.model.ReservationView;
 import com.rence.dashboard.repository.CommentInsertRepository;
 import com.rence.dashboard.repository.CommentRepository;
@@ -354,6 +356,19 @@ public class DashboardService {
 		log.info("backoffice_reservation_cancel().....");
 		return b_repository.select_one_backoffice_info(backoffice_no);
 	}
+	
+	// 일정 관리 - 휴무 일정
+	public List<ScheduleEntity> backoffice_schedule_calander(String backoffice_no) {
+		log.info("backoffice_schedule_calander().....");
+		return sc_repository.backoffice_schedule_calander(backoffice_no);
+	}
+
+	// 일정 관리 - 일정(휴무, 브레이크 타임) 취소
+	public int backoffice_schedule_cancel(String backoffice_no, String schedule_no) {
+		log.info("backoffice_schedule_cancel().....");
+		return sc_repository.backoffice_schedule_cancel(backoffice_no,schedule_no);
+	}
+
 
 
 
