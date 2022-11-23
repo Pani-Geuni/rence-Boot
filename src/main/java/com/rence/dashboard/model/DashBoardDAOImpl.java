@@ -20,6 +20,7 @@ import org.springframework.stereotype.Repository;
 
 import com.rence.dashboard.repository.CommentAListRepository;
 import com.rence.dashboard.repository.CommentQListRepository;
+import com.rence.dashboard.repository.PaymentCancelRepository;
 import com.rence.dashboard.repository.ReservationRepository;
 import com.rence.dashboard.repository.ReserveAutoUpdateRepository;
 import com.rence.dashboard.repository.ReserveRepository;
@@ -76,6 +77,9 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 	
 	@Autowired
 	ScheduleRepository schedule_repository; 
+	
+	@Autowired
+	PaymentCancelRepository p_repository;
 
 	// 공간 관리 - 문의 리스트
 	@Override
@@ -565,14 +569,16 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 
 	// 일정 관리 - 예약 취소
 	@Override
-	public int backoffice_reservation_cancel(String backoffice_no, String room_no, String reserve_no, String user_no) {
+	public BOPaymentVO backoffice_reservation_cancel(String backoffice_no, String room_no, String reserve_no, String user_no) {
 		int flag = reserveAutoUpdateRepository.update_reserve_state_cancel(reserve_no);
+		BOPaymentVO pvo = new BOPaymentVO();
 		// 결제 취소, 
 		if (flag==1) {
-//			s_repository.update_sales_state_
-			s_repository.backoffice_cancel_mileage_state_t(reserve_no);
+			pvo = p_repository.select_paymentinfo(reserve_no);
+			s_repository.backoffice_update_cancel_mileage_state_t(reserve_no);
+			s_repository.backoffice_delete_cancel_mileage_state_w(reserve_no);
 		}
-		return 0;
+		return pvo;
 	}
 
 }

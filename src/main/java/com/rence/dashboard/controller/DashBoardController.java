@@ -36,6 +36,7 @@ import com.rence.backoffice.service.BackOfficeFileService;
 import com.rence.backoffice.service.BackOfficeSendEmail;
 import com.rence.backoffice.service.OperatingTime;
 import com.rence.common.OptionEngToKorMap;
+import com.rence.dashboard.model.BOPaymentVO;
 import com.rence.dashboard.model.CommentInsertVO;
 import com.rence.dashboard.model.CommentListQView;
 import com.rence.dashboard.model.CommentSummaryView;
@@ -650,7 +651,9 @@ public class DashBoardController {
 		log.info("result: {}.", bvo2);
 		
 		OptionEngToKorMap optionEngToKorMap = new OptionEngToKorMap();
-
+		List<String> tags = optionEngToKorMap.splitTag(bvo2.getBackoffice_tag());
+		
+		model.addAttribute("backoffice_tag", tags);
 		model.addAttribute("vo", bvo2);
 		
 		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/update_host");
@@ -819,9 +822,9 @@ public class DashBoardController {
 		
 		//  에약 상태 cancel로 변경, 예약자에게 취소 메일 보내기, 결제 상태 false?? , 결제 테이블에서 사용한 마일리지와 돈 환불.
 		
-		int result = service.backoffice_reservation_cancel(backoffice_no,room_no,reserve_no,user_no);
+		BOPaymentVO pvo = service.backoffice_reservation_cancel(backoffice_no,room_no,reserve_no,user_no);
 		
-		if (result==1) {
+		if (pvo!=null) {
 			BackOfficeVO bvo = service.backoffice_select_companyname(backoffice_no);
 			String company_name = bvo.getCompany_name();
 			int flag = dashboardSendEmail.reserve_cancel_mail(user_no,user_email,reserve_stime,reserve_etime,company_name);
