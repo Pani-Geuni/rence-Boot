@@ -17,7 +17,6 @@ import com.rence.office.model.OfficeQuestionVO;
 import com.rence.office.model.OfficeReviewVO;
 import com.rence.office.model.OfficeRoomVO;
 import com.rence.office.repo.OfficeDetailInfoRepository;
-//import com.rence.user.model.ReviewVO;
 import com.rence.office.repo.OfficeInfoRepository;
 import com.rence.office.repo.OfficeListRepository;
 import com.rence.office.repo.OfficeOperatingTimeRepository;

@@ -39,7 +39,7 @@ $(function(){
     });
 
     $("#go-backOffice").click(function(){
-        location.href="/rence/backoffice_landing";
+        location.href="/backoffice/landing";
     });
 
     // CUSTOM TYPE SELECT
@@ -56,7 +56,7 @@ $(function(){
     $("#location").click(function(){
         if(city.length == 0){
             $.ajax({
-                url : "static/json/city.json",
+                url : "/static/json/city.json",
                 dataType : "json",
                 success : function(res) {
                     cityObject = res.slice();
