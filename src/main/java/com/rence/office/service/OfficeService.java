@@ -1,5 +1,5 @@
 /**
- * @author 전판근
+ * @author 전판근, 김예은
  */
 
 package com.rence.office.service;
@@ -125,34 +125,46 @@ public class OfficeService {
 		return result; 
 	}
 	
+
+	public int list_totalCnt(String type) {
+		int cnt = list_repository.list_totalCnt(type);
+		
+		return cnt; 
+	}
 	
-	public List<ListViewVO> select_all_list(String type, String condition){
+	public int search_list_totalCnt(String type, String location, String searchWord) {
+		int cnt = list_repository.search_list_totalCnt("%"+type+"%", "%"+location+"%", "%"+searchWord+"%");
+		
+		return cnt; 
+	}
+	
+	public List<ListViewVO> select_all_list(String type, String condition, int min, int max){
 		List<ListViewVO> list = null;
 		
 		if(condition.equals("date")) {
-			list = list_repository.selectAll_orderBy_date("%"+type+"%");
+			list = list_repository.selectAll_orderBy_date("%"+type+"%", min, max);
 		}else if(condition.equals("rating")) {
-			list = list_repository.selectAll_orderBy_rating("%"+type+"%");
+			list = list_repository.selectAll_orderBy_rating("%"+type+"%", min, max);
 		}else if(condition.equals("cheap")) {
-			list = list_repository.selectAll_orderBy_cheap("%"+type+"%");
+			list = list_repository.selectAll_orderBy_cheap("%"+type+"%", min, max);
 		}else if(condition.equals("expensive")) {
-			list = list_repository.selectAll_orderBy_expensive("%"+type+"%");
+			list = list_repository.selectAll_orderBy_expensive("%"+type+"%", min, max);
 		}
 		
 		return list;
 	}
 	
-	public List<ListViewVO> search_list(String type, String location, String searchWord, String condition){
+	public List<ListViewVO> search_list(String type, String location, String searchWord, String condition, int min, int max){
 		List<ListViewVO> list = null;
 		
 		if(condition.equals("date")) {
-			list = list_repository.searchAll_orderBy_date("%"+type+"%", "%"+location+"%", "%"+searchWord+"%");
+			list = list_repository.searchAll_orderBy_date("%"+type+"%", "%"+location+"%", "%"+searchWord+"%", min, max);
 		}else if(condition.equals("rating")) {
-			list = list_repository.searchAll_orderBy_rating("%"+type+"%", "%"+location+"%", "%"+searchWord+"%");
+			list = list_repository.searchAll_orderBy_rating("%"+type+"%", "%"+location+"%", "%"+searchWord+"%", min, max);
 		}else if(condition.equals("cheap")) {
-			list = list_repository.searchAll_orderBy_cheap("%"+type+"%", "%"+location+"%", "%"+searchWord+"%");
+			list = list_repository.searchAll_orderBy_cheap("%"+type+"%", "%"+location+"%", "%"+searchWord+"%", min, max);
 		}else if(condition.equals("expensive")) {
-			list = list_repository.searchAll_orderBy_expensive("%"+type+"%", "%"+location+"%", "%"+searchWord+"%");
+			list = list_repository.searchAll_orderBy_expensive("%"+type+"%", "%"+location+"%", "%"+searchWord+"%", min, max);
 		}
 		
 		return list;
