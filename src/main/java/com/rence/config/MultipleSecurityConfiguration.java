@@ -44,7 +44,7 @@ public class MultipleSecurityConfiguration {
                                   // 조절할 수 있습니다.
     }
     
-	   @Order(1)
+	   @Order(0)
 	   @Configuration
 	   @RequiredArgsConstructor
 	   public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -70,8 +70,8 @@ public class MultipleSecurityConfiguration {
 	          */
 //	         http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 
-	         http 
-//	         http.csrf().disable() // csrf 토큰을 비활성화
+//	         http 
+	         http.csrf().disable() // csrf 토큰을 비활성화
 	               .authorizeRequests().antMatchers("backoffice/dashbord/**").authenticated() // 요청 URL에 따라 접근 권한을 설정
 //	         .antMatchers("/**").permitAll() // 해당 경로들은 접근을 허용
 //	         .anyRequest() // 다른 모든 요청은
@@ -85,9 +85,9 @@ public class MultipleSecurityConfiguration {
 	               .failureForwardUrl("/backoffice/loginFail") // 실패시 요청을 처리할 핸들러
 	               
 //	               .and().addFilterBefore(AuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-	               .and()
-	                .csrf()
-	                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+//	               .and()
+//	                .csrf()
+//	                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 	               .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/backoffice/logout")) // 로그아웃 URL
 	               .logoutSuccessUrl("/backoffice/logoutOK") // 성공시 리턴 URL
 	               .invalidateHttpSession(true) // 인증정보를 지우하고 세션을 무효화
@@ -103,7 +103,7 @@ public class MultipleSecurityConfiguration {
 
 	   }
 	   
-	   @Order(0)
+	   @Order(1)
 	   @Configuration
 	   @RequiredArgsConstructor
 	   public class MasterSecurityConfig extends WebSecurityConfigurerAdapter {

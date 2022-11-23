@@ -36,8 +36,8 @@ $(function () {
       $("#login-pw").addClass("null-input-border");
     }
     
-    const token = $("meta[name='_csrf']").attr("content");
-	const header = $("meta[name='_csrf_header']").attr("content");
+//    const token = $("meta[name='_csrf']").attr("content");
+//	const header = $("meta[name='_csrf_header']").attr("content");
 
     if($("#login-id").val().trim().length > 0 && $("#login-pw").val().trim().length > 0){
       //로딩 화면
@@ -51,9 +51,10 @@ $(function () {
         data : {
           username : $("#login-id").val().trim(),
           password : $("#login-pw").val().trim()
-        },beforeSend : function(xhr) {
-          xhr.setRequestHeader(header, token);
         },
+//        ,beforeSend : function(xhr) {
+//          xhr.setRequestHeader(header, token);
+//        },
         success : function(res) {
           //로딩 화면 닫기
           $(".popup-background:eq(1)").addClass("blind");
@@ -327,14 +328,19 @@ $(function () {
   // 추가 버튼 클릭 -> 추가 로직
   $('#btn-insert').click(function(){
     // 입력값 not null인지 확인
+    console.log("1")
     if($("#input-room-name").val().trim().length > 0 && $('#edit_room_type').val().length > 0){
+		console.log("2")
       if($('#edit_room_type').val() == 'office'){
+		  console.log("3")
         if($("#input-price-name").val().trim().length > 0 && $("#input-price-name").val().trim() != 0){
+			console.log("4")
           insert();
         }else{
           $("#input-price-name").addClass("null-input-border");
         }
       }else{
+		  console.log("5")
         insert();
       }
     }else{

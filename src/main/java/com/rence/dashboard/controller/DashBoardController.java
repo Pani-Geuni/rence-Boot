@@ -132,7 +132,7 @@ public class DashBoardController {
 	@GetMapping("/insert_room")
 	@ResponseBody
 	public String backoffice_insert_room(String backoffice_no) {
-		log.info("backoffice_insertOK_room ()...");
+		log.info("backoffice_insert_room ()...");
 		log.info("backoffice_no : {}", backoffice_no);
 
 		Map<String, List<String>> map = new HashMap<String,List<String>>();
@@ -171,7 +171,6 @@ public class DashBoardController {
 	@ApiOperation(value="공간 추가 처리", notes="대쉬보드 공간 관리 페이지")
 	@PostMapping("/insertOK_room")
 	@ResponseBody
-	
 	public String backoffice_insertOK_room(RoomInsertVO rvo,String backoffice_no) {
 		log.info("backoffice_insertOK_room ()...");
 		log.info("{}", backoffice_no);
