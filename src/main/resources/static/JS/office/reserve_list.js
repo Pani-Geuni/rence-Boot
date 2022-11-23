@@ -32,4 +32,9 @@ $(function(){
     $(".timePoint-select-wrap").click(function(){
         $(".timePoint-custom-select-wrap").toggleClass("blind");
     });
+
+    // 페이지 번호 클릭 이벤트
+    $(".paging-box.paging-num").click(function(){
+        location.href = "/rence/reserve_list?time_point=" + window.location.href.split("time_point=")[1].split("&")[0] + "&user_no="+ $.cookie("user_no") + "&page=" + $(this).attr("idx");
+    });
 });
