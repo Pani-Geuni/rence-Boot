@@ -5,8 +5,6 @@
 */
 package com.rence.user.service;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -152,6 +150,7 @@ public class UserMypageSerivice {
 	public List<UserMileageVO> user_mileage_selectAll_paging(UserVO uvo, Integer page) {
 		log.info("user_mileage_selectAll_paging");
 		log.info("uvo: {}",uvo);
+		log.info("current page: {}",page);
 		
 		Integer row_count = 8;
 		Integer start_row = (page -1) * row_count + 1;
@@ -225,6 +224,7 @@ public class UserMypageSerivice {
 	public List<MyPageReserveListVO> select_all_now_reserve_list_paging(String user_no, Integer page) {
 		log.info("select_all_now_reserve_list_paging()....");
 		log.info("user_no: {}", user_no);
+		log.info("current page: {}",page);
 
 		Integer row_count = 4;
 		Integer start_row = (page -1) * row_count + 1;
@@ -243,6 +243,7 @@ public class UserMypageSerivice {
 	public List<MyPageReserveListVO> select_all_before_reserve_list_paging(String user_no, Integer page) {
 		log.info("select_all_before_reserve_list_paging()....");
 		log.info("user_no: {}", user_no);
+		log.info("current page: {}",page);
 
 		Integer row_count = 4;
 		Integer start_row = (page -1) * row_count + 1;
@@ -280,15 +281,42 @@ public class UserMypageSerivice {
 //
 //		return vos;
 //	}
-
-	// 마이페이지 - 문의내역리스트
-	public List<UserQuestionVO> select_all_question(String user_no) {
-		log.info("select_all_question()....");
+	
+	// 문의 리스트수-현재(페이징 처리를 위해서)
+	public long total_rowCount_question(String user_no) {
+		log.info("total_rowCount_question()....");
 		log.info("user_no: {}", user_no);
-		return myQuestionRepository.select_all_question(user_no);
+		
+		return myQuestionRepository.count_question(user_no);
+	}
+	
+	// 마이페이지 - 문의내역리스트 페이징
+	public List<UserQuestionVO> select_all_question_paging(String user_no, Integer page) {
+		log.info("select_all_question_paging()....");
+		log.info("user_no: {}", user_no);
+		log.info("current page: {}",page);
+
+		Integer row_count = 8;
+		Integer start_row = (page -1) * row_count + 1;
+		Integer end_row = page * row_count;
+		
+		log.info("start_row: "+start_row);
+		log.info("end_row: "+end_row);
+		
+		List<UserQuestionVO> vos = myQuestionRepository.select_all_question_paging(user_no, start_row, end_row);
+		log.info("vos: {}", vos);
+
+		return vos;
 	}
 
-	// 마이페이지 - 문의내역리스트
+//	// 마이페이지 - 문의내역리스트
+//	public List<UserQuestionVO> select_all_question(String user_no) {
+//		log.info("select_all_question()....");
+//		log.info("user_no: {}", user_no);
+//		return myQuestionRepository.select_all_question(user_no);
+//	}
+
+	// 마이페이지 - 문의내역리스트(답변)
 	public UserQuestionVO select_one_answer(String comment_no) {
 		log.info("select_all_question()....");
 		log.info("comment_no: {}", comment_no);
@@ -309,6 +337,10 @@ public class UserMypageSerivice {
 		log.info("user_no: {}", user_no);
 		return userReviewRepository.select_all_review(user_no);
 	}
+
+
+
+
 
 	
 
