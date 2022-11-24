@@ -132,7 +132,7 @@
   });
 
   /*** 예약 가능 여부 버튼 클릭 ***/
-  $("#check_available").click(function(){
+  $("#office_check_available").click(function(){
     // 예약 타입 선택 O
     if($(".type-border-txt").prop("check") == true){
       if($(".time-input:eq(0)").val() != '' && $(".time-input:eq(1)").val() != ''){

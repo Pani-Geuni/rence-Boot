@@ -123,10 +123,10 @@ dl{
 }
 
 .ui-icon .ui-icon-circle-triangle-w{
-    background-image: url("../IMG/space-introduce/left.svg") !important;
+    background-image: url("/static/IMG/space-introduce/left.svg") !important;
 }
 .ui-icon .ui-icon-circle-triangle-e{
-    background-image: url("../IMG/space-introduce/right.svg") !important;
+    background-image: url("/static/IMG/space-introduce/right.svg") !important;
 }
 
 .ui_tpicker_second{

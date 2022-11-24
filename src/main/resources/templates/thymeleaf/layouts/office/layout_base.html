@@ -88,8 +88,22 @@
 					$(".common-alert-txt").text("로그인 후 이용가능한 기능입니다.");
 				}
 			});
+			
+			function getDayOfWeek(date) {
+			    let week = [0, 1, 2, 3, 4, 5, 6]
+			    let dayOfWeek = week[new Date(date).getDay()];
+				return dayOfWeek;
+			}
+			
+			$('.type-border-txt.time-input').change(function() {
+				console.log("change");
+				$("#check_available").removeClass("blind");
+				$("#go_reserve").addClass("blind");
+			});
 
+			/**************************/
 			/*** 예약 가능 여부 버튼 클릭 ***/
+			/**************************/
 			$("#check_available").click(function () {
 				if (is_login2 != null) {
 					// 예약 타입 선택 O
@@ -110,41 +124,101 @@
 									let param = new URLSearchParams(query);
 									let backoffice_no = param.get('backoffice_no');
 									let room_no = $("#type-choice-value").attr("room_no");
-									let reserve_stime = $(".time-input:eq(0)").val();
+									let reserve_date = $(".time-input:eq(0)").val();
 									let reserve_etime = $(".time-input:eq(1)").val();
-
-									//로딩 화면
-									$(".popup-background:eq(1)").removeClass("blind");
-									$("#spinner-section").removeClass("blind");
+									
+									console.log(backoffice_no, room_no, reserve_date);
 
 									$.ajax({
-										url: "/rence/reserve_checkOK",
-										type: "POST",
+										url: "/office/reserve_check",
+										type: "GET",
 										dataType: "json",
 										data: {
-											reserve_stime: reserve_stime,
-											reserve_etime: reserve_etime,
-											room_no: room_no,
 											backoffice_no: backoffice_no,
-											user_no: $.cookie("user_no")
+											room_no: room_no,
+											reserve_date
 										},
-
-										success: function (res) {
-											//로딩 화면 닫기
-											$(".popup-background:eq(1)").addClass("blind");
-											$("#spinner-section").addClass("blind");
-
-											if (res.result == 1) {
-												location.href = "/rence/payment_page?reserve_no=" + res.reserve_no;
-											} else if (res.result == 0) {
-												$(".fixed-popup").removeClass("blind");
-												$(".using-time-fail-txt:eq(0)").html("해당 시간은 예약 할 수 없습니다.");
-											}
+										
+										success: function(res) {
+											let reserve_list = res.reserve_list;
+											let pickerDate = '';
+											let pick_time_list = [];	// 예약 선택 시간
+											let temp_stime = '';
+											let now = new Date();
+											let year = now.getFullYear();
+											let month = now.getMonth() + 1;
+											let date = now.getDate();
+											
+											let today = year + "/" + month + "/" + date;
+											let now_hours = now.getHours();
+											
+											// 선택 날짜 요일 구하기
+											pickerDate = $('.type-border-txt.time-input').val().trim();
+											let dayOfWeek = getDayOfWeek(pickerDate);
+											
+											
+											
+											$("#check_available").addClass("blind");
+											$("#go_reserve").removeClass("blind");
+											
+											
+											console.log(reserve_list);
+											
+											let running_stime = '';
+											let running_etime = '';
+											
+											$('.running-time-li-wrap li').each(function (index, item) {
+												if (index === dayOfWeek) {
+													let running_time = $(this).children('span').text().trim();
+													
+													if (running_time !== '휴무') {
+														let split_time = running_time.split(' ~ ');
+														
+														running_stime = parseInt(split_time[0].split(':')[0]);
+														running_etime = parseInt(split_time[1].split(':')[0]);
+														
+														console.log(running_time, running_stime, running_etime);
+														
+														$('#reserve-time-boundary').css('display', 'flex');
+														let running_time_list = [];
+														
+														temp_stime = '';
+														
+														if (pickerDate == today) {
+															if (running_stime <= now_hours) {
+																temp_stime = now_hours + 1;
+															} else {
+																temp_stime = running_stime;
+															}
+														} else if (pickerDate > today) {
+															temp_stime = running_stime;
+														}
+														
+														for (let t = temp_stime; t < running_etime; t++) {
+															if (!reserve_list.includes(t)) {
+																running_time_list.push(t);															
+															}
+														}
+														
+														// 운영 시간 display 표시
+														$('.time-boundary-list li').each(function (index, item) {
+															// 이전 운영 시간 display 초기화
+															$(this).css('display', 'none');
+															
+															if (running_time_list.includes(index)) {
+																$(this).css('display', 'flex');
+															}
+														});
+													} else {
+														$('.time-boundary-list li').each(function (index, item) {
+															$(this).css('display', 'none')
+														})
+													}
+												}
+											});
 										},
-										error: function () {
-											//로딩 화면 닫기
-											$(".popup-background:eq(1)").addClass("blind");
-											$("#spinner-section").addClass("blind");
+										error: function(err) {
+											console.log(err);
 										}
 									});
 								}

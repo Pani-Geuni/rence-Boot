@@ -6,6 +6,7 @@ package com.rence.office.controller;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,10 +18,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.rence.backoffice.model.BackOfficeVO;
 import com.rence.backoffice.service.CustomDateFormatter;
 import com.rence.common.OptionEngToKorMap;
@@ -30,6 +31,8 @@ import com.rence.office.model.OfficeInfoVO;
 import com.rence.office.model.OfficeOperatingTimeVO;
 import com.rence.office.model.OfficeOperatingTimeVO_date;
 import com.rence.office.model.OfficeQuestionVO;
+import com.rence.office.model.OfficeReserveVO;
+import com.rence.office.model.OfficeReserveVO_date;
 import com.rence.office.model.OfficeReviewVO;
 import com.rence.office.model.OfficeRoomVO;
 import com.rence.office.service.OfficeService;
@@ -44,6 +47,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/office")
 public class OfficeController {
 
+	Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	
 	@Autowired
 	OfficeService service;
 
@@ -54,7 +59,7 @@ public class OfficeController {
 	 * 오피스(공간) 상세 페이지
 	 */
 	@ApiOperation(value = "공간 소개 페이지 로드 (데스크,회의실)", notes = "데스크 / 회의실 공간 소개 페이지 로드하는 컨트롤러")
-	@RequestMapping(value = "/space_introduce", method = RequestMethod.GET)
+	@GetMapping(value = "/space_introduce")
 	public String space_intruduce(BackOfficeVO bvo, String introduce_menu, Model model) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -71,6 +76,8 @@ public class OfficeController {
 		List<String> img_list = new ArrayList<String>();
 		List<String> option_list = new ArrayList<String>();
 		List<String> around_option_list = new ArrayList<String>();
+		
+		ovo.setAvg_rating(Math.round(ovo.getAvg_rating()*10)/10.0);
 		
 		if (ovo.getBackoffice_type() != null) {
 			type_list = info_map.splitType(ovo.getBackoffice_type());
@@ -219,6 +226,41 @@ public class OfficeController {
 
 		return "thymeleaf/layouts/office/layout_base";
 	}
+	
+	// ***************	
+	// 예약 가능 여부 확인
+	// ***************
+	@SuppressWarnings("unlikely-arg-type")
+	@ApiOperation(value = "예약 가능 확인 여부 (데스크,회의실)", notes = "선택한 공간과 시간에 예약이 존재하는지 확인하는 컨트롤러")
+	@GetMapping(value = "/reserve_check")
+	@ResponseBody
+	public String reserve_check(String backoffice_no, String room_no, String reserve_date, Model model) {
+		Map<String, Object> map = new HashMap<String,  Object>();
+		
+		
+		List<OfficeReserveVO> vos = service.check_reserve(backoffice_no, room_no, reserve_date);
+		
+		List<Integer> already_reserve_list = new ArrayList<>();
+		
+		for (OfficeReserveVO vo : vos) {
+			int stime = Integer.parseInt(vo.getReserve_stime());
+			int etime = Integer.parseInt(vo.getReserve_etime());
+			
+			for (int i = stime; i < etime; i++) {
+				if (!Arrays.asList(already_reserve_list).contains(i)) {
+					already_reserve_list.add(i);
+				}
+			}
+		}
+		
+		map.put("reserve_list", vos);
+		map.put("reserve_list", already_reserve_list);
+		
+		String json = gson.toJson(map);
+		
+		return json;
+	}
+	
 //	
 //	
 //	// **********************

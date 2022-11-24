@@ -855,7 +855,7 @@ body .ui-tooltip {
 }
 .ui-widget-content {
 	border: 2px solid #2EE49D;
-	background: #ffffff url("images/ui-bg_flat_75_ffffff_40x100.png") 50% 50% repeat-x;
+	background: #ffffff;
 	color: #222222;
 }
 .ui-widget-content a {
@@ -995,10 +995,10 @@ body .ui-tooltip {
 	/* background-image: url("images/ui-icons_222222_256x240.png"); */
 }
 .ui-datepicker-prev>.ui-icon-circle-triangle-w {
-	background-image: url("static/IMG/office/left.svg");
+	background-image: url("/static/IMG/office/left.svg");
 }
 .ui-datepicker-next>.ui-icon-circle-triangle-e {
-	background-image: url("static/IMG/office/right.svg");
+	background-image: url("/static/IMG/office/right.svg");
 }
 /* .ui-state-default .ui-icon { */
 /* 	background-image: url("images/ui-icons_888888_256x240.png"); */
