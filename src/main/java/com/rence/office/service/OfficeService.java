@@ -14,6 +14,7 @@ import com.rence.office.model.ListViewVO;
 import com.rence.office.model.OfficeInfoVO;
 import com.rence.office.model.OfficeOperatingTimeVO_date;
 import com.rence.office.model.OfficeQuestionVO;
+import com.rence.office.model.OfficeReserveVO;
 import com.rence.office.model.OfficeReviewVO;
 import com.rence.office.model.OfficeRoomVO;
 import com.rence.office.repo.OfficeDetailInfoRepository;
@@ -21,6 +22,7 @@ import com.rence.office.repo.OfficeInfoRepository;
 import com.rence.office.repo.OfficeListRepository;
 import com.rence.office.repo.OfficeOperatingTimeRepository;
 import com.rence.office.repo.OfficeQuestionRepository;
+import com.rence.office.repo.OfficeReserveRepository;
 import com.rence.office.repo.OfficeReviewRepository;
 import com.rence.office.repo.OfficeRoomRepository;
 
@@ -51,6 +53,9 @@ public class OfficeService {
 	
 	@Autowired
 	OfficeReviewRepository review_repository;
+	
+	@Autowired
+	OfficeReserveRepository reserve_repository;
 	
 	public OfficeService() {
 		log.info("OfficeService()...");
@@ -92,12 +97,12 @@ public class OfficeService {
 		return vos;
 	}
 	
-//	public int check_reserve(OfficeReserveVO vo) throws ParseException {
-//		int result = repository.check_reserve(vo);
-//		
-//		return result;
-//	}
-//	
+	public List<OfficeReserveVO> check_reserve(String backoffice_no, String room_no, String reserve_stime) {
+		List<OfficeReserveVO> vos = reserve_repository.select_all_reserve(backoffice_no, room_no, reserve_stime);
+		
+		return vos;
+	}
+	
 //	public String select_one_last_reserve(String user_no) {
 //		String reserve_no = repository.select_one_last_reserve(user_no);
 //		
