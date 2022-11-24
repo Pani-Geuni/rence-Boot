@@ -38,6 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ReserveListView {
 	
+	@Id
 	@Column(name="reserve_no")
 	private String reserve_no;
 	
@@ -67,7 +68,6 @@ public class ReserveListView {
 	@Column(name="room_name")
 	private String room_name;
 	
-	@Id
 	@Column(name="user_name")
 	private String user_name;
 	
