@@ -99,6 +99,7 @@
 				console.log("change");
 				$("#check_available").removeClass("blind");
 				$("#go_reserve").addClass("blind");
+				$('.time-boundary-list li').css('display', 'none');
 			});
 
 			/**************************/
@@ -152,15 +153,15 @@
 											let today = year + "/" + month + "/" + date;
 											let now_hours = now.getHours();
 											
+											let check_reserve_time = [];
+											
 											// 선택 날짜 요일 구하기
 											pickerDate = $('.type-border-txt.time-input').val().trim();
 											let dayOfWeek = getDayOfWeek(pickerDate);
 											
 											
-											
 											$("#check_available").addClass("blind");
 											$("#go_reserve").removeClass("blind");
-											
 											
 											console.log(reserve_list);
 											
@@ -216,6 +217,7 @@
 													}
 												}
 											});
+											// END runnint-time-li-wrap li each
 										},
 										error: function(err) {
 											console.log(err);
