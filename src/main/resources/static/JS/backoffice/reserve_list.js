@@ -19,14 +19,14 @@ $(function() {
           reserve_state = "end";
           break;
       }
-      location.href="/backoffice/search_reserve?backoffice_no=" + $.cookie("backoffice_no") + "&reserve_state="+ reserve_state + "&searchword=" + $("#input_searchBar").val().trim();
+      location.href="/backoffice/search_reserve?backoffice_no=" + $.cookie("backoffice_no") + "&reserve_state="+ reserve_state + "&searchword=" + $("#input_searchBar").val().trim() + "&page=1";
     }
   });
 
   // 미니 메뉴 부분 클릭 이벤트
   $(".reserve-item").click(function(){
     var reserve_state = "";
-      switch($(this).text()){
+      switch($(this).text().trim()){
         case "전체" :
           reserve_state = "all";
           break;
@@ -40,6 +40,6 @@ $(function() {
           reserve_state = "end";
           break;
       }
-    location.href="/backoffice/reserve?backoffice_no=" + $.cookie("backoffice_no") + "&reserve_state="+ reserve_state;
+    location.href="/backoffice/reserve?backoffice_no=" + $.cookie("backoffice_no") + "&reserve_state="+ reserve_state + "&page=1";
   });
 });
