@@ -50,7 +50,6 @@
                             $(".popup-background:eq(1)").addClass("blind");
                             $("#spinner-section").addClass("blind");
     
-                            console.log(res);
                             var now = $("#maxCnt").attr("nowCnt");
                             $("#maxCnt").attr("nowCnt", Number(now) + 1);
 

@@ -34,4 +34,62 @@ $(function(){
     $(".paging-box.paging-num").click(function(){
         location.href = "/rence/review_list?user_no=" + $.cookie("user_no") + "&page=" + $(this).attr("idx");
     });
+    
+    // 다음 페이지 리스트로 이동
+    $(".next-page-btn").click(function(){
+		var start = Number($($(".paging-box.paging-num")[0]).text()) + 5;
+		var last = Number($($(".paging-box.paging-num")[4]).text()) + 5;
+		var totalPageCnt = Number($("#totalPageCnt").val());
+		
+		if($(".before-page-btn").hasClass("hide")){
+			$(".before-page-btn").removeClass("hide");
+		}
+		
+		if(last >= totalPageCnt){
+			last = totalPageCnt;
+			$(".next-page-btn").addClass("hide");
+		}
+		
+		var sample = $(".paging-num-wrap>.paging-box.paging-num:eq(0)").clone();
+		$(".paging-num-wrap").empty();
+		
+		for(var i = start; i <= last; i++){
+			var sample_span = sample.clone();
+
+			sample_span.text(i);
+			sample_span.attr("idx", i);
+			sample_span.removeClass("choice");
+			sample_span.addClass("un-choice");
+			
+			$(".paging-num-wrap").append(sample_span);
+		}
+	});
+	
+    // 이전 페이지 리스트로 이동
+    $(".before-page-btn").click(function(){
+		var start = Number($($(".paging-box.paging-num")[0]).text()) - 5;
+		var last = Number($(".paging-box.paging-num:last").text()) - 5;
+		
+		if($(".next-page-btn").hasClass("hide")){
+			$(".next-page-btn").removeClass("hide");
+		}
+		
+		if(start == 1){
+			$(".before-page-btn").addClass("hide");
+		}
+		
+		var sample = $(".paging-num-wrap>.paging-box.paging-num:eq(0)").clone();
+		$(".paging-num-wrap").empty();
+		
+		for(var i = start; i <= last; i++){
+			var sample_span = sample.clone();
+
+			sample_span.text(i);
+			sample_span.attr("idx", i);
+			sample_span.removeClass("choice");
+			sample_span.addClass("un-choice");
+			
+			$(".paging-num-wrap").append(sample_span);
+		}
+	});
 });
