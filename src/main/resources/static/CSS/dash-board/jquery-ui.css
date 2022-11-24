@@ -997,10 +997,10 @@ body .ui-tooltip {
 	/* background-image: url("images/ui-icons_222222_256x240.png"); */
 }
 .ui-datepicker-prev>.ui-icon-circle-triangle-w {
-	background-image: url("/rence/resources/IMG/office/left.svg");
+	background-image: url("/static/IMG/office/left.svg");
 }
 .ui-datepicker-next>.ui-icon-circle-triangle-e {
-	background-image: url("/rence/resources/IMG/office/right.svg");
+	background-image: url("/static/IMG/office/right.svg");
 }
 /* .ui-state-default .ui-icon { */
 /* 	background-image: url("images/ui-icons_888888_256x240.png"); */
