@@ -398,7 +398,8 @@ public class DashBoardController {
 		log.info("qvos : {}", qvos);
 		model.addAttribute("q_vos", qvos);
 		model.addAttribute("cnt", qvos.size());
-		
+
+		map.put("page", "qna");
 		model.addAttribute("res", map);
 
 		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/qna_list");
@@ -502,7 +503,7 @@ public class DashBoardController {
 	}
 
 	/**
-	 * 리뷰 (리스트) -- 프론트 에러
+	 * 리뷰 (리스트)
 	 */
 	@ApiOperation(value = "리뷰 리스트", notes = "대쉬보드 공간 관리 페이지 - 리뷰")
 	@GetMapping("/review")
@@ -510,10 +511,52 @@ public class DashBoardController {
 			@RequestParam(value = "page", defaultValue = "1") Integer page) {
 		log.info("backoffice_review ()...");
 		log.info("{}", backoffice_no);
+
+		/////////////////////// 페이징/////////////////////////////////////////
+		Map<String, Object> map = new HashMap<String, Object>();
+		// 리스트 수
+		long total_rowCount_all = service.backoffice_review_selectAll_cnt(backoffice_no);
+		log.info("total_rowCount_reserve_now: {}", total_rowCount_all);
+
+		// 총 페이징되는 수
+		long totalPageCnt = (long) Math.ceil(total_rowCount_all / 6.0);
+		log.info("totalPageCnt: {}", totalPageCnt);
+
+		// 현재페이지
+		long nowPage = page;
+
+		// 5page씩 끊으면 끝 페이지 번호( ex, 총 9페이지이고, 현재페이지가 6이면 maxpage = 9)
+		long maxPage = 0;
+
+		if (nowPage % 5 != 0) {
+			if (nowPage == totalPageCnt) {
+				maxPage = nowPage;
+			} else if (((nowPage / 5) + 1) * 5 >= totalPageCnt) {
+				maxPage = totalPageCnt;
+			} else if (((nowPage / 5) + 1) * 5 < totalPageCnt) {
+				maxPage = ((nowPage / 5) + 1) * 5;
+			}
+		} else if (nowPage % 5 == 0) {
+			if (nowPage <= totalPageCnt) {
+				maxPage = nowPage;
+			}
+		}
+		log.info("maxPage: " + maxPage);
+
+		map.put("totalPageCnt", totalPageCnt);
+		map.put("nowPage", nowPage);
+		map.put("maxPage", maxPage);
+		////////////////////////////////////////////////////////////////////
+
 		List<ReviewListView> rvvos = service.backoffice_review_selectAll(backoffice_no, page);
 		log.info("rvvos : {}", rvvos);
 		model.addAttribute("rv_vos", rvvos);
 		model.addAttribute("cnt", rvvos.size());
+		
+		
+		map.put("page", "review");
+		model.addAttribute("res", map);
+		
 
 		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/review_list");
 		model.addAttribute("title", "공간 관리");

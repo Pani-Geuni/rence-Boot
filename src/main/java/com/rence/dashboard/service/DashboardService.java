@@ -212,7 +212,7 @@ public class DashboardService {
 		log.info("backoffice_review_selectAll().....");
 		log.info("currentpage:{}", currentPage);
 
-		Integer row_count = 10;
+		Integer row_count = 6;
 		Integer start_row = (currentPage - 1) * row_count + 1;
 		Integer end_row = currentPage * row_count;
 		
@@ -394,6 +394,12 @@ public class DashboardService {
 	public long backoffice_qna_selectAll_cnt(String backoffice_no) {
 		log.info("backoffice_qna_selectAll_cnt().....");
 		return cq_repository.select_all_q_cnt(backoffice_no);
+	}
+
+	// 후기 리스트
+	public long backoffice_review_selectAll_cnt(String backoffice_no) {
+		log.info("backoffice_review_selectAll_cnt().....");
+		return r_repository.backoffice_review_selectAll_cnt(backoffice_no);
 	}
 
 
