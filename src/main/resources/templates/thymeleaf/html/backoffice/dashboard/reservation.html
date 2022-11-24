@@ -15,7 +15,7 @@
 			<div class="setScheduleSection">
 				<div class="setScheduleWrap">
 					<h3>예약일자</h3>
-					<p>2022/11/30 00:00:00 ~ 2022/12/01 00:00:00</p>
+					<p>[[${reserve_stime}]] ~ [[${reserve_etime}]]</p>
 				</div>
 				<!-- setScheduleWrap -->
 			</div>
@@ -42,23 +42,23 @@
 					</div>
 					<!-- END ct-header -->
 					<div class="ct-body">
-						<div class="ct-body-row">
+						<div class="ct-body-row" th:each="vo : ${rv_vos}">
 							<div class="ct-body-cell reservation">
-								<input type="hidden" name="room_no" />
-								<input type="hidden" name="backoffice_no" />
-								<input type="checkbox" name="reserve_no" id="reserve_no" class="room-checkbox" value="" />
+								<input type="hidden" name="room_no" attr="${vo.room_no}" />
+								<input type="hidden" name="backoffice_no" attr="${vo.backoffice_no}" />
+								<input type="checkbox" name="reserve_no" id="reserve_no" class="room-checkbox" value="" attr="${vo.reserve_no}" />
 							</div>
 							<div class="ct-body-cell reservation">
-								<span class="user_name">김선아</span>
+								<span class="user_name">[[${vo.user_name}]]</span>
 							</div>
 							<div class="ct-body-cell reservation">
-								<span class="user_email">tjsdk@hi.com</span>
+								<span class="user_email">[[${vo.user_email}]]</span>
 							</div>
 							<div class="ct-body-cell reservation">
-								<span class="user_tel">010-0000-0000</span>
+								<span class="user_tel">[[${vo.user_tel}]]</span>
 							</div>
 							<div class="ct-body-cell reservation">
-								<span class="reserve-stime">2022/11/30 00:00:00 ~ 2022/12/01 00:00:00</span>
+								<span class="reserve-stime">[[${vo.reserve_stime}]] ~ [[${vo.reserve_etime}]]</span>
 							</div>
 							
 						</div>

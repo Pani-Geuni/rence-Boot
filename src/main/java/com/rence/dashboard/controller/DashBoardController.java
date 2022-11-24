@@ -826,10 +826,19 @@ public class DashBoardController {
 			String not_stime, String not_etime, String off_type, Model model) {
 		log.info("backoffice_reservation controller()...");
 
-		String reserve_stime = (not_sdate + not_stime);
+		if (off_type.equals("breaktime")) {
+			log.info("브레이크 타임");
+			not_edate = (not_sdate);
+		} else if (off_type.equals("dayoff")) {
+			log.info("휴무");
+			not_stime = "00:00:00";
+			not_etime = "00:00:00";
+		}
+
+		String reserve_stime = (not_sdate + " " + not_stime);
 		log.info("reserve_stime : {} ", reserve_stime);
 
-		String reserve_etime = (not_edate + not_etime);
+		String reserve_etime = (not_edate + " " + not_etime);
 		log.info("reserve_etime : {} ", reserve_etime);
 
 		List<ReservationView> rv_vos = service.backoffice_reservation(backoffice_no, not_sdate, not_edate, not_stime,

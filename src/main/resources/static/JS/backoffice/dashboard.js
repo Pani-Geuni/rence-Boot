@@ -37,6 +37,7 @@
       break;
       
     case '/backoffice/schedule':
+    case '/backoffice/reservation':
       $('#menu-schedule').addClass('active');
       break;
 
