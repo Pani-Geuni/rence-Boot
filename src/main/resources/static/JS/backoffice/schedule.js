@@ -150,7 +150,7 @@ $(function() {
 									$(".ct-body").append(body_row);
 								}
 
-								$(".ct-body").append("<input type='button' id='schedule-confirm-btn' class='schedule-confirm-btn' value='일정 설정' />");
+								$(".select-room-section").append("<input type='button' id='schedule-confirm-btn' class='schedule-confirm-btn' value='일정 설정' />");
 
 							} else {
 								console.log("bye");

@@ -9,12 +9,16 @@ p {
 /* **************** */
 /* 공간 관리 메인 리스트 */
 /* **************** */
+.room-wrapping{
+	height:490px;	
+}
 
 .room-list {
   display: flex;
   flex-wrap: wrap;
   /* justify-content: space-between; */
   width: 100%;
+  height: 50px;
 }
 
 .room-item {
@@ -78,4 +82,42 @@ p {
   font-size: 12px;
   font-weight: 400;
   vertical-align: 10%;
+}
+
+/**************************/
+/**** PAGING SECTION ******/
+/**************************/
+.paging-section{
+    width: 100%;
+    height: 10%;
+    
+    display: flex;
+    justify-content: center;
+}
+.paging-wrap{
+    width: auto;
+    height: auto;
+    display: flex;
+}
+.paging-box{
+    width: 11px;
+    height: 10px;
+
+    display:flex;
+    justify-content: center;
+    align-items: center;
+
+    border: 1.5px solid #D8D8D8;
+    background-color: #ffffff;
+    color: #B2B2B2;
+    font-size: 9px;
+
+    padding: 2px 2px 2px 1px;
+    cursor: pointer;
+}
+.choice{
+    color: #000000;
+}
+.un-choice{
+    color: #808080;
 }
