@@ -3,6 +3,7 @@
  */
  $(function(){
   let test = 1;
+  let pickerDate = '';
 
   $("#common-alert-btn").click(function(){
     $(".popup-background:eq(1)").addClass("blind");
@@ -112,7 +113,13 @@
   // 이 배열에는 11, 12, 13, 14, 15, 16이 들어감.
   // 예약이 가능한지 체크하기 위함.
   // 중간 시간에 예약이 있으면 불가능함.
-  let check_reserve_time = []
+  let check_reserve_time = [];
+  let pick_time_list = [];
+  
+  // 선택한 시간 초기화
+  $("#check_available").click(function () {
+	  pick_time_list = [];
+  });
 
 
   // pick_time_list에 시간이 하나만 들어가 있으면 1시간 대여
@@ -135,11 +142,36 @@
     // 예약 불가 처리
     if (pick_time_list.length == 2) {
       check_reserve_time = [];
+      console.log("+++++++");
+      let reserve_flag = 0;
       for (var t = pick_time_list[0]; t <= pick_time_list[1]; t++) {
-        check_reserve_time.push(t);
+		
+		// attr display가 있을 때만 추가
+		if ($(".time-boundary-item:eq("+t+")").is('[display]')) {
+	        check_reserve_time.push(t);		
+		} else {
+			$('.fixed-popup').removeClass('blind')
+	        $('.using-time-fail-txt:eq(0)').html(
+	          '선택 시간 사이에 예약이 존재하여<br><br>해당 시간은 예약할 수 없습니다.',
+	        )
+	        reserve_flag = 1;
+	       	console.log("BEEEEEPP");
+		}
+        console.log("check_reserve_time : ", check_reserve_time);
       }
-      console.log("pick_time_list");
-      console.log(check_reserve_time);
+      
+      if (reserve_flag === 1) {
+		  	console.log("reserve_flag 1");
+			for (var t = 0; t < 24; t++) {
+				$(".time-boundary-item:eq("+t+")").removeClass('selected');
+				pick_time_list = [];
+				check_reserve_time = [];
+			}
+			console.log("reserve_flag 1 pick time list::: ", pick_time_list);
+			console.log("reserve_flag 1 pick check_reserve_time::: ", check_reserve_time);
+			reserve_flag = 0;
+	  }
+      console.log("+++++++");
 
       // 예약 가능 유무 체크
       let flag = 0
@@ -147,7 +179,7 @@
 
       $('.time-boundary-list li').each(function (index, item) {
         if (check_reserve_time.includes($(this).val())) {
-          console.log($(this).val())
+//          console.log($(this).val())
           tmp_time_range.push($(this).val())
         }
       })

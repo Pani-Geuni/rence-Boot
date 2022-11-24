@@ -100,6 +100,10 @@
 				$("#check_available").removeClass("blind");
 				$("#go_reserve").addClass("blind");
 				$('.time-boundary-list li').css('display', 'none');
+				
+				$('.time-boundary-list li').each(function (index, item) {
+					console.log($(item).removeClass('selected'));
+				});
 			});
 
 			/**************************/
@@ -205,14 +209,17 @@
 														$('.time-boundary-list li').each(function (index, item) {
 															// 이전 운영 시간 display 초기화
 															$(this).css('display', 'none');
+															$(this).removeAttr('display');
 															
 															if (running_time_list.includes(index)) {
 																$(this).css('display', 'flex');
+																$(this).attr('display', 'selected');
 															}
 														});
 													} else {
 														$('.time-boundary-list li').each(function (index, item) {
 															$(this).css('display', 'none')
+															$(this).removeAttr('display');
 														})
 													}
 												}
