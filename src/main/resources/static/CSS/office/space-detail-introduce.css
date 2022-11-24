@@ -916,11 +916,10 @@
 }
 
 .time-select-wrap {
-  width: 150px;
-
-  border: 2px solid #2ee49d;
-  padding: 7px 10px 7px 10px;
-  margin-top: 10px;
+  width: 330px;
+  border: 2px solid #2EE49D;
+  padding: 7px 15px 7px 10px;
+  margin-top: 12px;
 
   display: flex;
   justify-content: space-between;
