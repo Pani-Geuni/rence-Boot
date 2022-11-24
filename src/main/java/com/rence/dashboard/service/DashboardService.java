@@ -353,9 +353,9 @@ public class DashboardService {
 
 	// 일정 관리 - 예약자 리스트
 	public List<ReservationView> backoffice_reservation(String backoffice_no, String not_sdate, String not_edate,
-			String not_stime, String not_etime, String room_no, String off_type) {
+			String not_stime, String not_etime, String room_no, String off_type, int min, int max) {
 		log.info("backoffice_schedule_list().....");
-		return dao.backoffice_reservation(backoffice_no, not_sdate, not_edate, not_stime, not_etime, room_no, off_type);
+		return dao.backoffice_reservation(backoffice_no, not_sdate, not_edate, not_stime, not_etime, room_no, off_type, min, max);
 	}
 
 	// 일정 관리 - 일정(휴무, 브레이크 타임) 추가
@@ -411,6 +411,13 @@ public class DashboardService {
 	public long backoffice_sales_selectAll_cnt(String backoffice_no) {
 		log.info("backoffice_sales_selectAll_cnt().....");
 		return s_repository.backoffice_sales_selectAll_cnt(backoffice_no);
+	}
+
+	// 예약자 리스트
+	public int backoffice_reservation_cnt(String backoffice_no, String not_sdate, String not_edate, String not_stime,
+			String not_etime, String room_no, String off_type) {
+		log.info("backoffice_reservation_cnt().....");
+		return dao.backoffice_reservation_cnt(backoffice_no, not_sdate, not_edate, not_stime, not_etime, room_no, off_type);
 	}
 
 }
