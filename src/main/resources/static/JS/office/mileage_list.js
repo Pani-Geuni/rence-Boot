@@ -20,4 +20,19 @@ $(function(){
             location.href = "/rence/mileage_search_list?searchKey="+ searchKey +"&user_no="+$.cookie("user_no")+"&page=" + $(this).attr("idx");
         }
     });
+    
+    $(".next-page-btn").click(function(){
+		var start = Number($(".paging-box.paging-num")[0].text()) + 5;
+		var last = Number($(".paging-box.paging-num")[4].text()) + 5;
+		var totalPageCnt = Number($("#totalPageCnt").val());
+		
+		if($(".before-page-btn").hasClass("blind")){
+			$(".before-page-btn").removeClass("blind");
+		}
+		
+		if(last >= totalPageCnt){
+			last = totalPageCnt;
+			$(".next-page-btn").addClass("blind");
+		}
+	});
 });
