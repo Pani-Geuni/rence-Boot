@@ -81,5 +81,5 @@ public class OfficeInfoVO {
 	private String detail_address;
 	
 	@Column(name="avg_rating")
-	private Float avg_rating;	
+	private Double avg_rating;	
 }

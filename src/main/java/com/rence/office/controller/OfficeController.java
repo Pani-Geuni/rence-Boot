@@ -72,6 +72,8 @@ public class OfficeController {
 		List<String> option_list = new ArrayList<String>();
 		List<String> around_option_list = new ArrayList<String>();
 		
+		ovo.setAvg_rating(Math.round(ovo.getAvg_rating()*10)/10.0);
+		
 		if (ovo.getBackoffice_type() != null) {
 			type_list = info_map.splitType(ovo.getBackoffice_type());
 		} else {
