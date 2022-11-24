@@ -3,15 +3,15 @@
  */
 
 $(function() {
-	
+
 	$("input:radio[name='set_schedule']:eq(0)").click(function() {
 		$(".off-type-warning:eq(0)").removeClass('blind');
-		$(".off-type-warning:eq(1)").addClass('blind');		
+		$(".off-type-warning:eq(1)").addClass('blind');
 	})
-	
+
 	$("input:radio[name='set_schedule']:eq(1)").click(function() {
 		$(".off-type-warning:eq(0)").addClass('blind');
-		$(".off-type-warning:eq(1)").removeClass('blind');	
+		$(".off-type-warning:eq(1)").removeClass('blind');
 	})
 
 	/***** ************** *****/
@@ -29,7 +29,7 @@ $(function() {
 		controlType: 'select',
 		oneLine: true,
 	});
-	
+
 	// *************
 	// 전체 선택 체크박스
 	// *************
@@ -75,8 +75,6 @@ $(function() {
 					let not_edate = eDateTime[0];
 					let not_etime = eDateTime[1];
 					let off_type = $("input:radio[name='set_schedule']:checked").val();
-
-					console.log(backoffice_no, not_sdate, not_stime, not_edate, not_etime, off_type);
 
 					$.ajax({
 						url: "/backoffice/schedule_research",
@@ -143,7 +141,7 @@ $(function() {
 
 									$(".ct-body").append(body_row);
 								}
-								
+
 								$(".ct-body").append("<input type='button' id='schedule-confirm-btn' class='schedule-confirm-btn' value='일정 설정' />");
 
 							} else {
@@ -163,6 +161,52 @@ $(function() {
 			$("#radio-check-popup").removeClass("blind");
 		}
 	});
+
+	$(".ct-body").on('click', '.reserve_cnt', function() {
+		let query = location.search;
+		let param = new URLSearchParams(query);
+		let backoffice_no = param.get('backoffice_no');
+
+		let sDateTime = $(".time-input:eq(0)").val().split(' ');
+		let eDateTime = $(".time-input:eq(1)").val().split(' ');
+
+		let not_sdate = sDateTime[0];
+		let not_stime = sDateTime[1];
+		let not_edate = eDateTime[0];
+		let not_etime = eDateTime[1];
+		let room_no = $(this).parent().siblings(".ct-body-cell:eq(0)").children().attr("room_no");
+		let off_type = $("input:radio[name='set_schedule']:checked").val();
+
+		console.log(backoffice_no, not_sdate, not_stime, not_edate, not_etime, room_no, off_type);
+
+		$.ajax({
+			url: "/backoffice/reservation",
+			type: "GET",
+			dataType: "JSON",
+			data: {
+				backoffice_no: backoffice_no,
+				not_sdate: not_sdate,
+				not_edate: not_edate,
+				not_stime: not_stime,
+				not_etime: not_etime,
+				room_no: room_no,
+				off_type: off_type
+			},
+
+			success: function(res) {
+				
+//				location.href="/backoffice/reservation?backoffice_no?" + backoffice_no;
+			},
+			error: function(error) {
+				console.log(error);
+			}
+
+		});
+	});
+
+	$("#schedule-confirm-btn").click(function() {
+		console.log("confirm button click")
+	})
 
 
 	// 팝업

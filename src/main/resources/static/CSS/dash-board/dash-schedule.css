@@ -258,3 +258,7 @@
   border: none;
   cursor: pointer;
 }
+
+.reserve_cnt {
+	cursor: pointer;
+}
