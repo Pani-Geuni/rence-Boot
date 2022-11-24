@@ -613,11 +613,11 @@ public class DashBoardController {
 	}
 
 	/**
-	 * 정산 관리(리스트) -- 프론트 에러
+	 * 정산 관리(리스트) 
 	 */
 	@ApiOperation(value = "정산 관리 리스트", notes = "대쉬보드 정산 관리 페이지 - 리스트")
 	@GetMapping("/day_sales")
-	public String dashboard_sales_day(Model model, String backoffice_no, String sales_date) {
+	public String dashboard_sales_day(Model model, String backoffice_no, String sales_date, @RequestParam(value = "page", defaultValue = "1") Integer page) {
 		log.info("backoffice_day_sales()...");
 		log.info("{}", backoffice_no);
 
@@ -625,8 +625,46 @@ public class DashBoardController {
 		model.addAttribute("svo", svo);
 		model.addAttribute("sales_date", sales_date);
 		log.info("svo:::{}", svo);
+		
+		
+		/////////////////////// 페이징/////////////////////////////////////////
+		Map<String, Object> map = new HashMap<String, Object>();
+		// 리스트 수
+		long total_rowCount_all = service.backoffice_sales_selectAll_cnt(backoffice_no);
+		log.info("total_rowCount_reserve_now: {}", total_rowCount_all);
 
-		List<SalesSettlementViewVO> svos = service.backoffice_sales_selectAll(backoffice_no);
+		// 총 페이징되는 수
+		long totalPageCnt = (long) Math.ceil(total_rowCount_all / 8.0);
+		log.info("totalPageCnt: {}", totalPageCnt);
+
+		// 현재페이지
+		long nowPage = page;
+
+		// 5page씩 끊으면 끝 페이지 번호( ex, 총 9페이지이고, 현재페이지가 6이면 maxpage = 9)
+		long maxPage = 0;
+
+		if (nowPage % 5 != 0) {
+			if (nowPage == totalPageCnt) {
+				maxPage = nowPage;
+			} else if (((nowPage / 5) + 1) * 5 >= totalPageCnt) {
+				maxPage = totalPageCnt;
+			} else if (((nowPage / 5) + 1) * 5 < totalPageCnt) {
+				maxPage = ((nowPage / 5) + 1) * 5;
+			}
+		} else if (nowPage % 5 == 0) {
+			if (nowPage <= totalPageCnt) {
+				maxPage = nowPage;
+			}
+		}
+		log.info("maxPage: " + maxPage);
+
+		map.put("totalPageCnt", totalPageCnt);
+		map.put("nowPage", nowPage);
+		map.put("maxPage", maxPage);
+		////////////////////////////////////////////////////////////////////
+
+
+		List<SalesSettlementViewVO> svos = service.backoffice_sales_selectAll(backoffice_no,page);
 		model.addAttribute("s_vos", svos);
 		model.addAttribute("cnt", svos.size());
 		log.info("svos:::{}", svos);
