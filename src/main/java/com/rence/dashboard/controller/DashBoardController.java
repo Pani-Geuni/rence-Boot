@@ -822,6 +822,7 @@ public class DashBoardController {
 	 */
 	@ApiOperation(value = "예약자 리스트", notes = "대쉬보드 - 예약자 리스트")
 	@GetMapping("/reservation")
+	@ResponseBody
 	public String backoffice_reservation(String backoffice_no, String room_no, String not_sdate, String not_edate,
 			String not_stime, String not_etime, String off_type, Model model) {
 		log.info("backoffice_reservation controller()...");
