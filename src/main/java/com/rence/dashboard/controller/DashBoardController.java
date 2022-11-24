@@ -825,6 +825,8 @@ public class DashBoardController {
 	public String backoffice_reservation(String backoffice_no, String room_no, String not_sdate, String not_edate,
 			String not_stime, String not_etime, String off_type, Model model) {
 		log.info("backoffice_reservation controller()...");
+		
+		Map<String , Object> map = new HashMap<String, Object>();
 
 		String reserve_stime = (not_sdate + not_stime);
 		log.info("reserve_stime : {} ", reserve_stime);
@@ -836,16 +838,19 @@ public class DashBoardController {
 				not_etime, room_no, off_type);
 		log.info("result: {}.", rv_vos);
 		log.info("cnt: {}.", rv_vos.size());
+		if (rv_vos.size()>0) {
+			map.put("result", 1);
+			map.put("reserve_stime", reserve_stime);
+			map.put("reserve_etime", reserve_etime);
+			map.put("rv_vos", rv_vos);
+			map.put("cnt", rv_vos.size());
+		} else {
+			map.put("result", 0);
+		}
 
-		model.addAttribute("reserve_stime", reserve_stime);
-		model.addAttribute("reserve_etime", reserve_etime);
-		model.addAttribute("rv_vos", rv_vos);
-		model.addAttribute("cnt", rv_vos.size());
+		String json = gson.toJson(map);
 
-		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/reservation");
-		model.addAttribute("title", "일정 관리 - 예약자");
-
-		return "thymeleaf/layouts/backoffice/layout_dashboard";
+		return json;
 	}
 
 	/**
