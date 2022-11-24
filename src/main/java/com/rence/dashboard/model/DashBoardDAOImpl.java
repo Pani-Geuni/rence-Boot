@@ -136,6 +136,26 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		log.info("OOOOOOOOOOOOOOOOOOOOO{}", reserve);
 		return reserve;
 	}
+	//*******************페이징************************
+	@Override
+	public int backoffice_reserve_selectAll_cnt(String backoffice_no, String reserve_state) {
+		log.info("backoffice_reserve_selectAll_cnt().....");
+		log.info("reserve_state: {}.....", reserve_state);
+		
+		int total_cnt = 0;
+
+		if (reserve_state.equals("all")) {
+			total_cnt = rv_repository.backoffice_reserve_selectAll(backoffice_no);
+		} else if (reserve_state.equals("in_use")) {
+			total_cnt = rv_repository.backoffice_reserve_selectAll_inuse(backoffice_no);
+		} else if (reserve_state.equals("end")) {
+			total_cnt = rv_repository.backoffice_reserve_selectAll_end(backoffice_no);
+		} else if (reserve_state.equals("cancel")) {
+			total_cnt = rv_repository.backoffice_reserve_selectAll_cancel(backoffice_no);
+		}
+
+		return total_cnt;
+	}
 
 	// 예약 관리 - 리스트 (검색)
 	@Override
@@ -166,6 +186,23 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		return reserve;
 
 	}
+	//*******************페이징************************
+	@Override
+	public int backoffice_search_reserve_cnt(String backoffice_no, String searchword, String reserve_state) {
+		
+		int total_cnt = 0;
+
+		if (reserve_state.equals("all")) {
+			total_cnt = rv_repository.backoffice_reserve_selectAll_search(backoffice_no, "%" + searchword + "%");
+		} else if (reserve_state.equals("in_use")) {
+			total_cnt = rv_repository.backoffice_reserve_selectAll_inuse_search(backoffice_no, "%" + searchword + "%");
+		} else if (reserve_state.equals("end")) {
+			total_cnt = rv_repository.backoffice_reserve_selectAll_end_search(backoffice_no, "%" + searchword + "%");
+		} else if (reserve_state.equals("cancel")) {
+			total_cnt = rv_repository.backoffice_reserve_selectAll_cancel_search(backoffice_no, "%" + searchword + "%");
+		}
+
+		return total_cnt;	}
 
 	// main - 공간 요약
 	@Override

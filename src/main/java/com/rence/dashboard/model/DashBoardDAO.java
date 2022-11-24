@@ -36,5 +36,9 @@ public interface DashBoardDAO {
 	public int backoffice_reservation_cnt(String backoffice_no, String not_sdate, String not_edate, String not_stime,
 			String not_etime, String room_no, String off_type);
 
+	public int backoffice_reserve_selectAll_cnt(String backoffice_no, String reserve_state);
+
+	public int backoffice_search_reserve_cnt(String backoffice_no, String searchword, String reserve_state);
+
 
 }

@@ -219,26 +219,14 @@ public class DashboardService {
 
 	// 예약 리스트
 	public List<ReserveListView> backoffice_reserve_selectAll(String backoffice_no, String reserve_state,
-			Integer currentPage) {
+			Integer min, Integer max) {
 		log.info("backoffice_reserve_selectAll().....");
-		log.info("currentpage:{}", currentPage);
-
-		Integer row_count = 10;
-		Integer start_row = (currentPage - 1) * row_count + 1;
-		Integer end_row = currentPage * row_count;
-
-		return dao.backoffice_reserve_selectAll(backoffice_no, reserve_state, start_row, end_row);
+		return dao.backoffice_reserve_selectAll(backoffice_no, reserve_state, min, max);
 	}
 
 	// 예약 리스트 검색
 	public List<ReserveListView> backoffice_search_reserve(String backoffice_no, String searchword,
-			String reserve_state, Integer currentPage) {
-		log.info("currentpage:{}", currentPage);
-
-		Integer row_count = 10;
-		Integer start_row = (currentPage - 1) * row_count + 1;
-		Integer end_row = currentPage * row_count;
-
+			String reserve_state, Integer start_row, Integer end_row) {
 		return dao.backoffice_search_reserve(backoffice_no, reserve_state, searchword, start_row, end_row);
 	}
 
@@ -418,6 +406,18 @@ public class DashboardService {
 			String not_etime, String room_no, String off_type) {
 		log.info("backoffice_reservation_cnt().....");
 		return dao.backoffice_reservation_cnt(backoffice_no, not_sdate, not_edate, not_stime, not_etime, room_no, off_type);
+	}
+
+	// 예약 관리 리스트
+	public int backoffice_reserve_selectAll_cnt(String backoffice_no, String reserve_state) {
+		log.info("backoffice_reserve_selectAll_cnt().....");
+		return dao.backoffice_reserve_selectAll_cnt(backoffice_no, reserve_state);
+	}
+
+	// 예약 관리 리스트 - 검색
+	public int backoffice_search_reserve_cnt(String backoffice_no, String searchword, String reserve_state) {
+		log.info("backoffice_search_reserve_cnt().....");
+		return dao.backoffice_search_reserve_cnt(backoffice_no, searchword, reserve_state);
 	}
 
 }
