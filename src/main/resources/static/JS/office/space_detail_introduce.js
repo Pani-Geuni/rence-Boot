@@ -107,7 +107,7 @@
   });
 
    
-    // ***************
+  // ***************
   // 선택 날짜 요일 체크
   // ***************
   function getDayOfWeek(date) {
@@ -144,38 +144,41 @@
     let stime = ''
     let etime = ''
 
-    $('.running-time-li-wrap li').each(function (index, item) {
-      if (index === dayOfWeek) {
-        let running_time = $(this).children('span').text().trim()
-
-        if (running_time !== '휴무') {
-          let split_time = running_time.split(' ~ ')
-
-          stime = parseInt(split_time[0].split(':')[0])
-          etime = parseInt(split_time[1].split(':')[0])
-
-          // 예약 날짜 선택 시 사용 시간 보이게 하기.
-          $('#reserve-time-boundary').css('display', 'flex')
-          let running_time_list = []
-          for (var t = stime; t < etime; t++) {
-            running_time_list.push(t)
-          }
-
-          // 운영 시간 display 표시
-          $('.time-boundary-list li').each(function (index, item) {
-            // 이전 운영 시간 display 초기화
-            $(this).css('display', 'none')
-            if (running_time_list.includes(index)) {
-              $(this).css('display', 'flex')
-            }
-          })
-        } else {
-          $('.time-boundary-list li').each(function (index, item) {
-            $(this).css('display', 'none')
-          });
-        }
-      }
-    });
+	// *************************
+	// 예약 가능한 시간대를 리스트로 표시
+	// *************************
+//    $('.running-time-li-wrap li').each(function (index, item) {
+//      if (index === dayOfWeek) {
+//        let running_time = $(this).children('span').text().trim()
+//
+//        if (running_time !== '휴무') {
+//          let split_time = running_time.split(' ~ ')
+//
+//          stime = parseInt(split_time[0].split(':')[0])
+//          etime = parseInt(split_time[1].split(':')[0])
+//
+//          // 예약 날짜 선택 시 사용 시간 보이게 하기.
+//          $('#reserve-time-boundary').css('display', 'flex')
+//          let running_time_list = []
+//          for (var t = stime; t < etime; t++) {
+//            running_time_list.push(t)
+//          }
+//
+//          // 운영 시간 display 표시
+//          $('.time-boundary-list li').each(function (index, item) {
+//            // 이전 운영 시간 display 초기화
+//            $(this).css('display', 'none')
+//            if (running_time_list.includes(index)) {
+//              $(this).css('display', 'flex')
+//            }
+//          })
+//        } else {
+//          $('.time-boundary-list li').each(function (index, item) {
+//            $(this).css('display', 'none')
+//          });
+//        }
+//      }
+//    });
   });
 
   // pick_time_list에 시간이 하나만 들어가 있으면 1시간 대여
@@ -231,8 +234,7 @@
       }
     }
   });
-
-
+  
   /***** *** ********** *****/ 
   /***** 고정 안 된 부분 *****/ 
   /***** *** ********** *****/ 
