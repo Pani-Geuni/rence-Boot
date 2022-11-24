@@ -28,11 +28,11 @@ import lombok.ToString;
 public class OfficeRoomVO {
 
 	@Id
-	@Column(name="backoffice_no")
-	private String backoffice_no;
-	
 	@Column(name="room_no")
 	private String room_no;
+	
+	@Column(name="backoffice_no")
+	private String backoffice_no;
 	
 	@Column(name="room_type")
 	private String room_type;
