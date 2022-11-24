@@ -17,7 +17,7 @@ import com.rence.dashboard.model.SalesSettlementViewVO;
 public interface SalesSettlementRepository extends JpaRepository<SalesSettlementViewVO, Object> { // 정산 내역
 
 	// 정산 리스트
-	@Query(nativeQuery = true, value = "select  * from (select ROWNUM as num, p.* from (select * from SALESSATTLEMENT_LIST_VIEW where backoffice_no=?1 and payment_no not in(select payment_no from paymentinfo p left outer join reserveinfo rv on p.reserve_no=rv.reserve_no where rv.reserve_state='cancel') order by reserve_sdate desc)p) where num between ?2 and ?3)")
+	@Query(nativeQuery = true, value = "select  * from (select ROWNUM as num, p.* from (select * from SALESSATTLEMENT_LIST_VIEW where backoffice_no=?1 and payment_no not in(select payment_no from paymentinfo p left outer join reserveinfo rv on p.reserve_no=rv.reserve_no where rv.reserve_state='cancel') order by reserve_sdate desc)p) where num between ?2 and ?3")
 	public List<SalesSettlementViewVO> backoffice_sales_selectAll(String backoffice_no, Integer start_row, Integer end_row);
 
 	// 정산 리스트 갯수

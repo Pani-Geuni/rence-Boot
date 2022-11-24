@@ -541,7 +541,7 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 	// 일정 관리 - 예약자
 	@Override
 	public List<ReservationView> backoffice_reservation(String backoffice_no, String not_sdate, String not_edate,
-			String not_stime, String not_etime, String room_no, String off_type) {
+			String not_stime, String not_etime, String room_no, String off_type, int min, int max) {
 		
 		String reserve_stime = null;
 		String reserve_etime = null;
@@ -568,9 +568,37 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 			log.info("reserve_etime : {} ",reserve_etime);
 		}
 		
-		List<ReservationView> rv_vos = reservation_repository.backoffice_reservation_list(backoffice_no,reserve_stime,reserve_etime,room_no);
+		List<ReservationView> rv_vos = reservation_repository.backoffice_reservation_list(backoffice_no,reserve_stime,reserve_etime,room_no,min,max);
 		
 		return rv_vos;
+	}
+	
+	// ************** 페이징 - 예약자 ******************8
+	@Override
+	public int backoffice_reservation_cnt(String backoffice_no, String not_sdate, String not_edate, String not_stime,
+			String not_etime, String room_no, String off_type) {
+		String reserve_stime = null;
+		String reserve_etime = null;
+		if (off_type.equals("dayoff")) { // 휴무일 때
+			not_stime="00:00:00";
+			reserve_stime = (not_sdate+not_stime);
+			log.info("reserve_stime : {} ",reserve_stime);
+			not_etime="00:00:00";
+			reserve_etime = (not_edate+not_etime);
+			log.info("reserve_etime : {} ",reserve_etime);
+		}else { // 브레이크 타임일 때
+			log.info("not_sdate : {} ",not_sdate);
+			reserve_stime = (not_sdate+not_stime);
+			log.info("reserve_stime : {} ",reserve_stime);
+			
+			not_edate = (not_sdate);
+			log.info("not_edate : {} ",not_edate);
+			reserve_etime = (not_edate+not_etime);
+			log.info("reserve_etime : {} ",reserve_etime);
+		}
+		
+		int total_cnt = reservation_repository.backoffice_reservation_list_cnt(backoffice_no,reserve_stime,reserve_etime,room_no);
+		return total_cnt;
 	}
 
 	// 일정 관리 - 예약 취소
@@ -586,5 +614,7 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		}
 		return pvo;
 	}
+
+	
 
 }

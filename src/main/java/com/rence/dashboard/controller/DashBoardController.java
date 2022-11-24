@@ -662,7 +662,10 @@ public class DashBoardController {
 		map.put("nowPage", nowPage);
 		map.put("maxPage", maxPage);
 		////////////////////////////////////////////////////////////////////
-
+		map.put("page", "sales_day");
+		map.put("page", "sales_week");
+		map.put("page", "sales_month");
+		model.addAttribute("res", map);
 
 		List<SalesSettlementViewVO> svos = service.backoffice_sales_selectAll(backoffice_no,page);
 		model.addAttribute("s_vos", svos);
@@ -898,7 +901,7 @@ public class DashBoardController {
 	 */
 	@ApiOperation(value = "일정 관리", notes = "대쉬보드 - 일정 관리")
 	@GetMapping("/schedule")
-	public String backoffice_schedule(String backoffice_no, Model model) { // backoffice_no를 받아야 하나..?
+	public String backoffice_schedule(String backoffice_no, Model model) { 
 		log.info("backoffice_schedule controller()...");
 
 		model.addAttribute("backoffice_no", backoffice_no);
@@ -1038,8 +1041,13 @@ public class DashBoardController {
 	@ApiOperation(value = "예약자 리스트", notes = "대쉬보드 - 예약자 리스트")
 	@GetMapping("/reservation")
 	public String backoffice_reservation(String backoffice_no, String room_no, String not_sdate, String not_edate,
-			String not_stime, String not_etime, String off_type, Model model) {
+			String not_stime, String not_etime, String off_type, Model model, Integer page) {
 		log.info("backoffice_reservation controller()...");
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		int total_cnt = service.backoffice_reservation_cnt(backoffice_no, not_sdate, not_edate, not_stime,
+				not_etime, room_no, off_type);
 
 		if (off_type.equals("breaktime")) {
 			log.info("브레이크 타임");
@@ -1057,18 +1065,73 @@ public class DashBoardController {
 		log.info("reserve_etime : {} ", reserve_etime);
 
 		List<ReservationView> rv_vos = service.backoffice_reservation(backoffice_no, not_sdate, not_edate, not_stime,
-				not_etime, room_no, off_type);
+				not_etime, room_no, off_type, 8 * (page - 1) + 1, 8 * (page));
 		log.info("result: {}.", rv_vos);
 		log.info("cnt: {}.", rv_vos.size());
-
+		
+		if (rv_vos == null)
+			map.put("cnt", 0);
+		else
+			map.put("cnt", rv_vos.size());
+		
+		map.put("page", "reservation");
+		map.put("nowCnt", 1);
+		
+		if(total_cnt > 0)
+			map.put("maxCnt", total_cnt);
+		else
+			map.put("maxCnt", 0);
+		
+		model.addAttribute("res", map);
 		model.addAttribute("reserve_stime", reserve_stime);
 		model.addAttribute("reserve_etime", reserve_etime);
 		model.addAttribute("rv_vos", rv_vos);
-		model.addAttribute("cnt", rv_vos.size());
+//		model.addAttribute("cnt", rv_vos.size());
 
 		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/reservation");
 		model.addAttribute("title", "일정 관리 - 예약자");
 
+		return "thymeleaf/layouts/backoffice/layout_dashboard";
+	}
+	
+	/**
+	 * 일정 관리 - 해당 날짜, 시간에 예약자 리스트 *************페이징**************
+	 */
+	@ApiOperation(value = "예약자 리스트", notes = "대쉬보드 - 예약자 리스트")
+	@GetMapping("/reservation_paging")
+	public String backoffice_reservation_paging(String backoffice_no, String room_no, String not_sdate, String not_edate,
+			String not_stime, String not_etime, String off_type, Model model, Integer page) {
+		log.info("backoffice_reservation controller_paging()...");
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		String reserve_stime = (not_sdate + not_stime);
+		log.info("reserve_stime : {} ", reserve_stime);
+		
+		String reserve_etime = (not_edate + not_etime);
+		log.info("reserve_etime : {} ", reserve_etime);
+		
+		List<ReservationView> rv_vos = service.backoffice_reservation(backoffice_no, not_sdate, not_edate, not_stime,
+				not_etime, room_no, off_type, 8 * (page - 1) + 1, 8 * (page));
+		log.info("result: {}.", rv_vos);
+		log.info("cnt: {}.", rv_vos.size());
+		
+		if (rv_vos == null)
+			map.put("cnt", 0);
+		else
+			map.put("cnt", rv_vos.size());
+		
+//		map.put("page", "reservation");
+//		map.put("nowCnt", 1);
+		model.addAttribute("res", map);
+		
+		model.addAttribute("reserve_stime", reserve_stime);
+		model.addAttribute("reserve_etime", reserve_etime);
+		model.addAttribute("rv_vos", rv_vos);
+		
+		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/reservation");
+		model.addAttribute("title", "일정 관리 - 예약자");
+		
 		return "thymeleaf/layouts/backoffice/layout_dashboard";
 	}
 
