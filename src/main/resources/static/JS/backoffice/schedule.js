@@ -75,6 +75,10 @@ $(function() {
 					let not_edate = eDateTime[0];
 					let not_etime = eDateTime[1];
 					let off_type = $("input:radio[name='set_schedule']:checked").val();
+					
+					//로딩 화면
+			        $(".popup-background:eq(1)").removeClass("blind");
+			        $("#spinner-section").removeClass("blind");
 
 					$.ajax({
 						url: "/backoffice/schedule_research",
@@ -90,6 +94,9 @@ $(function() {
 						},
 
 						success: function(res) {
+							//로딩 화면 닫기
+				            $(".popup-background:eq(1)").addClass("blind");
+				            $("#spinner-section").addClass("blind");
 							if (res.cnt > 0) {
 								let empty_row = $($('.ct-body-row')[0]).clone();
 								$(".ct-body").empty();
@@ -138,6 +145,7 @@ $(function() {
 									}
 
 									body_row.find(".reserve_cnt").text(res.sc_vos[i].reserve_cnt + "명");
+									body_row.find(".reserve_cnt").attr("reserve_cnt", res.sc_vos[i].reserve_cnt);
 
 									$(".ct-body").append(body_row);
 								}
@@ -176,38 +184,32 @@ $(function() {
 		let not_etime = eDateTime[1];
 		let room_no = $(this).parent().siblings(".ct-body-cell:eq(0)").children().attr("room_no");
 		let off_type = $("input:radio[name='set_schedule']:checked").val();
+		let reserve_cnt = parseInt($(this).attr("reserve_cnt"));
+		
+		//로딩 화면
+        $(".popup-background:eq(1)").removeClass("blind");
+        $("#spinner-section").removeClass("blind");
 
-		console.log(backoffice_no, not_sdate, not_stime, not_edate, not_etime, room_no, off_type);
 
-		$.ajax({
-			url: "/backoffice/reservation",
-			type: "GET",
-			dataType: "JSON",
-			data: {
-				backoffice_no: backoffice_no,
-				not_sdate: not_sdate,
-				not_edate: not_edate,
-				not_stime: not_stime,
-				not_etime: not_etime,
-				room_no: room_no,
-				off_type: off_type
-			},
-
-			success: function(res) {
-				
-//				location.href="/backoffice/reservation?backoffice_no?" + backoffice_no;
-			},
-			error: function(error) {
-				console.log(error);
-			}
-
-		});
+		if (reserve_cnt != 0) {
+			//로딩 화면 닫기
+            $(".popup-background:eq(1)").addClass("blind");
+            $("#spinner-section").addClass("blind");
+            
+			location.href = "/backoffice/reservation?backoffice_no=" + backoffice_no + "&room_no=" + room_no + "&not_sdate=" + not_sdate + "&not_edate=" + not_edate + "&not_stime=" + not_stime + "&not_etime=" + not_etime + "&off_type=" + off_type;
+		} else {
+			//로딩 화면 닫기
+            $(".popup-background:eq(1)").addClass("blind");
+            $("#spinner-section").addClass("blind");
+            
+			$(".popup-background:eq(0)").removeClass("blind");
+			$("#no-reservation-popup").removeClass("blind");
+		}
 	});
 
 	$("#schedule-confirm-btn").click(function() {
 		console.log("confirm button click")
 	})
-
 
 	// 팝업
 	$("#radio-check-closeBtn").click(function() {
@@ -219,6 +221,9 @@ $(function() {
 		$("#time-input-popup").addClass("blind");
 		$(".popup-background:eq(0)").addClass("blind");
 	})
-
-
+	
+	$("#no-reservation-closeBtn").click(function() {
+		$("#no-reservation-popup").addClass("blind");
+		$(".popup-background:eq(0)").addClass("blind");
+	})
 })
