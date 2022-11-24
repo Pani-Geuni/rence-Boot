@@ -116,10 +116,51 @@ public class DashBoardController {
 	 */
 	@ApiOperation(value = "공간 리스트", notes = "대쉬보드 공간 관리 페이지")
 	@GetMapping("/room")
-	public String dashboard_room_list(Model model, String backoffice_no) {
-		List<RoomVO> rmvos = service.dashboard_room_list(backoffice_no);
+	public String dashboard_room_list(Model model, String backoffice_no,
+			@RequestParam(value = "page", defaultValue = "1") Integer page) {
+
+		/////////////////////// 페이징/////////////////////////////////////////
+		Map<String, Object> map = new HashMap<String, Object>();
+		// 리스트 수
+		long total_rowCount_all = service.dashboard_room_list_cnt(backoffice_no);
+		log.info("total_rowCount_reserve_now: {}", total_rowCount_all);
+
+		// 총 페이징되는 수
+		long totalPageCnt = (long) Math.ceil(total_rowCount_all / 12.0);
+		log.info("totalPageCnt: {}", totalPageCnt);
+
+		// 현재페이지
+		long nowPage = page;
+
+		// 5page씩 끊으면 끝 페이지 번호( ex, 총 9페이지이고, 현재페이지가 6이면 maxpage = 9)
+		long maxPage = 0;
+
+		if (nowPage % 5 != 0) {
+			if (nowPage == totalPageCnt) {
+				maxPage = nowPage;
+			} else if (((nowPage / 5) + 1) * 5 >= totalPageCnt) {
+				maxPage = totalPageCnt;
+			} else if (((nowPage / 5) + 1) * 5 < totalPageCnt) {
+				maxPage = ((nowPage / 5) + 1) * 5;
+			}
+		} else if (nowPage % 5 == 0) {
+			if (nowPage <= totalPageCnt) {
+				maxPage = nowPage;
+			}
+		}
+		log.info("maxPage: " + maxPage);
+
+		map.put("totalPageCnt", totalPageCnt);
+		map.put("nowPage", nowPage);
+		map.put("maxPage", maxPage);
+		////////////////////////////////////////////////////////////////////
+
+		List<RoomVO> rmvos = service.dashboard_room_list(backoffice_no, page);
 		log.info("rmvos{}", rmvos);
 		model.addAttribute("rm_vos", rmvos);
+
+		map.put("page", "room");
+		model.addAttribute("res", map);
 
 		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/room");
 		model.addAttribute("title", "공간 관리");
@@ -308,7 +349,7 @@ public class DashBoardController {
 	}
 
 	/**
-	 * 문의(리스트) --> 프론트 id 에러
+	 * 문의(리스트)
 	 */
 	@ApiOperation(value = "문의 리스트", notes = "대쉬보드 공간 관리 페이지 - 문의")
 	@GetMapping("/qna")
@@ -316,10 +357,49 @@ public class DashBoardController {
 			@RequestParam(value = "page", defaultValue = "1") Integer page) {
 		log.info("backoffice_qna ()...");
 		log.info("{}", backoffice_no);
+
+		/////////////////////// 페이징/////////////////////////////////////////
+		Map<String, Object> map = new HashMap<String, Object>();
+		// 리스트 수
+		long total_rowCount_all = service.backoffice_qna_selectAll_cnt(backoffice_no);
+		log.info("total_rowCount_reserve_now: {}", total_rowCount_all);
+
+		// 총 페이징되는 수
+		long totalPageCnt = (long) Math.ceil(total_rowCount_all / 10.0);
+		log.info("totalPageCnt: {}", totalPageCnt);
+
+		// 현재페이지
+		long nowPage = page;
+
+		// 5page씩 끊으면 끝 페이지 번호( ex, 총 9페이지이고, 현재페이지가 6이면 maxpage = 9)
+		long maxPage = 0;
+
+		if (nowPage % 5 != 0) {
+			if (nowPage == totalPageCnt) {
+				maxPage = nowPage;
+			} else if (((nowPage / 5) + 1) * 5 >= totalPageCnt) {
+				maxPage = totalPageCnt;
+			} else if (((nowPage / 5) + 1) * 5 < totalPageCnt) {
+				maxPage = ((nowPage / 5) + 1) * 5;
+			}
+		} else if (nowPage % 5 == 0) {
+			if (nowPage <= totalPageCnt) {
+				maxPage = nowPage;
+			}
+		}
+		log.info("maxPage: " + maxPage);
+
+		map.put("totalPageCnt", totalPageCnt);
+		map.put("nowPage", nowPage);
+		map.put("maxPage", maxPage);
+		////////////////////////////////////////////////////////////////////
+
 		List<CommentListQView> qvos = service.backoffice_qna_selectAll(backoffice_no, page);
 		log.info("qvos : {}", qvos);
 		model.addAttribute("q_vos", qvos);
 		model.addAttribute("cnt", qvos.size());
+		
+		model.addAttribute("res", map);
 
 		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/qna_list");
 		model.addAttribute("title", "공간 관리");
@@ -755,18 +835,72 @@ public class DashBoardController {
 	@GetMapping("/schedule_research")
 	@ResponseBody
 	public String backoffice_schedule_research(String backoffice_no, String not_sdate, String not_edate,
-			String not_stime, String not_etime, String off_type, Model model) {
+			String not_stime, String not_etime, String off_type, Integer page, Model model) {
 		log.info("backoffice_schedule_research controller()...");
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		List<ScheduleListView> sche = service.backoffice_schedule_list(backoffice_no, not_sdate, not_edate, not_stime,
 				not_etime, off_type);
-		log.info("result: {}.", sche);
-		log.info("cnt: {}.", sche.size());
 
-		map.put("sc_vos", sche);
-		map.put("cnt", sche.size());
+		int min = 8 * (page - 1) + 1;
+		int max = 8 * (page);
+
+		List<ScheduleListView> schedule = sche.subList(min, max);
+
+		log.info("result: {}.", schedule);
+		log.info("cnt: {}.", schedule.size());
+
+		map.put("sc_vos", schedule);
+		if (schedule == null) {
+			map.put("cnt", 0);
+		} else {
+			map.put("cnt", schedule.size());
+		}
+
+		map.put("page", "schedule");
+		map.put("nowCnt", 1);
+
+		int total_cnt = sche.size();
+		if (total_cnt > 0)
+			map.put("maxCnt", total_cnt);
+		else
+			map.put("maxCnt", 0);
+
+		String json = gson.toJson(map);
+
+		return json;
+	}
+
+	/**
+	 * 일정 관리 - 날짜, 시간 선택 후 ***********페이징
+	 */
+	@ApiOperation(value = "일정 관리", notes = "대쉬보드 - 일정 관리")
+	@GetMapping("/schedule_research_paging")
+	@ResponseBody
+	public String backoffice_schedule_research_paging(String backoffice_no, String not_sdate, String not_edate,
+			String not_stime, String not_etime, String off_type, Integer page, Model model) {
+		log.info("backoffice_schedule_research controller()...");
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		List<ScheduleListView> sche = service.backoffice_schedule_list(backoffice_no, not_sdate, not_edate, not_stime,
+				not_etime, off_type);
+
+		int min = 8 * (page - 1) + 1;
+		int max = 8 * (page);
+
+		List<ScheduleListView> schedule = sche.subList(min, max);
+
+		log.info("result: {}.", schedule);
+		log.info("cnt: {}.", schedule.size());
+
+		map.put("sc_vos", schedule);
+		if (schedule == null) {
+			map.put("cnt", 0);
+		} else {
+			map.put("cnt", schedule.size());
+		}
 
 		String json = gson.toJson(map);
 
