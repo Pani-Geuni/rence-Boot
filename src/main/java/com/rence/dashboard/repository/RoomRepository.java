@@ -19,9 +19,14 @@ import com.rence.dashboard.model.RoomVO;
 public interface RoomRepository extends JpaRepository<RoomVO, Object> {
 
 	// 공간 관리 - 리스트
-	@Query(nativeQuery = true, value = "select room_no, room_type, room_name, TO_CHAR(room_price) as room_price, backoffice_no from roominfo where backoffice_no=?1 order by room_no asc")
-	public List<RoomVO> selectAll_room_list(String backoffice_no);
+	@Query(nativeQuery = true, value = "select * from (select ROWNUM as num, room_no, room_type, room_name, TO_CHAR(room_price) as room_price, backoffice_no from roominfo where backoffice_no=?1 order by room_no asc) where num between ?2 and ?3")
+	public List<RoomVO> selectAll_room_list(String backoffice_no, Integer start_row, Integer end_row);
 
+	// ********페이징*********
+	@Query(nativeQuery = true, value = "select count(*) from(select room_no, room_type, room_name, TO_CHAR(room_price) as room_price, backoffice_no from roominfo where backoffice_no=?1 order by room_no asc)")
+	public long dashboard_room_list_cnt(String backoffice_no);
+	
+	
 	// 공간 수정 - 팝업
 	@Query(nativeQuery = true, value = "select * from roominfo where backoffice_no=?1 and room_no=?2")
 	public RoomVO select_one_room_info(String backoffice_no, String room_no);
@@ -31,6 +36,7 @@ public interface RoomRepository extends JpaRepository<RoomVO, Object> {
 	@Transactional
 	@Query(nativeQuery = true, value = "DELETE FROM roominfo where backoffice_no=?1 and room_no=?2 and room_no not in (select room_no from reserveinfo where backoffice_no=?1 and room_no=?2 and (reserve_state='begin' or reserve_state='in_use'))")
 	public void backoffice_deleteOK_room(String backoffice_no, String room_no);
+
 	
 
 }

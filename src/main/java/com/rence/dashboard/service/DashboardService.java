@@ -34,6 +34,7 @@ import com.rence.dashboard.model.ScheduleListView;
 import com.rence.dashboard.model.ScheduleVO;
 import com.rence.dashboard.model.ReservationView;
 import com.rence.dashboard.repository.CommentInsertRepository;
+import com.rence.dashboard.repository.CommentQListRepository;
 import com.rence.dashboard.repository.CommentRepository;
 import com.rence.dashboard.repository.CommentSummaryRepository;
 import com.rence.dashboard.repository.ReserveRepository;
@@ -89,15 +90,26 @@ public class DashboardService {
 	@Autowired
 	ScheduleRepository sc_repository;
 	
+	@Autowired
+	CommentQListRepository cq_repository;
+	
 	
 	@Autowired
 	DashBoardDAO dao;
 
 
 	// 공간 관리 - 리스트
-	public List<RoomVO> dashboard_room_list(String backoffice_no) {
+	public List<RoomVO> dashboard_room_list(String backoffice_no, Integer page) {
 		log.info("reserve_summary_selectAll().....");
-		return rm_repository.selectAll_room_list(backoffice_no);
+		log.info("current page: {}",page);
+		
+		Integer row_count = 12;
+		Integer start_row = (page -1) * row_count + 1;
+		Integer end_row = page * row_count;
+		log.info("start_row: "+start_row);
+		log.info("end_row: "+end_row);
+		
+		return rm_repository.selectAll_room_list(backoffice_no,start_row, end_row);
 	}
 
 	// 공간 관리 - 공간 추가 전 백오피스 정보(공간 타입) 가져오기
@@ -157,7 +169,7 @@ public class DashboardService {
 		log.info("backoffice_qna_selectAll().....");
 		log.info("currentpage:{}", currentPage);
 
-		Integer row_count = 15;
+		Integer row_count = 10;
 		Integer start_row = (currentPage - 1) * row_count + 1;
 		Integer end_row = currentPage * row_count;
 		
@@ -367,6 +379,21 @@ public class DashboardService {
 	public int backoffice_schedule_cancel(String backoffice_no, String schedule_no) {
 		log.info("backoffice_schedule_cancel().....");
 		return sc_repository.backoffice_schedule_cancel(backoffice_no,schedule_no);
+	}
+
+	
+	
+	// ******** 페이징 ***********
+	// 공간 리스트
+	public long dashboard_room_list_cnt(String backoffice_no) {
+		log.info("dashboard_room_list_cnt().....");
+		return rm_repository.dashboard_room_list_cnt(backoffice_no);
+	}
+
+	// 문의 리스트
+	public long backoffice_qna_selectAll_cnt(String backoffice_no) {
+		log.info("backoffice_qna_selectAll_cnt().....");
+		return cq_repository.select_all_q_cnt(backoffice_no);
 	}
 
 
