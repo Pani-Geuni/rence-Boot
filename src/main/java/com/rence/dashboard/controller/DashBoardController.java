@@ -981,30 +981,35 @@ public class DashBoardController {
 			@RequestParam(value = "multipartFile_room") MultipartFile multipartFile_room, Model model) {
 		log.info("backoffice_updateOK_host ()...");
 		log.info("{}", bvo);
-
-		// 이미지 파일
-		bvo = fileService.backoffice_image_upload(bvo, mtfRequest, multipartFile_room);
-		log.info("filupload room:{}", bvo);
+		
+		BackOfficeVO bvo2 = service.backoffice_setting_selectOne(bvo);
+		if(!bvo.getBackoffice_image().equals(bvo2.getBackoffice_image())) {
+			// 이미지 파일
+			bvo = fileService.backoffice_image_upload(bvo, mtfRequest, multipartFile_room);
+			log.info("filupload room:{}", bvo);
+		} 
 
 		// 운영시간
 		BackOfficeOperatingTimeVO_datetype ovo2 = new BackOfficeOperatingTimeVO_datetype();
 		ovo2 = operatingTime.operatingTime(ovo, ovo2);
 
 		// 백오피스 업체 정보 업데이트
-//		int update_host =  service.backoffice_updateOK_host(bvo);
-		service.backoffice_updateOK_host(bvo);
+		int update_host =  service.backoffice_updateOK_host(bvo);
+//		service.backoffice_updateOK_host(bvo);
 
 		// 백오피스 운영 시간 업데이트
 		ovo2.setBackoffice_no(bvo.getBackoffice_no());
-//		int update_opt =  service.backoffice_updateOK_opt(ovo2);
-		service.backoffice_updateOK_opt(ovo2);
+		int update_opt =  service.backoffice_updateOK_opt(ovo2);
+		log.info("update_opt:::{}",update_opt);
+//		service.backoffice_updateOK_opt(ovo2);
 
 		String rt = "";
-//		if(update_host==1&&update_opt==1) {
-		rt = "redirect:backoffice/settings";
-//		}else {
-//			rt = "redirect:backoffice/update_host";
-//		}
+		if(update_host==1&&update_opt==1) {
+		rt = "redirect:settings?backoffice_no="+bvo.getBackoffice_no();
+		}else {
+//			rt = "redirect:update_host?backoffice_no=B1001";
+			rt = "redirect:update_host?backoffice_no="+bvo.getBackoffice_no();
+		}
 
 		return rt;
 	}

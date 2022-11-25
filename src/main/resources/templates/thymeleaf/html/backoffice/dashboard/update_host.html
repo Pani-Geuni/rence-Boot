@@ -11,7 +11,9 @@
 			<h1>호스트 정보 변경</h1>
 		</div>
 		<!-- END titleSection -->
+		<form action="updateOK_host" id="updateForm" method="POST" enctype="multipart/form-data">
 		<div class="host-update-form">
+		<input type="hidden" id="backoffice_no" name="backoffice_no" th:value="${vo.backoffice_no}"/>
 			<div class="inputWrap info">
 				<p>사업체 태그</p>
 				<div class="hashTag-area">
@@ -437,7 +439,7 @@
 				<p>공간 사진</p>
 
 				<div class="filebox">
-					<input class="upload-name" th:value="${vo.backoffice_image}" placeholder="첨부파일(.jpg/.jpeg/.png)" />
+					<input class="upload-name" name="backoffice_image" th:value="${vo.backoffice_image}" placeholder="첨부파일(.jpg/.jpeg/.png)" />
 					<label for="multipartFile_room">파일찾기</label>
 					<input type="file" id="multipartFile_room" name="multipartFile_room" accept=".jpg, .jpeg, .png"
 						multiple="multiple" />
@@ -447,9 +449,11 @@
 			<!-- END inputWrap image -->
 
 			<div class="submit">
-				<input type="button" id="real-submit" class="submit-application" value="호스트 신청하기" />
+				<input type="button" id="submit" class="submit-application" value="정보변경하기"/>
+				<input type="submit" id="real-submit" class="submit-application" value="정보변경하기" style="display:none;"/>
 			</div>
 		</div>
+		</form>
 		<!-- END host-update-form -->
 	</section>
 

@@ -11,7 +11,96 @@ $(function() {
 		dynamic: false,
 		dropdown: true,
 		scrollbar: true,
-	})
+	});
+	
+	if($('#sun_dayoff').is(":checked")){
+		$('#sun_stime').attr('disabled', true);
+		$('#sun_etime').attr('disabled', true);
+	}
+	if($('#mon_dayoff').is(":checked")){
+		$('#mon_stime').attr('disabled', true);
+		$('#mon_etime').attr('disabled', true);
+	}
+	if($('#tue_dayoff').is(":checked")){
+		$('#tue_stime').attr('disabled', true);
+		$('#tue_etime').attr('disabled', true);
+	}
+	if($('#wed_dayoff').is(":checked")){
+		$('#wed_stime').attr('disabled', true);
+		$('#wed_etime').attr('disabled', true);
+	}
+	if($('#thu_dayoff').is(":checked")){
+		$('#thu_stime').attr('disabled', true);
+		$('#thu_etime').attr('disabled', true);
+	}
+	if($('#fri_dayoff').is(":checked")){
+		$('#fri_stime').attr('disabled', true);
+		$('#fri_etime').attr('disabled', true);
+	}
+	if($('#sat_dayoff').is(":checked")){
+		$('#sat_stime').attr('disabled', true);
+		$('#sat_etime').attr('disabled', true);
+	}
+	
+	$('#mon_dayoff').click(function() {
+		if (this.checked) {
+			$('#mon_stime').attr('disabled', true);
+			$('#mon_etime').attr('disabled', true);
+		} else {
+			$('#mon_stime').attr('disabled', false);
+			$('#mon_etime').attr('disabled', false);
+		}
+	});
+
+	$('#tue_dayoff').click(function() {
+		if (this.checked) {
+			$('#tue_stime').attr('disabled', true);
+			$('#tue_etime').attr('disabled', true);
+		} else {
+			$('#tue_stime').attr('disabled', false);
+			$('#tue_etime').attr('disabled', false);
+		}
+	});
+
+	$('#wed_dayoff').click(function() {
+		if (this.checked) {
+			$('#wed_stime').attr('disabled', true);
+			$('#wed_etime').attr('disabled', true);
+		} else {
+			$('#wed_stime').attr('disabled', false);
+			$('#wed_etime').attr('disabled', false);
+		}
+	});
+
+	$('#thu_dayoff').click(function() {
+		if (this.checked) {
+			$('#thu_stime').attr('disabled', true);
+			$('#thu_etime').attr('disabled', true);
+		} else {
+			$('#thu_stime').attr('disabled', false);
+			$('#thu_etime').attr('disabled', false);
+		}
+	});
+
+	$('#fri_dayoff').click(function() {
+		if (this.checked) {
+			$('#fri_stime').attr('disabled', true);
+			$('#fri_etime').attr('disabled', true);
+		} else {
+			$('#fri_stime').attr('disabled', false);
+			$('#fri_etime').attr('disabled', false);
+		}
+	});
+
+	$('#sat_dayoff').click(function() {
+		if (this.checked) {
+			$('#sat_stime').attr('disabled', true);
+			$('#sat_etime').attr('disabled', true);
+		} else {
+			$('#sat_stime').attr('disabled', false);
+			$('#sat_etime').attr('disabled', false);
+		}
+	});
 
 	var tag = {}
 	var counter = 0
@@ -169,65 +258,7 @@ $(function() {
 		}
 	})
 
-	$('#mon_dayoff').click(function() {
-		if (this.checked) {
-			$('#mon_stime').attr('disabled', true);
-			$('#mon_etime').attr('disabled', true);
-		} else {
-			$('#mon_stime').attr('disabled', false);
-			$('#mon_etime').attr('disabled', false);
-		}
-	})
-
-	$('#tue_dayoff').click(function() {
-		if (this.checked) {
-			$('#tue_stime').attr('disabled', true);
-			$('#tue_etime').attr('disabled', true);
-		} else {
-			$('#tue_stime').attr('disabled', false);
-			$('#tue_etime').attr('disabled', false);
-		}
-	})
-
-	$('#wed_dayoff').click(function() {
-		if (this.checked) {
-			$('#wed_stime').attr('disabled', true);
-			$('#wed_etime').attr('disabled', true);
-		} else {
-			$('#wed_stime').attr('disabled', false);
-			$('#wed_etime').attr('disabled', false);
-		}
-	})
-
-	$('#thu_dayoff').click(function() {
-		if (this.checked) {
-			$('#thu_stime').attr('disabled', true);
-			$('#thu_etime').attr('disabled', true);
-		} else {
-			$('#thu_stime').attr('disabled', false);
-			$('#thu_etime').attr('disabled', false);
-		}
-	})
-
-	$('#fri_dayoff').click(function() {
-		if (this.checked) {
-			$('#fri_stime').attr('disabled', true);
-			$('#fri_etime').attr('disabled', true);
-		} else {
-			$('#fri_stime').attr('disabled', false);
-			$('#fri_etime').attr('disabled', false);
-		}
-	})
-
-	$('#sat_dayoff').click(function() {
-		if (this.checked) {
-			$('#sat_stime').attr('disabled', true);
-			$('#sat_etime').attr('disabled', true);
-		} else {
-			$('#sat_stime').attr('disabled', false);
-			$('#sat_etime').attr('disabled', false);
-		}
-	});
+	
 
 	/** 공간 타입 체크 박스 - 데스크/회의룸 둘 중 하나라도 체크 시 오피스는 체크할 수 없음 */
 	$("#type_checkbox_desk, #type_checkbox_meeting_room").click(function() {
@@ -283,8 +314,7 @@ $(function() {
     });
 
 	/** 호스트 수정 완료 버튼 클릭 */
-	$("#real-submit").on('click', function() {
-
+	$("#submit").on('click', function() {
 		// 필수 input / textarea 입력되었는지 확인
 		if ($("#backoffice_info").val().trim().length > 0) {
 			// 공간 타입을 선택했는지 확인
@@ -293,63 +323,10 @@ $(function() {
 			var office_checked = $('#type_checkbox_office').is(':checked');
 
 			if (desk_checked || meeting_room_checked || office_checked) {
-				// 회원가입 로직 처리
-				$.ajax({
-					url: "/backoffice/updateOK_host",
-					type: "POST",
-					dataType: 'json',
-					data: {
-						backoffice_tag: $("#backoffice_tag").val().trim(),
-						backoffice_info: $("#backoffice_info").val().trim(),
-						backoffice_type: backoffice_type,
-						backoffice_option: backoffice_option,
-						backoffice_around: backoffice_around,
-						sun_stime: $("#sun_stime").val().trim(),
-						sun_etime: $("#sun_etime").val().trim(),
-						mon_stime: $("#mon_stime").val().trim(),
-						mon_etime: $("#mon_etime").val().trim(),
-						tue_stime: $("#tue_stime").val().trim(),
-						tue_etime: $("#tue_etime").val().trim(),
-						wed_stime: $("#wed_stime").val().trim(),
-						wed_etime: $("#wed_etime").val().trim(),
-						thu_stime: $("#thu_stime").val().trim(),
-						thu_etime: $("#thu_etime").val().trim(),
-						fri_stime: $("#fri_stime").val().trim(),
-						fri_etime: $("#fri_etime").val().trim(),
-						sat_stime: $("#sat_stime").val().trim(),
-						sat_etime: $("#sat_etime").val().trim(),
-						sun_dayoff: $("#sun_dayoff").val().trim(),
-						mon_dayoff: $("#sun_dayoff").val().trim(),
-						tue_dayoff: $("#sun_dayoff").val().trim(),
-						wed_dayoff: $("#sun_dayoff").val().trim(),
-						thu_dayoff: $("#sun_dayoff").val().trim(),
-						fri_dayoff: $("#sun_dayoff").val().trim(),
-						sat_dayoff: $("#sun_dayoff").val().trim()
-					},
-					success: function(res) {
-						//로딩 화면
-						$(".popup-background:eq(1)").addClass("blind");
-						$("#spinner-section").addClass("blind");
-
-						// 회원가입 성공
-						if (result == 1) {
-							
-						} else {
-							$(".popup-background:eq(1)").removeClass("blind");
-							$("#common-alert-popup").removeClass("blind");
-							$(".common-alert-txt").text("예상치못한 오류로 회원가입에 실패하였습니다.");
-						}
-					},
-					error: function() {
-						//로딩 화면
-						$(".popup-background:eq(1)").addClass("blind");
-						$("#spinner-section").addClass("blind");
-
-						$(".popup-background:eq(1)").removeClass("blind");
-						$("#common-alert-popup").removeClass("blind");
-						$(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
-					}
-				})
+				$("#backoffice_type").val(backoffice_type);
+				$("#backoffice_option").val(backoffice_option);
+				$("#backoffice_around").val(backoffice_around);
+				$("#real-submit").click();
 			} else {
 				$(".popup-background:eq(1)").removeClass("blind");
 				$("#common-alert-popup").removeClass("blind");
