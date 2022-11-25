@@ -124,7 +124,7 @@
     });
 
     // 공간 소개 페이지 이동
-    $(".list-box").on("click", function(){
+    $(".listPage-wrap").on("click", ".list-box", function(){
         var backoffice_no = $(this).attr("idx");
         var type = window.location.href.split("?type=")[1].split("&")[0];
         

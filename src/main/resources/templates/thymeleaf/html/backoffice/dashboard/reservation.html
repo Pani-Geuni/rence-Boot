@@ -41,12 +41,12 @@
 						<div class="ct-header-cell reservation">예약 기간</div>
 					</div>
 					<!-- END ct-header -->
-					<div class="ct-body">
+					<div class="ct-body reservation-ct">
 						<div class="ct-body-row" th:each="vo : ${rv_vos}">
 							<div class="ct-body-cell reservation">
-								<input type="hidden" name="room_no" attr="${vo.room_no}" />
-								<input type="hidden" name="backoffice_no" attr="${vo.backoffice_no}" />
-								<input type="checkbox" name="reserve_no" id="reserve_no" class="room-checkbox" value="" attr="${vo.reserve_no}" />
+								<input type="hidden" name="room_no" th:attr="room_no=${vo.room_no}" />
+								<input type="hidden" name="backoffice_no" th:attr="backoffice_no=${vo.backoffice_no}" />
+								<input type="checkbox" name="reserve_no" id="reserve_no" class="room-checkbox" value="" th:attr="reserve_no=${vo.reserve_no}" />
 							</div>
 							<div class="ct-body-cell reservation">
 								<span class="user_name">[[${vo.user_name}]]</span>
@@ -63,8 +63,8 @@
 							
 						</div>
 						<!-- END ct-body-row" -->
-						<input type='button' id='btn-reserve-cancel' class='btn-reserve-cancel' value='예약 취소' />
 					</div>
+					<input type='button' id='btn-reserve-cancel' class='btn-reserve-cancel' value='예약 취소' />
 					<!-- END ct-body -->
 				</div>
 				<!-- END custom-table -->
