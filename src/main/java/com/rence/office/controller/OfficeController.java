@@ -224,9 +224,9 @@ public class OfficeController {
 		model.addAttribute("review_cnt", revos.size());
 
 		model.addAttribute("content", "thymeleaf/html/office/space_detail/space_detail_introduce");
-		model.addAttribute("title", "대쉬보드 메인");
+		model.addAttribute("title", "공간 상세 페이지");
 
-		return "thymeleaf/layouts/office/layout_base";
+		return "thymeleaf/layouts/office/layout_reserve";
 	}
 
 	// ***************
