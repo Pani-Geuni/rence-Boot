@@ -1,5 +1,5 @@
 /**
- * @author : 전판근
+ * @author : 전판근, 최진실
  */
 
 $(function() {
@@ -15,31 +15,45 @@ $(function() {
 	
 	if($('#sun_dayoff').is(":checked")){
 		$('#sun_stime').attr('disabled', true);
+		$('#sun_stime').val("00:00");
 		$('#sun_etime').attr('disabled', true);
+		$('#sun_etime').val("00:00");
 	}
 	if($('#mon_dayoff').is(":checked")){
 		$('#mon_stime').attr('disabled', true);
+		$('#mon_stime').val("00:00");
 		$('#mon_etime').attr('disabled', true);
+		$('#mon_etime').val("00:00");
 	}
 	if($('#tue_dayoff').is(":checked")){
 		$('#tue_stime').attr('disabled', true);
+		$('#tue_stime').val("00:00");
 		$('#tue_etime').attr('disabled', true);
+		$('#tue_etime').val("00:00");
 	}
 	if($('#wed_dayoff').is(":checked")){
 		$('#wed_stime').attr('disabled', true);
+		$('#wed_stime').val("00:00");
 		$('#wed_etime').attr('disabled', true);
+		$('#wed_etime').val("00:00");
 	}
 	if($('#thu_dayoff').is(":checked")){
 		$('#thu_stime').attr('disabled', true);
+		$('#thu_stime').val("00:00");
 		$('#thu_etime').attr('disabled', true);
+		$('#thu_etime').val("00:00");
 	}
 	if($('#fri_dayoff').is(":checked")){
 		$('#fri_stime').attr('disabled', true);
+		$('#fri_stime').val("00:00");
 		$('#fri_etime').attr('disabled', true);
+		$('#fri_etime').val("00:00");
 	}
 	if($('#sat_dayoff').is(":checked")){
 		$('#sat_stime').attr('disabled', true);
+		$('#sat_stime').val("00:00");
 		$('#sat_etime').attr('disabled', true);
+		$('#sat_etime').val("00:00");
 	}
 	
 	$('#mon_dayoff').click(function() {
