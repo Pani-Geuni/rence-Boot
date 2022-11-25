@@ -15,6 +15,7 @@ import com.rence.office.model.OfficeInfoVO;
 import com.rence.office.model.OfficeOperatingTimeVO_date;
 import com.rence.office.model.OfficeQuestionVO;
 import com.rence.office.model.OfficeReserveVO;
+import com.rence.office.model.OfficeReserveVO_date;
 import com.rence.office.model.OfficeReviewVO;
 import com.rence.office.model.OfficeRoomVO;
 import com.rence.office.repo.OfficeDetailInfoRepository;
@@ -22,6 +23,7 @@ import com.rence.office.repo.OfficeInfoRepository;
 import com.rence.office.repo.OfficeListRepository;
 import com.rence.office.repo.OfficeOperatingTimeRepository;
 import com.rence.office.repo.OfficeQuestionRepository;
+import com.rence.office.repo.OfficeReserveDateRepository;
 import com.rence.office.repo.OfficeReserveRepository;
 import com.rence.office.repo.OfficeReviewRepository;
 import com.rence.office.repo.OfficeRoomRepository;
@@ -56,6 +58,9 @@ public class OfficeService {
 	
 	@Autowired
 	OfficeReserveRepository reserve_repository;
+	
+	@Autowired
+	OfficeReserveDateRepository reserve_date_repository;
 	
 	public OfficeService() {
 		log.info("OfficeService()...");
@@ -101,6 +106,12 @@ public class OfficeService {
 		List<OfficeReserveVO> vos = reserve_repository.select_all_reserve(backoffice_no, room_no, reserve_stime);
 		
 		return vos;
+	}
+	
+	public int confirm_reserve(OfficeReserveVO_date rvo) {
+		int result = reserve_date_repository.insert_reserve(rvo);
+				
+		return result;
 	}
 	
 //	public String select_one_last_reserve(String user_no) {

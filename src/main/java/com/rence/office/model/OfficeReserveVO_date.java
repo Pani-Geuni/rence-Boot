@@ -8,7 +8,10 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -27,6 +30,8 @@ import lombok.ToString;
 public class OfficeReserveVO_date {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_reserve")
+	@SequenceGenerator(sequenceName = "seq_reserve", allocationSize = 1, name="seq_reserve")
 	@Column(name="reserve_no")
 	private String reserve_no;
 	
