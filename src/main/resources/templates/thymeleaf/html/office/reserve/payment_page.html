@@ -16,7 +16,7 @@
                 <span class="section-title">예약 정보</span>
                 <div class="reserve-info-wrap">
                     <section>
-                        <img src="${pvo.backoffice_image}" alt="result-img" class="reserve-info-img" />
+                        <img th:src="@{https://rence.s3.ap-northeast-2.amazonaws.com/space/}+${pvo.backoffice_image}" alt="result-img" class="reserve-info-img" />
                     </section>
                     <section class="reserve-info-txt">
                         <span class="info-company-name">[[${pvo.company_name}]]</span>
