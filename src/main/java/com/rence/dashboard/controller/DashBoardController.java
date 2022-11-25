@@ -1036,9 +1036,18 @@ public class DashBoardController {
 
 		List<ScheduleListView> sche = service.backoffice_schedule_list(backoffice_no, not_sdate, not_edate, not_stime,
 				not_etime, off_type);
+		
+		int total_cnt = sche.size();
+		if (total_cnt > 0)
+			map.put("maxCnt", total_cnt);
+		else
+			map.put("maxCnt", 0);
 
 		int min = 8 * (page - 1) + 1;
 		int max = 8 * (page);
+		if(total_cnt<max) {
+			max = total_cnt;
+		}
 
 		List<ScheduleListView> schedule = sche.subList(min, max);
 
@@ -1055,11 +1064,6 @@ public class DashBoardController {
 		map.put("page", "schedule");
 		map.put("nowCnt", 1);
 
-		int total_cnt = sche.size();
-		if (total_cnt > 0)
-			map.put("maxCnt", total_cnt);
-		else
-			map.put("maxCnt", 0);
 
 		String json = gson.toJson(map);
 
