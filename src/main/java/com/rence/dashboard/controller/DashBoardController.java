@@ -1038,6 +1038,7 @@ public class DashBoardController {
 				not_etime, off_type);
 		
 		int total_cnt = sche.size();
+		log.info("total_cnt::{}",total_cnt);
 		if (total_cnt > 0)
 			map.put("maxCnt", total_cnt);
 		else
@@ -1048,8 +1049,10 @@ public class DashBoardController {
 		if(total_cnt<max) {
 			max = total_cnt;
 		}
+		log.info("min::{}",min);
+		log.info("max::{}",max);
 
-		List<ScheduleListView> schedule = sche.subList(min, max);
+		List<ScheduleListView> schedule = sche.subList(min-1, max);
 
 		log.info("result: {}.", schedule);
 		log.info("cnt: {}.", schedule.size());
