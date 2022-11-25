@@ -587,10 +587,7 @@ public class DashBoardController {
 			map.put("cnt", rvos.size());
 		}
 		
-		map.put("page", "reserve_all");
-		map.put("page", "reserve_inuse");
-		map.put("page", "reserve_end");
-		map.put("page", "reserve_cancel");
+		map.put("page", "reserve");
 		map.put("nowCnt", 1);
 		
 		if(total_cnt > 0)
