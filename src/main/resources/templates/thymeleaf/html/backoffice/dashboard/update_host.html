@@ -11,13 +11,14 @@
 			<h1>호스트 정보 변경</h1>
 		</div>
 		<!-- END titleSection -->
+		<form action="updateOK_host" id="updateForm" method="POST" enctype="multipart/form-data">
 		<div class="host-update-form">
+		<input type="hidden" id="backoffice_no" name="backoffice_no" th:value="${vo.backoffice_no}"/>
 			<div class="inputWrap info">
 				<p>사업체 태그</p>
 				<div class="hashTag-area">
 					<div class="hashTag-group">
 						<input type="hidden" th:value="${backoffice_tag}" name="backoffice_tag" id="real-input-tag" />
-						<input type="button" value="" id="tag_blind_btn" class="blind"/>
 					</div>
 					<input type="text" id="backoffice_tag" placeholder="사업체의 태그를 입력해 주세요 (최대 10글자)" maxlength="10" />
 					<ul id="tag-list"></ul>
@@ -319,15 +320,15 @@
 						<div class="table-body-row update">
 							<div class="table-body-cell update">일</div>
 							<div class="table-body-cell update">
-								<input type="text" id="sun_stime" class="time-picker"
-									name="sun_stime" readonly />
+								<input type="text" id="sun_stime" class="time-picker update"
+									name="sun_stime" th:value="${ovo.sun_stime}" readonly />
 							</div>
 							<div class="table-body-cell update">
-								<input type="text" id="sun_etime" class="time-picker"
-									name="sun_etime" readonly />
+								<input type="text" id="sun_etime" class="time-picker update"
+									name="sun_etime" th:value="${ovo.sun_etime}" readonly />
 							</div>
 							<div class="table-body-cell update">
-								<input type="checkbox" id="sun_dayoff" class="checkbox" name="sun_dayoff" value="T" />
+								<input type="checkbox" id="sun_dayoff" class="checkbox" name="sun_dayoff" th:checked="${ovo.sun_dayoff}=='T'" value="T" />
 							</div>
 						</div>
 						<!-- END table body row -->
@@ -335,15 +336,15 @@
 						<div class="table-body-row update">
 							<div class="table-body-cell update">월</div>
 							<div class="table-body-cell update">
-								<input type="text" id="mon_stime" class="time-picker"
-									name="mon_stime" readonly />
+								<input type="text" id="mon_stime" class="time-picker update"
+									name="mon_stime" th:value="${ovo.mon_stime}" readonly />
 							</div>
 							<div class="table-body-cell update">
-								<input type="text" id="mon_etime" class="time-picker"
-									name="mon_etime" readonly />
+								<input type="text" id="mon_etime" class="time-picker update"
+									name="mon_etime" th:value="${ovo.mon_etime}" readonly />
 							</div>
 							<div class="table-body-cell update">
-								<input type="checkbox" id="mon_dayoff" class="checkbox" name="mon_dayoff" value="T" />
+								<input type="checkbox" id="mon_dayoff" class="checkbox" name="mon_dayoff" th:checked="${ovo.mon_dayoff}=='T'" value="T" />
 							</div>
 						</div>
 						<!-- END table body row -->
@@ -351,15 +352,15 @@
 						<div class="table-body-row update">
 							<div class="table-body-cell update">화</div>
 							<div class="table-body-cell update">
-								<input type="text" id="tue_stime" class="time-picker"
+								<input type="text" id="tue_stime" th:value="${ovo.tue_stime}" class="time-picker update"
 									name="tue_stime" readonly />
 							</div>
 							<div class="table-body-cell update">
-								<input type="text" id="tue_etime" class="time-picker"
+								<input type="text" id="tue_etime" th:value="${ovo.tue_etime}" class="time-picker update"
 									name="tue_etime" readonly />
 							</div>
 							<div class="table-body-cell update">
-								<input type="checkbox" id="tue_dayoff" class="checkbox" name="tue_dayoff" value="T" />
+								<input type="checkbox" id="tue_dayoff" class="checkbox" name="tue_dayoff" th:checked="${ovo.tue_dayoff}=='T'" value="T" />
 							</div>
 						</div>
 						<!-- END table body row -->
@@ -367,15 +368,15 @@
 						<div class="table-body-row update">
 							<div class="table-body-cell update">수</div>
 							<div class="table-body-cell update">
-								<input type="text" id="wed_stime" class="time-picker"
+								<input type="text" id="wed_stime" th:value="${ovo.wed_stime}" class="time-picker update"
 									name="wed_stime" readonly />
 							</div>
 							<div class="table-body-cell update">
-								<input type="text" id="wed_etime" class="time-picker"
+								<input type="text" id="wed_etime" th:value="${ovo.wed_etime}" class="time-picker update"
 									name="wed_etime" readonly />
 							</div>
 							<div class="table-body-cell update">
-								<input type="checkbox" id="wed_dayoff" class="checkbox" name="wed_dayoff" value="T" />
+								<input type="checkbox" id="wed_dayoff" class="checkbox" name="wed_dayoff" th:checked="${ovo.wed_dayoff}=='T'" value="T" />
 							</div>
 						</div>
 						<!-- END table body row -->
@@ -383,15 +384,15 @@
 						<div class="table-body-row update">
 							<div class="table-body-cell update">목</div>
 							<div class="table-body-cell update">
-								<input type="text" id="thu_stime" class="time-picker"
+								<input type="text" id="thu_stime" th:value="${ovo.thu_stime}" class="time-picker update"
 									name="thu_stime" readonly />
 							</div>
 							<div class="table-body-cell update">
-								<input type="text" id="thu_etime" class="time-picker"
+								<input type="text" id="thu_etime" th:value="${ovo.thu_etime}" class="time-picker update"
 									name="thu_etime" readonly />
 							</div>
 							<div class="table-body-cell update">
-								<input type="checkbox" id="thu_dayoff" class="checkbox" name="thu_dayoff" value="T" />
+								<input type="checkbox" id="thu_dayoff" class="checkbox" name="thu_dayoff" th:checked="${ovo.thu_dayoff}=='T'" value="T" />
 							</div>
 						</div>
 						<!-- END table body row -->
@@ -399,15 +400,15 @@
 						<div class="table-body-row update">
 							<div class="table-body-cell update">금</div>
 							<div class="table-body-cell update">
-								<input type="text" id="fri_stime" class="time-picker"
+								<input type="text" id="fri_stime" th:value="${ovo.fri_stime}" class="time-picker update"
 									name="fri_stime" readonly />
 							</div>
 							<div class="table-body-cell update">
-								<input type="text" id="fri_etime" class="time-picker"
+								<input type="text" id="fri_etime" th:value="${ovo.fri_etime}" class="time-picker update"
 									name="fri_etime" readonly />
 							</div>
 							<div class="table-body-cell update">
-								<input type="checkbox" id="fri_dayoff" class="checkbox" name="fri_dayoff" value="T" />
+								<input type="checkbox" id="fri_dayoff" class="checkbox" name="fri_dayoff" th:checked="${ovo.fri_dayoff}=='T'" value="T" />
 							</div>
 						</div>
 						<!-- END table body row -->
@@ -415,15 +416,15 @@
 						<div class="table-body-row update">
 							<div class="table-body-cell update">토</div>
 							<div class="table-body-cell update">
-								<input type="text" id="sat_stime" class="time-picker"
+								<input type="text" id="sat_stime" th:value="${ovo.sat_stime}"  class="time-picker update"
 									name="sat_stime" value="" readonly />
 							</div>
 							<div class="table-body-cell update">
-								<input type="text" id="sat_etime" class="time-picker"
+								<input type="text" id="sat_etime" th:value="${ovo.sat_etime}"  class="time-picker update"
 									name="sat_etime" value="" readonly />
 							</div>
 							<div class="table-body-cell update">
-								<input type="checkbox" id="sat_dayoff" class="checkbox" name="sat_dayoff" value="T" />
+								<input type="checkbox" id="sat_dayoff" class="checkbox" name="sat_dayoff" th:checked="${ovo.sat_dayoff}=='T'" value="T" />
 							</div>
 						</div>
 						<!-- END table body row -->
@@ -438,7 +439,7 @@
 				<p>공간 사진</p>
 
 				<div class="filebox">
-					<input class="upload-name" value="" placeholder="첨부파일(.jpg/.jpeg/.png)" />
+					<input class="upload-name" name="backoffice_image" th:value="${vo.backoffice_image}" placeholder="첨부파일(.jpg/.jpeg/.png)" />
 					<label for="multipartFile_room">파일찾기</label>
 					<input type="file" id="multipartFile_room" name="multipartFile_room" accept=".jpg, .jpeg, .png"
 						multiple="multiple" />
@@ -448,9 +449,11 @@
 			<!-- END inputWrap image -->
 
 			<div class="submit">
-				<input type="submit" id="real-submit" class="submit-application" value="호스트 신청하기" />
+				<input type="button" id="submit" class="submit-application" value="정보변경하기"/>
+				<input type="submit" id="real-submit" class="submit-application" value="정보변경하기" style="display:none;"/>
 			</div>
 		</div>
+		</form>
 		<!-- END host-update-form -->
 	</section>
 

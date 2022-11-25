@@ -48,7 +48,7 @@ public interface BackOfficeOperatingTimeRepository extends JpaRepository<BackOff
 		@Transactional
 		@Query(nativeQuery = true, value="update backofficeoperatingtime set mon_stime=:mon_stime, mon_etime=:mon_etime, tue_stime=:tue_stime, tue_etime=:tue_etime, wed_stime=:wed_stime, wed_etime=:wed_etime, thu_stime=:thu_stime, thu_etime=:thu_etime,"
 				+ "	fri_stime=:fri_stime,fri_etime=:fri_etime, sat_stime=:sat_stime, sat_etime=:sat_etime, sun_stime=:sun_stime, sun_etime=:sun_etime, "
-				+ "	mon_dayoff=:#{#vo?.mon_dayoff}, tue_dayoff=:#{#vo?.tue_dayoff}, wed_dayoff=:#{#vo?.wed_dayoff}, thu_dayoff=:#{#vo?.thu_dayoff}, fri_dayoff=:#{#vo?.fri_dayoff}, sat_dayoff=:#{#vo?.sat_dayoff}, sun_dayoff=:#{#vo?.sun_dayoff}  where backoffice_no:#{#vo?.backoffice_no}")
+				+ "	mon_dayoff=:#{#vo?.mon_dayoff}, tue_dayoff=:#{#vo?.tue_dayoff}, wed_dayoff=:#{#vo?.wed_dayoff}, thu_dayoff=:#{#vo?.thu_dayoff}, fri_dayoff=:#{#vo?.fri_dayoff}, sat_dayoff=:#{#vo?.sat_dayoff}, sun_dayoff=:#{#vo?.sun_dayoff}  where backoffice_no=:#{#vo?.backoffice_no}")
 		public int backoffice_updateOK_opt(@Param("vo") BackOfficeOperatingTimeVO_datetype ovo2,
 				@Param("mon_stime") Date mon_stime, 
 				@Param("mon_etime") Date mon_etime , 
