@@ -474,7 +474,7 @@
 						<!-- 타입 셀렉트 닫을 때 open-select클래스 remove해야함 -->
 						<div class="type-border">
 							<!-- <span id="type-choice-value" class="type-border-txt" th:attr="room_no=${rvo.room_no}">타입을 선택해주세요.</span> -->
-							<span id="type-choice-value" class="type-border-txt">타입을 선택해주세요.</span>
+							<span id="type-choice-value" class="type-border-txt room-name">타입을 선택해주세요.</span>
 							<img src="/static/IMG/office/full-dropdown.svg" alt="full-dropdown"
 								class="full-dropdown"></img>
 						</div>
@@ -483,8 +483,9 @@
 						<ul class="custom-select-type blind">
 							<th:block th:each="rvo : ${rvos}">
 								<li class="custom-select-type-list">
-									<span class="room-name" th:attr="room_no=${rvo.room_no}"> [[${ rvo.room_name }]]
-										([[${ rvo.room_type }]]) </span>
+									<span class="room-name" th:attr="room_no=${rvo.room_no}, room_type=${rvo.room_type}"> 
+										[[${ rvo.room_name }]] ([[${ rvo.room_type }]])
+									</span>
 									<span class="room-price-unit">
 										<span class="room-price-big"> [[${ rvo.room_price}]] 원</span>
 										<span class="room-unit-small"> /시간 </span>
