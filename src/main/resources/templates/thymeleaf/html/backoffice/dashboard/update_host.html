@@ -16,9 +16,10 @@
 				<p>사업체 태그</p>
 				<div class="hashTag-area">
 					<div class="hashTag-group">
-						<input type="hidden" value="${backoffice_tag}" name="backoffice_tag" id="real-input-tag" />
+						<input type="hidden" th:value="${backoffice_tag}" name="backoffice_tag" id="real-input-tag" />
+						<input type="button" value="" id="tag_blind_btn" class="blind"/>
 					</div>
-					<input type="text" id="backoffice_tag" th:value="${backoffice_tag}" placeholder="사업체의 태그를 입력해 주세요 (최대 10글자)" maxlength="10" />
+					<input type="text" id="backoffice_tag" placeholder="사업체의 태그를 입력해 주세요 (최대 10글자)" maxlength="10" />
 					<ul id="tag-list"></ul>
 				</div>
 			</div>
@@ -31,21 +32,24 @@
 			<div class="inputWrap backoffice_type">
 				<p>공간 타입</p>
 				<div class="option-group-column">
-					<div class="option-group-row">
+					<div class="option-group-row" th:with="type = ${vo.backoffice_type}" >
 						<div class="option-item">
-							<input type="checkbox" id="type_checkbox_desk" class="checkbox" name="backoffice_type"
+							<input type="checkbox" id="type_checkbox_desk" class="checkbox" name="backoffice_type" 
+							 th:checked="${(#strings.contains(type.toString(),'desk'))}"
 								value="desk" readonly />
 							<label>데스크</label>
 						</div>
 						<!-- END option-item -->
 						<div class="option-item">
 							<input type="checkbox" id="type_checkbox_meeting_room" class="checkbox"
+							th:checked="${(#strings.contains(type.toString(),'meeting_room'))}"
 								name="backoffice_type" value="meeting_room" readonly />
 							<label>회의실</label>
 						</div>
 						<!-- END option-item -->
 						<div class="option-item">
 							<input type="checkbox" id="type_checkbox_office" class="checkbox" name="backoffice_type"
+							th:checked="${(#strings.contains(type.toString(),'office'))}"
 								value="office" readonly />
 							<label>오피스</label>
 						</div>
@@ -58,20 +62,23 @@
 
 			<div class="inputWrap option">
 				<p>공간 옵션</p>
-				<div class="option-group-column">
+				<div class="option-group-column" th:with="tag = ${vo.backoffice_option}">
 					<div class="option-group-row">
 						<div class="option-item">
 							<input type="checkbox" id="chair-desk" class="checkbox" name="backoffice_option"
+							th:checked="${(#strings.contains(tag.toString(),'chair-desk'))}"
 								value="chair-desk" readonly /> <label>의자/테이블</label>
 						</div>
 
 						<div class="option-item">
 							<input type="checkbox" id="internet-wifi" class="checkbox" name="backoffice_option"
+							th:checked="${(#strings.contains(tag.toString(),'internet-wifi'))}"
 								value="internet-wifi" /> <label>인터넷/Wi-Fi</label>
 						</div>
 
 						<div class="option-item">
 							<input type="checkbox" id="restroom" class="checkbox" name="backoffice_option"
+							th:checked="${(#strings.contains(tag.toString(),'restroom'))}"
 								value="restroom" /> <label>내부 화장실</label>
 						</div>
 					</div>
@@ -80,16 +87,19 @@
 					<div class="option-group-row">
 						<div class="option-item">
 							<input type="checkbox" id="no-smoking" class="checkbox" name="backoffice_option"
+							th:checked="${(#strings.contains(tag.toString(),'no-smoking'))}"
 								value="no-smoking" /> <label>금연</label>
 						</div>
 
 						<div class="option-item">
 							<input type="checkbox" id="smoking-room" class="checkbox" name="backoffice_option"
+							th:checked="${(#strings.contains(tag.toString(),'smoking-room'))}"
 								value="smoking-room" /> <label>흡연실</label>
 						</div>
 
 						<div class="option-item">
 							<input type="checkbox" id="terrace-rooftop" class="checkbox" name="backoffice_option"
+							th:checked="${(#strings.contains(tag.toString(),'terrace-rooftop'))}"
 								value="terrace-rooftop" /> <label>테라스/루프탑</label>
 						</div>
 					</div>
@@ -98,16 +108,19 @@
 					<div class="option-group-row">
 						<div class="option-item">
 							<input type="checkbox" id="tv-projector" class="checkbox" name="backoffice_option"
+							th:checked="${(#strings.contains(tag.toString(),'tv-projector'))}"
 								value="tv-projector" /> <label>TV/프로젝터</label>
 						</div>
 
 						<div class="option-item">
 							<input type="checkbox" id="whiteboard" class="checkbox" name="backoffice_option"
+							th:checked="${(#strings.contains(tag.toString(),'whiteboard'))}"
 								value="whiteboard" /> <label>화이트보드</label>
 						</div>
 
 						<div class="option-item">
 							<input type="checkbox" id="sound-microphone" class="checkbox" name="backoffice_option"
+							th:checked="${(#strings.contains(tag.toString(),'sound-microphone'))}"
 								value="sound-microphone" /> <label>음향/마이크</label>
 						</div>
 					</div>
@@ -116,16 +129,19 @@
 					<div class="option-group-row">
 						<div class="option-item">
 							<input type="checkbox" id="parking" class="checkbox" name="backoffice_option"
+							th:checked="${(#strings.contains(tag.toString(),'parking'))}"
 								value="parking" /> <label>주차</label>
 						</div>
 
 						<div class="option-item">
 							<input type="checkbox" id="pc-laptop" class="checkbox" name="backoffice_option"
+							th:checked="${(#strings.contains(tag.toString(),'pc-laptop'))}"
 								value="pc-laptop" /> <label>PC/노트북</label>
 						</div>
 
 						<div class="option-item">
 							<input type="checkbox" id="printer" class="checkbox" name="backoffice_option"
+							th:checked="${(#strings.contains(tag.toString(),'printer'))}"
 								value="printer" /> <label>복사/인쇄기</label>
 						</div>
 					</div>
@@ -134,17 +150,20 @@
 					<div class="option-group-row">
 						<div class="option-item">
 							<input type="checkbox" id="lounge" class="checkbox" name="backoffice_option"
+							th:checked="${(#strings.contains(tag.toString(),'lounge'))}"
 								value="lounge" />
 							<label>공용 라운지</label>
 						</div>
 
 						<div class="option-item">
 							<input type="checkbox" id="kitchen" class="checkbox" name="backoffice_option"
+							th:checked="${(#strings.contains(tag.toString(),'kitchen'))}"
 								value="kitchen" /> <label>공용 주방</label>
 						</div>
 
 						<div class="option-item">
 							<input type="checkbox" id="water-purifier" class="checkbox" name="backoffice_option"
+							th:checked="${(#strings.contains(tag.toString(),'water-purifier'))}"
 								value="water-purifier" /> <label>정수기</label>
 						</div>
 					</div>
@@ -153,16 +172,19 @@
 					<div class="option-group-row">
 						<div class="option-item">
 							<input type="checkbox" id="can-food" class="checkbox" name="backoffice_option"
+							th:checked="${(#strings.contains(tag.toString(),'can-food'))}"
 								value="can-food" /> <label>음식물 반입 가능</label>
 						</div>
 
 						<div class="option-item">
 							<input type="checkbox" id="can-drink" class="checkbox" name="backoffice_option"
+							th:checked="${(#strings.contains(tag.toString(),'can-drink'))}"
 								value="can-drink" /> <label>주류 반입 가능</label>
 						</div>
 
 						<div class="option-item">
 							<input type="checkbox" id="air-conditioner" class="checkbox" name="backoffice_option"
+							th:checked="${(#strings.contains(tag.toString(),'air-conditioner'))}"
 								value="air-conditioner" /> <label>에어컨</label>
 						</div>
 					</div>
@@ -171,17 +193,20 @@
 					<div class="option-group-row">
 						<div class="option-item">
 							<input type="checkbox" id="fitting-room" class="checkbox" name="backoffice_option"
+							th:checked="${(#strings.contains(tag.toString(),'fitting-room'))}"
 								value="fitting-room" /> <label>탈의실</label>
 						</div>
 
 						<div class="option-item">
 							<input type="checkbox" id="shower" class="checkbox" name="backoffice_option"
+							th:checked="${(#strings.contains(tag.toString(),'shower'))}"
 								value="shower" />
 							<label>샤워시설</label>
 						</div>
 
 						<div class="option-item">
 							<input type="checkbox" id="body-mirror" class="checkbox" name="backoffice_option"
+							th:checked="${(#strings.contains(tag.toString(),'body-mirror'))}"
 								value="body-mirror" /> <label>전신거울</label>
 						</div>
 					</div>
@@ -190,23 +215,28 @@
 					<div class="option-group-row">
 						<div class="option-item">
 							<input type="checkbox" id="door-lock" class="checkbox" name="backoffice_option"
+							th:checked="${(#strings.contains(tag.toString(),'door-lock'))}"
 								value="door-lock" /> <label>도어락</label>
 						</div>
 
 						<div class="option-item">
 							<input type="checkbox" id="outlet-multitap" class="checkbox" name="backoffice_option"
+							th:checked="${(#strings.contains(tag.toString(),'outlet-multitap'))}"
 								value="outlet-multitap" /> <label>콘센트/멀티탭</label>
 						</div>
 
 						<div class="option-item">
 							<input type="checkbox" id="personal-locker" class="checkbox" name="backoffice_option"
+							th:checked="${(#strings.contains(tag.toString(),'personal-locker'))}"
 								value="personal-locker" /> <label>개인락커</label>
 						</div>
 					</div>
 					<!-- END option-group row -->
 					<div class="option-group-row">
 						<div class="option-item">
-							<input type="checkbox" id="fax" class="checkbox" name="backoffice_option" value="fax" />
+							<input type="checkbox" id="fax" class="checkbox" name="backoffice_option" 
+							th:checked="${(#strings.contains(tag.toString(),'fax'))}"
+							value="fax" />
 							<label>팩스</label>
 						</div>
 					</div>
@@ -218,20 +248,23 @@
 
 			<div class="inputWrap facilities">
 				<p>주변 시설</p>
-				<div class="option-group-column">
+				<div class="option-group-column" th:with="around = ${vo.backoffice_around}">
 					<div class="option-group-row">
 						<div class="option-item">
 							<input type="checkbox" id="public-parking" class="checkbox" name="backoffice_around"
+							th:checked="${(#strings.contains(around.toString(),'public-parking'))}"
 								value="public-parking" /> <label>공영주차장</label>
 						</div>
 
 						<div class="option-item">
 							<input type="checkbox" id="paid-parking" class="checkbox" name="backoffice_around"
+							th:checked="${(#strings.contains(around.toString(),'paid-parking'))}"
 								value="paid-parking" /> <label>유료주차장</label>
 						</div>
 
 						<div class="option-item">
 							<input type="checkbox" id="pharmacy" class="checkbox" name="backoffice_around"
+							th:checked="${(#strings.contains(around.toString(),'pharmacy'))}"
 								value="pharmacy" /> <label>약국</label>
 						</div>
 					</div>
@@ -240,16 +273,20 @@
 					<div class="option-group-row">
 						<div class="option-item">
 							<input type="checkbox" id="hospital" class="checkbox" name="backoffice_around"
+							th:checked="${(#strings.contains(around.toString(),'hospital'))}"
 								value="hospital" /> <label>병원</label>
 						</div>
 
 						<div class="option-item">
 							<input type="checkbox" id="convenience-store" class="checkbox" name="backoffice_around"
+							th:checked="${(#strings.contains(around.toString(),'convenience-store'))}"
 								value="convenience-store" /> <label>편의점</label>
 						</div>
 
 						<div class="option-item">
-							<input type="checkbox" id="cafe" class="checkbox" name="backoffice_around" value="cafe" />
+							<input type="checkbox" id="cafe" class="checkbox" name="backoffice_around" 
+							th:checked="${(#strings.contains(around.toString(),'cafe'))}"
+							value="cafe" />
 							<label>카페</label>
 						</div>
 					</div>
@@ -261,7 +298,6 @@
 
 			<div class="inputWrap time">
 				<p>운영 시간</p>
-
 				<div class="custom-table update">
 					<div class="custom-table-heading update">
 						<div class="table-head-cell update">
@@ -283,10 +319,12 @@
 						<div class="table-body-row update">
 							<div class="table-body-cell update">일</div>
 							<div class="table-body-cell update">
-								<input type="text" id="sun_stime" class="time-picker" name="sun_stime" readonly />
+								<input type="text" id="sun_stime" class="time-picker"
+									name="sun_stime" readonly />
 							</div>
 							<div class="table-body-cell update">
-								<input type="text" id="sun_etime" class="time-picker" name="sun_etime" readonly />
+								<input type="text" id="sun_etime" class="time-picker"
+									name="sun_etime" readonly />
 							</div>
 							<div class="table-body-cell update">
 								<input type="checkbox" id="sun_dayoff" class="checkbox" name="sun_dayoff" value="T" />
@@ -297,10 +335,12 @@
 						<div class="table-body-row update">
 							<div class="table-body-cell update">월</div>
 							<div class="table-body-cell update">
-								<input type="text" id="mon_stime" class="time-picker" name="mon_stime" readonly />
+								<input type="text" id="mon_stime" class="time-picker"
+									name="mon_stime" readonly />
 							</div>
 							<div class="table-body-cell update">
-								<input type="text" id="mon_etime" class="time-picker" name="mon_etime" readonly />
+								<input type="text" id="mon_etime" class="time-picker"
+									name="mon_etime" readonly />
 							</div>
 							<div class="table-body-cell update">
 								<input type="checkbox" id="mon_dayoff" class="checkbox" name="mon_dayoff" value="T" />
@@ -311,10 +351,12 @@
 						<div class="table-body-row update">
 							<div class="table-body-cell update">화</div>
 							<div class="table-body-cell update">
-								<input type="text" id="tue_stime" class="time-picker" name="tue_stime" readonly />
+								<input type="text" id="tue_stime" class="time-picker"
+									name="tue_stime" readonly />
 							</div>
 							<div class="table-body-cell update">
-								<input type="text" id="tue_etime" class="time-picker" name="tue_etime" readonly />
+								<input type="text" id="tue_etime" class="time-picker"
+									name="tue_etime" readonly />
 							</div>
 							<div class="table-body-cell update">
 								<input type="checkbox" id="tue_dayoff" class="checkbox" name="tue_dayoff" value="T" />
@@ -325,10 +367,12 @@
 						<div class="table-body-row update">
 							<div class="table-body-cell update">수</div>
 							<div class="table-body-cell update">
-								<input type="text" id="wed_stime" class="time-picker" name="wed_stime" readonly />
+								<input type="text" id="wed_stime" class="time-picker"
+									name="wed_stime" readonly />
 							</div>
 							<div class="table-body-cell update">
-								<input type="text" id="wed_etime" class="time-picker" name="wed_etime" readonly />
+								<input type="text" id="wed_etime" class="time-picker"
+									name="wed_etime" readonly />
 							</div>
 							<div class="table-body-cell update">
 								<input type="checkbox" id="wed_dayoff" class="checkbox" name="wed_dayoff" value="T" />
@@ -339,10 +383,12 @@
 						<div class="table-body-row update">
 							<div class="table-body-cell update">목</div>
 							<div class="table-body-cell update">
-								<input type="text" id="thu_stime" class="time-picker" name="thu_stime" readonly />
+								<input type="text" id="thu_stime" class="time-picker"
+									name="thu_stime" readonly />
 							</div>
 							<div class="table-body-cell update">
-								<input type="text" id="thu_etime" class="time-picker" name="thu_etime" readonly />
+								<input type="text" id="thu_etime" class="time-picker"
+									name="thu_etime" readonly />
 							</div>
 							<div class="table-body-cell update">
 								<input type="checkbox" id="thu_dayoff" class="checkbox" name="thu_dayoff" value="T" />
@@ -353,10 +399,12 @@
 						<div class="table-body-row update">
 							<div class="table-body-cell update">금</div>
 							<div class="table-body-cell update">
-								<input type="text" id="fri_stime" class="time-picker" name="fri_stime" readonly />
+								<input type="text" id="fri_stime" class="time-picker"
+									name="fri_stime" readonly />
 							</div>
 							<div class="table-body-cell update">
-								<input type="text" id="fri_etime" class="time-picker" name="fri_etime" readonly />
+								<input type="text" id="fri_etime" class="time-picker"
+									name="fri_etime" readonly />
 							</div>
 							<div class="table-body-cell update">
 								<input type="checkbox" id="fri_dayoff" class="checkbox" name="fri_dayoff" value="T" />
@@ -367,12 +415,12 @@
 						<div class="table-body-row update">
 							<div class="table-body-cell update">토</div>
 							<div class="table-body-cell update">
-								<input type="text" id="sat_stime" class="time-picker" name="sat_stime" value=""
-									readonly />
+								<input type="text" id="sat_stime" class="time-picker"
+									name="sat_stime" value="" readonly />
 							</div>
 							<div class="table-body-cell update">
-								<input type="text" id="sat_etime" class="time-picker" name="sat_etime" value=""
-									readonly />
+								<input type="text" id="sat_etime" class="time-picker"
+									name="sat_etime" value="" readonly />
 							</div>
 							<div class="table-body-cell update">
 								<input type="checkbox" id="sat_dayoff" class="checkbox" name="sat_dayoff" value="T" />
