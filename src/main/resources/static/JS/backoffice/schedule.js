@@ -50,8 +50,8 @@ $(function() {
 			$("input:checkbox[name='select-room']").prop('checked', false)
 		}
 	})
-
-
+	
+	
 	// ********************
 	// 일정 적용 가능 공간 리스트
 	// ********************
@@ -112,6 +112,12 @@ $(function() {
 								for (var i = 0; i < res.cnt; i++) {
 									let body_row = $($('.ct-body-row')[0]).clone();
 									body_row.removeClass("blind");
+									
+									//예약 있을 시, 체크박스 disabled
+									if(res.sc_vos[i].reserve_cnt>0){
+										body_row.find('.room-checkbox').attr('disabled', true);
+									}
+	
 
 									body_row.find("#room_no").attr("room_no", res.sc_vos[i].room_no);
 
@@ -378,8 +384,66 @@ $(function() {
 		}
 	});
 
-	$("#schedule-confirm-btn").click(function() {
+	$(document).on('click',"#schedule-confirm-btn",function() {
 		console.log("confirm button click")
+		if($('.room-checkbox').is(":checked")){
+			 //로딩 화면
+//                $(".popup-background:eq(1)").removeClass("blind");
+//                $("#spinner-section").removeClass("blind");  
+                
+				let backoffice_no = $.cookie('backoffice_no');
+
+				let room_no = window.location.href.split("&room_no=")[1].split("&")[0];
+
+				let not_sdate = window.location.href.split("&not_sdate=")[1].split("&")[0];
+				let not_stime = window.location.href.split("&not_stime=")[1].split("&")[0];
+				let not_edate = window.location.href.split("&not_edate=")[1].split("&")[0];
+				let not_etime = window.location.href.split("&not_etime=")[1].split("&")[0];
+				let off_type = window.location.href.split("&off_type=")[1].split("&")[0];
+				
+	
+                $.ajax({
+                    url : "/backoffice/scheduleOK",
+                    type : "POST",
+                    dataType : 'json',
+                    data : {
+                        backoffice_no: backoffice_no,
+                        room_no: room_no,
+						not_sdate: not_sdate,
+						not_edate: not_edate,
+						not_stime: not_stime,
+						not_etime: not_etime,
+						off_type: off_type,
+                    },
+                    success : function(res) {
+                        //로딩 화면 닫기
+                        $(".popup-background:eq(1)").addClass("blind");
+                        $("#spinner-section").addClass("blind");
+
+                        var now = $("#maxCnt").attr("nowCnt");
+                        $("#maxCnt").attr("nowCnt", Number(now) + 1);
+
+                        for(var i = 0; i < res.cnt; i++){
+                            var row = $($(".ct-body-row")[0]).clone();
+                            
+                            row.find(".ct-body-cell:eq(0)>input:eq(0)").attr("room_no", res.rv_vos[i].room_no);
+                            row.find(".ct-body-cell:eq(0)>input:eq(1)").attr("backoffice_no", res.rv_vos[i].backoffice_no);
+                            row.find(".ct-body-cell:eq(0)>input:eq(2)").attr("reserve_no", res.rv_vos[i].reserve_no);
+                            
+                            row.find(".ct-body-cell:eq(1)>span").text(res.rv_vos[i].user_name);
+                            row.find(".ct-body-cell:eq(2)>span").text(res.rv_vos[i].user_email);
+                            row.find(".ct-body-cell:eq(3)>span").text(res.rv_vos[i].user_tel);
+                            row.find(".ct-body-cell:eq(4)>span").text(res.rv_vos[i].reserve_stime + " ~ " + res.rv_vos[i].reserve_etime);
+                            $(".reservation-ct").append(row);
+                        }
+                    },
+                    error : function() {
+                        //로딩 화면 닫기
+                        $(".popup-background:eq(1)").addClass("blind");
+                        $("#spinner-section").addClass("blind");
+                    }
+                });
+		}
 	})
 
 	// 팝업
