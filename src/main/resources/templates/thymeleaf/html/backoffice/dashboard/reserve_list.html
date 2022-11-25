@@ -58,6 +58,7 @@
 
 		<section class="reserveWrap">
 			<div class="custom-table">
+				<input type="hidden" th:attr="maxCnt=${res.maxCnt}, nowCnt=${res.nowCnt}" id="maxCnt" />
 				<div class="ct-header reserve">
 					<div class="ct-header-cell reserve">예약 날짜</div>
 					<div class="ct-header-cell reserve">진행 여부</div>
@@ -74,22 +75,22 @@
 					<th:block th:each="vos : ${r_vos}">
 						<!-- START ct-body-row reserve -->
 						<div class="ct-body-row reserve">
-							<div class="ct-body-cell reserve">
+							<div class="ct-body-cell reserve reserve_date_set">
 								[[ ${vos.reserve_sdate} ]] ~ <br />[[ ${vos.reserve_edate} ]]
 							</div>
-							<div class="ct-body-cell reserve">
+							<div class="ct-body-cell reserve reserve_state">
 								<button th:if="${vos.reserve_state=='begin'}" class="ct-body-btn begin">이용전</button>
 								<button th:if="${vos.reserve_state=='in_use'}" class="ct-body-btn in_use">이용중</button>
 								<button th:if="${vos.reserve_state=='end'}" class="ct-body-btn end">이용완료</button>
 								<button th:if="${vos.reserve_state=='cancel'}" class="ct-body-btn cancel">취소</button>
 							</div>
 
-							<div class="ct-body-cell reserve">[[ ${vos.room_name} ]]</div>
-							<div class="ct-body-cell reserve">[[ ${vos.user_name} ]]</div>
-							<div class="ct-body-cell reserve">[[ ${vos.user_tel} ]]</div>
-							<div class="ct-body-cell reserve">[[ ${vos.user_email} ]]</div>
+							<div class="ct-body-cell reserve reserve_room_name">[[ ${vos.room_name} ]]</div>
+							<div class="ct-body-cell reserve reserve_user_name">[[ ${vos.user_name} ]]</div>
+							<div class="ct-body-cell reserve reserve_user_tel">[[ ${vos.user_tel} ]]</div>
+							<div class="ct-body-cell reserve reserve_user_email">[[ ${vos.user_email} ]]</div>
 							<div class="ct-body-cell reserve reserve-price">[[ ${vos.actual_payment} ]]</div>
-							<div class="ct-body-cell reserve">
+							<div class="ct-body-cell reserve reserve_payment_state">
 								<th:block th:if="${vos.payment_state=='T'}">선</th:block>
 								<th:block th:if="${vos.payment_state=='F'}">후</th:block>
 							</div>
