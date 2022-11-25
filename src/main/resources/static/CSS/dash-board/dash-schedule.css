@@ -30,8 +30,20 @@
 .schedule-ct{
 	min-height: 200px;
 	max-height: 200px;
+	overflow-y: overlay;
 }
-
+.schedule-ct::-webkit-scrollbar{
+    width: 4px;
+}
+.schedule-ct::-webkit-scrollbar-thumb {
+    background-color: #808080;
+    height: 3px;
+    border-radius: 10px;
+}
+.schedule-ct::-webkit-scrollbar-track{
+    background-color: #EEEEEE;
+    border-radius: 10px;
+}
 
 /* ******************* */
 /* CUSTOM RADIO BUTTON */

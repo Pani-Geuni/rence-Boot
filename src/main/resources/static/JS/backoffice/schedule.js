@@ -90,13 +90,20 @@ $(function() {
 							not_edate: not_edate,
 							not_stime: not_stime,
 							not_etime: not_etime,
-							off_type: off_type
+							off_type: off_type,
+							page:1
 						},
 
 						success: function(res) {
 							//로딩 화면 닫기
 				            $(".popup-background:eq(1)").addClass("blind");
 				            $("#spinner-section").addClass("blind");
+				            
+				            console.log(res);
+				            
+				            $("#maxCnt").attr("maxCnt", res.maxCnt);
+				            $("#maxCnt").attr("nowCnt", res.nowCnt);
+				            
 							if (res.cnt > 0) {
 								let empty_row = $($('.ct-body-row')[0]).clone();
 								$(".ct-body").empty();
@@ -107,7 +114,6 @@ $(function() {
 									body_row.removeClass("blind");
 
 									body_row.find("#room_no").attr("room_no", res.sc_vos[i].room_no);
-
 
 									let kor_room_name = "";
 									switch (res.sc_vos[i].room_type) {
@@ -149,11 +155,11 @@ $(function() {
 
 									$(".ct-body").append(body_row);
 								}
+								
+								if ($(".select-room-section").find("#schedule-confirm-btn").length == 0) {
+									$(".select-room-section").append("<input type='button' id='schedule-confirm-btn' class='schedule-confirm-btn' value='일정 설정' />");
+								}
 
-								$(".select-room-section").append("<input type='button' id='schedule-confirm-btn' class='schedule-confirm-btn' value='일정 설정' />");
-
-							} else {
-								console.log("bye");
 							}
 						},
 						error: function(error) {
@@ -169,7 +175,106 @@ $(function() {
 			$("#radio-check-popup").removeClass("blind");
 		}
 	});
+	
+	// 스크롤을 이용한 페이징
+	$(".schedule-ct").scroll(function(){
+        if(Math.ceil($(this).scrollTop() + $(this).innerHeight()) >= $(this).prop('scrollHeight')){
+            if($(".ct-body-row").length - 1 < Number($("#maxCnt").attr("maxCnt"))){
+                //로딩 화면
+                $(".popup-background:eq(1)").removeClass("blind");
+                $("#spinner-section").removeClass("blind");  
+                
+                let query = location.search;
+				let param = new URLSearchParams(query);
+				let backoffice_no = param.get('backoffice_no');
 
+				let sDateTime = $(".time-input:eq(0)").val().split(' ');
+				let eDateTime = $(".time-input:eq(1)").val().split(' ');
+
+				let not_sdate = sDateTime[0];
+				let not_stime = sDateTime[1];
+				let not_edate = eDateTime[0];
+				let not_etime = eDateTime[1];
+				let off_type = $("input:radio[name='set_schedule']:checked").val();
+				
+				var page = $("#maxCnt").attr("nowCnt");
+
+                $.ajax({
+                    url : "/backoffice/schedule_research_paging",
+                    type : "GET",
+                    dataType : 'json',
+                    data : {
+                        backoffice_no: backoffice_no,
+						not_sdate: not_sdate,
+						not_edate: not_edate,
+						not_stime: not_stime,
+						not_etime: not_etime,
+						off_type: off_type,
+                        page : Number(page) + 1
+                    },
+                    success : function(res) {
+                        //로딩 화면 닫기
+                        $(".popup-background:eq(1)").addClass("blind");
+                        $("#spinner-section").addClass("blind");
+
+                        var now = $("#maxCnt").attr("nowCnt");
+                        $("#maxCnt").attr("nowCnt", Number(now) + 1);
+
+                        for(var i = 0; i < res.cnt; i++){
+                            var row = $($(".ct-body-row")[0]).clone();
+                            row.removeClass("blind");
+                            
+                            row.find("#room_no").attr("room_no", res.sc_vos[i].room_no);
+                            
+                            let kor_room_name = "";
+							switch (res.sc_vos[i].room_type) {
+								case 'desk':
+									kor_room_name = "데스크";
+									break;
+								case 'meeting_04':
+									kor_room_name = "미팅룸 (4인)";
+									break;
+								case 'meeting_06':
+									kor_room_name = "미팅룸 (6인)";
+									break;
+								case 'meeting_10':
+									kor_room_name = "미팅룸 (10인)";
+									break;
+								case 'office':
+									kor_room_name = "오피스";
+									break;
+
+								default:
+									break;
+							}
+                            row.find(".room_type").text(kor_room_name);
+                            
+                            row.find(".room_name").text(res.sc_vos[i].room_name);
+                            
+                            if (res.sc_vos[i].reserve_is === 'X') {
+								row.find(".reserve_is").append('<img src="/static/IMG/dash-board/ico-close.svg" />');
+							} else {
+								row.find(".reserve_is").append('<img src="/static/IMG/dash-board/ico-circle.svg" />');
+							}
+                            
+                            row.find(".reserve_cnt").text(res.sc_vos[i].reserve_cnt + "명");
+							row.find(".reserve_cnt").attr("reserve_cnt", res.sc_vos[i].reserve_cnt);
+
+                            $(".schedule-ct").append(row);
+                        }
+                    },
+                    error : function() {
+                        //로딩 화면 닫기
+                        $(".popup-background:eq(1)").addClass("blind");
+                        $("#spinner-section").addClass("blind");
+                    }
+                });
+            }
+        }
+    });
+	
+
+	// 일정에 따른 예약자 상세 보기 버튼 클릭 이벤트
 	$(".ct-body").on('click', '.reserve_cnt', function() {
 		let query = location.search;
 		let param = new URLSearchParams(query);
