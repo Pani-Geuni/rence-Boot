@@ -280,7 +280,13 @@
 	justify-content: center;
 	align-items: center;
 	font-size: 14px;
+	font-weight: 400;
 }
+
+.table-body-cell.update * {
+	font-weight: 400;
+}
+
 
 .table-body-cell.update input {
 	width: 56px;
