@@ -176,7 +176,7 @@ $(function() {
 		}
 	});
 	
-	// 스크롤을 이용한 페이징
+	// 스케줄 - 스크롤을 이용한 페이징
 	$(".schedule-ct").scroll(function(){
         if(Math.ceil($(this).scrollTop() + $(this).innerHeight()) >= $(this).prop('scrollHeight')){
             if($(".ct-body-row").length - 1 < Number($("#maxCnt").attr("maxCnt"))){
@@ -273,6 +273,72 @@ $(function() {
         }
     });
 	
+	// 예약자 - 스크롤을 이용한 페이징
+	$(".reservation-ct").scroll(function(){
+        if(Math.ceil($(this).scrollTop() + $(this).innerHeight()) >= $(this).prop('scrollHeight')){
+            if($(".ct-body-row").length < Number($("#maxCnt").attr("maxCnt"))){
+                //로딩 화면
+                $(".popup-background:eq(1)").removeClass("blind");
+                $("#spinner-section").removeClass("blind");  
+                
+				let backoffice_no = $.cookie('backoffice_no');
+
+				let room_no = window.location.href.split("&room_no=")[1].split("&")[0];
+
+				let not_sdate = window.location.href.split("&not_sdate=")[1].split("&")[0];
+				let not_stime = window.location.href.split("&not_stime=")[1].split("&")[0];
+				let not_edate = window.location.href.split("&not_edate=")[1].split("&")[0];
+				let not_etime = window.location.href.split("&not_etime=")[1].split("&")[0];
+				let off_type = window.location.href.split("&off_type=")[1].split("&")[0];
+				
+				var page = $("#maxCnt").attr("nowCnt");
+
+                $.ajax({
+                    url : "/backoffice/reservation_paging",
+                    type : "GET",
+                    dataType : 'json',
+                    data : {
+                        backoffice_no: backoffice_no,
+                        room_no: room_no,
+						not_sdate: not_sdate,
+						not_edate: not_edate,
+						not_stime: not_stime,
+						not_etime: not_etime,
+						off_type: off_type,
+                        page : Number(page) + 1
+                    },
+                    success : function(res) {
+                        //로딩 화면 닫기
+                        $(".popup-background:eq(1)").addClass("blind");
+                        $("#spinner-section").addClass("blind");
+
+                        var now = $("#maxCnt").attr("nowCnt");
+                        $("#maxCnt").attr("nowCnt", Number(now) + 1);
+
+                        for(var i = 0; i < res.cnt; i++){
+                            var row = $($(".ct-body-row")[0]).clone();
+                            
+                            row.find(".ct-body-cell:eq(0)>input:eq(0)").attr("room_no", res.rv_vos[i].room_no);
+                            row.find(".ct-body-cell:eq(0)>input:eq(1)").attr("backoffice_no", res.rv_vos[i].backoffice_no);
+                            row.find(".ct-body-cell:eq(0)>input:eq(2)").attr("reserve_no", res.rv_vos[i].reserve_no);
+                            
+                            row.find(".ct-body-cell:eq(1)>span").text(res.rv_vos[i].user_name);
+                            row.find(".ct-body-cell:eq(2)>span").text(res.rv_vos[i].user_email);
+                            row.find(".ct-body-cell:eq(3)>span").text(res.rv_vos[i].user_tel);
+                            row.find(".ct-body-cell:eq(4)>span").text(res.rv_vos[i].reserve_stime + " ~ " + res.rv_vos[i].reserve_etime);
+                            $(".reservation-ct").append(row);
+                        }
+                    },
+                    error : function() {
+                        //로딩 화면 닫기
+                        $(".popup-background:eq(1)").addClass("blind");
+                        $("#spinner-section").addClass("blind");
+                    }
+                });
+            }
+        }
+    });
+	
 
 	// 일정에 따른 예약자 상세 보기 버튼 클릭 이벤트
 	$(".ct-body").on('click', '.reserve_cnt', function() {
@@ -301,7 +367,7 @@ $(function() {
             $(".popup-background:eq(1)").addClass("blind");
             $("#spinner-section").addClass("blind");
             
-			location.href = "/backoffice/reservation?backoffice_no=" + backoffice_no + "&room_no=" + room_no + "&not_sdate=" + not_sdate + "&not_edate=" + not_edate + "&not_stime=" + not_stime + "&not_etime=" + not_etime + "&off_type=" + off_type;
+			location.href = "/backoffice/reservation?backoffice_no=" + backoffice_no + "&room_no=" + room_no + "&not_sdate=" + not_sdate + "&not_edate=" + not_edate + "&not_stime=" + not_stime + "&not_etime=" + not_etime + "&off_type=" + off_type + "&page=1";
 		} else {
 			//로딩 화면 닫기
             $(".popup-background:eq(1)").addClass("blind");

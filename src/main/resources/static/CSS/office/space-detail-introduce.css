@@ -1025,11 +1025,10 @@
     margin-right: 7px;
 }
 
-.btn-section{
+.btn-section, .btn-pay-section{
     width: 100%;
     height: 40px;
 
-/*    background-color: #2EE49D;*/
     border-radius: 8px;
     cursor: pointer;
     
@@ -1043,4 +1042,8 @@
     letter-spacing: 0.2px;
     
     margin-bottom: 20px;
+}
+
+.btn-section {
+	background-color: #2EE49D;
 }
