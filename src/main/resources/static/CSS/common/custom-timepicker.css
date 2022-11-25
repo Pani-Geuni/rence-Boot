@@ -19,10 +19,14 @@
   height: 205px;
   list-style: none outside none;
   margin: 0;
-  padding: 0 1px;
+  padding: 0;
   text-align: center;
 
-  font-size: 12px;
+  font-size: 12px !important;
+}
+
+.ui-timepicker-viewport::-webkit-scrollbar {
+	display: none;
 }
 
 .ui-timepicker-viewport {

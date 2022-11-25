@@ -10,10 +10,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.rence.backoffice.model.BackOfficeOperatingTimeVO;
 import com.rence.backoffice.model.BackOfficeOperatingTimeVO_datetype;
 import com.rence.backoffice.model.BackOfficeVO;
 import com.rence.backoffice.repository.BackOfficeOperatingTimeRepository;
+import com.rence.backoffice.repository.BackOfficeOperatingTimeSelectRepository;
 import com.rence.backoffice.repository.BackOfficeRepository;
+import com.rence.backoffice.service.OperatingTime;
 import com.rence.dashboard.model.BOPaymentVO;
 import com.rence.dashboard.model.CommentInsertVO;
 import com.rence.dashboard.model.CommentListQView;
@@ -92,6 +95,9 @@ public class DashboardService {
 
 	@Autowired
 	CommentQListRepository cq_repository;
+	
+	@Autowired
+	BackOfficeOperatingTimeSelectRepository bos_repository; 
 
 	@Autowired
 	DashBoardDAO dao;
@@ -235,6 +241,12 @@ public class DashboardService {
 		log.info("backoffice_setting_selectOne().....");
 		return b_repository.backoffice_setting_selectOne(bvo.getBackoffice_no());
 	}
+	
+	// 환경 설정 - 정보변경(운영시간)
+		public BackOfficeOperatingTimeVO backoffice_setting_selectOne_operatingtime(String backoffice_no) {
+			log.info("backoffice_setting_selectOne().....");
+			return bos_repository.backoffice_setting_selectOne_operatingtime(backoffice_no);
+		}
 
 	// 환경 설정 - 비밀번호 일치
 	public BackOfficeVO backoffice_select_pw(BackOfficeVO bvo) {
@@ -419,5 +431,6 @@ public class DashboardService {
 		log.info("backoffice_search_reserve_cnt().....");
 		return dao.backoffice_search_reserve_cnt(backoffice_no, searchword, reserve_state);
 	}
+
 
 }

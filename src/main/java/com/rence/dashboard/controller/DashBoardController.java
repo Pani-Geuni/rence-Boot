@@ -925,42 +925,45 @@ public class DashBoardController {
 	public String backoffice_update_host(BackOfficeVO bvo, Model model) {
 		log.info("backoffice_update_host ()...");
 		log.info("{}", bvo);
-
+		
 		BackOfficeVO bvo2 = service.backoffice_setting_selectOne(bvo);
 		log.info("result: {}.", bvo2);
+		BackOfficeOperatingTimeVO ovo = service.backoffice_setting_selectOne_operatingtime(bvo2.getBackoffice_no());
+		log.info("result: {}.", ovo);
 
-		OptionEngToKorMap optionEngToKorMap = new OptionEngToKorMap();
-		List<String> tags = new ArrayList<String>();
-		if (bvo2.getBackoffice_tag() != null) {
-			optionEngToKorMap.splitTag(bvo2.getBackoffice_tag());
-		}
-		List<String> types = new ArrayList<String>();
-		if (bvo2.getBackoffice_type() != null) {
-			String[] type_split = bvo2.getBackoffice_type().split(",");
-			for (int i = 0; i < type_split.length; i++) {
-				types.add(type_split[i]);
-			}
-		}
-		List<String> options = new ArrayList<String>();
-		if (bvo2.getBackoffice_option() != null) {
-			String[] option_split = bvo2.getBackoffice_option().split(",");
-			for (int i = 0; i < option_split.length; i++) {
-				options.add(option_split[i]);
-			}
-		}
-		List<String> arounds = new ArrayList<String>();
-		if (bvo2.getBackoffice_around() != null) {
-			String[] around_split = bvo2.getBackoffice_around().split(",");
-			for (int i = 0; i < around_split.length; i++) {
-				arounds.add(around_split[i]);
-			}
-		}
-
-		model.addAttribute("backoffice_tag", tags);
-		model.addAttribute("backoffice_type", types);
-		model.addAttribute("backoffice_option", options);
-		model.addAttribute("backoffice_around", arounds);
+//		OptionEngToKorMap optionEngToKorMap = new OptionEngToKorMap();
+//		List<String> tags = new ArrayList<String>();
+//		if (bvo2.getBackoffice_tag() != null) {
+//			tags.addAll(optionEngToKorMap.splitTag(bvo2.getBackoffice_tag()));
+//		}
+//		List<String> types = new ArrayList<String>();
+//		if (bvo2.getBackoffice_type() != null) {
+//			String[] type_split = bvo2.getBackoffice_type().split(",");
+//			for (int i = 0; i < type_split.length; i++) {
+//				types.add(type_split[i]);
+//			}
+//		}
+//		List<String> options = new ArrayList<String>();
+//		if (bvo2.getBackoffice_option() != null) {
+//			String[] option_split = bvo2.getBackoffice_option().split(",");
+//			for (int i = 0; i < option_split.length; i++) {
+//				options.add(option_split[i]);
+//			}
+//		}
+//		List<String> arounds = new ArrayList<String>();
+//		if (bvo2.getBackoffice_around() != null) {
+//			String[] around_split = bvo2.getBackoffice_around().split(",");
+//			for (int i = 0; i < around_split.length; i++) {
+//				arounds.add(around_split[i]);
+//			}
+//		}
+//
+		model.addAttribute("backoffice_tag", bvo2.getBackoffice_tag());
+//		model.addAttribute("backoffice_type", types);
+//		model.addAttribute("backoffice_option", options);
+//		model.addAttribute("backoffice_around", arounds);
 		model.addAttribute("vo", bvo2);
+		model.addAttribute("ovo", ovo);
 
 		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/update_host");
 		model.addAttribute("title", "업체 정보 변경");
