@@ -37,7 +37,6 @@
       break;
       
     case '/backoffice/schedule':
-    case '/backoffice/reservation':
       $('#menu-schedule').addClass('active');
       break;
 
@@ -71,19 +70,15 @@
   });
 
   $('#menu-space').click(function(){
-    location.href = '/backoffice/room?backoffice_no=' + $.cookie("backoffice_no");
+    location.href = '/backoffice/room?backoffice_no=' + $.cookie("backoffice_no")+"&page=1";
   });
 
   $('#menu-reserve').click(function(){
-    location.href = "/backoffice/reserve?backoffice_no=" + $.cookie("backoffice_no") + "&reserve_state=all";
-  });
-  
-  $('#menu-schedule').click(function(){
-    location.href = "/backoffice/schedule?backoffice_no=" + $.cookie("backoffice_no");
+    location.href = "/backoffice/reserve?backoffice_no=" + $.cookie("backoffice_no") + "&reserve_state=all&page=1";
   });
 
   $('#menu-sales').click(function(){
-    location.href = '/backoffice/day_sales?backoffice_no=' + $.cookie("backoffice_no") + "&sales_date=day";
+    location.href = '/backoffice/day_sales?backoffice_no=' + $.cookie("backoffice_no") + "&sales_date=day&page=1";
   });
 
   $('#menu-settings').click(function(){
@@ -94,29 +89,29 @@
   // 공간 관리 mini-nav
   // ****************
   $('#mini-nav-list').click(function(){
-    location.href = '/backoffice/room?backoffice_no=' + $.cookie("backoffice_no");
+    location.href = '/backoffice/room?backoffice_no=' + $.cookie("backoffice_no")+"&page=1";
   });
 
   $('#mini-nav-qna').click(function(){
-    location.href = '/backoffice/qna?backoffice_no=' + $.cookie("backoffice_no");
+    location.href = '/backoffice/qna?backoffice_no=' + $.cookie("backoffice_no")+"&page=1";
   });
 
   $('#mini-nav-review').click(function(){
-    location.href = '/backoffice/review?backoffice_no=' + $.cookie("backoffice_no");
+    location.href = '/backoffice/review?backoffice_no=' + $.cookie("backoffice_no")+"&page=1";
   });
 
   // ****************
   // 정산 관리 mini-nav
   // ****************
   $('#sales-mini-nav-day').click(function(){
-    location.href = '/backoffice/day_sales?backoffice_no=' + $.cookie("backoffice_no") + "&sales_date=day";
+    location.href = '/backoffice/day_sales?backoffice_no=' + $.cookie("backoffice_no") + "&sales_date=day&page=1";
   });
 
   $('#sales-mini-nav-week').click(function(){
-    location.href = '/backoffice/day_sales?backoffice_no=' + $.cookie("backoffice_no") + "&sales_date=week";
+    location.href = '/backoffice/day_sales?backoffice_no=' + $.cookie("backoffice_no") + "&sales_date=week&page=1";
   });
 
   $('#sales-mini-nav-month').click(function(){
-    location.href = '/backoffice/day_sales?backoffice_no=' + $.cookie("backoffice_no") + "&sales_date=month";
+    location.href = '/backoffice/day_sales?backoffice_no=' + $.cookie("backoffice_no") + "&sales_date=month&page=1";
   });
 });
