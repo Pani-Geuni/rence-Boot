@@ -28,6 +28,7 @@ import com.google.gson.GsonBuilder;
 import com.rence.backoffice.model.BackOfficeVO;
 import com.rence.backoffice.service.CustomDateFormatter;
 import com.rence.common.OptionEngToKorMap;
+import com.rence.office.common.OfficeInfoMap;
 import com.rence.office.model.Comment_EntityVO;
 import com.rence.office.model.ListViewVO;
 import com.rence.office.model.OfficeInfoVO;
@@ -38,9 +39,9 @@ import com.rence.office.model.OfficeReserveVO;
 import com.rence.office.model.OfficeReserveVO_date;
 import com.rence.office.model.OfficeReviewVO;
 import com.rence.office.model.OfficeRoomVO;
+import com.rence.office.model.PaymentInfoVO;
 import com.rence.office.service.OfficeService;
 
-import aj.org.objectweb.asm.Type;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -288,6 +289,16 @@ public class OfficeController {
 		int result = service.confirm_reserve(date_vo);
 		log.info("controller /backoffice/reserve result :: {}", result);
 		
+		
+		if (result == 1) {
+			String reserve_no = service.select_one_last_reserve(rvo.getUser_no());
+			
+			map.put("result", "1");
+			map.put("reserve_no", reserve_no);
+		} else {
+			map.put("result", "0");
+		}
+		
 		String json = gson.toJson(map);
 		
 		return json;
@@ -408,44 +419,50 @@ public class OfficeController {
 //		
 //		return jsonObject;
 //	}
-//	
-//	// **********************
-//	// 공간 결제 페이지
-//	// **********************
-//	@ApiOperation(value="결제 페이지 로드 컨트롤러", notes="예약 및 결제하는 페이지 데이터 불러오는 컨트롤러")
-//	@GetMapping(value = "/office/payment_page")
-//	public String space_payment(OfficeReserveVO rvo, Model model) throws ParseException {
-//		
-//		String reserve_no = rvo.getReserve_no();
-//		
-//		PaymentInfoVO pvo = service.select_one_final_payment_info(reserve_no);
-//		OfficeInfoMap info_map = new OfficeInfoMap();
-//		
-//		pvo.setRoom_type(info_map.changeType(pvo.getRoom_type()));
-//		List<String> splitImage = info_map.splitImage(pvo.getBackoffice_image());
-//		String room_first_image = splitImage.get(0);
-//		pvo.setBackoffice_image(room_first_image);
-//		
-//		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-//		
-//		Date sdate = formatter.parse(pvo.getReserve_stime());
-//		Date edate = formatter.parse(pvo.getReserve_etime());
-//		
-//		// 사용자 총 예약 시간
-//		long diffHour = (edate.getTime() - sdate.getTime()) / 3600000;
-//		
-//		// 전체 결제할 금액
-//		int payment_all = (int) diffHour * pvo.getRoom_price();
-//		int earned_mileage = (int) (payment_all * 0.05);
-//		
-//		
-//		model.addAttribute("pvo", pvo);
-//		model.addAttribute("payment_all", payment_all);
-//		model.addAttribute("earned_mileage", earned_mileage);
-//		
-//		
-//		return ".payment_page";
-//	}
+	
+	// **********************
+	// 공간 결제 페이지
+	// **********************
+	@ApiOperation(value="결제 페이지 로드 컨트롤러", notes="예약 및 결제하는 페이지 데이터 불러오는 컨트롤러")
+	@GetMapping(value = "/payment")
+	public String space_payment(OfficeReserveVO rvo, Model model) throws ParseException {
+		
+		String reserve_no = rvo.getReserve_no();
+		
+		PaymentInfoVO pvo = service.select_one_final_payment_info(reserve_no);
+		OfficeInfoMap info_map = new OfficeInfoMap();
+		
+		pvo.setRoom_type(info_map.changeType(pvo.getRoom_type()));
+		List<String> splitImage = info_map.splitImage(pvo.getBackoffice_image());
+		String room_first_image = splitImage.get(0);
+		pvo.setBackoffice_image(room_first_image);
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		
+		Date sdate = formatter.parse(pvo.getReserve_stime());
+		Date edate = formatter.parse(pvo.getReserve_etime());
+		
+		log.info("sdate : {}", sdate);
+		log.info("edate : {}", edate);
+		
+		// 사용자 총 예약 시간
+		long diffHour = (edate.getTime() - sdate.getTime()) / 3600000;
+		
+		// 전체 결제할 금액
+		int payment_all = (int) diffHour * pvo.getRoom_price();
+		int earned_mileage = (int) (payment_all * 0.05);
+		
+		
+		model.addAttribute("pvo", pvo);
+		model.addAttribute("payment_all", payment_all);
+		model.addAttribute("earned_mileage", earned_mileage);
+		
+		
+		model.addAttribute("content", "thymeleaf/html/office/reserve/payment_page");
+		model.addAttribute("title", "결제 페이지");
+
+		return "thymeleaf/layouts/office/layout_reserve";
+	}
 
 //	@ApiOperation(value="결제 컨트롤러", notes="예약 및 결제하는 페이지 결제 로직 컨트롤러")
 //	@PostMapping(value = "/office/reserve_paymentOK")

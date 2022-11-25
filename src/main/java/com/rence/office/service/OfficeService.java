@@ -18,10 +18,12 @@ import com.rence.office.model.OfficeReserveVO;
 import com.rence.office.model.OfficeReserveVO_date;
 import com.rence.office.model.OfficeReviewVO;
 import com.rence.office.model.OfficeRoomVO;
+import com.rence.office.model.PaymentInfoVO;
 import com.rence.office.repo.OfficeDetailInfoRepository;
 import com.rence.office.repo.OfficeInfoRepository;
 import com.rence.office.repo.OfficeListRepository;
 import com.rence.office.repo.OfficeOperatingTimeRepository;
+import com.rence.office.repo.OfficePaymentRepository;
 import com.rence.office.repo.OfficeQuestionRepository;
 import com.rence.office.repo.OfficeReserveDateRepository;
 import com.rence.office.repo.OfficeReserveRepository;
@@ -61,6 +63,9 @@ public class OfficeService {
 	
 	@Autowired
 	OfficeReserveDateRepository reserve_date_repository;
+	
+	@Autowired
+	OfficePaymentRepository payment_repository;
 	
 	public OfficeService() {
 		log.info("OfficeService()...");
@@ -114,18 +119,20 @@ public class OfficeService {
 		return result;
 	}
 	
-//	public String select_one_last_reserve(String user_no) {
-//		String reserve_no = repository.select_one_last_reserve(user_no);
-//		
-//		return reserve_no;
-//	}
-//	
-//	public PaymentInfoVO select_one_final_payment_info(String reserve_no) {
-//		PaymentInfoVO vo = repository.select_one_final_payment_info(reserve_no);
-//		
-//		return vo;
-//	}
-//	
+	public String select_one_last_reserve(String user_no) {
+		OfficeReserveVO vo = reserve_repository.select_one_reserve_no(user_no);
+		
+		String reserve_no = vo.getReserve_no();
+		
+		return reserve_no;
+	}
+	
+	public PaymentInfoVO select_one_final_payment_info(String reserve_no) {
+		PaymentInfoVO vo = payment_repository.select_one_final_payment_info(reserve_no);
+		
+		return vo;
+	}
+	
 //	public int reserve_paymentOK(OfficePaymentVO pvo) {
 //		int result = repository.reserve_paymentOK(pvo);
 //		

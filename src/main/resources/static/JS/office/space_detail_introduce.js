@@ -213,7 +213,7 @@ $(function() {
 			
 			success: function(res) {
 				if (res.result == "1") {
-					console.log("success 1");
+					location.href="/office/payment?reserve_no=" + res.reserve_no;
 				}
 			},
 			error: function(err) {
