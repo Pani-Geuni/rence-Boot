@@ -195,8 +195,10 @@ $(function() {
 			},
 			success: function(res) {
 				//로딩 화면 닫기
-				$(".popup-backgd:eq(1)").addClass("blind");
-				$("#spinnesection").addClass("blind");
+				$("#spinner-section").addClass("blind");
+				
+				$(".popup-background:eq(0)").addClass("blind");
+				$("#reserve-delete-popup").addClass("blind");
 				
 				if (res.result == 1) {
 					$(".popup-background:eq(1)").removeClass("blind");
