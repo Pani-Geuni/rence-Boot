@@ -838,10 +838,16 @@ public class DashBoardController {
 		log.info("result: {}.", bvo2);
 
 		OptionEngToKorMap optionEngToKorMap = new OptionEngToKorMap();
-
+		
+		String[] backoffice_tag = bvo2.getBackoffice_tag().split(",");
+		for (int i = 0; i < backoffice_tag.length; i++) {
+			backoffice_tag[i] = "#" + backoffice_tag[i];
+		}
+		
 		List<String> backoffice_option = optionEngToKorMap.splitOption(bvo2.getBackoffice_option());
 		List<String> backoffice_around = optionEngToKorMap.splitAroundOption(bvo2.getBackoffice_around());
 
+		model.addAttribute("backoffice_tag", backoffice_tag);
 		model.addAttribute("backoffice_option", backoffice_option);
 		model.addAttribute("backoffice_around", backoffice_around);
 		model.addAttribute("vo", bvo2);
