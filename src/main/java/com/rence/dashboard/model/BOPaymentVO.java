@@ -35,9 +35,6 @@ public class BOPaymentVO {
 	@Column(name="payment_total")
 	private int payment_total;
 	
-	@Column(name="add_mileage")
-	private int add_mileage;
-	
 	@Column(name="use_mileage")
 	private int use_mileage;
 	
@@ -55,9 +52,6 @@ public class BOPaymentVO {
 	
 	@Column(name="user_no")
 	private String user_no;
-	
-	@Column(name="mileage_no")
-	private String mileage_no;
 	
 	@Column(name="reserve_no")
 	private String reserve_no;
