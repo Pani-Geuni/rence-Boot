@@ -186,7 +186,8 @@ $(function() {
 			url: "/backoffice/reservation_cancel",
 			type: "POST",
 			dataType: 'json',
-			data: {				backoffice_no: $.cookie("backoffice_no"),
+			data: {
+				backoffice_no: $.cookie("backoffice_no"),
 				reserve_no: $(this).prop("reserve_no"),
 				user_no: $(this).prop("user_no"),
 				user_email : $(this).prop("user_email"),
