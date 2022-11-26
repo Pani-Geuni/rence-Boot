@@ -51,7 +51,9 @@
       <div class="host-item">
         <p>사업체 태그</p>
         <ul class="host-option-list">
-          <li class="host-option-item">[[${vo.backoffice_tag}]]</li>
+          <th:block th:each="tag : ${backoffice_tag}">
+          	<li class="host-option-item">[[${tag}]]</li>
+          </th:block>
         </ul>
       </div>
 
