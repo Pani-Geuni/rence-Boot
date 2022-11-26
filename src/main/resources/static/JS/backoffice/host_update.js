@@ -116,8 +116,10 @@ $(function() {
 		}
 	});
 	
-	var len = $("#backoffice_info").val().length;
-	$(".b_info_txt_length").text(len);
+	if ($("#backoffice_info").val() != null) {
+		var len = $("#backoffice_info").val().length;
+		$(".b_info_txt_length").text(len);
+	}
 	
 	//글자 수
 	$("#backoffice_info").on("keydown keyup", function() {
