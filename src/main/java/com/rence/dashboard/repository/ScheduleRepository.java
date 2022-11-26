@@ -27,8 +27,8 @@ public interface ScheduleRepository extends JpaRepository<ScheduleEntity, Object
 
 	// 특정 날짜/시간에 휴무, 브레이크 타임이 설정된 공간 리스트
 	@Query(nativeQuery = true, value = "select * from roomschedule where backoffice_no=?1 and "
-			+ "(not_stime >= TO_DATE(?2,'YYYY-MM-DD HH24:MI:SS')) and "
-			+ "(not_etime <= TO_DATE(?3,'YYYY-MM-DD HH24:MI:SS'))")
+			+ "(not_stime <= TO_DATE(?2,'YYYY-MM-DD HH24:MI:SS')) and "
+			+ "(not_etime >= TO_DATE(?3,'YYYY-MM-DD HH24:MI:SS'))")
 	public List<ScheduleEntity> backoffice_schedule_list_exist_off(String backoffice_no, String not_stime, String not_etime);
 
 	// 휴무, 브레이크 타임 취소
