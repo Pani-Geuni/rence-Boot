@@ -115,6 +115,21 @@ $(function() {
 			$('#sat_etime').attr('disabled', false);
 		}
 	});
+	
+	var len = $("#backoffice_info").val().length;
+	for (var i = 0; i < len; i++) {
+		$("#backoffice_info").trigger("keydown keyup");
+	}
+
+	//글자 수
+	$("#backoffice_info").on("keydown keyup", function() {
+		$(".b_info_txt_length").text($(this).val().length);
+
+		if ($(this).val().length > 500) {
+			$(this).val($(this).val().substring(0, 500));
+		}
+	});
+	
 
 	var tag = {}
 	var counter = 0
