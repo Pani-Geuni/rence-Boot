@@ -6,6 +6,7 @@ package com.rence.user.controller;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
+import com.rence.office.common.OfficeInfoMap;
 import com.rence.office.model.ListViewVO;
 import com.rence.user.model.ReserveInfo_ViewVO;
 import com.rence.user.model.ReviewEntityVO;
@@ -50,6 +52,8 @@ public class MypageMenuController {
 	public String reserve_info(String reserve_no, Model model, HttpServletRequest request) {
 		String user_no = null;
 		
+		OfficeInfoMap info_map = new OfficeInfoMap();
+		
 		String is_login = (String)session.getAttribute("user_id");
 		Cookie[] cookies = request.getCookies();
 		
@@ -63,6 +67,11 @@ public class MypageMenuController {
 			Map<String, Object> map = new HashMap<String, Object>();
 			
 			ReserveInfo_ViewVO vo = service.select_one_reserve_info(reserve_no);
+			
+			List<String> splitImage = info_map.splitImage(vo.getBackoffice_image());
+			String room_first_image = splitImage.get(0);
+			vo.setBackoffice_image(room_first_image);
+			
 			map.put("reserve_no", reserve_no);
 			map.put("info_obj", vo);
 			
