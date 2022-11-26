@@ -148,14 +148,14 @@
                     <section class="mileage-payment">
                         <div class="mileage-line-wrap">
                             <label class="mileage-label">사용할 마일리지</label>
-                            <input type="text" id="use-mileage" class="use-mileage-input" value="0" numberOnly/>
+                            <input type="text" id="use-mileage" class="use-mileage-input" placeholder="0" value="" numberOnly/>
                             <input type="button" class="use-mileage-btn" value="마일리지 사용"/>
                         </div>
                         <div class="my-mileage-wrap">
                             <label>
                                 나의 마일리지 : 
                             </label>
-                            <span id="my-mileage" my-mileage="${pvo.mileage_total}">
+                            <span id="my-mileage" th:attr="my-mileage=${pvo.mileage_total}">
                                 [[${ pvo.mileage_total }]]원
                             </span>
                         </div>
@@ -189,11 +189,11 @@
                         <ul class="payment-info-li-wrap">
                             <li class="info-li">
                                 <label class="pay-info-label">총 결제 금액</label>
-                                <span id="payment_all" class="pay-info-text" payment_all="${payment_all}">[[${ payment_all }]]</span>
+                                <span id="payment_all" class="pay-info-text" th:attr="payment_all=${payment_all}">[[${ payment_all }]]</span>
                             </li>
                             <li class="info-li">
                                 <label class="pay-info-label">마일리지 예상 적립 금액</label>
-                                <span id="earned_mileage" class="pay-info-text" earned_mileage="${earned_mileage}">[[${ earned_mileage }]]</span>
+                                <span id="earned_mileage" class="pay-info-text" th:attr="earned_mileage=${earned_mileage}">[[${ earned_mileage }]]</span>
                             </li>
                         </ul>
                     </section>

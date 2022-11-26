@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -32,8 +33,10 @@ import com.rence.office.common.OfficeInfoMap;
 import com.rence.office.model.Comment_EntityVO;
 import com.rence.office.model.ListViewVO;
 import com.rence.office.model.OfficeInfoVO;
+import com.rence.office.model.OfficeMileageVO;
 import com.rence.office.model.OfficeOperatingTimeVO;
 import com.rence.office.model.OfficeOperatingTimeVO_date;
+import com.rence.office.model.OfficePaymentVO;
 import com.rence.office.model.OfficeQuestionVO;
 import com.rence.office.model.OfficeReserveVO;
 import com.rence.office.model.OfficeReserveVO_date;
@@ -464,28 +467,68 @@ public class OfficeController {
 		return "thymeleaf/layouts/office/layout_reserve";
 	}
 
-//	@ApiOperation(value="결제 컨트롤러", notes="예약 및 결제하는 페이지 결제 로직 컨트롤러")
-//	@PostMapping(value = "/office/reserve_paymentOK")
-//	@ResponseBody
-//	public JSONObject reserve_paymentOK(OfficePaymentVO pvo, Model model) {
-//		JSONObject jsonObject = new JSONObject();
-//		
-//		PaymentInfoVO pvo2 = service.select_one_final_payment_info(pvo.getReserve_no());
-//		pvo.setRoom_no(pvo2.getRoom_no());
-//		pvo.setBackoffice_no(pvo2.getBackoffice_no());
-//		pvo.setSales_state("F");
-//		
-//		
-//		int result = service.reserve_paymentOK(pvo);
-//		
-//		if (result == 1) {
-//			jsonObject.put("result", "1");			
-//		} else {
-//			jsonObject.put("result", "0");
-//		}
-//		
-//		return jsonObject;
-//	}
+	@ApiOperation(value="결제 컨트롤러", notes="예약 및 결제하는 페이지 결제 로직 컨트롤러")
+	@PostMapping(value = "/paymentOK")
+	@ResponseBody
+	public String reserve_paymentOK(OfficePaymentVO pvo, Model model) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		PaymentInfoVO pvo2 = service.select_one_final_payment_info(pvo.getReserve_no());
+		pvo.setRoom_no(pvo2.getRoom_no());
+		pvo.setBackoffice_no(pvo2.getBackoffice_no());
+		pvo.setSales_state("F");
+		
+		if (pvo.getPayment_state().equals("F")) {
+			int payment_total = (pvo.getActual_payment() + pvo.getUse_mileage()) * 5;
+			pvo.setPayment_total(payment_total);
+		}
+		
+		if (pvo.getUse_mileage() > 0) {
+			pvo.setPayment_total(pvo.getActual_payment() + pvo.getUse_mileage());
+		}
+		
+		
+		int result_payment = service.insert_paymentOK(pvo);
+		int result_update_reserve_state = service.update_reserve_state(pvo.getReserve_no());
+		
+		
+		OfficeMileageVO mvo = service.select_one_recent_mileage(pvo.getUser_no());
+		int mileage_change = 0;
+		
+		OfficeMileageVO mvo2 = new OfficeMileageVO();
+		int mileage_total = 0;
+		
+		if (pvo.getUse_mileage() == 0) {
+			mvo2.setMileage_state("W");
+			mileage_change = (int) (pvo.getPayment_total() * 0.05);
+			mileage_total = mvo.getMileage_total() + mileage_change;
+		} else {
+			mvo2.setMileage_state("F");
+			mileage_change = pvo.getUse_mileage();
+			mileage_total = mvo.getMileage_total() - mileage_change;
+		}
+		
+		mvo2.setMileage_total(mileage_total);
+		mvo2.setUser_no(pvo.getUser_no());
+		mvo2.setMileage_change(mileage_change);
+		
+		
+		OfficePaymentVO pvo3 = service.select_one_recent_payment(pvo.getUser_no());
+		mvo2.setPayment_no(pvo3.getPayment_no());
+		
+		int result_mileage = service.insert_mileage_changed(mvo2);
+		
+		if (result_payment == 1 && result_update_reserve_state == 1 && result_mileage == 1) {
+			map.put("result", "1");			
+		} else {
+			map.put("result", "0");
+		}
+		
+		String json = gson.toJson(map);
+		
+		return json;
+	}
 
 	@ApiOperation(value = "문의 추가 컨트롤러", notes = "문의 추가 로직 컨트롤러")
 	@GetMapping(value = "/insert_question")

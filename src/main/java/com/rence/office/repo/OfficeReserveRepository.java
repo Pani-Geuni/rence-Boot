@@ -3,7 +3,9 @@ package com.rence.office.repo;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.rence.office.model.OfficeReserveVO;
 import com.rence.office.model.OfficeReserveVO_date;
@@ -18,5 +20,10 @@ public interface OfficeReserveRepository extends JpaRepository<OfficeReserveVO, 
 	@Query(nativeQuery = true, value = "select * from (" + "select * " + "from reserveinfo "
 			+ "where user_no=?1 order by reserve_no desc)" + "where rownum=1")
 	public OfficeReserveVO select_one_reserve_no(String user_no);
+	
+	@Modifying
+	@Transactional
+	@Query(nativeQuery = true, value = "update reserveinfo set reserve_state='begin' where reserve_no=?1")
+	public int update_reserve_state(String reserve_no);
 
 }

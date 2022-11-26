@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import com.rence.office.model.Comment_EntityVO;
 import com.rence.office.model.ListViewVO;
 import com.rence.office.model.OfficeInfoVO;
+import com.rence.office.model.OfficeMileageVO;
 import com.rence.office.model.OfficeOperatingTimeVO_date;
+import com.rence.office.model.OfficePaymentVO;
 import com.rence.office.model.OfficeQuestionVO;
 import com.rence.office.model.OfficeReserveVO;
 import com.rence.office.model.OfficeReserveVO_date;
@@ -22,7 +24,9 @@ import com.rence.office.model.PaymentInfoVO;
 import com.rence.office.repo.OfficeDetailInfoRepository;
 import com.rence.office.repo.OfficeInfoRepository;
 import com.rence.office.repo.OfficeListRepository;
+import com.rence.office.repo.OfficeMileageRepository;
 import com.rence.office.repo.OfficeOperatingTimeRepository;
+import com.rence.office.repo.OfficePaymentInfoRepository;
 import com.rence.office.repo.OfficePaymentRepository;
 import com.rence.office.repo.OfficeQuestionRepository;
 import com.rence.office.repo.OfficeReserveDateRepository;
@@ -65,7 +69,13 @@ public class OfficeService {
 	OfficeReserveDateRepository reserve_date_repository;
 	
 	@Autowired
+	OfficePaymentInfoRepository payment_info_repository;
+	
+	@Autowired
 	OfficePaymentRepository payment_repository;
+	
+	@Autowired
+	OfficeMileageRepository mileage_repository;
 	
 	public OfficeService() {
 		log.info("OfficeService()...");
@@ -128,17 +138,41 @@ public class OfficeService {
 	}
 	
 	public PaymentInfoVO select_one_final_payment_info(String reserve_no) {
-		PaymentInfoVO vo = payment_repository.select_one_final_payment_info(reserve_no);
+		PaymentInfoVO vo = payment_info_repository.select_one_final_payment_info(reserve_no);
 		
 		return vo;
 	}
 	
-//	public int reserve_paymentOK(OfficePaymentVO pvo) {
-//		int result = repository.reserve_paymentOK(pvo);
-//		
-//		return result; 
-//	}
-//	
+	public int insert_paymentOK(OfficePaymentVO pvo) {
+		int result = payment_repository.insert_payment_info(pvo);
+		
+		return result; 
+	}
+	
+	public int update_reserve_state(String reserve_no) {
+		int result = reserve_repository.update_reserve_state(reserve_no);
+		
+		return result;
+	}
+	
+	public OfficeMileageVO select_one_recent_mileage(String user_no) {
+		OfficeMileageVO vo = mileage_repository.select_one_recent_mileage(user_no);
+		
+		return vo;
+	}
+	
+	public OfficePaymentVO select_one_recent_payment(String user_no) {
+		OfficePaymentVO vo = payment_repository.select_one_recent_payment(user_no);
+		
+		return vo;
+	}
+	
+	public int insert_mileage_changed(OfficeMileageVO vo) {
+		int result = mileage_repository.insert_mileage_changed(vo);
+		
+		return result;
+	}
+	
 
 
 	public int insert_question(Comment_EntityVO vo) {
