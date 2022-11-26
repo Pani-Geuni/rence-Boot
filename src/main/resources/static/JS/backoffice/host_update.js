@@ -139,9 +139,11 @@ $(function() {
 	}
 
 	var temp_tag = $("#real-input-tag").val();
-	console.log("tag:::::" + temp_tag);
-	var arr = temp_tag.split(',');
-	console.log(arr);
+
+	var arr = [];
+	if (temp_tag !== undefined) {
+		var arr = temp_tag.split(",");
+	}
 
 	for (var i = 0; i < arr.length; i++) {
 		console.log("click");
