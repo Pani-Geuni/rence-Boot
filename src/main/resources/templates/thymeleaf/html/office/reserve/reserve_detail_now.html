@@ -16,7 +16,7 @@
                 <span class="section-title">예약 정보</span>
                 <div class="reserve-info-wrap">
                     <section>
-                        <img src="${res.info_obj.backoffice_image}" alt="result-img" class="reserve-info-img" />
+                        <img th:src="@{https://rence.s3.ap-northeast-2.amazonaws.com/space/}+${res.info_obj.backoffice_image}" alt="result-img" class="reserve-info-img" />
                     </section>
                     <section class="reserve-info-txt">
                         <span class="info-company-name">[[${res.info_obj.company_name}]]</span>
@@ -159,7 +159,7 @@
             <!-- END PAYMENT-SECTION  -->
             
             <!-- START BTN-SECTION  -->
-            <section class="btn-section">
+            <section class="btn-pay-section">
                 <div id="pay-cancel-btn" class="pay-btn" th:attr="idx=${res.info_obj.reserve_no}">
                     <span>예약 취소</span>
                 </div>
@@ -172,9 +172,9 @@
             <!-- END BTN-SECTION  -->
             
         </div>
-        <div id = "footerWrap">
-            <h5>© Golfzon Tech Academy, Inc. All rights reserved.</h5>
-        </div>
+<!--        <div id = "footerWrap">-->
+<!--            <h5>© Golfzon Tech Academy, Inc. All rights reserved.</h5>-->
+<!--        </div>-->
         
         <th:block th:if="${res.is_write_review} == false">
 	        <!-- 후기쓰기 팝업창 -->
