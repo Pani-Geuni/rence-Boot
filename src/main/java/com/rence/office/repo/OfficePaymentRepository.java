@@ -1,16 +1,32 @@
 package com.rence.office.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.rence.office.model.PaymentInfoVO;
+import com.rence.office.model.OfficePaymentVO;
 
-public interface OfficePaymentRepository extends JpaRepository<PaymentInfoVO, Object>{
+public interface OfficePaymentRepository extends JpaRepository<OfficePaymentVO, Object> {
 	
+	
+	@Modifying
+	@Transactional
+	@Query(nativeQuery = true,
+			value = "insert into "
+					+ "paymentinfo(payment_no, payment_total, use_mileage, actual_payment, payment_state, payment_date, room_no, user_no, reserve_no, sales_state, backoffice_no, payment_method) "
+					+ "values('P'||seq_payment.nextval, :#{#vo?.payment_total}, :#{#vo?.use_mileage}, :#{#vo?.actual_payment}, :#{#vo?.payment_state}, SYSDATE, :#{#vo?.room_no}, :#{#vo?.user_no}, :#{#vo?.reserve_no}, :#{#vo?.sales_state}, :#{#vo?.backoffice_no}, :#{#vo?.payment_method})")
+	public int insert_payment_info(@Param("vo") OfficePaymentVO vo);
+
 	
 	@Query(nativeQuery = true,
-			value = "select * from payment_view where reserve_no=?1 and rownum=1"
-			)
-	public PaymentInfoVO select_one_final_payment_info(String reserve_no);
-
+			value = "select * from ( "
+					+ "select * "
+					+ "from paymentinfo "
+					+ "where user_no=?1 "
+					+ "order by payment_no desc "
+					+ ") where rownum=1")
+	public OfficePaymentVO select_one_recent_payment(String user_no);
+	
 }

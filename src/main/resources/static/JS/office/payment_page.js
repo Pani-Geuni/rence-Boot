@@ -193,12 +193,12 @@ $(function() {
 				$("#spinner-section").removeClass("blind");
 
 				$.ajax({
-					url: "/rence/reserve_paymentOK",
+					url: "/office/paymentOK",
 					method: "POST",
 					dataType: "json",
 					data: {
 						payment_total: $("#payment_all").attr("payment_all"),
-						use_mileage: $("#use-mileage").val(),
+						use_mileage: $("#use-mileage").val() || 0,
 						actual_payment: $("#payment_all").attr("payment_all"),
 						payment_state: payment_state,
 						user_no: $.cookie("user_no"),
