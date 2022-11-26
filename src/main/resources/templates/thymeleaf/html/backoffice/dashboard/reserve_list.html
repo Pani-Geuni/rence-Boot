@@ -67,7 +67,7 @@
 					<div class="ct-header-cell reserve">연락처</div>
 					<div class="ct-header-cell reserve">예약자 이메일</div>
 					<div class="ct-header-cell reserve">예약 금액</div>
-					<div class="ct-header-cell reserve">결제 방식</div>
+					<div class="ct-header-cell reserve">취소 버튼</div>
 				</div>
 				<!-- END ct-header -->
 
@@ -79,20 +79,28 @@
 								[[ ${vos.reserve_sdate} ]] ~ <br />[[ ${vos.reserve_edate} ]]
 							</div>
 							<div class="ct-body-cell reserve reserve_state">
-								<button th:if="${vos.reserve_state=='begin'}" class="ct-body-btn begin">이용전</button>
-								<button th:if="${vos.reserve_state=='in_use'}" class="ct-body-btn in_use">이용중</button>
-								<button th:if="${vos.reserve_state=='end'}" class="ct-body-btn end">이용완료</button>
-								<button th:if="${vos.reserve_state=='cancel'}" class="ct-body-btn cancel">취소</button>
+								<button th:if="${vos.reserve_state=='begin'}" class="ct-body-btn reserve-ing">이용전</button>
+								<button th:if="${vos.reserve_state=='in_use'}" class="ct-body-btn reserve-doing">이용중</button>
+								<button th:if="${vos.reserve_state=='end'}" class="ct-body-btn reserve-end">이용완료</button>
+								<button th:if="${vos.reserve_state=='cancel'}" class="ct-body-btn reserve-cancel">취소</button>
 							</div>
 
 							<div class="ct-body-cell reserve reserve_room_name">[[ ${vos.room_name} ]]</div>
 							<div class="ct-body-cell reserve reserve_user_name">[[ ${vos.user_name} ]]</div>
 							<div class="ct-body-cell reserve reserve_user_tel">[[ ${vos.user_tel} ]]</div>
 							<div class="ct-body-cell reserve reserve_user_email">[[ ${vos.user_email} ]]</div>
-							<div class="ct-body-cell reserve reserve-price">[[ ${vos.actual_payment} ]]</div>
-							<div class="ct-body-cell reserve reserve_payment_state">
+							<div class="ct-body-cell reserve reserve_price">
+								[[ ${vos.actual_payment} ]]원 /
 								<th:block th:if="${vos.payment_state=='T'}">선</th:block>
 								<th:block th:if="${vos.payment_state=='F'}">후</th:block>
+							</div>
+							<div class="ct-body-cell reserve reserve-btn-cell">
+								<th:block th:if="${vos.reserve_state=='begin'}">
+									<button class="ct-body-btn reserve-ing reserve_is_cancle" th:attr="reserve_no=${vos.reserve_no}, user_no=${vos.user_no}">예약 취소</button>
+								</th:block>
+								<th:block th:unless="${vos.reserve_state=='begin'}">
+									<button class="ct-body-btn reserve-end">취소불가</button>
+								</th:block>
 							</div>
 						</div>
 						<!-- END ct-body-row reserve -->
