@@ -29,4 +29,10 @@ public interface OfficePaymentRepository extends JpaRepository<OfficePaymentVO, 
 					+ ") where rownum=1")
 	public OfficePaymentVO select_one_recent_payment(String user_no);
 	
+	
+	
+	@Query(nativeQuery = true, value = "select * from paymentinfo where reserve_no=?1")
+	public OfficePaymentVO select_one_cancel_payment(String reserve_no);
+	
+	
 }

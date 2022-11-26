@@ -21,8 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.rence.office.common.OfficeInfoMap;
-import com.rence.office.model.ListViewVO;
+import com.rence.office.model.OfficeMileageVO;
+import com.rence.office.model.OfficePaymentVO;
+import com.rence.office.service.OfficeService;
 import com.rence.user.model.ReserveInfo_ViewVO;
 import com.rence.user.model.ReviewEntityVO;
 import com.rence.user.model.UserDTO;
@@ -38,11 +41,16 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/rence")
 public class MypageMenuController {
 
+	Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	
 	@Autowired
 	HttpSession session;
 	
 	@Autowired
 	MypageMenuSerivice service;
+	
+	@Autowired
+	OfficeService officeService;
 
 	
 	/**
@@ -110,6 +118,50 @@ public class MypageMenuController {
 		}
 			
 	}
+	
+	/**
+	 * 상세 예약 페이지 - 예약 취소
+	 */
+	@GetMapping(value = "/reserve_cancel")
+	@ResponseBody
+	public String reserve_cancel(String reserve_no, String user_no) {
+		Map<String, String> map = new HashMap<String, String>();
+		
+		
+		int result = officeService.update_reserve_cancel(reserve_no, user_no);
+		int mileage_result = 0;
+		
+		OfficePaymentVO pvo = officeService.select_one_cancel_payment(reserve_no);
+		
+		OfficeMileageVO mvo = officeService.select_one_mileage_cancel(pvo.getPayment_no());
+		
+		String mileage_no = mvo.getMileage_no();
+		
+		
+		if (mvo.getMileage_state().equals("F")) {
+			// 마일리지 사용 취소
+			mileage_result = officeService.update_mileage_state(mileage_no);
+		}
+		
+		if (mvo.getMileage_state().equals("W")) {
+			// 삭제
+			officeService.delete_mileage_cancel(mileage_no);
+			mileage_result = 1;
+		}
+		
+		
+		
+		if (result == 1 && mileage_result == 1) {
+			map.put("result", "1");
+		} else {
+			map.put("result", "0");
+		}
+		
+		String json = gson.toJson(map);
+		
+		return json;
+	}
+	
 	
 	/**
 	 * 상세 예약 페이지 이동 - 과거

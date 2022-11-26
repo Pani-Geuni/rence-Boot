@@ -25,5 +25,11 @@ public interface OfficeReserveRepository extends JpaRepository<OfficeReserveVO, 
 	@Transactional
 	@Query(nativeQuery = true, value = "update reserveinfo set reserve_state='begin' where reserve_no=?1")
 	public int update_reserve_state(String reserve_no);
+	
+	
+	@Modifying
+	@Transactional
+	@Query(nativeQuery = true, value = "update reserveinfo set reserve_state='cancel' where reserve_no=?1 and user_no=?2")
+	public int update_reserve_cancel(String reserve_no, String user_no);
 
 }
