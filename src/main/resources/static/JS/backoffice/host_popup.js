@@ -858,7 +858,7 @@ $(function () {
         success : function(res) {
             // 현재 비밀번호 일치 성공
             if(res.result == 1){
-              location.href="/backoffice/backoffice_setting_pw?backoffice_no=" + window.btoa($.cookie("backoffice_no"));
+              location.href="/backoffice/setting_pw?backoffice_no=" + window.btoa($.cookie("backoffice_no"));
             }else if(res.result == 0){
               $(".popup-background:eq(1)").removeClass("blind");
               $("#common-alert-popup").removeClass("blind");
