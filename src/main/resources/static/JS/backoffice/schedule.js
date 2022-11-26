@@ -410,14 +410,23 @@ $(function() {
 				let not_edate = eDateTime[0];
 				let not_etime = eDateTime[1];
 				let off_type = $("input:radio[name='set_schedule']:checked").val();
+				
+//				let cnt = $('input:checkbox[name="checkbox_name"]:checked').length;
+				
+			
+//				let room_no = $("input:checkbox[name='select-room']:checked").val();
+				
 
+
+ 				$('input:checkbox[name="select-room"]').each(function() {
+				if(this.checked){
                 $.ajax({
                     url : "/backoffice/scheduleOK",
                     type : "POST",
                     dataType : 'json',
                     data : {
                         backoffice_no: backoffice_no,
-                        room_no: $("#room_no"),
+                        room_no: $(this).attr("room_no"),
 						not_sdate: not_sdate,
 						not_edate: not_edate,
 						not_stime: not_stime,
@@ -428,6 +437,12 @@ $(function() {
                         //로딩 화면 닫기
                         $(".popup-background:eq(1)").addClass("blind");
                         $("#spinner-section").addClass("blind");
+                        
+                        $(".popup-background:eq(1)").removeClass("blind");
+          				$("#common-alert-popup").removeClass("blind");
+          				$(".common-alert-txt").text("일정이 설정되었습니다.");
+                        
+//                        location.reload();
 
                         var now = $("#maxCnt").attr("nowCnt");
                         $("#maxCnt").attr("nowCnt", Number(now) + 1);
@@ -453,8 +468,19 @@ $(function() {
                         //로딩 화면 닫기
                         $(".popup-background:eq(1)").addClass("blind");
                         $("#spinner-section").addClass("blind");
+                        
+                        $(".popup-background:eq(1)").removeClass("blind");
+          				$("#common-alert-popup").removeClass("blind");
+          				$(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
                     }
                 });
+              }
+
+ 			});
+		}else{
+			$(".popup-background:eq(1)").removeClass("blind");
+          	$("#common-alert-popup").removeClass("blind");
+          	$(".common-alert-txt").text("공간을 선택해주세요.");
 		}
 	})
 
