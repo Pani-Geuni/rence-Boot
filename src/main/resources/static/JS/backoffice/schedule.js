@@ -1,8 +1,17 @@
 /**
- * @author : 전판근
+ * @author : 전판근, 김예은
  */
 
 $(function() {
+	$("#common-alert-btn").click(function() {
+		$(".popup-background:eq(1)").addClass("blind");
+		$("#common-alert-popup").addClass("blind");
+
+		if ($(this).attr("is_reload") == "true") {
+			location.reload();
+			$(this).attr("is_reload", false);
+		}
+	});
 
 	$("input:radio[name='set_schedule']:eq(0)").click(function() {
 		$(".off-type-warning:eq(0)").removeClass('blind');
@@ -332,6 +341,7 @@ $(function() {
                             row.find(".ct-body-cell:eq(2)>span").text(res.rv_vos[i].user_email);
                             row.find(".ct-body-cell:eq(3)>span").text(res.rv_vos[i].user_tel);
                             row.find(".ct-body-cell:eq(4)>span").text(res.rv_vos[i].reserve_stime + " ~ " + res.rv_vos[i].reserve_etime);
+                            
                             $(".reservation-ct").append(row);
                         }
                     },
@@ -433,6 +443,9 @@ $(function() {
                             row.find(".ct-body-cell:eq(2)>span").text(res.rv_vos[i].user_email);
                             row.find(".ct-body-cell:eq(3)>span").text(res.rv_vos[i].user_tel);
                             row.find(".ct-body-cell:eq(4)>span").text(res.rv_vos[i].reserve_stime + " ~ " + res.rv_vos[i].reserve_etime);
+                            row.find(".ct-body-cell:eq(5)>span").attr("reserve_no", res.r_vos[i].reserve_no);
+                            row.find(".ct-body-cell:eq(5)>span").attr("user_no", res.r_vos[i].user_no);
+                            
                             $(".reservation-ct").append(row);
                         }
                     },
@@ -449,15 +462,97 @@ $(function() {
 	$("#radio-check-closeBtn").click(function() {
 		$("#radio-check-popup").addClass("blind");
 		$(".popup-background:eq(0)").addClass("blind");
-	})
+	});
 
 	$("#time-input-closeBtn").click(function() {
 		$("#time-input-popup").addClass("blind");
 		$(".popup-background:eq(0)").addClass("blind");
-	})
+	});
 	
 	$("#no-reservation-closeBtn").click(function() {
 		$("#no-reservation-popup").addClass("blind");
 		$(".popup-background:eq(0)").addClass("blind");
-	})
+	});
+	
+	
+	var check_arr = "";
+	// 예약 취소 버튼 클릭 -> 취소 팝업 SHOW
+	$("#btn-reserve-cancel").on("click", function() {
+		check_arr = $("input[type=checkbox]:checked").parents(".ct-body-row");
+		
+		if(check_arr.length == 0){
+			$(".popup-background:eq(1)").removeClass("blind");
+			$("#common-alert-popup").removeClass("blind");
+			$(".common-alert-txt").text("선택된 항목이 없습니다.");
+		}else{
+			$(".popup-background:eq(0)").removeClass("blind");
+			$("#reserve-delete-popup").removeClass("blind");
+		}
+	});
+
+	// 예약 취소 팝업 - 취소 버튼 클릭 -> 취소 로직 처리
+	$("#reserve-delete-btn").click(function() {
+		//로딩 화면
+		$(".popup-background:eq(1)").removeClass("blind");
+		$("#spinner-section").removeClass("blind");
+		
+		for(var i = 0; i < check_arr.length; i++){
+			var stop_flag = false;
+			
+			var reserve_no = $(check_arr[i]).find("#reserve_no").attr("reserve_no");
+			var user_no = $(check_arr[i]).find(".user_no").attr("user_no");
+			var user_email = $(check_arr[i]).find(".reserve_user_email").text().trim();
+			var reserve_stime = $(check_arr[i]).find(".reserve_date_set").text().trim().split(" ~ ")[0].trim();
+			var reserve_etime = $(check_arr[i]).find(".reserve_date_set").text().trim().split(" ~ ")[1].trim();
+			
+			//ajax 통신
+			$.ajax({
+				url: "/backoffice/reservation_cancel",
+				type: "POST",
+				dataType: 'json',
+				data: {
+					backoffice_no: $.cookie("backoffice_no"),
+					reserve_no: reserve_no,
+					user_no: user_no,
+					user_email : user_email,
+					reserve_stime : reserve_stime,
+					reserve_etime : reserve_etime
+				},
+				success: function(res) {
+					//로딩 화면 닫기
+					$("#spinner-section").addClass("blind");
+					
+					$(".popup-background:eq(0)").addClass("blind");
+					$("#reserve-delete-popup").addClass("blind");
+					
+					if (res.result == 1) {
+						$(".popup-background:eq(1)").removeClass("blind");
+						$("#common-alert-popup").removeClass("blind");
+						$(".common-alert-txt").text("예약이 취소되었습니다.");
+						$("#common-alert-btn").attr("is_reload", true);
+					} else {
+						$(".popup-background:eq(1)").removeClass("blind");
+						$("#common-alert-popup").removeClass("blind");
+						$(".common-alert-txt").text("예약 취소에 실패하셨습니다.");
+						stop_flag = true;
+					}
+				},
+				error: function() {
+					//로딩 화면 닫기
+					$(".popup-background:eq(1)").addClass("blind");
+					$("#spinner-section").addClass("blind");
+					stop_flag = true;
+				}
+			});
+			
+			if(stop_flag) break;
+		}
+	});
+
+	// 예약 취소 팝업 - 닫기 버튼 클릭 -> 예약 취소 여부 묻는 팝업 닫기
+	$("#reserve-delete-closeBtn").click(function() {
+		$(".popup-background:eq(0)").addClass("blind");
+		$("#reserve-delete-popup").addClass("blind");
+		$("#reserve-delete-btn").attr("reserve_no", "");
+	});
 })

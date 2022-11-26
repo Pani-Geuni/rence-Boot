@@ -44,27 +44,26 @@
 					<div class="ct-body reservation-ct">
 						<div class="ct-body-row" th:each="vo : ${rv_vos}">
 							<div class="ct-body-cell reservation">
-								<input type="hidden" name="room_no" th:attr="room_no=${vo.room_no}" />
-								<input type="hidden" name="backoffice_no" th:attr="backoffice_no=${vo.backoffice_no}" />
-								<input type="checkbox" name="reserve_no" id="reserve_no" class="room-checkbox" value="" th:attr="reserve_no=${vo.reserve_no}" />
+								<input type="hidden" name="user_no" class="user_no" th:attr="user_no=${vo.user_no}" />
+								<!--<input type="hidden" name="room_no" id="room_no" th:attr="room_no=${vo.room_no}" />-->
+								<input type="checkbox" name="reserve_no" id="reserve_no" class="room-checkbox" value="" th:attr="reserve_no=${vo.reserve_no}"/>
 							</div>
 							<div class="ct-body-cell reservation">
 								<span class="user_name">[[${vo.user_name}]]</span>
 							</div>
-							<div class="ct-body-cell reservation">
+							<div class="ct-body-cell reservation reserve_user_email">
 								<span class="user_email">[[${vo.user_email}]]</span>
 							</div>
 							<div class="ct-body-cell reservation">
 								<span class="user_tel">[[${vo.user_tel}]]</span>
 							</div>
-							<div class="ct-body-cell reservation">
+							<div class="ct-body-cell reservation reserve_date_set">
 								<span class="reserve-stime">[[${vo.reserve_stime}]] ~ [[${vo.reserve_etime}]]</span>
 							</div>
-							
 						</div>
 						<!-- END ct-body-row" -->
 					</div>
-					<input type='button' id='btn-reserve-cancel' class='btn-reserve-cancel' value='예약 취소' />
+					<input type='button' id='btn-reserve-cancel' class='btn-reserve-cancel' value='예약 취소'/>
 					<!-- END ct-body -->
 				</div>
 				<!-- END custom-table -->
