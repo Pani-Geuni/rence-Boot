@@ -27,7 +27,13 @@
 			<!-- 공간 태그 -->
 			<div class="inputWrap info">
 				<p>사업체 소개</p>
-				<textarea id="backoffice_info" name="backoffice_info" placeholder="공간 소개를 입력해 주세요">[[${vo.backoffice_info}]]</textarea>
+				<div class="check_wrap">
+				<textarea id="backoffice_info" name="backoffice_info" th:value="${vo.backoffice_info}" placeholder="공간 소개를 입력해 주세요">[[${vo.backoffice_info}]]</textarea>
+				<div class="b_info_txt_length_wrap">
+					<span class="b_info_txt_length">0</span>
+					<span>&nbsp;/ 500</span>
+				</div>
+				</div>
 			</div>
 
 			<div class="inputWrap backoffice_type">

@@ -388,32 +388,31 @@ $(function() {
 		console.log("confirm button click")
 		if($('.room-checkbox').is(":checked")){
 			 //로딩 화면
-//                $(".popup-background:eq(1)").removeClass("blind");
-//                $("#spinner-section").removeClass("blind");  
+                $(".popup-background:eq(1)").removeClass("blind");
+                $("#spinner-section").removeClass("blind");  
                 
 				let backoffice_no = $.cookie('backoffice_no');
+				let sDateTime = $(".time-input:eq(0)").val().split(' ');
+				let eDateTime = $(".time-input:eq(1)").val().split(' ');
 
-				let room_no = window.location.href.split("&room_no=")[1].split("&")[0];
+				let not_sdate = sDateTime[0];
+				let not_stime = sDateTime[1];
+				let not_edate = eDateTime[0];
+				let not_etime = eDateTime[1];
+				let off_type = $("input:radio[name='set_schedule']:checked").val();
 
-				let not_sdate = window.location.href.split("&not_sdate=")[1].split("&")[0];
-				let not_stime = window.location.href.split("&not_stime=")[1].split("&")[0];
-				let not_edate = window.location.href.split("&not_edate=")[1].split("&")[0];
-				let not_etime = window.location.href.split("&not_etime=")[1].split("&")[0];
-				let off_type = window.location.href.split("&off_type=")[1].split("&")[0];
-				
-	
                 $.ajax({
                     url : "/backoffice/scheduleOK",
                     type : "POST",
                     dataType : 'json',
                     data : {
                         backoffice_no: backoffice_no,
-                        room_no: room_no,
+                        room_no: $("#room_no"),
 						not_sdate: not_sdate,
 						not_edate: not_edate,
 						not_stime: not_stime,
 						not_etime: not_etime,
-						off_type: off_type,
+						off_type: off_type
                     },
                     success : function(res) {
                         //로딩 화면 닫기
