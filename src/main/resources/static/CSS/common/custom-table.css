@@ -101,6 +101,10 @@
   cursor: default;
 }
 
+.reserve_is_cancle{
+	cursor: pointer !important;
+}
+
 .ct-body-btn.review-edit {
   background-color: #b2a4ff;
 }

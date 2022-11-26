@@ -2,6 +2,16 @@
  * @author 김예은
  */
 $(function() {
+	$("#common-alert-btn").click(function() {
+		$(".popup-background:eq(1)").addClass("blind");
+		$("#common-alert-popup").addClass("blind");
+
+		if ($(this).attr("is_reload") == "true") {
+			location.reload();
+			$(this).attr("is_reload", false);
+		}
+	});
+
 	$("#input_searchBar").on('keydown', function(e) {
 		if (e.keyCode == 13) {
 			var reserve_state = "";
@@ -116,13 +126,12 @@ $(function() {
 							}
 							row.find(".reserve_state>button").text(reserve_state);
 							row.find(".reserve_state>button").addClass(res.r_vos[i].reserve_state);
-							
+
 							row.find(".reserve_room_name").text(res.r_vos[i].room_name);
 							row.find(".reserve_user_name").text(res.r_vos[i].user_name);
 							row.find(".reserve_user_tel").text(res.r_vos[i].user_tel);
 							row.find(".reserve_user_email").text(res.r_vos[i].user_email);
-							row.find(".reserve-price").text(res.r_vos[i].actual_payment);
-							
+
 							let reserve_payment_state = "";
 							switch (res.r_vos[i].payment_state) {
 								case 'T':
@@ -130,12 +139,13 @@ $(function() {
 									break;
 								case 'F':
 									reserve_payment_state = "후";
-									
+
 								default:
 									break;
 							}
-							row.find(".reserve_payment_state").text(reserve_payment_state);
-							
+							row.find(".reserve-price").text(res.r_vos[i].actual_payment);
+							row.find(".reserve_is_cancle").attr("reserve_no", res.r_vos[i].reserve_no);
+
 							$(".reserve_state").append(row);
 						}
 					},
@@ -147,5 +157,70 @@ $(function() {
 				});
 			}
 		}
+	});
+
+	// 예약 취소 버튼 클릭 -> 취소 팝업 SHOW
+	$(".reserve-ct").on("click", ".reserve_is_cancle", function() {
+		$(".popup-background:eq(0)").removeClass("blind");
+		$("#reserve-delete-popup").removeClass("blind");
+		console.log($(this).parents(".reserve-btn-cell").siblings(".reserve_user_email"));
+		var user_email = $(this).parents(".reserve-btn-cell").siblings(".reserve_user_email").text();
+		var reserve_stime = $(this).parents(".reserve-btn-cell").siblings(".reserve_date_set").text().split(" ~ ")[0];
+		var reserve_etime = $(this).parents(".reserve-btn-cell").siblings(".reserve_date_set").text().split(" ~ ")[1];
+		
+		$("#reserve-delete-btn").prop("reserve_no", $(this).attr("reserve_no"));
+		$("#reserve-delete-btn").prop("user_no", $(this).attr("user_no"));
+		$("#reserve-delete-btn").prop("user_email", user_email);
+		$("#reserve-delete-btn").prop("reserve_stime", reserve_stime);
+		$("#reserve-delete-btn").prop("reserve_etime", reserve_etime);
+	});
+
+	// 예약 취소 팝업 - 취소 버튼 클릭 -> 취소 로직 처리
+	$("#reserve-delete-btn").click(function() {
+		//로딩 화면
+		$(".popup-background:eq(1)").removeClass("blind");
+		$("#spinner-section").removeClass("blind");
+		
+		//ajax 통신
+		$.ajax({
+			url: "/backoffice/reservation_cancel",
+			type: "POST",
+			dataType: 'json',
+			data: {				backoffice_no: $.cookie("backoffice_no"),
+				reserve_no: $(this).prop("reserve_no"),
+				user_no: $(this).prop("user_no"),
+				user_email : $(this).prop("user_email"),
+				reserve_stime : $(this).prop("reserve_stime"),
+				reserve_etime : $(this).prop("reserve_etime")
+			},
+			success: function(res) {
+				//로딩 화면 닫기
+				$(".popup-backgd:eq(1)").addClass("blind");
+				$("#spinnesection").addClass("blind");
+				
+				if (res.result == 1) {
+					$(".popup-background:eq(1)").removeClass("blind");
+					$("#common-alert-popup").removeClass("blind");
+					$(".common-alert-txt").text("예약이 취소되었습니다.");
+					$("#common-alert-btn").attr("is_reload", true);
+				} else {
+					$(".popup-background:eq(1)").removeClass("blind");
+					$("#common-alert-popup").removeClass("blind");
+					$(".common-alert-txt").text("예약 취소에 실패하셨습니다.");
+				}
+			},
+			error: function() {
+				//로딩 화면 닫기
+				$(".popup-background:eq(1)").addClass("blind");
+				$("#spinner-section").addClass("blind");
+			}
+		});
+	});
+
+	// 예약 취소 팝업 - 닫기 버튼 클릭 -> 예약 취소 여부 묻는 팝업 닫기
+	$("#reserve-delete-closeBtn").click(function() {
+		$(".popup-background:eq(0)").addClass("blind");
+		$("#reserve-delete-popup").addClass("blind");
+		$("#reserve-delete-btn").attr("reserve_no", "");
 	});
 });
