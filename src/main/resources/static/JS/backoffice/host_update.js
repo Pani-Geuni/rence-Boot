@@ -117,10 +117,8 @@ $(function() {
 	});
 	
 	var len = $("#backoffice_info").val().length;
-	for (var i = 0; i < len; i++) {
-		$("#backoffice_info").trigger("keydown keyup");
-	}
-
+	$(".b_info_txt_length").text(len);
+	
 	//글자 수
 	$("#backoffice_info").on("keydown keyup", function() {
 		$(".b_info_txt_length").text($(this).val().length);
