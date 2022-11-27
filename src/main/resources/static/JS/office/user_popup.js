@@ -560,16 +560,22 @@
                             // 이메일 중복 성공
                             if(res.authNum == 1){
                                 $("#check_email").prop("check", true);
-                                $("#check_email").val("인증완료");
+                                
+                                timer();
+                                
                                 $("#join-email").attr("readonly", true);
                                 $("#join-email").addClass("readOnly");
 
                                 $(".popup-background:eq(1)").removeClass("blind");
                                 $("#common-alert-popup").removeClass("blind");
-                                $(".common-alert-txt").text("이메일로 인증번호를 발송하였습니다.");
+                                $(".common-alert-txt").text("이메일로 인증번호를 발송하였습니다.\n 2분 내로 인증번호 인증을 완료해주세요.\n 2분 초과 시 이메일 재인증이 필요합니다!");
                             }else if(res.authNum == 2){
                                 $(".warning-text:eq(0)").removeClass("blind");
                                 $(".warning-text:eq(0)").text("이미 존재하는 이메일입니다.");
+                            }else if(res.authNum == 3){
+                                $(".popup-background:eq(1)").removeClass("blind");
+                                $("#common-alert-popup").removeClass("blind");
+                                $(".common-alert-txt").text("해당 이메일은 인증번호 발송 후 2분이 되지 않았습니다.\n 잠시만 기다려주세요!");
                             }else{
                                 $(".popup-background:eq(1)").removeClass("blind");
                                 $("#common-alert-popup").removeClass("blind");
@@ -673,4 +679,30 @@
         location.href="/rence/user_logoutOK";
     });
 
+
+	function timer(){
+		var minute = 1;
+		var seconds = 60;
+		
+		var timer = setInterval(function(){
+		    seconds--;
+		    
+		    if(seconds <= 9) $("#check_email").val("0"+minute + " : "+ "0"+seconds);
+		    else $("#check_email").val("0"+minute + " : "+ seconds);
+		    
+		    if(seconds == 0){
+		        if(minute != 0){
+		            --minute;
+		            seconds = 60;
+		        }else{
+					$("#check_email").prop("check", false);
+					$("#check_email").val("이메일 입력");
+					
+                    $("#join-email").attr("readonly", false);
+                    $("#join-email").removeClass("readOnly");
+		            clearInterval(timer);
+		        }
+		    }
+		}, 1000);
+	}
 });
