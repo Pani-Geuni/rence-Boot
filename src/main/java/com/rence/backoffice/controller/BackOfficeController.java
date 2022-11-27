@@ -160,32 +160,39 @@ public class BackOfficeController {
 
 		// 이메일 중복 체크
 		BackOfficeVO emailCheck = service.backoffice_email_check(bvo);
-		log.info("{}:",emailCheck);
-		
+		log.info("{}:", emailCheck);
+
+		AuthVO avo_check = service.backoffice_auth_overlap(bvo);
+
 		if (emailCheck == null || emailCheck.getBackoffice_state().equals("X")
 				|| emailCheck.getBackoffice_state().equals("N")) {
+			if (avo_check == null) {
 
-			avo.setUser_email(bvo.getBackoffice_email());
+				avo.setUser_email(bvo.getBackoffice_email());
 
-			log.info("controller avo {} :",avo);
-			
-			// 이메일 전송
-			avo = authSendEmail.sendEmail(avo, evo);
-			if (avo != null) {
+				log.info("controller avo {} :", avo);
 
-				// avo2 = auth 테이블에 정보 저장 후, select 해온 결과값
-				AuthVO avo2 = service.backoffice_auth_insert(avo);
-				log.info("successed...");
-				log.info("=============avo2:{}", avo2);
+				// 이메일 전송
+				avo = authSendEmail.sendEmail(avo, evo);
+				if (avo != null) {
 
-				map.put("result", "1");
-				map.put("auth_code", avo2.getAuth_code());
-				map.put("backoffice_email", avo2.getUser_email());
-				map.put("auth_no", avo2.getAuth_no());
+					// avo2 = auth 테이블에 정보 저장 후, select 해온 결과값
+					AuthVO avo2 = service.backoffice_auth_insert(avo);
+					log.info("successed...");
+					log.info("=============avo2:{}", avo2);
 
-			} else { // 전송 실패
-				log.info("failed...");
-				map.put("result", "0");
+					map.put("result", "1");
+					map.put("auth_code", avo2.getAuth_code());
+					map.put("backoffice_email", avo2.getUser_email());
+					map.put("auth_no", avo2.getAuth_no());
+
+				} else { // 전송 실패
+					log.info("failed...");
+					map.put("result", "0");
+				}
+			} else { // 재전송 실패
+				log.info("failed...3");
+				map.put("result", "3");
 			}
 		} else { // 중복체크 실패
 			log.info("failed...");
