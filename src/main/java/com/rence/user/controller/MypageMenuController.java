@@ -80,6 +80,8 @@ public class MypageMenuController {
 			String room_first_image = splitImage.get(0);
 			vo.setBackoffice_image(room_first_image);
 			
+			vo.setRoom_type(info_map.changeType(vo.getRoom_type()));
+			
 			map.put("reserve_no", reserve_no);
 			map.put("info_obj", vo);
 			
