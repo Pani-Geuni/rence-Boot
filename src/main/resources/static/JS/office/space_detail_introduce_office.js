@@ -3,6 +3,8 @@
  */
  $(function(){
   let test = 1;
+  var now = '';
+  var checkout = '';
 
   $("#common-alert-btn").click(function(){
     $(".popup-background:eq(1)").addClass("blind");
@@ -100,6 +102,13 @@
   $(".custom-select-type-list").click(function(){
     $(".room-li-txt").text($(this).children(".room-name").text());
     $(".room-li-txt").prop("check", true);
+    
+    let attr_room_no = $(this).children(".room-name").attr("room_no");
+	$("#type-choice-value").attr("room_no", attr_room_no);
+		
+	let attr_room_type = $(this).children(".room-name").attr("room_type");
+	$("#type-choice-value").attr("room_type", attr_room_type);
+		
     $(".custom-select-type:eq(0)").addClass("blind");
     $(".type-border:eq(0)").removeClass("open-select");
   });
@@ -121,15 +130,26 @@
     $(".month-select-txt").prop("check", true);
     $(this).parents(".month-select-wrap").addClass("blind");
 
-    var now = new Date($(".time-input").val());	// 현재 날짜 및 시간
+    now = new Date($(".time-input").val());	// 현재 날짜 및 시간
     console.log("현재 : ", now);
-    var checkout = new Date(now.setMonth(now.getMonth() + Number($(this).attr("month"))));	// 한달 후
+    checkout = new Date(now.setMonth(now.getMonth() + Number($(this).attr("month"))));	// 한달 후
     console.log("한달 후 : ", checkout);
 
     $(".duration").removeClass("blind");
     $(".duration").text("기간 | " + $(".time-input").val() + " ~ " +checkout.getFullYear() + "/" + (Number(checkout.getMonth()) + 1) + "/" + checkout.getDate() );
     $(".duration").prop("last-date", checkout.getFullYear() + "/" + (Number(checkout.getMonth()) + 1) + "/" + checkout.getDate() );
   });
+  
+  $(".type-border-txt.time-input").change(function() {
+	  $("#office_check_available").removeClass("blind");
+	  $("#office_go_reserve").addClass("blind");
+	  $(".type-border-txt.month-select-txt").text("개월수");
+	  
+	  now = '';
+	  checkout = '';
+	  $(".duration").addClass("blind");
+	  
+  })
 
   /*** 예약 가능 여부 버튼 클릭 ***/
   $("#office_check_available").click(function(){
@@ -137,6 +157,45 @@
     if($(".type-border-txt").prop("check") == true){
       if($(".time-input:eq(0)").val() != '' && $(".time-input:eq(1)").val() != ''){
         // 예약 가능 확인 로직
+        console.log("office check available")
+        
+        let query = location.search;
+		let param = new URLSearchParams(query);
+		let backoffice_no = param.get('backoffice_no');
+        let room_no = $("#type-choice-value").attr("room_no");
+        
+        let reserve_stime = $(".time-input").val();
+        let reserve_etime = checkout.getFullYear() + "/" + (checkout.getMonth()+1) + "/" + checkout.getDate();
+        
+        console.log(backoffice_no, room_no);
+        console.log(now, checkout);
+        console.log(reserve_stime, reserve_etime);
+        
+        $.ajax({
+			url: "/office/office_reserve_check",
+			type: "GET",
+			dataType: "JSON",
+			data: {
+				backoffice_no: backoffice_no,
+				room_no: room_no,
+				reserve_stime: reserve_stime,
+				reserve_etime: reserve_etime
+			},
+			
+			success: function(res) {
+				if (res.result == "1") {
+					$("#office_go_reserve").removeClass("blind");
+					$("#office_check_available").addClass("blind");
+				} else {
+					$(".fixed-popup").removeClass("blind");
+        			$(".using-time-fail-txt").html("해당 기간에 이미 예약이 존재하여<br><br>예약할 수 없습니다.");
+				}
+			},
+			
+			error: function(error) {
+				console.log(error);
+			}
+		});
       }
       // 예약 타입 선택 O, 체크인 or 체크아웃 시간 X
       else{
@@ -149,6 +208,45 @@
       $(".fixed-popup").removeClass("blind");
       $(".using-time-fail-txt").html("예약 타입을 선택하여 주십시오.");
     }
+  });
+  
+  $("#office_go_reserve").click(function() {
+	  let user_no = $.cookie("user_no");
+	  let backoffice_no = location.href.split("backoffice_no=")[1].split("&")[0];
+  	  let room_no = $("#type-choice-value").attr("room_no");
+	  let reserve_stime = String($(".time-input").val() + " 00:00:00");
+      let reserve_etime = String(checkout.getFullYear() + "/" + (checkout.getMonth()+1) + "/" + checkout.getDate() + " 00:00:00"); 
+	  let room_type = $("#type-choice-value").attr("room_type").trim();
+	  
+	  console.log(user_no, backoffice_no, room_no, reserve_stime, reserve_etime, room_type);
+
+	 $.ajax({
+			url: "/office/reserve",
+			type: "GET",
+			
+			data: {
+				user_no: user_no,
+				backoffice_no: backoffice_no,
+				room_no: room_no,
+				reserve_stime: reserve_stime,
+				reserve_etime: reserve_etime,
+				room_type: room_type.trim()
+			},
+			
+			dataType: "json",
+			
+			success: function(res) {
+				if (res.result == "1") {
+					location.href="/office/payment?reserve_no=" + res.reserve_no;
+				}
+			},
+			error: function(err) {
+				console.log(err);
+			}
+			
+		});
+	  
+	  console.log("?????");
   });
 
 

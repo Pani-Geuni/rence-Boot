@@ -429,7 +429,7 @@
 /***************/
 /* btn-section */
 /***************/
-.btn-section{
+.btn-section, .btn-pay-section{
     width: 100%;
     margin-top: 30px;
     margin-bottom: 100px;

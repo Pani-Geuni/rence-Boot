@@ -26,12 +26,21 @@
 	<link rel="stylesheet" href="/static/CSS/office/reserve_info.css" />
 	
 	<!-- res.page 설정 전. 2022년 11월 21일 전판근 -->
-	<link rel="stylesheet" href="/static/CSS/office/space-detail-introduce.css" />
+	
 	<link rel="stylesheet" href="/static/CSS/office/jquery-ui.css" />
 	<link rel="stylesheet" href="/static/CSS/office/jquery-ui-timepicker.css" />
 	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<script src="/static/JS/office/timepicker.js"></script>
-	<script src="/static/JS/office/space_detail_introduce.js"></script>
+	<th:block th:if="${page == 'space_detail'}">
+		<script src="/static/JS/office/space_detail_introduce.js"></script>
+		<link rel="stylesheet" href="/static/CSS/office/space-detail-introduce.css" />
+	</th:block>
+	<th:block th:if="${page =='space_detail_office'}">
+		<script src="/static/JS/office/space_detail_introduce_office.js"></script>
+		<link rel="stylesheet" href="/static/CSS/office/space-detail-introduce-office.css" />
+	</th:block>
+	
+	<script src="/static/JS/office/reserve_info.js"></script>
 	<!-- ------- -->
 
     <script src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
@@ -123,7 +132,7 @@
 										data: {
 											backoffice_no: backoffice_no,
 											room_no: room_no,
-											reserve_date
+											reserve_date: reserve_date
 										},
 										
 										success: function(res) {
@@ -517,7 +526,7 @@
         
 		<!-- 현재 예약 리스트 예약 상세 정보 페이지 -->
 		<!-- START RESERVE-CANCLE CONFIRM POPUP -->
-        <div id ="reserve-cancle-popup" class="confirm-popup blind">
+        <div id ="reserve-cancel-popup" class="confirm-popup blind">
             <section class="confirm-txt-section">
                 <span class="reserve-cancle-txt">
                     예약을 정말로 취소하시겠습니까?<br><br>
@@ -530,6 +539,32 @@
             </section>
         </div>
         <!-- END RESERVE-CANCLE CONFIRM POPUP -->
+        
+        <!-- START RESERVE-CANCLE CONFIRM POPUP -->
+        <div id ="reserve-cancel-confirm-popup" class="confirm-popup blind">
+            <section class="confirm-txt-section">
+                <span class="reserve-cancle-txt">
+                    예약이 취소 되었습니다.
+                </span>
+            </section>
+            <section class="confirm-btn-section">
+                <div id="reserve-cancel-btn" class="confirm-yesBtn">확인</div>
+            </section>
+        </div>
+        <!-- END RESERVE-CANCLE-CONFIRM CONFIRM POPUP -->
+        
+        <!-- START RESERVE-CANCLE FAIL POPUP -->
+        <div id ="reserve-cancel-fail-popup" class="confirm-popup blind">
+            <section class="confirm-txt-section">
+                <span class="reserve-cancle-txt">
+                    예약 취소가 불가능합니다.
+                </span>
+            </section>
+            <section class="confirm-btn-section">
+                <div id="reserve-cancel-fail-btn" class="confirm-yesBtn">확인</div>
+            </section>
+        </div>
+        <!-- END RESERVE-CANCLE-FAIL CONFIRM POPUP -->
         
 		<!-- 예약 및 결제 페이지 -->
         <!-- START reserve-success ALERT POPUP -->

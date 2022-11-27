@@ -123,6 +123,12 @@ public class OfficeService {
 		return vos;
 	}
 	
+	public List<OfficeReserveVO> check_reserve_office(String backoffice_no, String room_no) {
+		List<OfficeReserveVO> vos = reserve_repository.select_all_reserve_office(backoffice_no, room_no);
+		
+		return vos;
+	}
+	
 	public int confirm_reserve(OfficeReserveVO_date rvo) {
 		int result = reserve_date_repository.insert_reserve(rvo);
 				
@@ -173,6 +179,36 @@ public class OfficeService {
 		return result;
 	}
 	
+	
+	// 결제 취소
+	public int update_reserve_cancel(String reserve_no, String user_no) {
+		int result = reserve_repository.update_reserve_cancel(reserve_no, user_no);
+		
+		return result;
+	}
+	
+	public OfficePaymentVO select_one_cancel_payment(String reserve_no) {
+		OfficePaymentVO vo = payment_repository.select_one_cancel_payment(reserve_no);
+		
+		return vo;
+	}
+	
+	public OfficeMileageVO select_one_mileage_cancel(String payment_no) {
+		OfficeMileageVO vo = mileage_repository.select_one_mileage_cancel(payment_no);
+		
+		return vo;
+	}
+	
+	public void delete_mileage_cancel(String mileage_no) {
+		mileage_repository.delete_mileage_cancel(mileage_no);
+		
+	}
+	
+	public int update_mileage_state(String mileage_no) {
+		int result = mileage_repository.update_mileage_state(mileage_no);
+		
+		return result;
+	}
 
 
 	public int insert_question(Comment_EntityVO vo) {
