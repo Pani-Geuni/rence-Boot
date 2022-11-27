@@ -179,11 +179,16 @@ $(function() {
 		let reserve_date = $(".time-input:eq(0)").val().trim();
 		let room_type = $("#type-choice-value").attr("room_type").trim();
 		
+		if (pick_time_list[0] > pick_time_list[1]) {
+			[pick_time_list[0], pick_time_list[1]] = [pick_time_list[1], pick_time_list[0]]
+		}
+		
 		if (pick_time_list.length == 1) {
 			pick_time_list.push(pick_time_list[0] + 1);
 		} else {
 			pick_time_list[1] += 1;		
 		}
+		
 		
 		
 		let reserve_stime = reserve_date + " " + pick_time_list[0] + ":00:00";
