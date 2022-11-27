@@ -53,7 +53,7 @@ public class AutoAspect {
 			public void run() {
 				try {
 					log.info("sleep-----------start-------------");
-		            Thread.sleep(121000);
+		            Thread.sleep(120000);
 		            log.info("sleep-------------end-----------");
 		            b_service.auth_auto_delete();
 		        } catch (InterruptedException e) {
