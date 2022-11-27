@@ -123,6 +123,12 @@ public class OfficeService {
 		return vos;
 	}
 	
+	public List<OfficeReserveVO> check_reserve_office(String backoffice_no, String room_no) {
+		List<OfficeReserveVO> vos = reserve_repository.select_all_reserve_office(backoffice_no, room_no);
+		
+		return vos;
+	}
+	
 	public int confirm_reserve(OfficeReserveVO_date rvo) {
 		int result = reserve_date_repository.insert_reserve(rvo);
 				

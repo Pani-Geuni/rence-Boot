@@ -360,26 +360,28 @@
 						<!-- 타입 셀렉트 열 때 open-select클래스 add해야함 -->
 						<!-- 타입 셀렉트 닫을 때 open-select클래스 remove해야함 -->
 						<div class="type-border">
-							<span class="type-border-txt room-li-txt">오피스 공간을 선택해주세요.</span>
+							<span id="type-choice-value" class="type-border-txt room-li-txt">오피스 공간을 선택해주세요.</span>
 							<img src="/static/IMG/space-introduce/full-dropdown.svg" alt="full-dropdown"
 								class="full-dropdown"></img>
 						</div>
 
 						<!-- CUSTOM SELECT SECTION -->
 						<ul class="custom-select-type blind">
-							<li class="custom-select-type-list">
-								<span class="room-name">
-									101호 (오피스)
-								</span>
-								<span class="room-price-unit">
-									<span class="room-price-big">
-										10,000원
+							<th:block th:each="rvo : ${rvos}">
+								<li class="custom-select-type-list">
+									<span class="room-name" th:attr="room_no=${rvo.room_no}, room_type=${rvo.room_type}">
+										[[${rvo.room_name}]] ([[${rvo.room_type}]])
 									</span>
-									<span class="room-unit-small">
-										/시간
+									<span class="room-price-unit">
+										<span class="room-price-big">
+											[[${rvo.room_price}]]원
+										</span>
+										<span class="room-unit-small">
+											/일
+										</span>
 									</span>
-								</span>
-							</li>
+								</li>
+							</th:block>
 						</ul>
 					</section>
 					<section class="using-time-section">
@@ -426,6 +428,9 @@
 					</section>
 					<section id="office_check_available" class="btn-section">
 						<span>예약 가능 여부 확인하기</span>
+					</section>
+					<section id="office_go_reserve" class="btn-section blind">
+						<span>예약 하러 가기</span>
 					</section>
 				</section>
 				<!-- END fixed-section -->

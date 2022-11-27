@@ -265,6 +265,66 @@ public class OfficeController {
 
 		return json;
 	}
+	
+	@SuppressWarnings("unlikely-arg-type")
+	@ApiOperation(value = "예약 가능 확인 여부 (오피스)", notes = "선택한 공간과 시간에 예약이 존재하는지 확인하는 컨트롤러")
+	@GetMapping(value = "/office_reserve_check")
+	@ResponseBody
+	public String office_reserve_check(String backoffice_no, String room_no, String reserve_stime, String reserve_etime, Model model) throws ParseException {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		List<OfficeReserveVO> vos = service.check_reserve_office(backoffice_no, room_no);
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+		
+		log.info("+++++");
+		System.out.println(backoffice_no + " " + room_no + " " + reserve_stime + " " + reserve_etime);
+		
+		Date reserve_sdate = formatter.parse(reserve_stime); 
+		Date reserve_edate = formatter.parse(reserve_etime);
+		
+		int reserve_flag = 0;
+		
+		for (OfficeReserveVO vo : vos) {
+			log.info("first vo : {}", vo);
+			vo.setReserve_sdate(vo.getReserve_sdate().split(" ")[0]);
+			vo.setReserve_sdate(vo.getReserve_sdate().replace("-", "/"));
+			vo.setReserve_edate(vo.getReserve_edate().split(" ")[0]);
+			vo.setReserve_edate(vo.getReserve_edate().replace("-", "/"));
+			
+			Date sdate = formatter.parse(vo.getReserve_sdate());
+			Date edate = formatter.parse(vo.getReserve_edate());
+			
+			int compareSdate1 = reserve_sdate.compareTo(sdate);
+			int compareEdate1 = reserve_edate.compareTo(sdate);
+			int compareSdate2 = reserve_sdate.compareTo(edate);
+			int compareEdate2 = reserve_edate.compareTo(edate);
+			
+			log.info("compare : {} {} {}", reserve_sdate, sdate, edate);
+			log.info("compare result : {} {}", compareSdate1, compareEdate1);
+			log.info("compare result : {} {}", compareSdate2, compareEdate2);
+			
+			
+			if ((compareSdate1 < 0 && compareEdate1 < 0) || (compareSdate2 > 0 && compareEdate2 > 0)) {
+				reserve_flag = 1;					
+			} else {
+				reserve_flag = 0;
+				break;
+			}
+		}
+		
+		if (reserve_flag == 1) {
+			map.put("result", "1");
+		} else {
+			map.put("result", "0");
+		}
+		
+		
+		String json = gson.toJson(map);
+		
+		return json;
+	}
 
 	// *******
 	// 예약 하기
@@ -380,6 +440,8 @@ public class OfficeController {
 			vo.setRoom_name(info_map.changeType(vo.getRoom_type()));
 		}
 		
+		log.info("rvos ::::::::::::::: {}", rvos);
+		
 		// **************
 		// backoffice 후기
 		// **************
@@ -458,13 +520,26 @@ public class OfficeController {
 		log.info("sdate : {}", sdate);
 		log.info("edate : {}", edate);
 		
+		// diffTime : type이 desk, meeting 일 때, 시간 차이
+		// 				office 일 때 일수 차이
+		long diffTime = 0;
+		int payment_all = 0;
+		int earned_mileage = 0;
+		
 		// 사용자 총 예약 시간
-		long diffHour = (edate.getTime() - sdate.getTime()) / 3600000;
+		if (pvo.getRoom_type().equals("오피스")) {
+			long diffSec = (edate.getTime() - sdate.getTime()) / 1000;
+			diffTime = diffSec / (24 * 60 * 60);
+			
+		} else {
+			diffTime = (edate.getTime() - sdate.getTime()) / 3600000;
+		}
 		
 		// 전체 결제할 금액
-		int payment_all = (int) diffHour * pvo.getRoom_price();
-		int earned_mileage = (int) (payment_all * 0.05);
 		
+		payment_all = (int) diffTime * pvo.getRoom_price();
+		earned_mileage = (int) (payment_all * 0.05);
+		log.info("diffTime ::::: {}", diffTime);
 		
 		model.addAttribute("pvo", pvo);
 		model.addAttribute("payment_all", payment_all);
