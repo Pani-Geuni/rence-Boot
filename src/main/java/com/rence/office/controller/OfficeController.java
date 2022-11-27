@@ -226,6 +226,7 @@ public class OfficeController {
 		model.addAttribute("revos", revos);
 		model.addAttribute("review_cnt", revos.size());
 
+		model.addAttribute("page", "space_detail");
 		model.addAttribute("content", "thymeleaf/html/office/space_detail/space_detail_introduce");
 		model.addAttribute("title", "공간 상세 페이지");
 
@@ -307,97 +308,106 @@ public class OfficeController {
 		return json;
 	}
 
-//	
-//	
-//	// **********************
-//	// space introduce OFFICE
-//	// **********************
-//	@ApiOperation(value="공간 소개 페이지 로드 (오피스)", notes="오피스 공간 소개 페이지 로드하는 컨트롤러")
-//	@RequestMapping(value = "/office/space_introduce_office", method = RequestMethod.GET)
-//	public String space_intruduce_office(BackOfficeVO bvo, String introduce_menu, Model model) {
-//		
-//		OfficeInfoMap info_map = new OfficeInfoMap();
-//		
-//		String backoffice_no = bvo.getBackoffice_no();
-//		
-//		// ******************
-//		// backoffice 기본 정보
-//		// ******************
-//		OfficeInfoVO ovo = service.select_one_office_info(backoffice_no);
-//		List<String> type_list = new ArrayList<String>();
-//		List<String> tag_list = new ArrayList<String>();
-//		List<String> img_list = new ArrayList<String>();
-//		List<String> option_list = new ArrayList<String>();
-//		List<String> around_option_list = new ArrayList<String>();
-//		
-//		if (ovo.getBackoffice_type() != null) {
-//			type_list = info_map.splitType(ovo.getBackoffice_type());			
-//		} else {
-//			type_list.add("타입 없음");
-//		}
-//		
-//		if (ovo.getBackoffice_tag() != null) {
-//			tag_list = info_map.splitTag(ovo.getBackoffice_tag());			
-//		} else {
-//			tag_list.add("옵션 없음");
-//		}
-//		
-//		img_list = info_map.splitImage(ovo.getBackoffice_image());
-//		
-//		if (ovo.getBackoffice_option() != null) {
-//			option_list = info_map.splitOption(ovo.getBackoffice_option());			
-//		} else {
-//			option_list.add("옵션 없음");
-//		}
-//		
-//		if (ovo.getBackoffice_around() != null) {
-//			around_option_list = info_map.splitAroundOption(ovo.getBackoffice_around());			
-//		} else {
-//			around_option_list.add("주변 시설 없음");
-//		}
-//		
-//		ovo.setShort_roadname_address(info_map.makeShortAddress(ovo.getRoadname_address()));
-//		
-//		// ******************
-//		// backoffice 운영 시간
-//		// ******************
-//		OfficeOperatingTimeVO_date dotvo = service.select_one_operating_time(backoffice_no);
-//		
-//		CustomDateFormatter df = new CustomDateFormatter();
-//		OfficeOperatingTimeVO otvo = df.showStringOfficeOperating(dotvo);
-//		
-//		// ************************
-//		// backoffice 운영 공간(Room)
-//		// ************************
-//		List<OfficeRoomVO> rvos = service.select_all_room(backoffice_no);
-//		
-//		for (OfficeRoomVO vo : rvos) {
-//			vo.setRoom_name(info_map.changeType(vo.getRoom_type()));
-//		}
-//		
-//		// **************
-//		// backoffice 후기
-//		// **************
-//		List<OfficeReviewVO> revos = service.select_all_review(backoffice_no);
-//		
-//		
-//		// backoffice 기본 정보
-//		model.addAttribute("page", "space_introduce_detail_office");
-//		model.addAttribute("ovo", ovo);
-//		model.addAttribute("type_list", type_list);
-//		model.addAttribute("tag_list", tag_list);
-//		model.addAttribute("img_list", img_list);
-//		model.addAttribute("option_list", option_list);
-//		model.addAttribute("around_option_list", around_option_list);
-//
-//		// backoffice 운영 시간
-//		model.addAttribute("otvo", otvo);
-//		
-//		// backoffice 운영 공간
-//		model.addAttribute("rvos", rvos);
-//		
-//		return ".space/space_detail_introduce_office";
-//	}
+	
+	
+	// **********************
+	// space introduce OFFICE
+	// **********************
+	@ApiOperation(value="공간 소개 페이지 로드 (오피스)", notes="오피스 공간 소개 페이지 로드하는 컨트롤러")
+	@GetMapping(value = "/space_introduce_office")
+	public String space_intruduce_office(BackOfficeVO bvo, String introduce_menu, Model model) {
+		
+		
+		Map<String, String> map = new HashMap<String, String>();
+		
+		OfficeInfoMap info_map = new OfficeInfoMap();
+		
+		String backoffice_no = bvo.getBackoffice_no();
+		
+		// ******************
+		// backoffice 기본 정보
+		// ******************
+		OfficeInfoVO ovo = service.select_one_office_info(backoffice_no);
+		List<String> type_list = new ArrayList<String>();
+		List<String> tag_list = new ArrayList<String>();
+		List<String> img_list = new ArrayList<String>();
+		List<String> option_list = new ArrayList<String>();
+		List<String> around_option_list = new ArrayList<String>();
+		
+		if (ovo.getBackoffice_type() != null) {
+			type_list = info_map.splitType(ovo.getBackoffice_type());			
+		} else {
+			type_list.add("타입 없음");
+		}
+		
+		if (ovo.getBackoffice_tag() != null) {
+			tag_list = info_map.splitTag(ovo.getBackoffice_tag());			
+		} else {
+			tag_list.add("옵션 없음");
+		}
+		
+		img_list = info_map.splitImage(ovo.getBackoffice_image());
+		
+		if (ovo.getBackoffice_option() != null) {
+			option_list = info_map.splitOption(ovo.getBackoffice_option());			
+		} else {
+			option_list.add("옵션 없음");
+		}
+		
+		if (ovo.getBackoffice_around() != null) {
+			around_option_list = info_map.splitAroundOption(ovo.getBackoffice_around());			
+		} else {
+			around_option_list.add("주변 시설 없음");
+		}
+		
+		
+		String short_roadname_address = info_map.makeShortAddress(ovo.getRoadname_address());
+		
+		// ******************
+		// backoffice 운영 시간
+		// ******************
+		OfficeOperatingTimeVO_date dotvo = service.select_one_operating_time(backoffice_no);
+		
+		CustomDateFormatter df = new CustomDateFormatter();
+		OfficeOperatingTimeVO otvo = df.showStringOfficeOperating(dotvo);
+		
+		// ************************
+		// backoffice 운영 공간(Room)
+		// ************************
+		List<OfficeRoomVO> rvos = service.select_all_room(backoffice_no);
+		
+		for (OfficeRoomVO vo : rvos) {
+			vo.setRoom_name(info_map.changeType(vo.getRoom_type()));
+		}
+		
+		// **************
+		// backoffice 후기
+		// **************
+		List<OfficeReviewVO> revos = service.select_all_review(backoffice_no);
+			
+		
+		// backoffice 기본 정보
+		model.addAttribute("page", "space_introduce_detail_office");
+		model.addAttribute("ovo", ovo);
+		model.addAttribute("type_list", type_list);
+		model.addAttribute("tag_list", tag_list);
+		model.addAttribute("img_list", img_list);
+		model.addAttribute("option_list", option_list);
+		model.addAttribute("around_option_list", around_option_list);
+		model.addAttribute("short_roadname_address", short_roadname_address);
+		model.addAttribute("page", "space_detail_office");
+		
+		// backoffice 운영 시간
+		model.addAttribute("otvo", otvo);
+		
+		// backoffice 운영 공간
+		model.addAttribute("rvos", rvos);
+		
+		model.addAttribute("content", "thymeleaf/html/office/space_detail/space_detail_introduce_office");
+		model.addAttribute("title", "공간 상세 페이지");
+
+		return "thymeleaf/layouts/office/layout_reserve";
+	}
 
 	// **********************
 	// 공간 예약 체크

@@ -26,12 +26,20 @@
 	<link rel="stylesheet" href="/static/CSS/office/reserve_info.css" />
 	
 	<!-- res.page 설정 전. 2022년 11월 21일 전판근 -->
-	<link rel="stylesheet" href="/static/CSS/office/space-detail-introduce.css" />
+	
 	<link rel="stylesheet" href="/static/CSS/office/jquery-ui.css" />
 	<link rel="stylesheet" href="/static/CSS/office/jquery-ui-timepicker.css" />
 	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<script src="/static/JS/office/timepicker.js"></script>
-	<script src="/static/JS/office/space_detail_introduce.js"></script>
+	<th:block th:if="${page == 'space_detail'}">
+		<script src="/static/JS/office/space_detail_introduce.js"></script>
+		<link rel="stylesheet" href="/static/CSS/office/space-detail-introduce.css" />
+	</th:block>
+	<th:block th:if="${page =='space_detail_office'}">
+		<script src="/static/JS/office/space_detail_introduce_office.js"></script>
+		<link rel="stylesheet" href="/static/CSS/office/space-detail-introduce-office.css" />
+	</th:block>
+	
 	<script src="/static/JS/office/reserve_info.js"></script>
 	<!-- ------- -->
 
