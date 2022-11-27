@@ -172,4 +172,10 @@ public class BackOfficeService implements UserDetailsService {//
 		auth_repository.auth_auto_delete();
 		
 	}
+
+	// 인증 번호 재전송 가능 여부
+	public AuthVO backoffice_auth_overlap(BackOfficeVO bvo) {
+		log.info("backoffice_auth_overlap()....");
+		return auth_repository.backoffice_auth_overlap(bvo.getBackoffice_email());
+	}
 }
