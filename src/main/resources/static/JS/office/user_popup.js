@@ -560,6 +560,7 @@
                             // 이메일 중복 성공
                             if(res.authNum == 1){
                                 $("#check_email").prop("check", true);
+                                $("#check_email").val("메일발송");
                                 
                                 timer();
                                 
@@ -568,14 +569,14 @@
 
                                 $(".popup-background:eq(1)").removeClass("blind");
                                 $("#common-alert-popup").removeClass("blind");
-                                $(".common-alert-txt").text("이메일로 인증번호를 발송하였습니다.\n 2분 내로 인증번호 인증을 완료해주세요.\n 2분 초과 시 이메일 재인증이 필요합니다!");
+                                $(".common-alert-txt").html("이메일로 인증번호를 발송하였습니다.<br> 2분 내로 인증번호 인증을 완료해주세요.<br> 2분 초과 시 이메일 재인증이 필요합니다!");
                             }else if(res.authNum == 2){
                                 $(".warning-text:eq(0)").removeClass("blind");
                                 $(".warning-text:eq(0)").text("이미 존재하는 이메일입니다.");
                             }else if(res.authNum == 3){
                                 $(".popup-background:eq(1)").removeClass("blind");
                                 $("#common-alert-popup").removeClass("blind");
-                                $(".common-alert-txt").text("해당 이메일은 인증번호 발송 후 2분이 되지 않았습니다.\n 잠시만 기다려주세요!");
+                                $(".common-alert-txt").html("해당 이메일은 인증번호 발송 후<br> 2분이 되지 않았습니다.<br> 잠시만 기다려주세요!");
                             }else{
                                 $(".popup-background:eq(1)").removeClass("blind");
                                 $("#common-alert-popup").removeClass("blind");
@@ -630,6 +631,8 @@
 
                         // 이메일 인증번호 확인 성공
                         if(res.result == 1){
+							timer("true");
+							
                             $("#check_email-code").prop("check", true);
                             $("#check_email-code").val("인증완료");
                             $("#join-email-code").attr("readonly", true);
@@ -680,11 +683,18 @@
     });
 
 
-	function timer(){
+	var time = "";
+	function timer(check){
 		var minute = 1;
 		var seconds = 60;
 		
-		var timer = setInterval(function(){
+		if(check == "true"){
+			clearInterval(time);
+			$("#btn-certification").val("인증 완료");
+			return;
+		}
+		
+		time = setInterval(function(){
 		    seconds--;
 		    
 		    if(seconds <= 9) $("#check_email").val("0"+minute + " : "+ "0"+seconds);
@@ -695,12 +705,23 @@
 		            --minute;
 		            seconds = 60;
 		        }else{
-					$("#check_email").prop("check", false);
-					$("#check_email").val("이메일 입력");
+					$(".popup-background:eq(1)").removeClass("blind");
+					$("#common-alert-popup").removeClass("blind");
+					$(".common-alert-txt").html("이메일 인증 시간을 초과했습니다.<br>다시 시도해주세요.");
 					
+					$("#check_email").prop("check", false);
+					$("#check_email").val("인증하기");
+                    $("#join-email").val("");
                     $("#join-email").attr("readonly", false);
                     $("#join-email").removeClass("readOnly");
-		            clearInterval(timer);
+                    
+                    $("#check_email-code").prop("check", false);
+                    $("#check_email-code").val("확인");
+                    $("#join-email-code").val("");
+                    $("#join-email-code").attr("readonly", false);
+                    $("#join-email-code").removeClass("readOnly");
+                    
+		            clearInterval(time);
 		        }
 		    }
 		}, 1000);
