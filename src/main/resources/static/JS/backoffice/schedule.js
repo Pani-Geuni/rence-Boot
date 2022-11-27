@@ -410,15 +410,18 @@ $(function() {
 				let not_edate = eDateTime[0];
 				let not_etime = eDateTime[1];
 				let off_type = $("input:radio[name='set_schedule']:checked").val();
+				var page = $("#maxCnt").attr("nowCnt");
 				
 //				let cnt = $('input:checkbox[name="checkbox_name"]:checked').length;
-				
-			
 //				let room_no = $("input:checkbox[name='select-room']:checked").val();
 				
-
-
  				$('input:checkbox[name="select-room"]').each(function() {
+				let room_no = $(this).attr("room_no");
+				let room_type = $(this).attr("room_type");
+				let room_name = $(this).attr("room_name");
+				let reserve_is = $(this).attr("reserve_is");
+				let reserve_cnt = $(this).attr("reserve_cnt");
+				
 				if(this.checked){
                 $.ajax({
                     url : "/backoffice/scheduleOK",
@@ -431,7 +434,8 @@ $(function() {
 						not_edate: not_edate,
 						not_stime: not_stime,
 						not_etime: not_etime,
-						off_type: off_type
+						off_type: off_type,
+						page : Number(page)
                     },
                     success : function(res) {
                         //로딩 화면 닫기
@@ -444,25 +448,88 @@ $(function() {
                         
 //                        location.reload();
 
-                        var now = $("#maxCnt").attr("nowCnt");
-                        $("#maxCnt").attr("nowCnt", Number(now) + 1);
+//						var arr = $(".ct-body-row").slice();
+//						console.log(arr);
+//						var row = $(".ct-body-row").clone();
+//						var cnt = arr.length;
+//						console.log(cnt);
+//						for (var i = 0; i < cnt; i++) {
+//							if (arr.find("#room_no").attr(i)("room_no") !== (room_no)) {
+//								row.find("#room_no").append(i)("room_no");
+//								row.find(".room_type").append(i)("room_type");
+//								row.find(".room_name").append(i)("room_name");
+//								row.find(".reserve_is").append(i)("reserve_is");
+//								row.find(".reserve_cnt").append(i)("reserve_cnt");
+//							}
+//						}
 
-                        for(var i = 0; i < res.cnt; i++){
-                            var row = $($(".ct-body-row")[0]).clone();
-                            
-                            row.find(".ct-body-cell:eq(0)>input:eq(0)").attr("room_no", res.rv_vos[i].room_no);
-                            row.find(".ct-body-cell:eq(0)>input:eq(1)").attr("backoffice_no", res.rv_vos[i].backoffice_no);
-                            row.find(".ct-body-cell:eq(0)>input:eq(2)").attr("reserve_no", res.rv_vos[i].reserve_no);
-                            
-                            row.find(".ct-body-cell:eq(1)>span").text(res.rv_vos[i].user_name);
-                            row.find(".ct-body-cell:eq(2)>span").text(res.rv_vos[i].user_email);
-                            row.find(".ct-body-cell:eq(3)>span").text(res.rv_vos[i].user_tel);
-                            row.find(".ct-body-cell:eq(4)>span").text(res.rv_vos[i].reserve_stime + " ~ " + res.rv_vos[i].reserve_etime);
-                            row.find(".ct-body-cell:eq(5)>span").attr("reserve_no", res.r_vos[i].reserve_no);
-                            row.find(".ct-body-cell:eq(5)>span").attr("user_no", res.r_vos[i].user_no);
-                            
-                            $(".reservation-ct").append(row);
-                        }
+							$("#maxCnt").attr("maxCnt", res.maxCnt);
+				            $("#maxCnt").attr("nowCnt", res.nowCnt);
+				            
+							if (res.cnt > 0) {
+								let empty_row = $($('.ct-body-row')[0]).clone();
+								$(".ct-body").empty();
+								$(".ct-body").append(empty_row);
+
+								for (var i = 0; i < res.cnt; i++) {
+									let body_row = $($('.ct-body-row')[0]).clone();
+									body_row.removeClass("blind");
+									
+									//예약 있을 시, 체크박스 disabled
+									if(res.sc_vos[i].reserve_cnt>0){
+										body_row.find('.room-checkbox').attr('disabled', true);
+									}
+	
+
+									body_row.find("#room_no").attr("room_no", res.sc_vos[i].room_no);
+
+									let kor_room_name = "";
+									switch (res.sc_vos[i].room_type) {
+										case 'desk':
+											kor_room_name = "데스크";
+											body_row.find(".room_type").text(kor_room_name);
+											break;
+										case 'meeting_04':
+											kor_room_name = "미팅룸 (4인)";
+											body_row.find(".room_type").text(kor_room_name);
+											break;
+										case 'meeting_06':
+											kor_room_name = "미팅룸 (6인)";
+											body_row.find(".room_type").text(kor_room_name);
+											break;
+										case 'meeting_10':
+											kor_room_name = "미팅룸 (10인)";
+											body_row.find(".room_type").text(kor_room_name);
+											break;
+										case 'office':
+											kor_room_name = "오피스";
+											body_row.find(".room_type").text(kor_room_name);
+											break;
+
+										default:
+											break;
+									}
+
+									body_row.find(".room_name").text(res.sc_vos[i].room_name);
+
+									if (res.sc_vos[i].reserve_is === 'X') {
+										body_row.find(".reserve_is").append('<img src="/static/IMG/dash-board/ico-close.svg" />');
+									} else {
+										body_row.find(".reserve_is").append('<img src="/static/IMG/dash-board/ico-circle.svg" />');
+									}
+
+									body_row.find(".reserve_cnt").text(res.sc_vos[i].reserve_cnt + "명");
+									body_row.find(".reserve_cnt").attr("reserve_cnt", res.sc_vos[i].reserve_cnt);
+
+									$(".ct-body").append(body_row);
+								}
+								
+								if ($(".select-room-section").find("#schedule-confirm-btn").length == 0) {
+									$(".select-room-section").append("<input type='button' id='schedule-confirm-btn' class='schedule-confirm-btn' value='일정 설정' />");
+								}
+
+							}
+                       
                     },
                     error : function() {
                         //로딩 화면 닫기
