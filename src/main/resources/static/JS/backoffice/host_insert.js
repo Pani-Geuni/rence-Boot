@@ -292,7 +292,7 @@ $(function() {
 							}else if (res.result == 3) {
 								$(".popup-background:eq(1)").removeClass("blind");
                                 $("#common-alert-popup").removeClass("blind");
-                                $(".common-alert-txt").html("해당 이메일은 인증번호 발송 후 2분이 되지 않았습니다.<br> 잠시만 기다려주세요!");
+                                $(".common-alert-txt").html("해당 이메일은 인증번호 발송 후<br> 2분이 되지 않았습니다.<br> 잠시만 기다려주세요!");
 							} else {
 								$(".popup-background:eq(1)").removeClass("blind");
 								$("#common-alert-popup").removeClass("blind");
@@ -344,6 +344,8 @@ $(function() {
 							$("#btn-check-certification").val("인증완료");
 							$("#auth_code").attr("readonly", true);
 							$("#auth_code").addClass("readOnly");
+							
+							timer("true");
 
 							$(".popup-background:eq(1)").removeClass("blind");
 							$("#common-alert-popup").removeClass("blind");
@@ -441,11 +443,18 @@ $(function() {
 
 	});
 	
-	function timer(){
+	var time = "";
+	function timer(check){
 		var minute = 1;
 		var seconds = 60;
 		
-		var timer = setInterval(function(){
+		if(check == "true"){
+			clearInterval(time);
+			$("#btn-certification").val("인증 완료");
+			return;
+		}
+		
+		time = setInterval(function(){
 		    seconds--;
 		    
 		    if(seconds <= 9) $("#btn-certification").val("0"+minute + " : "+ "0"+seconds);
@@ -456,15 +465,27 @@ $(function() {
 		            --minute;
 		            seconds = 60;
 		        }else{
+					$(".popup-background:eq(1)").removeClass("blind");
+					$("#common-alert-popup").removeClass("blind");
+					$(".common-alert-txt").html("이메일 인증 시간을 초과했습니다.<br>다시 시도해주세요.");
+					
 					$("#btn-certification").prop("check", false);
 					$("#btn-certification").val("이메일 입력");
-					
+                    $("#backoffice_email").val("");
                     $("#backoffice_email").attr("readonly", false);
                     $("#backoffice_email").removeClass("readOnly");
-		            clearInterval(timer);
+                    
+                    $("#btn-check-certification").prop("check", false);
+					$("#btn-check-certification").val("인증번호 확인");
+                    $("#auth_code").val("");
+					$("#auth_code").attr("readonly", false);
+					$("#auth_code").removeClass("readOnly");
+					
+		            clearInterval(time);
 		        }
 		    }
 		}, 1000);
+		
 	}
 
 });
