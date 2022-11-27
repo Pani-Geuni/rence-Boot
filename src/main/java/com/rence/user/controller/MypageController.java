@@ -32,6 +32,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.rence.office.common.OfficeInfoMap;
 import com.rence.user.model.MyPageReserveListVO;
 import com.rence.user.model.UserMileageVO;
 import com.rence.user.model.UserMypageVO;
@@ -294,6 +295,14 @@ public class MypageController {
 			map.put("cnt", 0);
 		} else {
 			map.put("cnt", list.size());
+			OfficeInfoMap info_map = new OfficeInfoMap();
+			
+			// 대표 이미지 1장 처리
+			for (MyPageReserveListVO vo : list) {
+				List<String> splitImage = info_map.splitImage(vo.getBackoffice_image());
+				String room_first_image = splitImage.get(0);
+				vo.setBackoffice_image(room_first_image);
+			}
 		}
 		map.put("list", list);
 		map.put("page", "reserve-list");

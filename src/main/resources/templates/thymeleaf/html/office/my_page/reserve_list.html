@@ -48,7 +48,7 @@
 						<th:block th:each="obj : ${res.list}">
 		                    <div class = "reserve-box before" th:attr="idx=${obj.reserve_no}">
 		                        <section class="box-img-section">
-		                            <img src="${obj.backoffice_image}" alt ="default-space-img" class="space-img" />
+		                            <img th:src="@{https://rence.s3.ap-northeast-2.amazonaws.com/space/}+${obj.backoffice_image}" alt ="default-space-img" class="space-img" />
 		                        </section>
 		                        <section class="box-txt-section">
 		                            <span class="b-office-name">[[${obj.company_name}]]</span>
