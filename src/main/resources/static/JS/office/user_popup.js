@@ -245,6 +245,8 @@
         $(".join-popup-input-short").val("");
         $(".join-popup-input-short").removeClass("readOnly");
         $(".join-popup-input-short").attr("readonly", false);
+        
+        timer("close");
 
         // 에러 메세지 초기화
         $(".warning-text").addClass("blind");
@@ -690,13 +692,18 @@
 		
 		if(check == "true"){
 			clearInterval(time);
+			$("#check_email").val("인증완료");
+			return;
+		}
+		
+		if(check == "close"){
+			clearInterval(time);
 			$("#check_email").val("인증하기");
 			return;
 		}
 		
 		time = setInterval(function(){
 		    seconds--;
-		    console.log("돌아가유");
 		    
 		    if(seconds <= 9) $("#check_email").val("0"+minute + " : "+ "0"+seconds);
 		    else $("#check_email").val("0"+minute + " : "+ seconds);
