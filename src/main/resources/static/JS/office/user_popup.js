@@ -245,8 +245,6 @@
         $(".join-popup-input-short").val("");
         $(".join-popup-input-short").removeClass("readOnly");
         $(".join-popup-input-short").attr("readonly", false);
-        
-        timer("close");
 
         // 에러 메세지 초기화
         $(".warning-text").addClass("blind");
@@ -266,6 +264,8 @@
         // 팝업 관련창 닫음
         $("#join-section").addClass("blind");
         $(".popup-background:eq(0)").addClass("blind");
+        
+        timer("close");
     });
 
     //회원가입 버튼 클릭
@@ -698,7 +698,6 @@
 		
 		if(check == "close"){
 			clearInterval(time);
-			$("#check_email").val("인증하기");
 			return;
 		}
 		
