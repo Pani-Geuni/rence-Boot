@@ -61,42 +61,24 @@ public class UserSecurityConfig {
 		http.authorizeRequests()
 		.antMatchers("/").permitAll()
 //		.antMatchers("/master/login").permitAll()
-		.antMatchers("/backoffice/landing").permitAll()
-		.antMatchers("/rence/user_auth").permitAll()
-		.antMatchers("/rence/user_authOK").permitAll()
-		.antMatchers("/rence/user_idCheckOK").permitAll()
-		.antMatchers("/rence/joinOK").permitAll()
-		.antMatchers("/rence/find_id").permitAll()
-		.antMatchers("/rence/find_pw").permitAll()
-//		.antMatchers("/backoffice/insert").permitAll()
-		
-//		
+		.antMatchers("/backoffice/landing").permitAll() //백오피스 홈페이지	
+		.antMatchers("/rence/user_auth").permitAll() //회원가입 - 이메일 인증
+		.antMatchers("/rence/user_authOK").permitAll() //회원가입 - 이메일 완료
+		.antMatchers("/rence/user_idCheckOK").permitAll() //회원가입 - 아이디 중복체크
+		.antMatchers("/rence/joinOK").permitAll() //회원가입완료
+		.antMatchers("/rence/find_id").permitAll() //아이디 찾기
+		.antMatchers("/rence/find_pw").permitAll() // 비밀번호 찾기
 		.antMatchers("/","/test/","/api/v2/**", "/v3/api-docs", "/static/**",
                 "/swagger*/**","/api/v1/auth/**","/h2-console/**","/favicon.ico","/swagger-ui.html","/swagger/**","/swagger-resources/**","webjars/**","/v2/api-docs"
                 ,"/user/insertOK","/js/**","/css/**","/images/**","/error")
 		.permitAll(); // 해당 경로들은 접근을 허용
-//		.permitAll() // 해당 경로들은 접근을 허용
-//		
-		 
-		 
-		 
-//			.authorizeRequests() // 요청 URL에 따라 접근 권한을 설정
-//			.anyRequest() // 다른 모든 요청은
-//			.authenticated() // 인증된 유저만 접근을 허용
-//		 .antMatchers("/rence/**")
-//		 .authorizeRequests()
-		
+			
 		http
 		.antMatcher("/rence/**")
 		.authorizeRequests()
-		 .anyRequest()
-		 .authenticated()
-		 
-		 
-//		 http.antMatcher("/rence/**")
-//			.authorizeRequests().anyRequest().authenticated()
+		.anyRequest()
+		.authenticated()
 		.and()
-			
 			.formLogin() // 로그인 폼은
 			.loginPage("/") // 해당 주소로 로그인 페이지를 호출한다.
 			.loginProcessingUrl("/rence/loginOK") // 해당 URL로 요청이 오면 스프링 시큐리티가 가로채서 로그인처리를 한다. -> loadUserByName
