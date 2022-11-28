@@ -35,7 +35,7 @@ public interface OfficeMileageRepository extends JpaRepository<OfficeMileageVO, 
 	@Query(nativeQuery = true, value = "select * from mileage where payment_no=?1")
 	public List<OfficeMileageVO> select_all_mileage_cancel(String payment_no);
 	
-	@Query(nativeQuery = true, value = "select * from mileage where payment_no=?1 and mileage_state='F'")
+	@Query(nativeQuery = true, value = "select * from mileage where payment_no=?1 and mileage_state=?2")
 	public OfficeMileageVO select_one_mileage_cancel(String payment_no, String mileage_state);
 	
 	@Modifying
