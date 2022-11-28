@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,21 +13,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity(debug = true)
 @Configuration
-@Order(2)
+@Order(3)
 public class MasterSecurityConfig {
-	
-//	@Bean
-//	public void configure(WebSecurity web) throws Exception
-//    {
-//        // static 디렉터리의 하위 파일 목록은 인증 무시 ( = 항상통과 )
-//        web.ignoring()
-////        .antMatchers("/css/**", "/js/**", "/img/**", "/lib/**");
-//        .antMatchers("/","/test/","/api/v2/**", "/v3/api-docs", "/static/**",
-//              "/swagger*/**","/api/v1/auth/**","/h2-console/**","/favicon.ico","/swagger-ui.html","/swagger/**","/swagger-resources/**","webjars/**","/v2/api-docs"
-//              ,"/user/insertOK","/js/**","/css/**","/images/**","/error");
-//    }
-
-	
+		
 	@Bean
 	public UserDetailsService masterDetailsService() {
 		return new MasterUserDetailsService();

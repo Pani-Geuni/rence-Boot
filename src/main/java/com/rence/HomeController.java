@@ -1,26 +1,16 @@
 package com.rence;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rence.user.controller.UserSendEmail;
-import com.rence.user.model.EmailVO;
-import com.rence.user.model.UserVO;
 import com.rence.user.service.UserService;
 
 import io.swagger.annotations.Api;
@@ -49,7 +39,7 @@ public class HomeController {
 	@ApiOperation(value="메인 화면 로드", notes="메인 페이지 띄우는 컨트롤러")
 	@GetMapping("/")
 	public String home(Model model) {
-		
+		log.info("HomePage");
 		model.addAttribute("content", "thymeleaf/html/office/home");
 		
 		return "thymeleaf/layouts/office/layout_base";
