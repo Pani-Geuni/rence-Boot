@@ -82,6 +82,13 @@
 								</th:block>
 							</ul>
 						</div>
+						
+						<div class="map-wrap">
+							<label class="section-title"> 상세 위치 지도 </label>						
+					        <input type="hidden" id="location_addr" th:value="${ovo.roadname_address}" />
+					        <input type="hidden" id="location_name" th:value="${ovo.company_name}" />
+					        <div id="map"></div>
+						</div>
 					</div>
 
 					<!-- 문의 -->
@@ -308,38 +315,32 @@
 								</th:block>
 							</ul>
 						</section>
-
-						<section class="paging-section question-paging">
-							<section class="paging-section">
-								<div class="paging-wrap">
-									<span th:if="${res.maxPage} <= 5" class="paging-box before-page-btn hide"> &lt;&lt;
-									</span>
-									<span th:unless="${res.maxPage} <= 5" class="paging-box before-page-btn"> &lt;&lt;
-									</span>
-
-									<th:block
-										th:with="ceil=${#numbers.formatInteger(T(java.lang.Math).ceil((res.nowPage)/5.0),1)}">
-										<th:block th:with="start=(5 * (${ceil} - 1) + 1)">
-											<div class="paging-num-wrap paging-wrap">
-												<th:block th:each="num : ${#numbers.sequence(start, res.maxPage)}">
-													<span th:if="${num} == ${res.nowPage}" th:attr="idx=${num}"
-														class="paging-box paging-num choice">[[${num}]]</span>
-													<span th:if="${num} != ${res.nowPage}" th:attr="idx=${num}"
-														class="paging-box paging-num un-choice">[[${num}]]</span>
-												</th:block>
-											</div>
-										</th:block>
-									</th:block>
-
-									<span th:if="${res.totalPageCnt} > 5 and ${res.maxPage} < ${res.totalPageCnt}"
-										class="paging-box next-page-btn">>></span>
-									<span th:unless="${res.totalPageCnt} > 5 and ${res.maxPage} < ${res.totalPageCnt}"
-										class="paging-box next-page-btn hide">>></span>
-									<input type="hidden" id="totalPageCnt" th:value="${res.totalPageCnt}">
-								</div>
-							</section>
-						</section>
-
+						
+						<th:block th:if="${res.maxPage} > 0"> 
+							<section class="paging-section question-paging">
+								<section class="paging-section">
+					            	<div class="paging-wrap">
+						                <span th:if="${res.maxPage} <= 5" class="paging-box before-page-btn hide"> &lt;&lt; </span>
+						                <span th:unless="${res.maxPage} <= 5" class="paging-box before-page-btn"> &lt;&lt; </span>
+						                
+						                <th:block th:with="ceil=${#numbers.formatInteger(T(java.lang.Math).ceil((res.nowPage)/5.0),1)}" >
+							                <th:block th:with="start=(5 * (${ceil} - 1) + 1)" >
+								                <div class="paging-num-wrap paging-wrap">
+								                <th:block th:each="num : ${#numbers.sequence(start, res.maxPage)}">
+								                    <span th:if = "${num} == ${res.nowPage}" th:attr="idx=${num}" class="paging-box paging-num choice">[[${num}]]</span>
+								                    <span th:if = "${num} != ${res.nowPage}" th:attr="idx=${num}" class="paging-box paging-num un-choice">[[${num}]]</span>
+								                </th:block>
+								                </div>
+							                </th:block>
+						                </th:block>
+						                
+						                <span th:if="${res.totalPageCnt} > 5 and ${res.maxPage} < ${res.totalPageCnt}" class="paging-box next-page-btn">>></span>
+						                <span th:unless="${res.totalPageCnt} > 5 and ${res.maxPage} < ${res.totalPageCnt}" class="paging-box next-page-btn hide">>></span>
+						                <input type="hidden" id="totalPageCnt" th:value="${res.totalPageCnt}">
+						            </div>
+					            </section>
+					        </section>
+						</th:block>
 					</div>
 
 					<!-- 후기 -->
@@ -379,31 +380,33 @@
 								</th:block>
 							</ul>
 						</section>
-						<!--
-						<section class="paging-section review-paging">
-							<section class="paging-section">
-				            	<div class="paging-wrap">
-					                <span th:if="${res.maxPage2} <= 5" class="paging-box before-page-btn hide"> &lt;&lt; </span>
-					                <span th:unless="${res.maxPage2} <= 5" class="paging-box before-page-btn"> &lt;&lt; </span>
-					                
-					                <th:block th:with="ceil=${#numbers.formatInteger(T(java.lang.Math).ceil((res.nowPage2)/5.0),1)}" >
-						                <th:block th:with="start=(5 * (${ceil} - 1) + 1)" >
-							                <div class="paging-num-wrap paging-wrap">
-							                <th:block th:each="num : ${#numbers.sequence(start, res.maxPage2)}">
-							                    <span th:if = "${num} == ${res.nowPage2}" th:attr="idx=${num}" class="paging-box paging-num choice">[[${num}]]</span>
-							                    <span th:if = "${num} != ${res.nowPage2}" th:attr="idx=${num}" class="paging-box paging-num un-choice">[[${num}]]</span>
+						[[${res.maxPage2}]]
+						<th:block th:if="${res.maxPage2} > 0"> 
+							<section class="paging-section review-paging">
+								<section class="paging-section">
+					            	<div class="paging-wrap">
+						                <span th:if="${res.maxPage2} <= 5" class="paging-box before-page-btn hide"> &lt;&lt; </span>
+						                <span th:unless="${res.maxPage2} <= 5" class="paging-box before-page-btn"> &lt;&lt; </span>
+						                
+						                <th:block th:with="ceil=${#numbers.formatInteger(T(java.lang.Math).ceil((res.nowPage2)/5.0),1)}" >
+							                <th:block th:with="start=(5 * (${ceil} - 1) + 1)" >
+								                <div class="paging-num-wrap paging-wrap">
+								                <th:block th:each="num : ${#numbers.sequence(start, res.maxPage2)}">
+								                    <span th:if = "${num} == ${res.nowPage2}" th:attr="idx=${num}" class="paging-box paging-num choice">[[${num}]]</span>
+								                    <span th:if = "${num} != ${res.nowPage2}" th:attr="idx=${num}" class="paging-box paging-num un-choice">[[${num}]]</span>
+								                </th:block>
+								                </div>
 							                </th:block>
-							                </div>
 						                </th:block>
-					                </th:block>
-					                
-					                <span th:if="${res.totalPageCnt2} > 5 and ${res.maxPage2} < ${res.totalPageCnt2}" class="paging-box next-page-btn">>></span>
-					                <span th:unless="${res.totalPageCnt2} > 5 and ${res.maxPage2} < ${res.totalPageCnt2}" class="paging-box next-page-btn hide">>></span>
-					                <input type="hidden" id="totalPageCnt" th:value="${res.totalPageCnt2}">
-					            </div>
-				            </section>
-				        </section>
-				        -->
+						                
+						                <span th:if="${res.totalPageCnt2} > 5 and ${res.maxPage2} < ${res.totalPageCnt2}" class="paging-box next-page-btn">>></span>
+						                <span th:unless="${res.totalPageCnt2} > 5 and ${res.maxPage2} < ${res.totalPageCnt2}" class="paging-box next-page-btn hide">>></span>
+						                <input type="hidden" id="totalPageCnt" th:value="${res.totalPageCnt2}">
+						            </div>
+					            </section>
+					        </section>
+						</th:block>
+				        
 					</div>
 				</section>
 				<!-- END un-fixed-section -->
