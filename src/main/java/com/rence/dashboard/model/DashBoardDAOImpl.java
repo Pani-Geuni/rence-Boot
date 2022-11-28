@@ -260,11 +260,9 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 
 		ss.setSales_total(String.valueOf(sales_total));
 
-		Integer pay_before_cancel = ss_summary_repository.select_pay_before_cancel(backoffice_no);
-		Integer pay_after_cancel = ss_summary_repository.select_pay_after_cancel(backoffice_no);
-		Integer pay_before_overdue_cancel = ss_summary_repository.select_pay_before_overdue_cancel(backoffice_no);
+		Integer pay_cancel = ss_summary_repository.select_pay_cancel(backoffice_no);
 
-		int sales_cancel = pay_before_cancel + pay_after_cancel + pay_before_overdue_cancel;
+		int sales_cancel = pay_cancel;
 
 		ss.setSales_cancel(String.valueOf(sales_cancel));
 
@@ -293,11 +291,9 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 
 			ss.setSales_total(String.valueOf(sales_total));
 
-			Integer pay_before_cancel = s_detail_repository.select_pay_before_cancel(backoffice_no);
-			Integer pay_after_cancel = s_detail_repository.select_pay_after_cancel(backoffice_no);
-			Integer pay_before_overdue_cancel = s_detail_repository.select_pay_before_overdue_cancel(backoffice_no);
+			Integer pay_cancel = s_detail_repository.select_pay_cancel(backoffice_no);
 
-			int sales_cancel = pay_before_cancel + pay_after_cancel + pay_before_overdue_cancel;
+			int sales_cancel = pay_cancel;
 
 			ss.setSales_cancel(String.valueOf(sales_cancel));
 
@@ -317,12 +313,9 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 
 			ss.setPre_sales_total(String.valueOf(pre_sales_total));
 
-			Integer pay_before_cancel_pre = s_detail_repository.select_pay_before_cancel_pre(backoffice_no);
-			Integer pay_after_cancel_pre = s_detail_repository.select_pay_after_cancel_pre(backoffice_no);
-			Integer pay_before_overdue_cancel_pre = s_detail_repository
-					.select_pay_before_overdue_cancel_pre(backoffice_no);
+			Integer pre_pay_cancel = s_detail_repository.select_pay_cancel_pre(backoffice_no);
 
-			int pre_sales_cancel = pay_before_cancel_pre + pay_after_cancel_pre + pay_before_overdue_cancel_pre;
+			int pre_sales_cancel = pre_pay_cancel;
 
 			ss.setPre_sales_cancel(String.valueOf(pre_sales_cancel));
 
@@ -344,12 +337,9 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 
 			ss.setSales_total(String.valueOf(sales_total));
 
-			Integer pay_before_cancel = s_detail_repository.select_pay_before_cancel_week(backoffice_no);
-			Integer pay_after_cancel = s_detail_repository.select_pay_after_cancel_week(backoffice_no);
-			Integer pay_before_overdue_cancel = s_detail_repository
-					.select_pay_before_overdue_cancel_week(backoffice_no);
+			Integer pay_cancel = s_detail_repository.select_pay_cancel_week(backoffice_no);
 
-			int sales_cancel = pay_before_cancel + pay_after_cancel + pay_before_overdue_cancel;
+			int sales_cancel = pay_cancel;
 
 			ss.setSales_cancel(String.valueOf(sales_cancel));
 
@@ -369,12 +359,9 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 
 			ss.setPre_sales_total(String.valueOf(pre_sales_total));
 
-			Integer pay_before_cancel_pre = s_detail_repository.select_pay_before_cancel_pre_week(backoffice_no);
-			Integer pay_after_cancel_pre = s_detail_repository.select_pay_after_cancel_pre_week(backoffice_no);
-			Integer pay_before_overdue_cancel_pre = s_detail_repository
-					.select_pay_before_overdue_cancel_pre_week(backoffice_no);
+			Integer pre_pay_cancel = s_detail_repository.select_pay_cancel_pre_week(backoffice_no);
 
-			int pre_sales_cancel = pay_before_cancel_pre + pay_after_cancel_pre + pay_before_overdue_cancel_pre;
+			int pre_sales_cancel = pre_pay_cancel;
 
 			ss.setPre_sales_cancel(String.valueOf(pre_sales_cancel));
 
@@ -396,12 +383,9 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 
 			ss.setSales_total(String.valueOf(sales_total));
 
-			Integer pay_before_cancel = s_detail_repository.select_pay_before_cancel_month(backoffice_no);
-			Integer pay_after_cancel = s_detail_repository.select_pay_after_cancel_month(backoffice_no);
-			Integer pay_before_overdue_cancel = s_detail_repository
-					.select_pay_before_overdue_cancel_month(backoffice_no);
+			Integer pay_cancel = s_detail_repository.select_pay_cancel_month(backoffice_no);
 
-			int sales_cancel = pay_before_cancel + pay_after_cancel + pay_before_overdue_cancel;
+			int sales_cancel = pay_cancel;
 
 			ss.setSales_cancel(String.valueOf(sales_cancel));
 
@@ -421,12 +405,9 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 
 			ss.setPre_sales_total(String.valueOf(pre_sales_total));
 
-			Integer pay_before_cancel_pre = s_detail_repository.select_pay_before_cancel_pre_month(backoffice_no);
-			Integer pay_after_cancel_pre = s_detail_repository.select_pay_after_cancel_pre_month(backoffice_no);
-			Integer pay_before_overdue_cancel_pre = s_detail_repository
-					.select_pay_before_overdue_cancel_pre_month(backoffice_no);
+			Integer pre_pay_cancel = s_detail_repository.select_pay_cancel_pre_month(backoffice_no);
 
-			int pre_sales_cancel = pay_before_cancel_pre + pay_after_cancel_pre + pay_before_overdue_cancel_pre;
+			int pre_sales_cancel = pre_pay_cancel;
 
 			ss.setPre_sales_cancel(String.valueOf(pre_sales_cancel));
 
@@ -670,7 +651,7 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		// 결제 취소,
 		if (flag == 1) {
 			// 결제정보 테이블의 상태 'C' 로 변경
-			p_repository.backoffice_update_payment_state_c(reserve_no); // 결제 정보 상태 'C' 변경
+			p_repository.backoffice_update_payment_state_host_cancel(reserve_no); // 환불 상태 'C', 환불 금액 = 실제 결제 금액, 결제일시 = 환불일시
 			pvo = p_repository.select_paymentinfo(reserve_no); //결제 정보 
 			String payment_no = pvo.getPayment_no();
 
