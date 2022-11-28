@@ -141,10 +141,12 @@ public class OfficeController {
 		// 페이징 처리 로직
 		// 리스트 수
 		long total_rowCount_question_all = service.total_rowCount_question_all(backoffice_no);
-
+		log.info("total_rowCount_question_all: {}", total_rowCount_question_all);
+		
 		// 총 페이징 되는 수
 		long totalPageCnt = (long) Math.ceil(total_rowCount_question_all / 4.0);
-
+		log.info("totalPageCnt: {}", totalPageCnt);
+		
 		long nowPage = page;
 
 		long maxPage = 0;
@@ -162,6 +164,8 @@ public class OfficeController {
 				maxPage = nowPage;
 			}
 		}
+		
+		log.info("maxPage: " + maxPage);
 
 		map.put("totalPageCnt", totalPageCnt);
 		map.put("nowPage", nowPage);
@@ -238,9 +242,9 @@ public class OfficeController {
 			}
 		}
 
-		map.put("totalPageCnt", totalPageCnt2);
-		map.put("nowPage", nowPage2);
-		map.put("maxPage", maxPage2);
+		map.put("totalPageCnt2", totalPageCnt2);
+		map.put("nowPage2", nowPage2);
+		map.put("maxPage2", maxPage2);
 		map.put("page", "space_introduce_detail");
 
 		// 페이징 처리 계산 로직 끝
