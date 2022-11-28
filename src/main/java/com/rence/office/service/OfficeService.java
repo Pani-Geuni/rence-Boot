@@ -99,8 +99,15 @@ public class OfficeService {
 		return vos;
 	}
 	
-	public List<OfficeQuestionVO> select_all_comment(String backoffice_no) {
-		List<OfficeQuestionVO> vos = question_repository.select_all_comment(backoffice_no);
+	public List<OfficeQuestionVO> select_all_comment(String backoffice_no, Integer page) {
+		
+		log.info("select_all_comment");
+		
+		Integer row_count = 4;
+		Integer start_row = (page - 1) * row_count + 1;
+		Integer end_row = page * row_count;
+		
+		List<OfficeQuestionVO> vos = question_repository.select_all_comment(backoffice_no, start_row, end_row);
 		
 		return vos;
 	}
@@ -111,10 +118,25 @@ public class OfficeService {
 		return vo;
 	}
 	
-	public List<OfficeReviewVO> select_all_review(String backoffice_no) {
-		List<OfficeReviewVO> vos = review_repository.select_all_review(backoffice_no);
+	public List<OfficeReviewVO> select_all_review(String backoffice_no, Integer page) {
+		
+		Integer row_count = 4;
+		Integer start_row = (page - 1) * row_count + 1;
+		Integer end_row = page * row_count;
+		
+		List<OfficeReviewVO> vos = review_repository.select_all_review(backoffice_no, start_row, end_row);
 		
 		return vos;
+	}
+	
+	// 문의 총 개수 - (페이징) all
+	public long total_rowCount_question_all(String backoffice_no) {
+		return question_repository.total_rowCount_question_all(backoffice_no);
+	}
+	
+	// 후기 총 개수 - (페이징) all
+	public long total_rowCount_review_all(String backoffice_no) {
+		return review_repository.total_rowCount_review_all(backoffice_no);
 	}
 	
 	public List<OfficeReserveVO> check_reserve(String backoffice_no, String room_no, String reserve_stime) {
