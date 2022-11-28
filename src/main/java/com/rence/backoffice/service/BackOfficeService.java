@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class BackOfficeService implements UserDetailsService {//
+public class BackOfficeService{//
 
 	@Autowired
 	BackOfficeRepository repository;
@@ -148,17 +148,6 @@ public class BackOfficeService implements UserDetailsService {//
 
 		bvo.setBackoffice_no(new String(decodedBytes2));
 		return repository.update_backoffice_temp_pw(bvo.getBackoffice_pw(), bvo.getBackoffice_no());
-	}
-
-	@Override
-	public UserDetails loadUserByUsername(String backoffice_id) throws UsernameNotFoundException {
-		log.info("backoffice_id : {}",backoffice_id);
-		BackOfficeVO member = repository.findByBackoffice_email(backoffice_id); //username = email
-		log.info("member : {}",member);
-		
-		if (member==null) throw new UsernameNotFoundException("Not founc account.");
-		
-		return member;
 	}
 
 	public BackOfficeVO backoffice_login_info(String username) {

@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class MasterService implements UserDetailsService {
+public class MasterService{
 
 	@Autowired
 	MasterRepository m_repository;
@@ -117,16 +117,7 @@ public class MasterService implements UserDetailsService {
 		return b_repository.selectOne_backoffice_detail_m(bvo.getBackoffice_no());
 	}
 	
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		log.info("master_id : {}",username);
-		MasterEntity member = m_repository.findByMaster_id(username); //username = email
-		log.info("member : {}",member);
-		
-		if (member==null) throw new UsernameNotFoundException("Not founc account.");
-		
-		return member;
-	}
+
 
 
 }

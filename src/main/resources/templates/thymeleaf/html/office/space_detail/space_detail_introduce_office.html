@@ -151,27 +151,185 @@
 							<ul class="quest-list-wrap">
 								<th:block th:each="cvo : ${cvos}">
 									<li class="quest-list">
-										<section>
-											<img src="/static/IMG/header/loopy.jpg" alt="write-user-img"
-												class="write-user-img" />
-										</section>
 										<section class="quest-content-section">
-											<ul class="quest-content-wrap">
-												<li class="quest-content-list quest-content-writer">
-													<span>[[${ cvo.user_name }]]</span>
+											<ul class="quest-list-wrap">
+												<th:block th:each="cvo : ${cvos}">
+													<th:block th:if="${is_login} == null">
 
-													<span class="lock_img">
-														<img src="/static/IMG/space-introduce/lock.svg">
-													</span>
-												</li>
-												<li class="quest-content-list quest-content">[[${ cvo.comment_content
-													}]]</li>
-												<li class="quest-content-list quest-content-date">
-													[[${ cvo.comment_date }]]
-													<th:block th:if="${cvo.answer_date} != null">
-														<span class="answer_toggle">답변 보기</span>
 													</th:block>
-												</li>
+													<th:block th:unless="${is_login} == null">
+													</th:block>
+
+													<li class="quest-list">
+														<!-- 로그인이 되어 있을 때 -->
+														<th:block th:if="${is_login} != null">
+															<!-- 비밀 댓글일 때 -->
+															<th:block th:if="${cvo.is_secret} == 'T'">
+																<!-- 로그인한 유저와 문의 작성자가 같을 때 -->
+																<th:block th:if="${is_login} == ${cvo.user_id}">
+																	<section>
+																		<img th:src="@{https://rence.s3.ap-northeast-2.amazonaws.com/user/}+${cvo.user_image}"
+																			alt="write-user-img"
+																			class="write-user-img" />
+																	</section>
+																</th:block>
+																<!-- 로그인한 유저와 문의 작성자가 다를 때 기본 이미지-->
+																<th:block th:if="${is_login} != ${cvo.user_id}">
+																	<section>
+																		<img src="https://rence.s3.ap-northeast-2.amazonaws.com/user/img_host_001.jpg"
+																			alt="write-user-img"
+																			class="write-user-img" />
+																	</section>
+																</th:block>
+															</th:block>
+
+															<!-- 비밀 댓글이 아닐 때 때 -->
+															<th:block th:if="${cvo.is_secret} != 'T'">
+																<section>
+																	<img th:src="@{https://rence.s3.ap-northeast-2.amazonaws.com/user/}+${cvo.user_image}"
+																		alt="write-user-img" class="write-user-img" />
+																</section>
+															</th:block>
+														</th:block>
+
+														<!-- 로그인이 안 되어 있을 때 -->
+														<th:block th:if="${is_login} == null">
+															<!-- 비밀 댓글일 때 -->
+															<th:block th:if="${cvo.is_secret} == 'T'">
+																<section>
+																	<img src="https://rence.s3.ap-northeast-2.amazonaws.com/user/img_host_001.jpg"
+																		alt="write-user-img" class="write-user-img" />
+																</section>
+															</th:block>
+															<th:block th:if="${cvo.is_secret} != 'T'">
+																<section>
+																	<img th:src="@{https://rence.s3.ap-northeast-2.amazonaws.com/user/}+${cvo.user_image}"
+																		alt="write-user-img" class="write-user-img" />
+																</section>
+															</th:block>
+														</th:block>
+
+														<section class="quest-content-section">
+															<ul class="quest-content-wrap">
+																<li class="quest-content-list quest-content-writer">
+
+																	<!-- 로그인이 되어 있을 때 -->
+																	<th:block th:if="${is_login} != null">
+
+																		<!-- 비밀 댓글일 때 -->
+																		<th:block th:if="${cvo.is_secret} == 'T'">
+																			<th:block
+																				th:if="${is_login} == ${cvo.user_id}">
+																				<span>[[${ cvo.user_name }]]</span>
+																			</th:block>
+																			<th:block
+																				th:if="${is_login} != ${cvo.user_id}">
+																				<span>비밀댓글</span>
+																			</th:block>
+																		</th:block>
+
+																		<!-- 비밀 댓글이 아닐 때 -->
+																		<th:block th:if="${cvo.is_secret} != 'T'">
+																			<span>[[${ cvo.user_name }]]</span>
+																		</th:block>
+																	</th:block>
+
+																	<!-- 로그인이 안 되어 있을 때 -->
+																	<th:block th:if="${is_login} == null">
+																		<!-- 비밀 댓글일 때 -->
+																		<th:block th:if="${cvo.is_secret} == 'T'">
+																			<span>비밀댓글</span>
+																		</th:block>
+
+																		<!-- 비밀 댓글이 아닐 때 때 -->
+																		<th:block th:if="${cvo.is_secret} != 'T'">
+																			<span>[[${ cvo.user_name }]]</span>
+																		</th:block>
+																	</th:block>
+
+																	<th:block th:if="${cvo.is_secret} == 'T'">
+																		<span class="lock_img">
+																			<img
+																				src="/static/IMG/space-introduce/lock.svg">
+																		</span>
+																	</th:block>
+																</li>
+
+																<!-- 로그인이 되어 있을 때 -->
+																<th:block th:if="${is_login} != null">
+																	<!-- 비밀 댓글일 때 -->
+																	<th:block th:if="${cvo.is_secret} == 'T'">
+																		<th:block th:if="${is_login} == ${cvo.user_id}">
+																			<li
+																				class="quest-content-list quest-content">
+																				[[${cvo.comment_content}]]
+																			</li>
+																		</th:block>
+																		<th:block th:if="${is_login} != ${cvo.user_id}">
+																			<li
+																				class="quest-content-list quest-content">
+																				비밀 문의입니다.</li>
+																		</th:block>
+																	</th:block>
+
+																	<th:block th:if="${cvo.is_secret} != 'T'">
+																		<li class="quest-content-list quest-content">
+																			[[${cvo.comment_content}]]
+																		</li>
+																	</th:block>
+																</th:block>
+
+																<!-- 로그인이 안 되어 있을 때 -->
+																<th:block th:if="${is_login} == null">
+																	<!-- 비밀 댓글일 때 -->
+																	<th:block th:if="${cvo.is_secret} == 'T'">
+																		<li class="quest-content-list quest-content">비밀
+																			문의입니다.</li>
+																	</th:block>
+
+																	<th:block th:if="${cvo.is_secret} != 'T'">
+																		<li class="quest-content-list quest-content">
+																			[[${cvo.comment_content}]]</li>
+																	</th:block>
+																</th:block>
+
+
+																<li class="quest-content-list quest-content-date">
+																	[[${ cvo.comment_date }]]
+																	<th:block th:if="${cvo.answer_date} != null">
+																		<span class="answer_toggle">답변 보기</span>
+																	</th:block>
+																</li>
+															</ul>
+														</section>
+													</li>
+													<th:block th:if="${cvo.answer_date} != null">
+														<li class="answer-list blind">
+															<div class="answer_arrow_img">
+																<img src="/static/IMG/space-introduce/answer_arrow.svg">
+															</div>
+															<div class="answer_text_wrap">
+																<section>
+																	<img src="https://rence.s3.ap-northeast-2.amazonaws.com/user/img_host_001.jpg"
+																		alt="write-user-img" class="write-user-img" />
+																</section>
+																<section class="answer-content-section">
+																	<ul class="answer-content-wrap">
+																		<li
+																			class="answer-content-list answer-content-writer">
+																			HOST</li>
+																		<li class="answer-content-list answer-content">
+																			[[${
+																			cvo.answer_content}]]</li>
+																		<li
+																			class="answer-content-list answer-content-date">
+																			[[${cvo.answer_date}]]</li>
+																	</ul>
+																</section>
+															</div>
+														</li>
+													</th:block>
+												</th:block>
 											</ul>
 										</section>
 									</li>
@@ -376,7 +534,8 @@
 						<ul class="custom-select-type blind">
 							<th:block th:each="rvo : ${rvos}">
 								<li class="custom-select-type-list">
-									<span class="room-name" th:attr="room_no=${rvo.room_no}, room_type=${rvo.room_type}">
+									<span class="room-name"
+										th:attr="room_no=${rvo.room_no}, room_type=${rvo.room_type}">
 										[[${rvo.room_name}]] ([[${rvo.room_type}]])
 									</span>
 									<span class="room-price-unit">

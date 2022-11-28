@@ -1,7 +1,8 @@
+
 /**
-	 * @author 강경석
-	 *  회원가입 처리 컨트롤러
-	 */
+* @author 강경석
+* 회원가입 처리 컨트롤러
+*/
 
 package com.rence.user.controller;
 
@@ -57,7 +58,7 @@ public class UserJoinController {
 	//자동 개행 및 줄 바꿈 (new Gson은 일자로 나옴)
 	Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	
-	
+	//데이터 표현 타입 설정
 	@InitBinder
 	protected void initBinder(WebDataBinder binder) {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -88,7 +89,6 @@ public class UserJoinController {
 		
 		
 		// 탈퇴한 회원의 이메일로 재가입 가능
-//		if(emailCheck==null || emailCheck.getUser_state() == "N   ") {
 		if(emailCheck==null || emailCheck.getUser_state().equalsIgnoreCase("N   ")) {
 			avo.setUser_email(uvo.getUser_email());
 			log.info("avo :   {}", avo);
@@ -98,19 +98,21 @@ public class UserJoinController {
 			if (avo !=null) {
 				//avo2 = auth 테이블에 정보 저장 후, select 해온 결과값
 				int auth_selectCnt = service.user_auth_selectCnt(avo);
-				log.info("auth_selectCnt:{}",auth_selectCnt);
-				AuthVO avo2 = service.user_auth_insert(avo);
-				log.info("user_auth successed...");
-				log.info("avo2:{}",avo2);
-				
-				map.put("authNum", "1");
-				
 				if ( auth_selectCnt > 0) {
 					//인증번호 재전송 시간전에 재요청시
 					log.info("user_auth Re-try authentication");
 					
 					map.put("authNum", "3");
 				}	
+				else {
+					log.info("auth_selectCnt:{}",auth_selectCnt);
+					AuthVO avo2 = service.user_auth_insert(avo);
+					log.info("user_auth successed...");
+					log.info("avo2:{}",avo2);
+					
+					map.put("authNum", "1");
+				}
+				
 			} 
 			else {
 				log.info("user_auth failed...");
@@ -151,8 +153,7 @@ public class UserJoinController {
 	    	log.info("failed...");
 	    	map.put("result", "0");
 	    }
-	    
-	    
+
 	    String jsonObject = gson.toJson(map);
 		return jsonObject;
 	}
@@ -177,10 +178,8 @@ public class UserJoinController {
 		}else {
 			// uvo가 null이 아니면 아이디 존재
 			map.put("result", "0"); // 아이디 존재("NOT OK")
-			
 		}
 
-		
 		String jsonObject = gson.toJson(map);
 		return jsonObject;
 	}
@@ -202,7 +201,6 @@ public class UserJoinController {
 		if(result==0) {
 			//회원가입실패
 			map.put("result", "0"); 
-			
 		}
 		else {
 			UserVO uvo2 = service.user_select_userno();
@@ -210,12 +208,11 @@ public class UserJoinController {
 			int result2 = service.user_mileage_zero_insert(uvo2);
 			if(result2 == 0) {
 				//회원가입은 했지만 마일리지 데이터가 안들어갔으므로 실패
-//				jsonObject.put("result", "0");
+				map.put("result", "0");
 			}
 			log.info("result2: {}", result2);
 			map.put("result", "1"); 
 		}
-
 		
 		String jsonObject = gson.toJson(map);
 		return jsonObject;

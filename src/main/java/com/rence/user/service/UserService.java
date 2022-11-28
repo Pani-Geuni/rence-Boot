@@ -8,7 +8,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.rence.backoffice.model.AuthVO;
-import com.rence.user.model.UserAuthVO;
 import com.rence.user.model.UserVO;
 import com.rence.user.repository.UserAuthRepository;
 import com.rence.user.repository.UserRepository;
@@ -17,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class UserService implements UserDetailsService {
+public class UserService{
 
 	@Autowired
 	UserRepository repository;
@@ -25,23 +24,13 @@ public class UserService implements UserDetailsService {
 	@Autowired
 	UserAuthRepository authRepository;
 
-	@Override
-	public UserDetails loadUserByUsername(String user_id) throws UsernameNotFoundException {
-		UserVO member = repository.findByUser_email(user_id);
-		log.info("member:{}", member);
 
-		if (member == null)
-			throw new UsernameNotFoundException("Not founc account.");
-
-		return member;
-	}
 
 	// 로그인
-	public UserVO User_loginOK(UserVO uvo) {
-		log.info("User_loginOK()....");
-		log.info("uvo: {}", uvo);
-		return repository.user_loginOK(uvo.getUser_id(), uvo.getUser_pw());
-	}
+		public UserVO user_login_info(String username) {
+			log.info("user_login_info()....");
+			return repository.user_login_info(username);
+		}
 
 	// 아이디 찾기
 	public UserVO user_email_select(UserVO uvo) {
@@ -154,11 +143,6 @@ public class UserService implements UserDetailsService {
 		log.info("user_insertOK()....");
 		log.info("uvo: {}", uvo2);
 		return repository.user_mileage_zero_insert(uvo2.getUser_no());
-	}
-
-	public UserVO user_login_info(String username) {
-		log.info("user_login_info()....");
-		return repository.user_login_info(username);
 	}
 
 	

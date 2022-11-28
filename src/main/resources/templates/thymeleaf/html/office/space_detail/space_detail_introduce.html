@@ -543,7 +543,8 @@
 						<ul class="custom-select-type blind">
 							<th:block th:each="rvo : ${rvos}">
 								<li class="custom-select-type-list">
-									<span class="room-name" th:attr="room_no=${rvo.room_no}, room_type=${rvo.room_type}"> 
+									<span class="room-name"
+										th:attr="room_no=${rvo.room_no}, room_type=${rvo.room_type}">
 										[[${ rvo.room_name }]] ([[${ rvo.room_type }]])
 									</span>
 									<span class="room-price-unit">
