@@ -142,11 +142,11 @@ public class OfficeController {
 		// 리스트 수
 		long total_rowCount_question_all = service.total_rowCount_question_all(backoffice_no);
 		log.info("total_rowCount_question_all: {}", total_rowCount_question_all);
-		
+
 		// 총 페이징 되는 수
 		long totalPageCnt = (long) Math.ceil(total_rowCount_question_all / 4.0);
 		log.info("totalPageCnt: {}", totalPageCnt);
-		
+
 		long nowPage = page;
 
 		long maxPage = 0;
@@ -164,7 +164,7 @@ public class OfficeController {
 				maxPage = nowPage;
 			}
 		}
-		
+
 		log.info("maxPage: " + maxPage);
 
 		map.put("totalPageCnt", totalPageCnt);
@@ -442,10 +442,10 @@ public class OfficeController {
 	// **********************
 	@ApiOperation(value = "공간 소개 페이지 로드 (오피스)", notes = "오피스 공간 소개 페이지 로드하는 컨트롤러")
 	@GetMapping(value = "/space_introduce_office")
-	public String space_intruduce_office(BackOfficeVO bvo, String introduce_menu, 
+	public String space_intruduce_office(BackOfficeVO bvo, String introduce_menu,
 			@RequestParam(value = "page", defaultValue = "1") Integer page, Model model) {
 
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, Object> map = new HashMap<String, Object>();
 
 		OfficeInfoMap info_map = new OfficeInfoMap();
 
@@ -509,11 +509,140 @@ public class OfficeController {
 		log.info("rvos ::::::::::::::: {}", rvos);
 
 		// **************
+		// backoffice 문의
+		// **************
+
+		// 페이징 처리 로직
+		// 리스트 수
+		long total_rowCount_question_all = service.total_rowCount_question_all(backoffice_no);
+		log.info("total_rowCount_question_all: {}", total_rowCount_question_all);
+
+		// 총 페이징 되는 수
+		long totalPageCnt = (long) Math.ceil(total_rowCount_question_all / 4.0);
+		log.info("totalPageCnt: {}", totalPageCnt);
+
+		long nowPage = page;
+
+		long maxPage = 0;
+
+		if (nowPage % 5 != 0) {
+			if (nowPage == totalPageCnt) {
+				maxPage = nowPage;
+			} else if (((nowPage / 5) + 1) * 5 >= totalPageCnt) {
+				maxPage = totalPageCnt;
+			} else if (((nowPage / 5) + 1) * 5 < totalPageCnt) {
+				maxPage = ((nowPage / 5) + 1) * 5;
+			}
+		} else if (nowPage % 5 == 0) {
+			if (nowPage <= totalPageCnt) {
+				maxPage = nowPage;
+			}
+		}
+
+		log.info("maxPage: " + maxPage);
+
+		map.put("totalPageCnt", totalPageCnt);
+		map.put("nowPage", nowPage);
+		map.put("maxPage", maxPage);
+
+		// 페이징 처리 계산 로직 끝
+
+		List<OfficeQuestionVO> cvos = service.select_all_comment(backoffice_no, page);
+
+		String is_login = (String) session.getAttribute("user_id");
+
+		if (cvos != null) {
+			for (OfficeQuestionVO vo : cvos) {
+
+				log.info("is_login :::::::::: {}", is_login);
+				log.info("user_no :::::::::: {}", vo.getUser_id());
+
+				OfficeQuestionVO vo2 = service.select_one_answer(vo.getComment_no());
+				if (vo2 != null) {
+					if (vo.getIs_secret() == null) {
+
+						vo.setAnswer_content(vo2.getComment_content());
+						vo.setAnswer_date(vo2.getComment_date());
+						vo.setComment_state("Y");
+					}
+				} else {
+					vo.setComment_state("N");
+				}
+
+				// 이름 마스킹
+				String originName = vo.getUser_name();
+				String firstName = originName.substring(0, 1);
+				String midName = originName.substring(1, originName.length() - 1);
+
+				String maskingMidName = "";
+				for (int i = 0; i < midName.length(); i++) {
+					maskingMidName += "*";
+				}
+
+				String lastName = originName.substring(originName.length() - 1, originName.length());
+
+				String maskingName = firstName + maskingMidName + lastName;
+
+				vo.setUser_name(maskingName);
+			}
+		}
+
+		// **************
 		// backoffice 후기
 		// **************
-		
-		
+
+		// 페이징 처리 로직
+		// 리스트 수
+		long total_rowCount_review_all2 = service.total_rowCount_question_all(backoffice_no);
+
+		// 총 페이징 되는 수
+		long totalPageCnt2 = (long) Math.ceil(total_rowCount_review_all2 / 4.0);
+
+		long nowPage2 = page;
+
+		long maxPage2 = 0;
+
+		if (nowPage % 5 != 0) {
+			if (nowPage == totalPageCnt) {
+				maxPage = nowPage;
+			} else if (((nowPage / 5) + 1) * 5 >= totalPageCnt) {
+				maxPage = totalPageCnt;
+			} else if (((nowPage / 5) + 1) * 5 < totalPageCnt) {
+				maxPage = ((nowPage / 5) + 1) * 5;
+			}
+		} else if (nowPage % 5 == 0) {
+			if (nowPage <= totalPageCnt) {
+				maxPage = nowPage;
+			}
+		}
+
+		map.put("totalPageCnt2", totalPageCnt2);
+		map.put("nowPage2", nowPage2);
+		map.put("maxPage2", maxPage2);
+		map.put("page", "space_introduce_detail");
+
+		// 페이징 처리 계산 로직 끝
+
 		List<OfficeReviewVO> revos = service.select_all_review(backoffice_no, page);
+
+		for (OfficeReviewVO vo : revos) {
+
+			// 이름 마스킹
+			String originName = vo.getUser_name();
+			String firstName = originName.substring(0, 1);
+			String midName = originName.substring(1, originName.length() - 1);
+
+			String maskingMidName = "";
+			for (int i = 0; i < midName.length(); i++) {
+				maskingMidName += "*";
+			}
+
+			String lastName = originName.substring(originName.length() - 1, originName.length());
+
+			String maskingName = firstName + maskingMidName + lastName;
+
+			vo.setUser_name(maskingName);
+		}
 
 		// backoffice 기본 정보
 		model.addAttribute("page", "space_introduce_detail_office");
@@ -532,35 +661,20 @@ public class OfficeController {
 		// backoffice 운영 공간
 		model.addAttribute("rvos", rvos);
 
+		// backoffice 문의
+		model.addAttribute("is_login", is_login);
+		model.addAttribute("cvos", cvos);
+		model.addAttribute("cvos_cnt", cvos.size());
+
+		// backoffice 후기
+		model.addAttribute("revos", revos);
+		model.addAttribute("review_cnt", revos.size());
+
 		model.addAttribute("content", "thymeleaf/html/office/space_detail/space_detail_introduce_office");
 		model.addAttribute("title", "공간 상세 페이지");
 
 		return "thymeleaf/layouts/office/layout_base";
 	}
-
-	// **********************
-	// 공간 예약 체크
-	// **********************
-//	@ApiOperation(value="공간 예약 체크 컨트롤러", notes="해당 공간에 원하는 시간에 예약이 가능한지 확인해주는 컨트롤러")
-//	@RequestMapping(value = "/office/reserve_checkOK", method = RequestMethod.POST)
-//	@ResponseBody
-//	public JSONObject reserve_checkOK(OfficeReserveVO rvo) throws ParseException {
-//		
-//		JSONObject jsonObject = new JSONObject();
-//		
-//		int result = service.check_reserve(rvo);
-//		
-//		String reserve_no = service.select_one_last_reserve(rvo.getUser_no());
-//		
-//		if (result == 1) {
-//			jsonObject.put("result", "1");
-//			jsonObject.put("reserve_no", reserve_no);
-//		} else {
-//			jsonObject.put("result", "0");
-//		}
-//		
-//		return jsonObject;
-//	}
 
 	// **********************
 	// 공간 결제 페이지
@@ -658,7 +772,7 @@ public class OfficeController {
 				mileage_change = 0;
 			} else if (pvo.getPayment_state().equals("T")) {
 				// 선결제만 마일리지 적립
-				mileage_change = (int) ((pvo.getPayment_total()) * 0.05);				
+				mileage_change = (int) ((pvo.getPayment_total()) * 0.05);
 			}
 
 			mvo2.setMileage_total(mileage_total);
@@ -676,7 +790,7 @@ public class OfficeController {
 
 			mileage_change = pvo.getUse_mileage();
 			mileage_total -= mileage_change;
-			
+
 			mvo2.setMileage_total(mileage_total);
 			mvo2.setUser_no(pvo.getUser_no());
 			mvo2.setMileage_change(mileage_change);
@@ -688,13 +802,13 @@ public class OfficeController {
 
 			// 마일리지 사용 후 해당 결제 건에 대한 마일리지 적립 로직
 			mvo2.setMileage_state("W");
-			
+
 			if (pvo.getPayment_state().equals("F")) {
 				mileage_change = 0;
 			} else if (pvo.getPayment_state().equals("T")) {
-				mileage_change = (int) ((pvo.getPayment_total()) * 0.05);				
+				mileage_change = (int) ((pvo.getPayment_total()) * 0.05);
 			}
-			
+
 			mvo2.setMileage_change(mileage_change);
 
 			result_mileage = service.insert_mileage_changed(mvo2);
