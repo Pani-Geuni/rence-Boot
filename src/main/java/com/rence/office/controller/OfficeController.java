@@ -241,6 +241,7 @@ public class OfficeController {
 		map.put("totalPageCnt", totalPageCnt2);
 		map.put("nowPage", nowPage2);
 		map.put("maxPage", maxPage2);
+		map.put("page", "space_introduce_detail");
 
 		// 페이징 처리 계산 로직 끝
 
@@ -267,7 +268,6 @@ public class OfficeController {
 
 		// backoffice 기본 정보
 		model.addAttribute("res", map);
-		model.addAttribute("page", "space_introduce_detail");
 		model.addAttribute("ovo", ovo);
 		model.addAttribute("short_roadname_address", short_roadname_address);
 		model.addAttribute("type_list", type_list);

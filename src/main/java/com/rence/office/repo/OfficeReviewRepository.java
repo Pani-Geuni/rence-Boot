@@ -17,7 +17,7 @@ public interface OfficeReviewRepository extends JpaRepository<OfficeReviewVO, Ob
 					+ "select * "
 					+ "from review_list_view "
 					+ "where backoffice_no=?1 "
-					+ "order by comment_no desc) c "
+					+ ") c "
 					+ ") where rn between ?2 and ?3")
 	public List<OfficeReviewVO> select_all_review(String backoffice_no, Integer start_row, Integer end_row);
 	
