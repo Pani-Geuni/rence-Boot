@@ -582,16 +582,16 @@ public class OfficeController {
 		int mileage_change = 0;
 		
 		OfficeMileageVO mvo2 = new OfficeMileageVO();
-		int mileage_total = 0;
+		int mileage_total = mvo.getMileage_total();
 		
 		if (pvo.getUse_mileage() == 0) {
 			mvo2.setMileage_state("W");
 			mileage_change = (int) (pvo.getPayment_total() * 0.05);
-			mileage_total = mvo.getMileage_total() + mileage_change;
 		} else {
 			mvo2.setMileage_state("F");
+			// 마일리지 사용
 			mileage_change = pvo.getUse_mileage();
-			mileage_total = mvo.getMileage_total() - mileage_change;
+			mileage_total -= mileage_change;
 		}
 		
 		mvo2.setMileage_total(mileage_total);
