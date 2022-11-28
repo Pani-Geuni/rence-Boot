@@ -15,6 +15,9 @@ import com.rence.user.model.UserAuthVO;
 
 public interface UserAuthRepository extends JpaRepository<UserAuthVO, Object> {
 
+	
+	
+	
 	//auth테이블 정보 가져오기
 	@Query(nativeQuery = true, 
 	value="select * from(select * from auth where user_email=?1 order by auth_no desc) where rownum <= 1")
@@ -29,6 +32,13 @@ public interface UserAuthRepository extends JpaRepository<UserAuthVO, Object> {
 //	@Query(
 //			value="SELECT t from (SELECT t.auth_no, t.auth_code, t.user_email from UserAuthVO t where t.user_email=?1 order by rownum desc) where rownum <= 1")
 //	public UserAuthVO auth_select(String user_email);
+	
+	
+	//인증번호 재전송 관련 테이블 컬럼 중복확인
+	@Query(nativeQuery = true, 
+	value="select count(*) from auth where user_email=?1 order by auth_no desc")
+	public int user_auth_selectCnt(String user_email);
+	
 	
 	@Transactional
 	@Modifying

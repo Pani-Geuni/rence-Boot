@@ -89,7 +89,7 @@ public class MasterEntity implements Serializable, UserDetails {
 //		for(String role : auth.split(",")) {
 //			roles.add(new SimpleGrantedAuthority("role"));
 //		}
-		return roles;
+		return null;
 	}
 
 

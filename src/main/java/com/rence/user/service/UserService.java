@@ -63,6 +63,7 @@ public class UserService implements UserDetailsService {
 		// 비밀번호 암호화
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		uvo.setUser_pw(encoder.encode(uvo.getPassword()));
+		log.info("uvo: {}", uvo);
 		
 		return repository.user_pw_init(uvo.getUser_pw(), uvo.getUser_id());
 	}
@@ -91,6 +92,14 @@ public class UserService implements UserDetailsService {
 		}
 
 		return avo2;
+	}
+	
+	//인증번호 재전송 관련 테이블 컬럼 중복확인
+	public int user_auth_selectCnt(UserAuthVO avo) {
+		log.info("user_auth_selectAll()....");
+		log.info("avo: {}", avo);
+		
+		return authRepository.user_auth_selectCnt(avo.getUser_email());
 	}
 
 	// 이메일 인증번호 확인
@@ -149,5 +158,7 @@ public class UserService implements UserDetailsService {
 		log.info("user_login_info()....");
 		return repository.user_login_info(username);
 	}
+
+	
 
 }// end class

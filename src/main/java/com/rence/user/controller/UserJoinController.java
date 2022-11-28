@@ -14,25 +14,20 @@ import java.util.Map;
 
 import javax.servlet.ServletContext;
 
-import org.json.simple.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.rence.user.model.UserAuthVO;
 import com.rence.user.model.EmailVO;
+import com.rence.user.model.UserAuthVO;
 import com.rence.user.model.UserVO;
 import com.rence.user.service.UserFileuploadService;
 import com.rence.user.service.UserService;
@@ -49,7 +44,6 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/rence")
 public class UserJoinController {
-	private static final Logger logger = LoggerFactory.getLogger(UserJoinController.class);
 
 	@Autowired
 	UserService service;
@@ -82,41 +76,50 @@ public class UserJoinController {
 	@ResponseBody
 	@Transactional
 	public String user_auth(UserAuthVO avo, UserVO uvo, EmailVO evo) {
-		logger.info("Welcome user_auth");
-		logger.info("{}", uvo);
+		log.info("Welcome user_auth");
+		log.info("{}", uvo);
 		
 		Map<String, String> map = new HashMap<String, String>();
 
 		
 		//이메일 중복 체크
 		UserVO emailCheck = service.emailCheckOK(uvo);
-		logger.info("emailCheck: {}", emailCheck);
+		log.info("emailCheck: {}", emailCheck);
 		
 		
 		// 탈퇴한 회원의 이메일로 재가입 가능
 //		if(emailCheck==null || emailCheck.getUser_state() == "N   ") {
 		if(emailCheck==null || emailCheck.getUser_state().equalsIgnoreCase("N   ")) {
 			avo.setUser_email(uvo.getUser_email());
-			logger.info("avo :   {}", avo);
+			log.info("avo :   {}", avo);
 			//이메일 전송
 			avo = authSendEmail.sendEmail(avo,evo);
-			logger.info("메일이 전송되었습니다.C_avo: {}",avo);
+			log.info("메일이 전송되었습니다.C_avo: {}",avo);
 			if (avo !=null) {
 				//avo2 = auth 테이블에 정보 저장 후, select 해온 결과값
+				int auth_selectCnt = service.user_auth_selectCnt(avo);
+				log.info("auth_selectCnt:{}",auth_selectCnt);
 				UserAuthVO avo2 = service.user_auth_insert(avo);
-				logger.info("user_auth successed...");
-				logger.info("avo2:{}",avo2);
+				log.info("user_auth successed...");
+				log.info("avo2:{}",avo2);
 				
 				map.put("authNum", "1");
 				
-			}else {
-				logger.info("user_auth failed...");
+				if ( auth_selectCnt >= 2) {
+					//인증번호 재전송 시간전에 재요청시
+					log.info("user_auth Re-try authentication");
+					
+					map.put("authNum", "3");
+				}	
+			} 
+			else {
+				log.info("user_auth failed...");
 				map.put("authNum", "0");
 			}
 		}
 		//이메일 중복체크시 이메일이 있으면 2
 		else {
-			logger.info("user_auth failed...(email check NOT OK)");
+			log.info("user_auth failed...(email check NOT OK)");
 			map.put("authNum", "2");
 		}
 		String jsonObject = gson.toJson(map);
@@ -133,19 +136,19 @@ public class UserJoinController {
 	@Transactional
 	public String user_authOK(String user_email, String email_code) {
 		
-		logger.info("Welcome user_authOK");
-		logger.info("{}", email_code);
+		log.info("Welcome user_authOK");
+		log.info("{}", email_code);
 		 
 		UserAuthVO avo = service.user_authOK_select(user_email, email_code);
-		logger.info("avo: {}", avo);
+		log.info("avo: {}", avo);
 		Map<String, String> map = new HashMap<String, String>();
 
 	    if(avo != null){
-	    	logger.info("successed...");
+	    	log.info("successed...");
 	    	int result = service.user_auth_delete(user_email, email_code);
 	    	map.put("result", "1");
 	    }else{
-	    	logger.info("failed...");
+	    	log.info("failed...");
 	    	map.put("result", "0");
 	    }
 	    
@@ -159,15 +162,15 @@ public class UserJoinController {
 	@PostMapping("/user_idCheckOK")
 	@ResponseBody
 	public String user_idCheckOK(UserVO uvo) {
-		logger.info("Welcome! user_idCheckOK");
-		logger.info("result: {}", uvo);
+		log.info("Welcome! user_idCheckOK");
+		log.info("result: {}", uvo);
 		
 		
 		Map<String, String> map = new HashMap<String, String>();
 		
 
 		UserVO idCheck = service.idCheckOK(uvo);
-		logger.info("idlCheck: {}", idCheck);
+		log.info("idlCheck: {}", idCheck);
 
 		if(idCheck==null || idCheck.getUser_state().equalsIgnoreCase("N   ")) {
 			map.put("result", "1"); // 아이디 사용가능("OK")			
@@ -187,13 +190,13 @@ public class UserJoinController {
 	@PostMapping("/joinOK")
 	@ResponseBody
 	public String user_joinOK(UserVO uvo) {
-		logger.info("Welcome! user_joinOK");
-		logger.info("result: {}", uvo);
+		log.info("Welcome! user_joinOK");
+		log.info("result: {}", uvo);
 
 		Map<String, String> map = new HashMap<String, String>();
 		// insert(성공시 1)
 		int result = service.user_insertOK(uvo);
-		logger.info("result: {}", result);
+		log.info("result: {}", result);
 		
 		//회원가입 실패시
 		if(result==0) {
@@ -203,13 +206,13 @@ public class UserJoinController {
 		}
 		else {
 			UserVO uvo2 = service.user_select_userno();
-			logger.info("uvo2: {}", uvo2);
+			log.info("uvo2: {}", uvo2);
 			int result2 = service.user_mileage_zero_insert(uvo2);
 			if(result2 == 0) {
 				//회원가입은 했지만 마일리지 데이터가 안들어갔으므로 실패
 //				jsonObject.put("result", "0");
 			}
-			logger.info("result2: {}", result2);
+			log.info("result2: {}", result2);
 			map.put("result", "1"); 
 		}
 
