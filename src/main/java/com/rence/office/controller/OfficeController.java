@@ -219,28 +219,33 @@ public class OfficeController {
 
 		// 페이징 처리 로직
 		// 리스트 수
-		long total_rowCount_review_all2 = service.total_rowCount_question_all(backoffice_no);
+		long total_rowCount_review_all2 = service.total_rowCount_review_all(backoffice_no);
 
 		// 총 페이징 되는 수
 		long totalPageCnt2 = (long) Math.ceil(total_rowCount_review_all2 / 4.0);
-
+		log.info("totalPageCnt: {}", totalPageCnt2);
+		
 		long nowPage2 = page;
-
+		log.info("nowPage2: {}", nowPage2);
+		
 		long maxPage2 = 0;
+		log.info("maxPage2 : {}", maxPage2);
 
-		if (nowPage % 5 != 0) {
-			if (nowPage == totalPageCnt) {
-				maxPage = nowPage;
-			} else if (((nowPage / 5) + 1) * 5 >= totalPageCnt) {
-				maxPage = totalPageCnt;
-			} else if (((nowPage / 5) + 1) * 5 < totalPageCnt) {
-				maxPage = ((nowPage / 5) + 1) * 5;
+		if (nowPage2 % 5 != 0) {
+			if (nowPage2 == totalPageCnt2) {
+				maxPage2 = nowPage2;
+			} else if (((nowPage2 / 5) + 1) * 5 >= totalPageCnt2) {
+				maxPage2 = totalPageCnt2;
+			} else if (((nowPage2 / 5) + 1) * 5 < totalPageCnt2) {
+				maxPage2 = ((nowPage2 / 5) + 1) * 5;
 			}
-		} else if (nowPage % 5 == 0) {
-			if (nowPage <= totalPageCnt) {
-				maxPage = nowPage;
+		} else if (nowPage2 % 5 == 0) {
+			if (nowPage2 <= totalPageCnt2) {
+				maxPage2 = nowPage2;
 			}
 		}
+		
+		log.info("maxPage2 : {}", maxPage2);
 
 		map.put("totalPageCnt2", totalPageCnt2);
 		map.put("nowPage2", nowPage2);
@@ -250,7 +255,7 @@ public class OfficeController {
 		// 페이징 처리 계산 로직 끝
 
 		List<OfficeReviewVO> revos = service.select_all_review(backoffice_no, page);
-
+		
 		for (OfficeReviewVO vo : revos) {
 
 			// 이름 마스킹
@@ -291,11 +296,11 @@ public class OfficeController {
 		// backoffice 문의
 		model.addAttribute("is_login", is_login);
 		model.addAttribute("cvos", cvos);
-		model.addAttribute("cvos_cnt", cvos.size());
+		model.addAttribute("cvos_cnt", total_rowCount_question_all);
 
 		// backoffice 후기
 		model.addAttribute("revos", revos);
-		model.addAttribute("review_cnt", revos.size());
+		model.addAttribute("review_cnt", total_rowCount_review_all2);
 
 		model.addAttribute("page", "space_detail");
 		model.addAttribute("content", "thymeleaf/html/office/space_detail/space_detail_introduce");
