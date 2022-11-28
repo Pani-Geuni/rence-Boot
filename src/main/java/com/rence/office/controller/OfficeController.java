@@ -22,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
@@ -68,7 +69,8 @@ public class OfficeController {
 	 */
 	@ApiOperation(value = "공간 소개 페이지 로드 (데스크,회의실)", notes = "데스크 / 회의실 공간 소개 페이지 로드하는 컨트롤러")
 	@GetMapping(value = "/space_introduce")
-	public String space_intruduce(BackOfficeVO bvo, String introduce_menu, Model model) {
+	public String space_intruduce(BackOfficeVO bvo, String introduce_menu,
+			@RequestParam(value = "page", defaultValue = "1") Integer page, Model model) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -135,7 +137,39 @@ public class OfficeController {
 		// **************
 		// backoffice 문의
 		// **************
-		List<OfficeQuestionVO> cvos = service.select_all_comment(backoffice_no);
+
+		// 페이징 처리 로직
+		// 리스트 수
+		long total_rowCount_question_all = service.total_rowCount_question_all(backoffice_no);
+
+		// 총 페이징 되는 수
+		long totalPageCnt = (long) Math.ceil(total_rowCount_question_all / 4.0);
+
+		long nowPage = page;
+
+		long maxPage = 0;
+
+		if (nowPage % 5 != 0) {
+			if (nowPage == totalPageCnt) {
+				maxPage = nowPage;
+			} else if (((nowPage / 5) + 1) * 5 >= totalPageCnt) {
+				maxPage = totalPageCnt;
+			} else if (((nowPage / 5) + 1) * 5 < totalPageCnt) {
+				maxPage = ((nowPage / 5) + 1) * 5;
+			}
+		} else if (nowPage % 5 == 0) {
+			if (nowPage <= totalPageCnt) {
+				maxPage = nowPage;
+			}
+		}
+
+		map.put("totalPageCnt", totalPageCnt);
+		map.put("nowPage", nowPage);
+		map.put("maxPage", maxPage);
+
+		// 페이징 처리 계산 로직 끝
+
+		List<OfficeQuestionVO> cvos = service.select_all_comment(backoffice_no, page);
 
 		String is_login = (String) session.getAttribute("user_id");
 
@@ -178,7 +212,39 @@ public class OfficeController {
 		// **************
 		// backoffice 후기
 		// **************
-		List<OfficeReviewVO> revos = service.select_all_review(backoffice_no);
+
+		// 페이징 처리 로직
+		// 리스트 수
+		long total_rowCount_review_all2 = service.total_rowCount_question_all(backoffice_no);
+
+		// 총 페이징 되는 수
+		long totalPageCnt2 = (long) Math.ceil(total_rowCount_review_all2 / 4.0);
+
+		long nowPage2 = page;
+
+		long maxPage2 = 0;
+
+		if (nowPage % 5 != 0) {
+			if (nowPage == totalPageCnt) {
+				maxPage = nowPage;
+			} else if (((nowPage / 5) + 1) * 5 >= totalPageCnt) {
+				maxPage = totalPageCnt;
+			} else if (((nowPage / 5) + 1) * 5 < totalPageCnt) {
+				maxPage = ((nowPage / 5) + 1) * 5;
+			}
+		} else if (nowPage % 5 == 0) {
+			if (nowPage <= totalPageCnt) {
+				maxPage = nowPage;
+			}
+		}
+
+		map.put("totalPageCnt", totalPageCnt2);
+		map.put("nowPage", nowPage2);
+		map.put("maxPage", maxPage2);
+
+		// 페이징 처리 계산 로직 끝
+
+		List<OfficeReviewVO> revos = service.select_all_review(backoffice_no, page);
 
 		for (OfficeReviewVO vo : revos) {
 
@@ -200,6 +266,7 @@ public class OfficeController {
 		}
 
 		// backoffice 기본 정보
+		model.addAttribute("res", map);
 		model.addAttribute("page", "space_introduce_detail");
 		model.addAttribute("ovo", ovo);
 		model.addAttribute("short_roadname_address", short_roadname_address);
@@ -265,64 +332,63 @@ public class OfficeController {
 
 		return json;
 	}
-	
+
 	@SuppressWarnings("unlikely-arg-type")
 	@ApiOperation(value = "예약 가능 확인 여부 (오피스)", notes = "선택한 공간과 시간에 예약이 존재하는지 확인하는 컨트롤러")
 	@GetMapping(value = "/office_reserve_check")
 	@ResponseBody
-	public String office_reserve_check(String backoffice_no, String room_no, String reserve_stime, String reserve_etime, Model model) throws ParseException {
-		
+	public String office_reserve_check(String backoffice_no, String room_no, String reserve_stime, String reserve_etime,
+			Model model) throws ParseException {
+
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+
 		List<OfficeReserveVO> vos = service.check_reserve_office(backoffice_no, room_no);
-		
+
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-		
+
 		log.info("+++++");
 		System.out.println(backoffice_no + " " + room_no + " " + reserve_stime + " " + reserve_etime);
-		
-		Date reserve_sdate = formatter.parse(reserve_stime); 
+
+		Date reserve_sdate = formatter.parse(reserve_stime);
 		Date reserve_edate = formatter.parse(reserve_etime);
-		
+
 		int reserve_flag = 0;
-		
+
 		for (OfficeReserveVO vo : vos) {
 			log.info("first vo : {}", vo);
 			vo.setReserve_sdate(vo.getReserve_sdate().split(" ")[0]);
 			vo.setReserve_sdate(vo.getReserve_sdate().replace("-", "/"));
 			vo.setReserve_edate(vo.getReserve_edate().split(" ")[0]);
 			vo.setReserve_edate(vo.getReserve_edate().replace("-", "/"));
-			
+
 			Date sdate = formatter.parse(vo.getReserve_sdate());
 			Date edate = formatter.parse(vo.getReserve_edate());
-			
+
 			int compareSdate1 = reserve_sdate.compareTo(sdate);
 			int compareEdate1 = reserve_edate.compareTo(sdate);
 			int compareSdate2 = reserve_sdate.compareTo(edate);
 			int compareEdate2 = reserve_edate.compareTo(edate);
-			
+
 			log.info("compare : {} {} {}", reserve_sdate, sdate, edate);
 			log.info("compare result : {} {}", compareSdate1, compareEdate1);
 			log.info("compare result : {} {}", compareSdate2, compareEdate2);
-			
-			
+
 			if ((compareSdate1 < 0 && compareEdate1 < 0) || (compareSdate2 > 0 && compareEdate2 > 0)) {
-				reserve_flag = 1;					
+				reserve_flag = 1;
 			} else {
 				reserve_flag = 0;
 				break;
 			}
 		}
-		
+
 		if (reserve_flag == 1) {
 			map.put("result", "1");
 		} else {
 			map.put("result", "0");
 		}
-		
-		
+
 		String json = gson.toJson(map);
-		
+
 		return json;
 	}
 
@@ -334,13 +400,13 @@ public class OfficeController {
 	@ResponseBody
 	public String reserve(OfficeReserveVO rvo) throws ParseException {
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+
 		OfficeReserveVO_date date_vo = new OfficeReserveVO_date();
-		
+
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date reserve_stime = formatter.parse(rvo.getReserve_stime());
 		Date reserve_etime = formatter.parse(rvo.getReserve_etime());
-		
+
 		date_vo.setBackoffice_no(rvo.getBackoffice_no());
 		date_vo.setRoom_no(rvo.getRoom_no());
 		date_vo.setRoom_type(rvo.getRoom_type());
@@ -349,41 +415,38 @@ public class OfficeController {
 		date_vo.setReserve_etime(reserve_etime);
 		date_vo.setReserve_sdate(reserve_stime);
 		date_vo.setReserve_edate(reserve_etime);
-		
+
 		int result = service.confirm_reserve(date_vo);
 		log.info("controller /backoffice/reserve result :: {}", result);
-		
-		
+
 		if (result == 1) {
 			String reserve_no = service.select_one_last_reserve(rvo.getUser_no());
-			
+
 			map.put("result", "1");
 			map.put("reserve_no", reserve_no);
 		} else {
 			map.put("result", "0");
 		}
-		
+
 		String json = gson.toJson(map);
-		
+
 		return json;
 	}
 
-	
-	
 	// **********************
 	// space introduce OFFICE
 	// **********************
-	@ApiOperation(value="공간 소개 페이지 로드 (오피스)", notes="오피스 공간 소개 페이지 로드하는 컨트롤러")
+	@ApiOperation(value = "공간 소개 페이지 로드 (오피스)", notes = "오피스 공간 소개 페이지 로드하는 컨트롤러")
 	@GetMapping(value = "/space_introduce_office")
-	public String space_intruduce_office(BackOfficeVO bvo, String introduce_menu, Model model) {
-		
-		
+	public String space_intruduce_office(BackOfficeVO bvo, String introduce_menu, 
+			@RequestParam(value = "page", defaultValue = "1") Integer page, Model model) {
+
 		Map<String, String> map = new HashMap<String, String>();
-		
+
 		OfficeInfoMap info_map = new OfficeInfoMap();
-		
+
 		String backoffice_no = bvo.getBackoffice_no();
-		
+
 		// ******************
 		// backoffice 기본 정보
 		// ******************
@@ -393,61 +456,61 @@ public class OfficeController {
 		List<String> img_list = new ArrayList<String>();
 		List<String> option_list = new ArrayList<String>();
 		List<String> around_option_list = new ArrayList<String>();
-		
+
 		if (ovo.getBackoffice_type() != null) {
-			type_list = info_map.splitType(ovo.getBackoffice_type());			
+			type_list = info_map.splitType(ovo.getBackoffice_type());
 		} else {
 			type_list.add("타입 없음");
 		}
-		
+
 		if (ovo.getBackoffice_tag() != null) {
-			tag_list = info_map.splitTag(ovo.getBackoffice_tag());			
+			tag_list = info_map.splitTag(ovo.getBackoffice_tag());
 		} else {
 			tag_list.add("옵션 없음");
 		}
-		
+
 		img_list = info_map.splitImage(ovo.getBackoffice_image());
-		
+
 		if (ovo.getBackoffice_option() != null) {
-			option_list = info_map.splitOption(ovo.getBackoffice_option());			
+			option_list = info_map.splitOption(ovo.getBackoffice_option());
 		} else {
 			option_list.add("옵션 없음");
 		}
-		
+
 		if (ovo.getBackoffice_around() != null) {
-			around_option_list = info_map.splitAroundOption(ovo.getBackoffice_around());			
+			around_option_list = info_map.splitAroundOption(ovo.getBackoffice_around());
 		} else {
 			around_option_list.add("주변 시설 없음");
 		}
-		
-		
+
 		String short_roadname_address = info_map.makeShortAddress(ovo.getRoadname_address());
-		
+
 		// ******************
 		// backoffice 운영 시간
 		// ******************
 		OfficeOperatingTimeVO_date dotvo = service.select_one_operating_time(backoffice_no);
-		
+
 		CustomDateFormatter df = new CustomDateFormatter();
 		OfficeOperatingTimeVO otvo = df.showStringOfficeOperating(dotvo);
-		
+
 		// ************************
 		// backoffice 운영 공간(Room)
 		// ************************
 		List<OfficeRoomVO> rvos = service.select_all_room(backoffice_no);
-		
+
 		for (OfficeRoomVO vo : rvos) {
 			vo.setRoom_name(info_map.changeType(vo.getRoom_type()));
 		}
-		
+
 		log.info("rvos ::::::::::::::: {}", rvos);
-		
+
 		// **************
 		// backoffice 후기
 		// **************
-		List<OfficeReviewVO> revos = service.select_all_review(backoffice_no);
-			
 		
+		
+		List<OfficeReviewVO> revos = service.select_all_review(backoffice_no, page);
+
 		// backoffice 기본 정보
 		model.addAttribute("page", "space_introduce_detail_office");
 		model.addAttribute("ovo", ovo);
@@ -458,13 +521,13 @@ public class OfficeController {
 		model.addAttribute("around_option_list", around_option_list);
 		model.addAttribute("short_roadname_address", short_roadname_address);
 		model.addAttribute("page", "space_detail_office");
-		
+
 		// backoffice 운영 시간
 		model.addAttribute("otvo", otvo);
-		
+
 		// backoffice 운영 공간
 		model.addAttribute("rvos", rvos);
-		
+
 		model.addAttribute("content", "thymeleaf/html/office/space_detail/space_detail_introduce_office");
 		model.addAttribute("title", "공간 상세 페이지");
 
@@ -494,157 +557,150 @@ public class OfficeController {
 //		
 //		return jsonObject;
 //	}
-	
+
 	// **********************
 	// 공간 결제 페이지
 	// **********************
-	@ApiOperation(value="결제 페이지 로드 컨트롤러", notes="예약 및 결제하는 페이지 데이터 불러오는 컨트롤러")
+	@ApiOperation(value = "결제 페이지 로드 컨트롤러", notes = "예약 및 결제하는 페이지 데이터 불러오는 컨트롤러")
 	@GetMapping(value = "/payment")
 	public String space_payment(OfficeReserveVO rvo, Model model) throws ParseException {
-		
+
 		String reserve_no = rvo.getReserve_no();
-		
+
 		PaymentInfoVO pvo = service.select_one_final_payment_info(reserve_no);
 		OfficeInfoMap info_map = new OfficeInfoMap();
-		
+
 		pvo.setRoom_type(info_map.changeType(pvo.getRoom_type()));
 		List<String> splitImage = info_map.splitImage(pvo.getBackoffice_image());
 		String room_first_image = splitImage.get(0);
 		pvo.setBackoffice_image(room_first_image);
-		
+
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		
+
 		Date sdate = formatter.parse(pvo.getReserve_stime());
 		Date edate = formatter.parse(pvo.getReserve_etime());
-		
+
 		log.info("sdate : {}", sdate);
 		log.info("edate : {}", edate);
-		
+
 		// diffTime : type이 desk, meeting 일 때, 시간 차이
-		// 				office 일 때 일수 차이
+		// office 일 때 일수 차이
 		long diffTime = 0;
 		int payment_all = 0;
 		int earned_mileage = 0;
-		
+
 		// 사용자 총 예약 시간
 		if (pvo.getRoom_type().equals("오피스")) {
 			long diffSec = (edate.getTime() - sdate.getTime()) / 1000;
 			diffTime = diffSec / (24 * 60 * 60);
-			
+
 		} else {
 			diffTime = (edate.getTime() - sdate.getTime()) / 3600000;
 		}
-		
+
 		// 전체 결제할 금액
-		
+
 		payment_all = (int) diffTime * pvo.getRoom_price();
-		
+
 		earned_mileage = (int) (payment_all * 0.05);
 		log.info("diffTime ::::: {}", diffTime);
-		
+
 		model.addAttribute("pvo", pvo);
 		model.addAttribute("payment_all", payment_all);
 		model.addAttribute("earned_mileage", earned_mileage);
-		
-		
+
 		model.addAttribute("content", "thymeleaf/html/office/reserve/payment_page");
 		model.addAttribute("title", "결제 페이지");
 
 		return "thymeleaf/layouts/office/layout_reserve";
 	}
 
-	@ApiOperation(value="결제 컨트롤러", notes="예약 및 결제하는 페이지 결제 로직 컨트롤러")
+	@ApiOperation(value = "결제 컨트롤러", notes = "예약 및 결제하는 페이지 결제 로직 컨트롤러")
 	@PostMapping(value = "/paymentOK")
 	@ResponseBody
 	public String reserve_paymentOK(OfficePaymentVO pvo, Model model) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+
 		PaymentInfoVO pvo2 = service.select_one_final_payment_info(pvo.getReserve_no());
 		pvo.setRoom_no(pvo2.getRoom_no());
 		pvo.setBackoffice_no(pvo2.getBackoffice_no());
 		pvo.setSales_state("F");
-		
+
 		if (pvo.getPayment_state().equals("F")) {
 			int payment_total = (pvo.getActual_payment() + pvo.getUse_mileage()) * 5;
 			pvo.setPayment_total(payment_total);
 		}
-		
+
 		if (pvo.getUse_mileage() > 0) {
 			pvo.setPayment_total(pvo.getActual_payment() + pvo.getUse_mileage());
 		}
-		
-		
+
 		int result_payment = service.insert_paymentOK(pvo);
 		int result_update_reserve_state = service.update_reserve_state(pvo.getReserve_no());
-		
-		
+
 		OfficeMileageVO mvo = service.select_one_recent_mileage(pvo.getUser_no());
 		int mileage_change = 0;
-		
+
 		OfficeMileageVO mvo2 = new OfficeMileageVO();
 		int mileage_total = mvo.getMileage_total();
-		int result_mileage = 0;	// 마일리지 추가 성공 flag
-		
+		int result_mileage = 0; // 마일리지 추가 성공 flag
+
 		if (pvo.getUse_mileage() == 0) {
 			mvo2.setMileage_state("W");
-			
+
 			if (pvo.getPayment_total() == pvo.getActual_payment()) {
-				mileage_change = (int) (pvo.getPayment_total() * 0.05);				
+				mileage_change = (int) (pvo.getPayment_total() * 0.05);
 			} else {
 				mileage_change = 0;
 			}
-			
+
 			mvo2.setMileage_total(mileage_total);
 			mvo2.setUser_no(pvo.getUser_no());
 			mvo2.setMileage_change(mileage_change);
-			
+
 			OfficePaymentVO pvo3 = service.select_one_recent_payment(pvo.getUser_no());
 			mvo2.setPayment_no(pvo3.getPayment_no());
-			
+
 			result_mileage = service.insert_mileage_changed(mvo2);
-			
+
 		} else {
 			// 마일리지 사용
 			mvo2.setMileage_state("F");
-			
+
 			if (pvo.getPayment_total() == pvo.getActual_payment()) {
 				mileage_change = pvo.getUse_mileage();
 				mileage_total -= mileage_change;
 			} else {
 				mileage_change = 0;
 			}
-			
+
 			mvo2.setMileage_total(mileage_total);
 			mvo2.setUser_no(pvo.getUser_no());
 			mvo2.setMileage_change(mileage_change);
-			
+
 			OfficePaymentVO pvo3 = service.select_one_recent_payment(pvo.getUser_no());
 			mvo2.setPayment_no(pvo3.getPayment_no());
-			
+
 			result_mileage = service.insert_mileage_changed(mvo2);
-			
+
 			// 마일리지 사용 후 해당 결제 건에 대한 마일리지 적립 로직
 			mvo2.setMileage_state("W");
 			log.info(":::::::::::::::::::: {} {}", pvo.getPayment_total(), mileage_change);
 			mileage_change = (int) ((pvo.getPayment_total()) * 0.05);
 			mvo2.setMileage_change(mileage_change);
-			
+
 			result_mileage = service.insert_mileage_changed(mvo2);
 		}
-		
-		
-		
-		
-		
+
 		if (result_payment == 1 && result_update_reserve_state == 1 && result_mileage == 1) {
-			map.put("result", "1");			
+			map.put("result", "1");
 		} else {
 			map.put("result", "0");
 		}
-		
+
 		String json = gson.toJson(map);
-		
+
 		return json;
 	}
 
