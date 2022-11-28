@@ -70,6 +70,7 @@ public class UserController {
 
 		Cookie cookie = new Cookie("user_no", uvo.getUser_no()); // 고유번호 쿠키 저장
 		Cookie cookie2 = new Cookie("user_image", uvo.getUser_image()); // 고유번호 쿠키 저장
+		cookie.setPath("/");
 		cookie2.setPath("/");
 		response.addCookie(cookie);
 		response.addCookie(cookie2);
