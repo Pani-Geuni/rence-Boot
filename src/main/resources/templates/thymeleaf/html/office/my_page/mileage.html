@@ -46,16 +46,18 @@
                 	<ul>
 						<!-- START th:each -->
 						<th:block th:each="obj : ${res.list}">
-                            <li class="mileage-list">
-                                <span th:if="${obj.state} == 'F'" class="list-status ">사용</span>
-                                <span th:if="${obj.state} == 'T'" class="list-status plus-price-label">적립</span>
-                                
-                                <span th:if="${obj.state} == 'T'" class="list-mileage plus-price">+[[${obj.mileage}]]</span>
-                                <span th:if="${obj.state} == 'F'" class="list-mileage minus-price">-[[${obj.mileage}]]</span>
-
-                                <span class="list-content">[[${obj.room}]]</span>
-                                <span class="list-date">[[${obj.date}]]</span>
-                            </li>
+							<th:block th:if="${obj.state} == 'F' or ${obj.state} == 'T'">
+	                            <li class="mileage-list">
+	                                <span th:if="${obj.state} == 'F'" class="list-status ">사용</span>
+	                                <span th:if="${obj.state} == 'T'" class="list-status plus-price-label">적립</span>
+	                                
+	                                <span th:if="${obj.state} == 'T'" class="list-mileage plus-price">+[[${obj.mileage}]]</span>
+	                                <span th:if="${obj.state} == 'F'" class="list-mileage minus-price">-[[${obj.mileage}]]</span>
+	
+	                                <span class="list-content">[[${obj.room}]]</span>
+	                                <span class="list-date">[[${obj.date}]]</span>
+	                            </li>
+							</th:block>
                        	</th:block>
 						<!-- END th:each -->
                     </ul>
