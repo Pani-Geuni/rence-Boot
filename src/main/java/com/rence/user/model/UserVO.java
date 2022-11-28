@@ -72,6 +72,9 @@ public class UserVO implements Serializable,UserDetails {
 //	@Column(name="multipartFile")	
 //	private  MultipartFile multipartFile; //사진저장
 	
+	
+	
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		  Set<GrantedAuthority> roles = new HashSet<GrantedAuthority>();

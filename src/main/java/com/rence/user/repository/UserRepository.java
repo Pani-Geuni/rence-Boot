@@ -40,6 +40,8 @@ public interface UserRepository extends JpaRepository<UserVO, Object> {
 	public int user_pw_updateOK(String user_pw, String user_no);
 
 	// 초기화된 비밀번호 저장
+	@Transactional
+	@Modifying
 	@Query(nativeQuery = true, value = "update userinfo set user_pw=?1 where user_id=?2")
 	public int user_pw_init(String user_pw, String user_id);
 
