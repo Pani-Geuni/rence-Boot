@@ -35,8 +35,8 @@ public interface AuthRepository extends JpaRepository<AuthVO, Object> {
 
 	@Modifying
 	@Transactional
-	@Query(nativeQuery = true, value="delete from auth where LOCALTIMESTAMP > auth_stime + 2/(24*60)")
-	public void auth_auto_delete();
+	@Query(nativeQuery = true, value="delete from auth where LOCALTIMESTAMP > auth_stime + 2/(24*60) and user_email=?1")
+	public void auth_auto_delete(String user_email);
 
 	// 이메일 재전송 가능 여부
 	@Query(nativeQuery = true, value="SELECT * from auth where user_email=?1")

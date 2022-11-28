@@ -167,9 +167,9 @@ public class BackOfficeService implements UserDetailsService {//
 	}
 
 	// 인증 번호 유효 시간 초과 시, 삭제
-	public void auth_auto_delete() {
+	public void auth_auto_delete(String user_email) {
 		log.info("auth_auto_delete()....");
-		auth_repository.auth_auto_delete();
+		auth_repository.auth_auto_delete(user_email);
 		
 	}
 
