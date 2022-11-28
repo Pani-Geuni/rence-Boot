@@ -17,6 +17,7 @@ import com.rence.backoffice.repository.BackOfficeOperatingTimeRepository;
 import com.rence.backoffice.repository.BackOfficeOperatingTimeSelectRepository;
 import com.rence.backoffice.repository.BackOfficeRepository;
 import com.rence.backoffice.service.OperatingTime;
+import com.rence.dashboard.model.BOMileageVO;
 import com.rence.dashboard.model.BOPaymentVO;
 import com.rence.dashboard.model.CommentInsertVO;
 import com.rence.dashboard.model.CommentListQView;
@@ -279,12 +280,7 @@ public class DashboardService {
 	// 정산 상태 변경
 	public int backoffice_updateOK_sales(String backoffice_no, String room_no, String payment_no) {
 		log.info("backoffice_updateOK_sales().....");
-		int flag = 0;
-		flag = s_repository.backoffice_updateOK_sales_state_t(backoffice_no, room_no, payment_no);
-		if (flag == 1) {
-			s_repository.backoffice_updateOK_mileage_state_t(payment_no);
-		}
-		return flag;
+		return dao.backoffice_updateOK_sales(backoffice_no,room_no,payment_no);
 	}
 
 	// main - 예약 요약

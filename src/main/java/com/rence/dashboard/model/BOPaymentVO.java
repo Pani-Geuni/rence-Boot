@@ -61,4 +61,10 @@ public class BOPaymentVO {
 	
 	@Column(name="backoffice_no")
 	private String backoffice_no;
+	
+	@Column(name="cancel_state")
+	private String cancel_state;
+	
+	@Column(name="cancel_amount")
+	private String cancel_amount;
 }

@@ -5,13 +5,9 @@
  */
 package com.rence.dashboard.model;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +23,7 @@ import com.rence.dashboard.repository.ReserveRepository;
 import com.rence.dashboard.repository.ReviewRepository;
 import com.rence.dashboard.repository.RoomInsertRepository;
 import com.rence.dashboard.repository.RoomSummaryRepository;
+import com.rence.dashboard.repository.SalesMileageRepository;
 import com.rence.dashboard.repository.SalesSettlementDetailRepository;
 import com.rence.dashboard.repository.SalesSettlementRepository;
 import com.rence.dashboard.repository.SalesSettlementSummaryRepository;
@@ -80,6 +77,9 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 
 	@Autowired
 	PaymentCancelRepository p_repository;
+
+	@Autowired
+	SalesMileageRepository m_repository;
 
 	// 공간 관리 - 문의 리스트
 	@Override
@@ -260,11 +260,9 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 
 		ss.setSales_total(String.valueOf(sales_total));
 
-		Integer pay_before_cancel = ss_summary_repository.select_pay_before_cancel(backoffice_no);
-		Integer pay_after_cancel = ss_summary_repository.select_pay_after_cancel(backoffice_no);
-		Integer pay_before_overdue_cancel = ss_summary_repository.select_pay_before_overdue_cancel(backoffice_no);
+		Integer pay_cancel = ss_summary_repository.select_pay_cancel(backoffice_no);
 
-		int sales_cancel = pay_before_cancel + pay_after_cancel + pay_before_overdue_cancel;
+		int sales_cancel = pay_cancel;
 
 		ss.setSales_cancel(String.valueOf(sales_cancel));
 
@@ -293,11 +291,9 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 
 			ss.setSales_total(String.valueOf(sales_total));
 
-			Integer pay_before_cancel = s_detail_repository.select_pay_before_cancel(backoffice_no);
-			Integer pay_after_cancel = s_detail_repository.select_pay_after_cancel(backoffice_no);
-			Integer pay_before_overdue_cancel = s_detail_repository.select_pay_before_overdue_cancel(backoffice_no);
+			Integer pay_cancel = s_detail_repository.select_pay_cancel(backoffice_no);
 
-			int sales_cancel = pay_before_cancel + pay_after_cancel + pay_before_overdue_cancel;
+			int sales_cancel = pay_cancel;
 
 			ss.setSales_cancel(String.valueOf(sales_cancel));
 
@@ -317,12 +313,9 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 
 			ss.setPre_sales_total(String.valueOf(pre_sales_total));
 
-			Integer pay_before_cancel_pre = s_detail_repository.select_pay_before_cancel_pre(backoffice_no);
-			Integer pay_after_cancel_pre = s_detail_repository.select_pay_after_cancel_pre(backoffice_no);
-			Integer pay_before_overdue_cancel_pre = s_detail_repository
-					.select_pay_before_overdue_cancel_pre(backoffice_no);
+			Integer pre_pay_cancel = s_detail_repository.select_pay_cancel_pre(backoffice_no);
 
-			int pre_sales_cancel = pay_before_cancel_pre + pay_after_cancel_pre + pay_before_overdue_cancel_pre;
+			int pre_sales_cancel = pre_pay_cancel;
 
 			ss.setPre_sales_cancel(String.valueOf(pre_sales_cancel));
 
@@ -344,12 +337,9 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 
 			ss.setSales_total(String.valueOf(sales_total));
 
-			Integer pay_before_cancel = s_detail_repository.select_pay_before_cancel_week(backoffice_no);
-			Integer pay_after_cancel = s_detail_repository.select_pay_after_cancel_week(backoffice_no);
-			Integer pay_before_overdue_cancel = s_detail_repository
-					.select_pay_before_overdue_cancel_week(backoffice_no);
+			Integer pay_cancel = s_detail_repository.select_pay_cancel_week(backoffice_no);
 
-			int sales_cancel = pay_before_cancel + pay_after_cancel + pay_before_overdue_cancel;
+			int sales_cancel = pay_cancel;
 
 			ss.setSales_cancel(String.valueOf(sales_cancel));
 
@@ -369,12 +359,9 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 
 			ss.setPre_sales_total(String.valueOf(pre_sales_total));
 
-			Integer pay_before_cancel_pre = s_detail_repository.select_pay_before_cancel_pre_week(backoffice_no);
-			Integer pay_after_cancel_pre = s_detail_repository.select_pay_after_cancel_pre_week(backoffice_no);
-			Integer pay_before_overdue_cancel_pre = s_detail_repository
-					.select_pay_before_overdue_cancel_pre_week(backoffice_no);
+			Integer pre_pay_cancel = s_detail_repository.select_pay_cancel_pre_week(backoffice_no);
 
-			int pre_sales_cancel = pay_before_cancel_pre + pay_after_cancel_pre + pay_before_overdue_cancel_pre;
+			int pre_sales_cancel = pre_pay_cancel;
 
 			ss.setPre_sales_cancel(String.valueOf(pre_sales_cancel));
 
@@ -396,12 +383,9 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 
 			ss.setSales_total(String.valueOf(sales_total));
 
-			Integer pay_before_cancel = s_detail_repository.select_pay_before_cancel_month(backoffice_no);
-			Integer pay_after_cancel = s_detail_repository.select_pay_after_cancel_month(backoffice_no);
-			Integer pay_before_overdue_cancel = s_detail_repository
-					.select_pay_before_overdue_cancel_month(backoffice_no);
+			Integer pay_cancel = s_detail_repository.select_pay_cancel_month(backoffice_no);
 
-			int sales_cancel = pay_before_cancel + pay_after_cancel + pay_before_overdue_cancel;
+			int sales_cancel = pay_cancel;
 
 			ss.setSales_cancel(String.valueOf(sales_cancel));
 
@@ -421,12 +405,9 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 
 			ss.setPre_sales_total(String.valueOf(pre_sales_total));
 
-			Integer pay_before_cancel_pre = s_detail_repository.select_pay_before_cancel_pre_month(backoffice_no);
-			Integer pay_after_cancel_pre = s_detail_repository.select_pay_after_cancel_pre_month(backoffice_no);
-			Integer pay_before_overdue_cancel_pre = s_detail_repository
-					.select_pay_before_overdue_cancel_pre_month(backoffice_no);
+			Integer pre_pay_cancel = s_detail_repository.select_pay_cancel_pre_month(backoffice_no);
 
-			int pre_sales_cancel = pay_before_cancel_pre + pay_after_cancel_pre + pay_before_overdue_cancel_pre;
+			int pre_sales_cancel = pre_pay_cancel;
 
 			ss.setPre_sales_cancel(String.valueOf(pre_sales_cancel));
 
@@ -466,17 +447,17 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 			int end = etime.compareTo(sysdate);
 
 			if (start >= 0) {
-				rvo.setReserve_state("begin");
+//				rvo.setReserve_state("begin");
 //					reserveAutoUpdateRepository.save(rvo);
-				reserveAutoUpdateRepository.update_reserve_state_begin();
+				reserveAutoUpdateRepository.update_reserve_state_begin(rvo.getReserve_no());
 			} else if (start <= 0 && end >= 0) {
-				rvo.setReserve_state("in_use");
+//				rvo.setReserve_state("in_use");
 //					reserveAutoUpdateRepository.save(rvo);
-				reserveAutoUpdateRepository.update_reserve_state_inuse();
+				reserveAutoUpdateRepository.update_reserve_state_inuse(rvo.getReserve_no());
 			} else if (end < 0) {
-				rvo.setReserve_state("end");
+//				rvo.setReserve_state("end");
 //					reserveAutoUpdateRepository.save(rvo);
-				reserveAutoUpdateRepository.update_reserve_state_end();
+				reserveAutoUpdateRepository.update_reserve_state_end(rvo.getReserve_no());
 			}
 		}
 //		}
@@ -542,14 +523,14 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		if (sc_vos_x != null) {
 			// 2 - 1 (중복 제거)
 			if (sc_vos_o != null) {
-				int size =sc_vos_x.size();
+				int size = sc_vos_x.size();
 				for (int i = 0; i < size; i++) {
 					for (int j = 0; j < sc_vos_o.size(); j++) {
 						if (sc_vos_x.get(i).getRoom_no().equals(sc_vos_o.get(j).getRoom_no())) {
 							log.info("sc_vos_x.get(i).getRoom_no.remove:::::::::::{}", sc_vos_x.get(i).getRoom_no());
 							sc_vos_x.remove(i);
 							size--;
-					        i--;
+							i--;
 						}
 					}
 				}
@@ -568,22 +549,21 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 			}
 
 			// (휴무, 브레이크 타임이 설정된 공간 제외)
-		if (off_list!=null&&sc_vos_x!=null) {
-			int size =sc_vos_x.size();
-			for (int i = 0; i < size; i++) {
-				log.info("sc_vos_x.get(i):::::::::::{}",sc_vos_x.get(i).getRoom_no());
-				for (int j = 0; j < off_list.size(); j++) {
-					log.info("off_list.get(j):::::::::::{}",off_list.get(j).getRoom_no());
-					if (sc_vos_x.get(i).getRoom_no().equals(off_list.get(j).getRoom_no())) {
-						log.info("sc_vos_x.get(i).getRoom_no.remove:::::::::::{}",sc_vos_x.get(i).getRoom_no());
-						sc_vos_x.remove(i);
-						size--;
-				        i--;
+			if (off_list != null && sc_vos_x != null) {
+				int size = sc_vos_x.size();
+				for (int i = 0; i < size; i++) {
+					log.info("sc_vos_x.get(i):::::::::::{}", sc_vos_x.get(i).getRoom_no());
+					for (int j = 0; j < off_list.size(); j++) {
+						log.info("off_list.get(j):::::::::::{}", off_list.get(j).getRoom_no());
+						if (sc_vos_x.get(i).getRoom_no().equals(off_list.get(j).getRoom_no())) {
+							log.info("sc_vos_x.get(i).getRoom_no.remove:::::::::::{}", sc_vos_x.get(i).getRoom_no());
+							sc_vos_x.remove(i);
+							size--;
+							i--;
+						}
 					}
 				}
 			}
-		}
-
 
 			log.info("sc_vos_x - off_list : {} ", sc_vos_x.size());
 
@@ -670,11 +650,49 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		BOPaymentVO pvo = new BOPaymentVO();
 		// 결제 취소,
 		if (flag == 1) {
-			pvo = p_repository.select_paymentinfo(reserve_no);
-			s_repository.backoffice_update_cancel_mileage_state_t(reserve_no);
-			s_repository.backoffice_delete_cancel_mileage_state_w(reserve_no);
+			// 결제정보 테이블의 상태 'C' 로 변경
+			p_repository.backoffice_update_payment_state_host_cancel(reserve_no); // 환불 상태 'C', 환불 금액 = 실제 결제 금액, 결제일시 = 환불일시
+			pvo = p_repository.select_paymentinfo(reserve_no); //결제 정보 
+			String payment_no = pvo.getPayment_no();
+
+			BOMileageVO mvo = m_repository.backoffice_select_mileage_total(user_no); // 1. 사용자의 마지막 mileage_total
+			BOMileageVO mvo2 = m_repository.backoffice_select_mileage_f(user_no, payment_no); // 2. 사용자가 사용한 마일리지
+
+			if (mvo2 != null) { // 사용한 마일리지가 있으면
+				int mileage_change = mvo2.getMileage_change(); // 2
+				int mileage_total = mvo.getMileage_total() + mileage_change; // 1 + 2
+
+				m_repository.backoffice_insert_mileage_state_t(mileage_total, user_no, mileage_change, payment_no); // 마일리지 재적립
+			}
+
+			s_repository.backoffice_update_cancel_mileage_state_c(reserve_no); // w 상태의 마일리지 ->  c 상태로 변경
 		}
 		return pvo;
+	}
+
+	// 정산 상태 변경
+	@Override
+	public int backoffice_updateOK_sales(String backoffice_no, String room_no, String payment_no) {
+		int flag = 0;
+		BOPaymentVO pvo = new BOPaymentVO();
+		flag = s_repository.backoffice_updateOK_sales_state_t(backoffice_no, room_no, payment_no); // 결제 정보 테이블의 정산 상태 변경
+		if (flag == 1) {
+			pvo = p_repository.select_paymentinfo_user_no(payment_no); // 결제정보 테이블에서 user_no 정보 얻기
+			String user_no = pvo.getUser_no();
+					
+			BOMileageVO mvo =  m_repository.backoffice_select_mileage_total(user_no); // 1. 사용자의 마지막 mileage_total
+			BOMileageVO mvo2 =  m_repository.backoffice_select_mileage_w(user_no,payment_no); // 2. 적립 예정 마일리지
+					
+			if(mvo2.getMileage_change()!=0) { // 선결제
+				int mileage_change = mvo2.getMileage_change(); // 2
+				int mileage_total = mvo.getMileage_total()+mileage_change; // 1+2
+						
+				m_repository.backoffice_insert_mileage_state_t(mileage_total, user_no, mileage_change , payment_no); // 마일리지 적립
+			}else { // 후결제
+				s_repository.backoffice_update_mileage_state_c(payment_no); // change 가 0인 mileage 는 C로 상태 변경
+			}
+		}
+		return flag;
 	}
 
 }

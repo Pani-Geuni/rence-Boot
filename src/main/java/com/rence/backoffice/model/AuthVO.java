@@ -42,7 +42,7 @@ public class AuthVO {
 	private String auth_code;
 	
 	@Column(name="auth_stime", insertable= false, updatable = false)
-	@ColumnDefault(value="sysdate")
+	@ColumnDefault(value="current_date")
 	private Date auth_stime;
 
 	

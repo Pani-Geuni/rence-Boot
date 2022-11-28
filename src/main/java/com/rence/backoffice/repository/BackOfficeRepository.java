@@ -106,7 +106,7 @@ public interface BackOfficeRepository extends JpaRepository<BackOfficeVO, Object
 	// 업체 탈퇴 요청
 	@Modifying
 	@Transactional
-	@Query(nativeQuery = true, value="UPDATE backofficeinfo SET backoffice_state='O',apply_date=sysdate where backoffice_no=?1 and backoffice_no not in (select backoffice_no from reserveinfo where backoffice_no=?1 and (reserve_state='begin' or reserve_state='in_use'))")
+	@Query(nativeQuery = true, value="UPDATE backofficeinfo SET backoffice_state='O',apply_date=current_date where backoffice_no=?1 and backoffice_no not in (select backoffice_no from reserveinfo where backoffice_no=?1 and (reserve_state='begin' or reserve_state='in_use'))")
 	public int update_backoffice_state_o(String backoffice_no);
 
 
