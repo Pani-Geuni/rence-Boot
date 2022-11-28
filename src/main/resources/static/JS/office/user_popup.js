@@ -690,12 +690,13 @@
 		
 		if(check == "true"){
 			clearInterval(time);
-			$("#btn-certification").val("인증 완료");
+			$("#check_email").val("인증하기");
 			return;
 		}
 		
 		time = setInterval(function(){
 		    seconds--;
+		    console.log("돌아가유");
 		    
 		    if(seconds <= 9) $("#check_email").val("0"+minute + " : "+ "0"+seconds);
 		    else $("#check_email").val("0"+minute + " : "+ seconds);

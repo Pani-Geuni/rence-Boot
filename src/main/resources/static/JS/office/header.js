@@ -112,9 +112,9 @@ $(function(){
 
 
     /*********************************/ 
-    /******* 버튼 클릭 이벤트 *********/ 
+    /********** 버튼 클릭 이벤트 *********/ 
     /*********************************/ 
-    // 공용 알러트 창 닫기버튼
+    // 공용 알러트 창닫기버튼
     $("#common-alert-btn").click(function(){
         $(".popup-background:eq(1)").addClass("blind");
         $("#common-alert-popup").addClass("blind");
@@ -155,7 +155,7 @@ $(function(){
                 location = "";
             }
 
-            window.location.href="/common/search_list?type="+ type +"&location="+ location +"&searchWord="+$("#input_searchBar").val()+"&condition=date&page=1";
+            window.location.href="/common/search_list?type="+ type +"&location="+ location +"&searchWord="+$("#input_searchBar").val().trim() + "&condition=date&page=1";
         }
         else{
             $(".popup-background:eq(1)").removeClass("blind");
