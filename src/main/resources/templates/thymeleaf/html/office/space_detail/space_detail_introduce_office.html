@@ -82,6 +82,13 @@
 								</th:block>
 							</ul>
 						</div>
+						
+						<div class="map-wrap">
+							<label class="section-title"> 상세 위치 지도 </label>						
+					        <input type="hidden" id="location_addr" th:value="${ovo.roadname_address}" />
+					        <input type="hidden" id="location_name" th:value="${ovo.company_name}" />
+					        <div id="map"></div>
+						</div>
 					</div>
 
 					<!-- 문의 -->

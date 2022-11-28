@@ -31,13 +31,60 @@
 	<link rel="stylesheet" href="/static/CSS/office/jquery-ui-timepicker.css" />
 	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<script src="/static/JS/office/timepicker.js"></script>
-	<th:block th:if="${page == 'space_detail'}">
-		<script src="/static/JS/office/space_detail_introduce.js"></script>
-		<link rel="stylesheet" href="/static/CSS/office/space-detail-introduce.css" />
-	</th:block>
-	<th:block th:if="${page =='space_detail_office'}">
-		<script src="/static/JS/office/space_detail_introduce_office.js"></script>
-		<link rel="stylesheet" href="/static/CSS/office/space-detail-introduce-office.css" />
+
+
+	<th:block th:if="${page == 'space_detail'} or ${page == 'space_detail_office'}">
+		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3b12e82dc4c8922a38cfd990bfa0afbd&libraries=services"></script>
+		<script>
+			$(function(){
+				var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+				    mapOption = {
+				        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+				        level: 3 // 지도의 확대 레벨
+				    };  
+				
+				// 지도를 생성합니다    
+				var map = new kakao.maps.Map(mapContainer, mapOption); 
+				
+				// 주소-좌표 변환 객체를 생성합니다
+				var geocoder = new kakao.maps.services.Geocoder();
+				
+				var location = $("#location_addr").val();
+				var location_name = $("#location_name").val();
+				
+				// 주소로 좌표를 검색합니다
+				geocoder.addressSearch(location, function(result, status) {
+				
+				    // 정상적으로 검색이 완료됐으면 
+				     if (status === kakao.maps.services.Status.OK) {
+				
+				        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+				
+				        // 결과값으로 받은 위치를 마커로 표시합니다
+				        var marker = new kakao.maps.Marker({
+				            map: map,
+				            position: coords
+				        });
+				        
+				        var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+						    mapOption = {
+						        center: new kakao.maps.LatLng(result[0].y, result[0].x), // 지도의 중심좌표
+						        level: 3 // 지도의 확대 레벨
+						    }; 
+						map = new kakao.maps.Map(mapContainer, mapOption); 
+						
+				        // 인포윈도우로 장소에 대한 설명을 표시합니다
+				        var infowindow = new kakao.maps.InfoWindow({
+				            content: '<div style="width:150px;text-align:center;padding:6px 0;">' + location_name +'</div>'
+				        });
+				        infowindow.open(map, marker);
+				
+				        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+				        map.setCenter(coords);
+				    } 
+				});  
+			});
+		</script>
 	</th:block>
 
 	<script src="/static/JS/office/reserve_info.js"></script>
@@ -49,7 +96,7 @@
 			<script src="/static/JS/office/list-page.js"></script>
 		</th:block>
 
-		<th:block th:if="${page} == 'space_introduce_detail'">
+		<th:block th:if="${page} == 'space_detail'">
 			<link rel="stylesheet" href="/static/CSS/office/space-detail-introduce.css" />
 			<link rel="stylesheet" href="/static/CSS/office/jquery-ui.css" />
 			<link rel="stylesheet" href="/static/CSS/office/jquery-ui-timepicker.css" />
@@ -58,7 +105,7 @@
 			<script src="/static/JS/office/space_detail_introduce.js"></script>
 		</th:block>
 
-		<th:block th:if="${page} == 'space_introduce_detail_office'">
+		<th:block th:if="${page} == 'space_detail_office'">
 			<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 			<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 			<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
