@@ -31,11 +31,11 @@
 	<link rel="stylesheet" href="/static/CSS/office/jquery-ui-timepicker.css" />
 	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<script src="/static/JS/office/timepicker.js"></script>
-	<th:block th:if="${page == 'space_detail'}">
+	<th:block th:if="${res.page == 'space_detail'}">
 		<script src="/static/JS/office/space_detail_introduce.js"></script>
 		<link rel="stylesheet" href="/static/CSS/office/space-detail-introduce.css" />
 	</th:block>
-	<th:block th:if="${page =='space_detail_office'}">
+	<th:block th:if="${res.page =='space_detail_office'}">
 		<script src="/static/JS/office/space_detail_introduce_office.js"></script>
 		<link rel="stylesheet" href="/static/CSS/office/space-detail-introduce-office.css" />
 	</th:block>
