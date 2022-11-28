@@ -37,7 +37,7 @@ public interface UserAuthRepository extends JpaRepository<AuthVO, Object> {
 	@Transactional
 	@Modifying
 	@Query(nativeQuery = true, 
-			value="insert into auth(auth_no, user_email, auth_code) values('a'||seq_auth.nextval, ?1, ?2)")
+			value="insert into auth(auth_no, user_email, auth_code) values('A'||seq_auth.nextval, ?1, ?2)")
 	public int user_auth_insert(String user_email, String auth_code);
 	
 	//22-11-28 데이터베이스 전체 테이블 date 기본값(예약관련 날짜 정보제외) CURRENT_DATE로 설정함.
