@@ -98,19 +98,21 @@ public class UserJoinController {
 			if (avo !=null) {
 				//avo2 = auth 테이블에 정보 저장 후, select 해온 결과값
 				int auth_selectCnt = service.user_auth_selectCnt(avo);
-				log.info("auth_selectCnt:{}",auth_selectCnt);
-				AuthVO avo2 = service.user_auth_insert(avo);
-				log.info("user_auth successed...");
-				log.info("avo2:{}",avo2);
-				
-				map.put("authNum", "1");
-				
 				if ( auth_selectCnt > 0) {
 					//인증번호 재전송 시간전에 재요청시
 					log.info("user_auth Re-try authentication");
 					
 					map.put("authNum", "3");
 				}	
+				else {
+					log.info("auth_selectCnt:{}",auth_selectCnt);
+					AuthVO avo2 = service.user_auth_insert(avo);
+					log.info("user_auth successed...");
+					log.info("avo2:{}",avo2);
+					
+					map.put("authNum", "1");
+				}
+				
 			} 
 			else {
 				log.info("user_auth failed...");
