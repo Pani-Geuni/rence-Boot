@@ -538,6 +538,7 @@ public class OfficeController {
 		// 전체 결제할 금액
 		
 		payment_all = (int) diffTime * pvo.getRoom_price();
+		
 		earned_mileage = (int) (payment_all * 0.05);
 		log.info("diffTime ::::: {}", diffTime);
 		
@@ -587,7 +588,12 @@ public class OfficeController {
 		
 		if (pvo.getUse_mileage() == 0) {
 			mvo2.setMileage_state("W");
-			mileage_change = (int) (pvo.getPayment_total() * 0.05);
+			
+			if (pvo.getPayment_total() == pvo.getActual_payment()) {
+				mileage_change = (int) (pvo.getPayment_total() * 0.05);				
+			} else {
+				mileage_change = 0;
+			}
 			
 			mvo2.setMileage_total(mileage_total);
 			mvo2.setUser_no(pvo.getUser_no());
@@ -601,8 +607,13 @@ public class OfficeController {
 		} else {
 			// 마일리지 사용
 			mvo2.setMileage_state("F");
-			mileage_change = pvo.getUse_mileage();
-			mileage_total -= mileage_change;
+			
+			if (pvo.getPayment_total() == pvo.getActual_payment()) {
+				mileage_change = pvo.getUse_mileage();
+				mileage_total -= mileage_change;
+			} else {
+				mileage_change = 0;
+			}
 			
 			mvo2.setMileage_total(mileage_total);
 			mvo2.setUser_no(pvo.getUser_no());
