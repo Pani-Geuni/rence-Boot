@@ -50,7 +50,7 @@ public class CommentInsertVO implements Serializable{
 	private String comment_content;
 	
 //	@ColumnDefault(value="sysdate")
-	@Column(name="comment_date", insertable= false, updatable = false, columnDefinition = "date default sysdate")
+	@Column(name="comment_date", insertable= false, updatable = false, columnDefinition = "date default current_date")
 	private Date comment_date;
 	
 	@Column(name="room_no")

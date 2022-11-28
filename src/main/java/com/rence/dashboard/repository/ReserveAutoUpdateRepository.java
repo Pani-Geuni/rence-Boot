@@ -17,18 +17,18 @@ public interface ReserveAutoUpdateRepository extends JpaRepository<ReserveUpdate
 			
 	@Modifying
 	@Transactional
-	@Query(nativeQuery = true, value = "update reserveinfo set reserve_state = 'begin' where reserve_stime > sysdate and reserve_state != 'false' and reserve_state != 'cancel'")
-	public void update_reserve_state_begin();
+	@Query(nativeQuery = true, value = "update reserveinfo set reserve_state = 'begin' where reserve_no=?1 and reserve_state != 'false' and reserve_state != 'cancel'")
+	public void update_reserve_state_begin(String reserve_no);
 	
 	@Modifying
 	@Transactional
-	@Query(nativeQuery = true, value = "update reserveinfo set reserve_state = 'in_use' where reserve_stime <= sysdate and  reserve_etime >= sysdate and reserve_state != 'false' and reserve_state != 'cancel'")
-	public void update_reserve_state_inuse();
+	@Query(nativeQuery = true, value = "update reserveinfo set reserve_state = 'in_use' where reserve_no=?1 and reserve_state != 'false' and reserve_state != 'cancel'")
+	public void update_reserve_state_inuse(String reserve_no);
 
 	@Modifying
 	@Transactional
-	@Query(nativeQuery = true, value = "update reserveinfo set reserve_state = 'end' where reserve_etime < sysdate and reserve_state != 'false' and reserve_state != 'cancel'")
-	public void update_reserve_state_end();
+	@Query(nativeQuery = true, value = "update reserveinfo set reserve_state = 'end' where reserve_no=?1 and reserve_state != 'false' and reserve_state != 'cancel'")
+	public void update_reserve_state_end(String reserve_no);
 
 	@Modifying
 	@Transactional

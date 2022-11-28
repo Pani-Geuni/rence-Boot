@@ -21,10 +21,8 @@ public interface SalesMileageRepository extends JpaRepository<BOMileageVO, Objec
 	// 마일리지 적립 (정산 완료, 예약 취소)
 	@Modifying
 	@Transactional
-//	@Query(nativeQuery = true, value = "update mileage set mileage_state='T' where payment_no in (select payment_no from paymentinfo where reserve_no=?1) and mileage_state='F'")
-	@Query(nativeQuery = true, value = "insert into mileage(mileage_no, mileage_total, mileage_state, user_no, mileage_change, payment_no) values('M'||seq_mileage.nextval, :mileage_total, :'T', :user_no, :mileage_change, :payment_no  ) ")
+	@Query(nativeQuery = true, value = "insert into mileage(mileage_no, mileage_total, mileage_state, user_no, mileage_change, payment_no) values('M'||seq_mileage.nextval, ?1, 'T', ?2, ?3, ?4) ")
 	public void backoffice_insert_mileage_state_t(int mileage_total, String user_no, int mileage_change, String payment_no);
-
 	
 	// 적립 예정 마일리지
 	@Query(nativeQuery = true, value = "select * from mileage where user_no=?1 and payment_no=?2 and mileage_state = 'W'")

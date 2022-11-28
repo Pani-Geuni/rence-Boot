@@ -105,7 +105,7 @@ public class BackOfficeVO implements Serializable, UserDetails{ //,
 	private String backoffice_state;
 	
 	@Column(name="apply_date", insertable= false, updatable = false)
-	@ColumnDefault(value="sysdate")
+	@ColumnDefault(value="current_date")
 	private Date apply_date;
 	
 	@Column(name="backoffice_type")

@@ -43,7 +43,7 @@ public class AutoAspect {
 		service.reserve_state_auto_update();
 	}
 	
-	@Pointcut("execution(* com.rence.*.*.*SendEmail.*(..))")
+	@Pointcut("execution(* com.rence.*.*.*SendEmail.sendEmail(..))")
 	public void deletePointcut() {
 		log.info("deletePointcut()...");
 	}

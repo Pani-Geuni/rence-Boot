@@ -466,17 +466,17 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 			int end = etime.compareTo(sysdate);
 
 			if (start >= 0) {
-				rvo.setReserve_state("begin");
+//				rvo.setReserve_state("begin");
 //					reserveAutoUpdateRepository.save(rvo);
-				reserveAutoUpdateRepository.update_reserve_state_begin();
+				reserveAutoUpdateRepository.update_reserve_state_begin(rvo.getReserve_no());
 			} else if (start <= 0 && end >= 0) {
-				rvo.setReserve_state("in_use");
+//				rvo.setReserve_state("in_use");
 //					reserveAutoUpdateRepository.save(rvo);
-				reserveAutoUpdateRepository.update_reserve_state_inuse();
+				reserveAutoUpdateRepository.update_reserve_state_inuse(rvo.getReserve_no());
 			} else if (end < 0) {
-				rvo.setReserve_state("end");
+//				rvo.setReserve_state("end");
 //					reserveAutoUpdateRepository.save(rvo);
-				reserveAutoUpdateRepository.update_reserve_state_end();
+				reserveAutoUpdateRepository.update_reserve_state_end(rvo.getReserve_no());
 			}
 		}
 //		}
