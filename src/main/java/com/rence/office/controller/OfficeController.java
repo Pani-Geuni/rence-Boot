@@ -230,7 +230,7 @@ public class OfficeController {
 		model.addAttribute("content", "thymeleaf/html/office/space_detail/space_detail_introduce");
 		model.addAttribute("title", "공간 상세 페이지");
 
-		return "thymeleaf/layouts/office/layout_reserve";
+		return "thymeleaf/layouts/office/layout_base";
 	}
 
 	// ***************
@@ -468,7 +468,7 @@ public class OfficeController {
 		model.addAttribute("content", "thymeleaf/html/office/space_detail/space_detail_introduce_office");
 		model.addAttribute("title", "공간 상세 페이지");
 
-		return "thymeleaf/layouts/office/layout_reserve";
+		return "thymeleaf/layouts/office/layout_base";
 	}
 
 	// **********************
