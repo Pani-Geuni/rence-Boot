@@ -30,23 +30,24 @@ public interface SalesSettlementRepository extends JpaRepository<SalesSettlement
 	@Query(nativeQuery = true, value = "update paymentinfo set sales_state='T', payment_date=sysdate where backoffice_no=?1 and room_no=?2 and payment_no=?3")
 	public int backoffice_updateOK_sales_state_t(String backoffice_no, String room_no, String payment_no);
 
-	// 마일리지 상태 변경 - 적립
-	@Modifying
-	@Transactional
-	@Query(nativeQuery = true, value = "update mileage set mileage_state= 'T' where mileage_no in (select mileage_no from mileage where payment_no=?1 and mileage_state='W')")
-	public void backoffice_updateOK_mileage_state_t(String payment_no);
+//	// 마일리지 상태 변경 - 적립
+//	@Modifying
+//	@Transactional
+//	@Query(nativeQuery = true, value = "update mileage set mileage_state= 'T' where mileage_no in (select mileage_no from mileage where payment_no=?1 and mileage_state='W')")
+//	public void backoffice_updateOK_mileage_state_t(String payment_no);
 
-	// 결제 취소 후, 마일리지 상태 변경 - 재적립
-	@Modifying
-	@Transactional
-	@Query(nativeQuery = true, value = "update mileage set mileage_state='T' where payment_no in (select payment_no from paymentinfo where reserve_no=?1) and mileage_state='F'")
-	public void backoffice_update_cancel_mileage_state_t(String reserve_no);
 
-	// 결제 취소 후, 적립 예정이던 마일리지 삭제
+	// 결제 취소 후, 적립 예정이던 마일리지 삭제 ->'C'
 	@Modifying
 	@Transactional
-	@Query(nativeQuery = true, value = "delete from mileage where payment_no in (select payment_no from paymentinfo where reserve_no=?1) and mileage_state='W'")
-	public void backoffice_delete_cancel_mileage_state_w(String reserve_no);
+	@Query(nativeQuery = true, value = "update mileage set mileage_state='C' where payment_no in (select payment_no from paymentinfo where reserve_no=?1) and mileage_state='W'")
+	public void backoffice_update_cancel_mileage_state_c(String reserve_no);
+
+	// 정산 완료 시, 후결제 일 때 ->'C'
+	@Modifying
+	@Transactional
+	@Query(nativeQuery = true, value = "update mileage set mileage_state='C' where payment_no=?1 and mileage_state='W'")
+	public void backoffice_update_mileage_state_c(String payment_no);
 
 
 }

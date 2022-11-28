@@ -40,5 +40,7 @@ public interface DashBoardDAO {
 
 	public int backoffice_search_reserve_cnt(String backoffice_no, String searchword, String reserve_state);
 
+	public int backoffice_updateOK_sales(String backoffice_no, String room_no, String payment_no);
+
 
 }
