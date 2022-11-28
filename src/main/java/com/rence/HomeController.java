@@ -41,6 +41,8 @@ public class HomeController {
 	public String home(Model model) {
 		log.info("HomePage");
 		model.addAttribute("content", "thymeleaf/html/office/home");
+
+		
 		
 		return "thymeleaf/layouts/office/layout_base";
 	}

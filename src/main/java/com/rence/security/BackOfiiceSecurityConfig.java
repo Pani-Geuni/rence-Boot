@@ -56,10 +56,7 @@ public class BackOfiiceSecurityConfig {
 		.anyRequest()
 		 .authenticated() // 요청 URL에 따라 접근 권한을 설정
 
-//		http.antMatcher("/backoffice/dashbord/**")
-//		.authorizeRequests().anyRequest().authenticated()
-//		http
-//		.antMatcher("/rence/**").authorizeRequests().anyRequest().authenticated()
+
 		.and()
 		.formLogin() // 로그인 폼은
 		.loginPage("/backoffice/landing") // 해당 주소로 로그인 페이지를 호출한다.
