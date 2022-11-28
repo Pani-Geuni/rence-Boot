@@ -13,10 +13,6 @@ public interface UserRepository extends JpaRepository<UserVO, Object> {
 	@Query(nativeQuery = true, value = "select * from userinfo where user_state='Y' and user_id= ?1")
 	public UserVO findByUser_email(String user_id);
 
-	// 로그인
-	@Query(nativeQuery = true, value = "select * from userinfo where user_id = ?1 and user_pw= ?2")
-	public UserVO user_loginOK(String user_id, String string);
-
 	// 아이디 찾기
 	@Query(nativeQuery = true, value = "select * from userinfo where user_state='Y' and user_email= ?1")
 	public UserVO user_email_select(String user_email);
