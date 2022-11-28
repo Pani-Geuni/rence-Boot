@@ -105,7 +105,7 @@ public class UserJoinController {
 				
 				map.put("authNum", "1");
 				
-				if ( auth_selectCnt >= 2) {
+				if ( auth_selectCnt > 0) {
 					//인증번호 재전송 시간전에 재요청시
 					log.info("user_auth Re-try authentication");
 					
