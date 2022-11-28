@@ -19,7 +19,7 @@ public interface MileageRepository extends JpaRepository<UserMileageVO, Object> 
 
 	// 마일리지 리스트수-전체(페이징 처리를 위해서) all
 	@Query(nativeQuery = true, value = "select count(*) from user_detail_mileage_view"
-			+ " where user_no = ?1")
+			+ " where user_no = ?1  and  state = 'T' or state = 'F'")
 	public long count_allmileage(String user_no);
 	
 	// 마일리지 리스트수-적립(페이징 처리를 위해서) plus
@@ -36,7 +36,7 @@ public interface MileageRepository extends JpaRepository<UserMileageVO, Object> 
 	
 	// 마일리지 리스트 all 페이징
 	@Query(nativeQuery = true, 
-			value = "select  * from (select ROWNUM as rn, u.* from (select *  from user_detail_mileage_view  where  user_no = ?1 order by no desc) u) where rn between ?2 and ?3")
+			value = "select  * from (select ROWNUM as rn, u.* from (select *  from user_detail_mileage_view  where  user_no = ?1  and  state = 'T' or state = 'F' order by no desc) u) where rn between ?2 and ?3")
 	public List<UserMileageVO> user_mileage_selectAll_paging(String user_no, Integer start_row, Integer end_row);
 	
 

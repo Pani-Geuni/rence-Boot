@@ -28,7 +28,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rence.backoffice.model.AuthVO;
 import com.rence.user.model.EmailVO;
-import com.rence.user.model.UserAuthVO;
 import com.rence.user.model.UserVO;
 import com.rence.user.service.UserFileuploadService;
 import com.rence.user.service.UserService;
@@ -76,7 +75,7 @@ public class UserJoinController {
 	@PostMapping("/user_auth")
 	@ResponseBody
 	@Transactional
-	public String user_auth(UserAuthVO avo, UserVO uvo, EmailVO evo) {
+	public String user_auth(AuthVO avo, UserVO uvo, EmailVO evo) {
 		log.info("Welcome user_auth");
 		log.info("{}", uvo);
 		

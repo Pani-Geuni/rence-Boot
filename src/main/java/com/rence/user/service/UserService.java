@@ -78,9 +78,10 @@ public class UserService implements UserDetailsService {
 	}
 
 	// 이메일 인증번호 auth테이블에 저장
-	public AuthVO user_auth_insert(UserAuthVO avo) {
+	public AuthVO user_auth_insert(AuthVO avo) {
 		log.info("user_auth_insert()....");
 		log.info("avo: {}", avo);
+//		int result = authRepository.user_auth_insert(avo.getUser_email(), avo.getAuth_code());
 		int result = authRepository.user_auth_insert(avo.getUser_email(), avo.getAuth_code());
 		log.info("result: {}", result);
 		log.info("avo(이후): {}", avo);
@@ -96,7 +97,7 @@ public class UserService implements UserDetailsService {
 	}
 	
 	//인증번호 재전송 관련 테이블 컬럼 중복확인
-	public int user_auth_selectCnt(UserAuthVO avo) {
+	public int user_auth_selectCnt(AuthVO avo) {
 		log.info("user_auth_selectAll()....");
 		log.info("avo: {}", avo);
 		

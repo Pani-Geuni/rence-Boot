@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.rence.backoffice.model.AuthVO;
 
@@ -33,6 +34,8 @@ public interface UserAuthRepository extends JpaRepository<AuthVO, Object> {
 	value="select count(*) from auth where user_email=?1 order by auth_no desc")
 	public int user_auth_selectCnt(String user_email);
 	
+
+
 	
 	@Transactional
 	@Modifying
@@ -55,6 +58,8 @@ public interface UserAuthRepository extends JpaRepository<AuthVO, Object> {
 	@Query(nativeQuery = true, 
 			value="delete from auth where user_email=?1 and auth_code=?2")
 	public int user_auth_delete(String user_email, String email_code);
+
+	
 
 
 }//end class
