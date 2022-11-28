@@ -254,18 +254,18 @@
         $(".join-popup-input-short").removeClass("null-input-border");
 
         // 버튼 초기화
-        $("#check_id").prop("check", undefined);
+        $("#check_id").prop("check", false);
         $("#check_id").val("중복확인");
-        $("#check_email").prop("check", undefined);
+        $("#check_email").prop("check", false);
         $("#check_email").val("인증하기");
-        $("#check_email-code").prop("check", undefined);
+        $("#check_email-code").prop("check", false);
         $("#check_email-code").val("확인");
 
         // 팝업 관련창 닫음
         $("#join-section").addClass("blind");
         $(".popup-background:eq(0)").addClass("blind");
         
-        timer("close");
+        clearInterval(time);
     });
 
     //회원가입 버튼 클릭
@@ -693,11 +693,6 @@
 		if(check == "true"){
 			clearInterval(time);
 			$("#check_email").val("인증완료");
-			return;
-		}
-		
-		if(check == "close"){
-			clearInterval(time);
 			return;
 		}
 		
