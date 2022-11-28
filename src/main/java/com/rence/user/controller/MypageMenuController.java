@@ -135,23 +135,33 @@ public class MypageMenuController {
 		
 		OfficePaymentVO pvo = officeService.select_one_cancel_payment(reserve_no);
 		
-		OfficeMileageVO mvo = officeService.select_one_mileage_cancel(pvo.getPayment_no());
+		List<OfficeMileageVO> mvo = officeService.select_all_mileage_cancel(pvo.getPayment_no());
 		
-		String mileage_no = mvo.getMileage_no();
+		log.info("menu mvo :: {}", mvo);
 		
-		
-		if (mvo.getMileage_state().equals("F")) {
+		for (OfficeMileageVO vo : mvo) {
+			String mileage_no = vo.getMileage_no();
+			
+			log.info("menu vo :: {}", vo);
+			
 			// 마일리지 사용 취소
-			mileage_result = officeService.update_mileage_state(mileage_no);
+			if (vo.getMileage_state().equals("F")) {
+				OfficeMileageVO temp_vo = officeService.select_one_mileage_cancel(pvo.getPayment_no(), "F");
+				
+				temp_vo.setMileage_no(null);
+				temp_vo.setMileage_state("T");
+				temp_vo.setMileage_total(temp_vo.getMileage_total() + temp_vo.getMileage_change());
+				
+				log.info("temp_Vo :: {}", temp_vo);
+				
+				mileage_result = officeService.insert_mileage_changed(temp_vo);
+			}
+			
+			// 예약 취소 시, 마일리지 상태를 적립 예정(W)에서 적립 예정 취소(C)로 변경
+			if (vo.getMileage_state().equals("W")) {
+				mileage_result = officeService.update_mileage_state(mileage_no);
+			}
 		}
-		
-		if (mvo.getMileage_state().equals("W")) {
-			// 삭제
-			officeService.delete_mileage_cancel(mileage_no);
-			mileage_result = 1;
-		}
-		
-		
 		
 		if (result == 1 && mileage_result == 1) {
 			map.put("result", "1");
