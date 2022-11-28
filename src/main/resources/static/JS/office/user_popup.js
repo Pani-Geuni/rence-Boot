@@ -41,7 +41,7 @@
         //로그인 시도
         if($("#login-id").val().trim().length > 0 && $("#login-pw").val().trim().length > 0){
             $.ajax({
-                url : "/loginOK",
+                url : "/rence/loginOK",
                 type : "POST",
                 dataType : 'json',
                 data : {
