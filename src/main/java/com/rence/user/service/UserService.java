@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.rence.backoffice.model.AuthVO;
 import com.rence.user.model.UserAuthVO;
 import com.rence.user.model.UserVO;
 import com.rence.user.repository.UserAuthRepository;
@@ -77,13 +78,13 @@ public class UserService implements UserDetailsService {
 	}
 
 	// 이메일 인증번호 auth테이블에 저장
-	public UserAuthVO user_auth_insert(UserAuthVO avo) {
+	public AuthVO user_auth_insert(UserAuthVO avo) {
 		log.info("user_auth_insert()....");
 		log.info("avo: {}", avo);
 		int result = authRepository.user_auth_insert(avo.getUser_email(), avo.getAuth_code());
 		log.info("result: {}", result);
 		log.info("avo(이후): {}", avo);
-		UserAuthVO avo2 = new UserAuthVO();
+		AuthVO avo2 = new AuthVO();
 
 		if (result == 1) {
 			log.info("===avo===: {}", avo);
@@ -103,7 +104,7 @@ public class UserService implements UserDetailsService {
 	}
 
 	// 이메일 인증번호 확인
-	public UserAuthVO user_authOK_select(String user_email, String email_code) {
+	public AuthVO user_authOK_select(String user_email, String email_code) {
 		log.info("user_authOK_select()....");
 		log.info("user_email: {}", user_email);
 		log.info("email_code(인증코드): {}", email_code);

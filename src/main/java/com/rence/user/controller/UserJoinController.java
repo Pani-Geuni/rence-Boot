@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.rence.backoffice.model.AuthVO;
 import com.rence.user.model.EmailVO;
 import com.rence.user.model.UserAuthVO;
 import com.rence.user.model.UserVO;
@@ -99,7 +100,7 @@ public class UserJoinController {
 				//avo2 = auth 테이블에 정보 저장 후, select 해온 결과값
 				int auth_selectCnt = service.user_auth_selectCnt(avo);
 				log.info("auth_selectCnt:{}",auth_selectCnt);
-				UserAuthVO avo2 = service.user_auth_insert(avo);
+				AuthVO avo2 = service.user_auth_insert(avo);
 				log.info("user_auth successed...");
 				log.info("avo2:{}",avo2);
 				
@@ -139,7 +140,7 @@ public class UserJoinController {
 		log.info("Welcome user_authOK");
 		log.info("{}", email_code);
 		 
-		UserAuthVO avo = service.user_authOK_select(user_email, email_code);
+		AuthVO avo = service.user_authOK_select(user_email, email_code);
 		log.info("avo: {}", avo);
 		Map<String, String> map = new HashMap<String, String>();
 
