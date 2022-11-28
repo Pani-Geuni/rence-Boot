@@ -27,13 +27,7 @@ public interface UserAuthRepository extends JpaRepository<UserAuthVO, Object> {
 //	"select auth_no, auth_code, user_email from "
 //	+ "(select * from auth where user_email=?1 order by rownum desc)where rownum <= 1"
 //	
-	
-//	//auth테이블 정보 가져오기
-//	@Query(
-//			value="SELECT t from (SELECT t.auth_no, t.auth_code, t.user_email from UserAuthVO t where t.user_email=?1 order by rownum desc) where rownum <= 1")
-//	public UserAuthVO auth_select(String user_email);
-	
-	
+
 	//인증번호 재전송 관련 테이블 컬럼 중복확인
 	@Query(nativeQuery = true, 
 	value="select count(*) from auth where user_email=?1 order by auth_no desc")
@@ -43,7 +37,7 @@ public interface UserAuthRepository extends JpaRepository<UserAuthVO, Object> {
 	@Transactional
 	@Modifying
 	@Query(nativeQuery = true, 
-			value="insert into auth(auth_no, user_email, auth_code) values('a'||seq_auth.nextval, :user_email, :auth_code)")
+			value="insert into auth(auth_no, user_email, auth_code) values('a'||seq_auth.nextval, ?1, ?2)")
 	public int user_auth_insert(String user_email, String auth_code);
 	
 	
@@ -61,15 +55,5 @@ public interface UserAuthRepository extends JpaRepository<UserAuthVO, Object> {
 			value="delete from auth where user_email=?1 and auth_code=?2")
 	public int user_auth_delete(String user_email, String email_code);
 
-
-	
-//	@Modifying
-//	@Query(
-//	  value = 
-//	    "insert into Users (name, age, email, status) values (:name, :age, :email, :status)",
-//	  nativeQuery = true)
-//	void insertUser(@Param("names") String name, @Param("age") Integer age, 
-//	  @Param("status") Integer status, @Param("email") String email);
-	 
 
 }//end class
