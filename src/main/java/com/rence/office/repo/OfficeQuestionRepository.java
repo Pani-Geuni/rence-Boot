@@ -11,14 +11,7 @@ public interface OfficeQuestionRepository extends JpaRepository<OfficeQuestionVO
 
 	
 	@Query(nativeQuery = true,
-			value="select * from ("
-					+ "select ROWNUM as rn, c.* "
-					+ "from ( "
-					+ "select * "
-					+ "from question_list_view "
-					+ "where mother_no is null and backoffice_no=?1 "
-					+ "order by comment_no desc) c "
-					+ ") where rn between ?2 and ?3")
+			value="select * from (select ROWNUM as rn, c.* from ( select * from question_list_view where mother_no is null and backoffice_no=?1 order by comment_no desc) c ) where rn between ?2 and ?3")
 	public List<OfficeQuestionVO> select_all_comment(String backoffice_no, Integer start_row, Integer end_row);
 	
 	
