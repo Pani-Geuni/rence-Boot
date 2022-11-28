@@ -33,7 +33,7 @@
 					$("#reserve-cancel-popup").addClass("blind");
 					$("#reserve-cancel-confirm-popup").removeClass("blind")
 					
-					location.href="/";
+					location.href="/rence/reserve_list?time_point=now&user_no=" + $.cookie("user_no") + "&page=1";
 				} else {
 					$("#reserve-cancel-popup").addClass("blind");
 					$("#reserve-cancel-fail-popup").removeClass("blind");

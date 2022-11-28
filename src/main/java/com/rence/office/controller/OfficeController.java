@@ -582,27 +582,49 @@ public class OfficeController {
 		int mileage_change = 0;
 		
 		OfficeMileageVO mvo2 = new OfficeMileageVO();
-		int mileage_total = 0;
+		int mileage_total = mvo.getMileage_total();
+		int result_mileage = 0;	// 마일리지 추가 성공 flag
 		
 		if (pvo.getUse_mileage() == 0) {
 			mvo2.setMileage_state("W");
 			mileage_change = (int) (pvo.getPayment_total() * 0.05);
-			mileage_total = mvo.getMileage_total() + mileage_change;
+			
+			mvo2.setMileage_total(mileage_total);
+			mvo2.setUser_no(pvo.getUser_no());
+			mvo2.setMileage_change(mileage_change);
+			
+			OfficePaymentVO pvo3 = service.select_one_recent_payment(pvo.getUser_no());
+			mvo2.setPayment_no(pvo3.getPayment_no());
+			
+			result_mileage = service.insert_mileage_changed(mvo2);
+			
 		} else {
+			// 마일리지 사용
 			mvo2.setMileage_state("F");
 			mileage_change = pvo.getUse_mileage();
-			mileage_total = mvo.getMileage_total() - mileage_change;
+			mileage_total -= mileage_change;
+			
+			mvo2.setMileage_total(mileage_total);
+			mvo2.setUser_no(pvo.getUser_no());
+			mvo2.setMileage_change(mileage_change);
+			
+			OfficePaymentVO pvo3 = service.select_one_recent_payment(pvo.getUser_no());
+			mvo2.setPayment_no(pvo3.getPayment_no());
+			
+			result_mileage = service.insert_mileage_changed(mvo2);
+			
+			// 마일리지 사용 후 해당 결제 건에 대한 마일리지 적립 로직
+			mvo2.setMileage_state("W");
+			log.info(":::::::::::::::::::: {} {}", pvo.getPayment_total(), mileage_change);
+			mileage_change = (int) ((pvo.getPayment_total()) * 0.05);
+			mvo2.setMileage_change(mileage_change);
+			
+			result_mileage = service.insert_mileage_changed(mvo2);
 		}
 		
-		mvo2.setMileage_total(mileage_total);
-		mvo2.setUser_no(pvo.getUser_no());
-		mvo2.setMileage_change(mileage_change);
 		
 		
-		OfficePaymentVO pvo3 = service.select_one_recent_payment(pvo.getUser_no());
-		mvo2.setPayment_no(pvo3.getPayment_no());
 		
-		int result_mileage = service.insert_mileage_changed(mvo2);
 		
 		if (result_payment == 1 && result_update_reserve_state == 1 && result_mileage == 1) {
 			map.put("result", "1");			

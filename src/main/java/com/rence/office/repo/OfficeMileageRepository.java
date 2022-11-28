@@ -1,5 +1,7 @@
 package com.rence.office.repo;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -31,8 +33,10 @@ public interface OfficeMileageRepository extends JpaRepository<OfficeMileageVO, 
 	
 	
 	@Query(nativeQuery = true, value = "select * from mileage where payment_no=?1")
-	public OfficeMileageVO select_one_mileage_cancel(String payment_no);
+	public List<OfficeMileageVO> select_all_mileage_cancel(String payment_no);
 	
+	@Query(nativeQuery = true, value = "select * from mileage where payment_no=?1 and mileage_state='F'")
+	public OfficeMileageVO select_one_mileage_cancel(String payment_no, String mileage_state);
 	
 	@Modifying
 	@Transactional
@@ -42,6 +46,6 @@ public interface OfficeMileageRepository extends JpaRepository<OfficeMileageVO, 
 	
 	@Modifying
 	@Transactional
-	@Query(nativeQuery = true, value = "update mileage set mileage_state='T' where mileage_no=?1")
+	@Query(nativeQuery = true, value = "update mileage set mileage_state='C' where mileage_no=?1")
 	public int update_mileage_state(String mileage_no);
 }

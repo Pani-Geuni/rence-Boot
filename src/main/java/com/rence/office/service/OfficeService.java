@@ -193,8 +193,14 @@ public class OfficeService {
 		return vo;
 	}
 	
-	public OfficeMileageVO select_one_mileage_cancel(String payment_no) {
-		OfficeMileageVO vo = mileage_repository.select_one_mileage_cancel(payment_no);
+	public List<OfficeMileageVO> select_all_mileage_cancel(String payment_no) {
+		List<OfficeMileageVO> vos = mileage_repository.select_all_mileage_cancel(payment_no);
+		
+		return vos;
+	}
+	
+	public OfficeMileageVO select_one_mileage_cancel(String payment_no, String mileage_state) {
+		OfficeMileageVO vo = mileage_repository.select_one_mileage_cancel(payment_no, mileage_state);
 		
 		return vo;
 	}
