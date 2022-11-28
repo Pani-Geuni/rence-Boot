@@ -653,10 +653,12 @@ public class OfficeController {
 		if (pvo.getUse_mileage() == 0) {
 			mvo2.setMileage_state("W");
 
-			if (pvo.getPayment_total() == pvo.getActual_payment()) {
-				mileage_change = (int) (pvo.getPayment_total() * 0.05);
-			} else {
+			if (pvo.getPayment_state().equals("F")) {
+				// 후결제 마일리지 적립 X
 				mileage_change = 0;
+			} else if (pvo.getPayment_state().equals("T")) {
+				// 선결제만 마일리지 적립
+				mileage_change = (int) ((pvo.getPayment_total()) * 0.05);				
 			}
 
 			mvo2.setMileage_total(mileage_total);
@@ -672,13 +674,9 @@ public class OfficeController {
 			// 마일리지 사용
 			mvo2.setMileage_state("F");
 
-			if (pvo.getPayment_total() == pvo.getActual_payment()) {
-				mileage_change = pvo.getUse_mileage();
-				mileage_total -= mileage_change;
-			} else {
-				mileage_change = 0;
-			}
-
+			mileage_change = pvo.getUse_mileage();
+			mileage_total -= mileage_change;
+			
 			mvo2.setMileage_total(mileage_total);
 			mvo2.setUser_no(pvo.getUser_no());
 			mvo2.setMileage_change(mileage_change);
@@ -690,8 +688,13 @@ public class OfficeController {
 
 			// 마일리지 사용 후 해당 결제 건에 대한 마일리지 적립 로직
 			mvo2.setMileage_state("W");
-			log.info(":::::::::::::::::::: {} {}", pvo.getPayment_total(), mileage_change);
-			mileage_change = (int) ((pvo.getPayment_total()) * 0.05);
+			
+			if (pvo.getPayment_state().equals("F")) {
+				mileage_change = 0;
+			} else if (pvo.getPayment_state().equals("T")) {
+				mileage_change = (int) ((pvo.getPayment_total()) * 0.05);				
+			}
+			
 			mvo2.setMileage_change(mileage_change);
 
 			result_mileage = service.insert_mileage_changed(mvo2);
