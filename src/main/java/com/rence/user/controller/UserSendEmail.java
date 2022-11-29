@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
-import com.rence.user.model.UserAuthVO;
 import com.rence.backoffice.model.AuthVO;
 import com.rence.user.model.EmailVO;
 import com.rence.user.model.UserVO;
@@ -27,14 +26,14 @@ public class UserSendEmail {
 	JavaMailSender javaMailSender;
 	
 	
-	// ******* 이메일 인증 *******//
+	// ******* 회원가입 이메일 인증 *******//
 		public AuthVO sendEmail(AuthVO vo, EmailVO evo) {
 			log.info("User sendEmail");
 			log.info("vo: {}", vo);
 
 			// 이메일 제목, 내용 설정
-			evo.setSubject("[rence] 이메일 인증코드");
-			evo.setContent("해당 코드를 인증번호 란에 기입 후, 인증확인을 마쳐주세요.");
+			evo.setSubject("[rence] 회원가입 이메일 인증코드");
+			
 
 			// 인증코드 생성
 			int RANDOM_BOUND = 100000;
@@ -47,7 +46,7 @@ public class UserSendEmail {
 				MimeMessage msg = javaMailSender.createMimeMessage();
 				msg.setSubject(evo.getSubject());
 				msg.setContent(
-						"안녕하세요. 공간공유플랫폼" + "<font color=\"green\"> RENCE</font>"+ "입니다."  +
+						"안녕하세요. 공간공유플랫폼" + "<font color=#009900 > RENCE</font>"+ "입니다."  +
 						"<br><br>" + 
 						"회원가입 인증코드는 다음과 같습니다."+
 						"<br><br>" + 
