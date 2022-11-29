@@ -33,6 +33,12 @@ $(function() {
 			.text()
 			.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 	);
+	
+	$('#max-use-mileage').text(
+		$('#max-use-mileage')
+			.text()
+			.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+	);
 
 	// *******************
 	// custom-radio action
@@ -42,12 +48,23 @@ $(function() {
 	let actual_payment = payment_all;
 
 
+	let max_use_mileage = parseInt($("#my-mileage").attr("my-mileage"));
 	let deposit = payment_all * 0.2;
+	
+	if ((payment_all * 0.8) <= max_use_mileage) {
+		max_use_mileage = payment_all * 0.8;
+		$("#max-use-mileage").attr("max-use-mileage", max_use_mileage);
+		$("#max-use-mileage").text(max_use_mileage);
+	}
 
 	// *****
 	// 선결제	
 	// *****
 	$(".inner-radio:eq(0)").click(function() {
+		$(".mileage-line-wrap").removeClass("blind");
+		$(".my-mileage-wrap").removeClass("blind");
+		
+		
 		payment_state = "T";
 		$(".inner-radio:eq(0)").addClass("choice-radio");
 		$(".inner-radio:eq(1)").removeClass("choice-radio");
@@ -76,6 +93,9 @@ $(function() {
 	// 후불 결제
 	// *******
 	$(".inner-radio:eq(1)").click(function() {
+		$(".mileage-line-wrap").addClass("blind");
+		$(".my-mileage-wrap").addClass("blind");
+		
 		payment_state = "F";
 		$(".inner-radio:eq(0)").removeClass("choice-radio");
 		$(".inner-radio:eq(1)").addClass("choice-radio");
@@ -112,7 +132,7 @@ $(function() {
 			actual_payment = payment_all; // 마일리지 사용 후 결제 금액	
 
 			// 가진 마일리지보다 적게 사용할 때
-			if (use_mileage <= my_mileage) {
+			if (use_mileage <= max_use_mileage) {
 				// 사용 마일리지가 원결제 금액보다 작을 때
 				if (use_mileage <= payment_all) {
 					if (use_mileage === 0 || use_mileage === "") {
@@ -139,7 +159,7 @@ $(function() {
 			actual_payment = payment_later;
 
 			// 가진 마일리지보다 적게 사용할 때
-			if (use_mileage <= my_mileage) {
+			if (use_mileage <= max_use_mileage) {
 				// 사용 마일리지가 원결제 금액보다 작을 때
 				if (use_mileage <= actual_payment) {
 					if (use_mileage === 0 || use_mileage === "") {
