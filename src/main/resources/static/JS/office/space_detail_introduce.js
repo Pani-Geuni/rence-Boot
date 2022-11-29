@@ -409,4 +409,131 @@ $(function() {
 			}
 		}
 	});
+	
+	/************************************************* */
+	/****************** PAGING SECTION *************** */
+	/************************************************* */
+	
+    $(".question-paging").on("click", ".paging-box.paging-num", function(){
+		alert("question")
+    });
+    $(".review-paging").on("click", ".paging-box.paging-num", function(){
+		alert("review")
+    });
+    
+    // 다음 페이지 리스트로 이동
+    $(".question-paging").on("click", ".next-page-btn", function(){
+		var start = Number($($(".question-paging").find(".paging-box.paging-num")[0]).text()) + 5;
+		var last = Number($($(".question-paging").find(".paging-box.paging-num")[4]).text()) + 5;
+		var totalPageCnt = Number($("#totalPageCnt").val());
+		
+		if($(".question-paging").find(".before-page-btn").hasClass("hide")){
+			$(".question-paging").find(".before-page-btn").removeClass("hide");
+		}
+		
+		if(last >= totalPageCnt){
+			last = totalPageCnt;
+			$(".question-paging").find(".next-page-btn").addClass("hide");
+		}
+		
+		var sample = $(".question-paging").find(".paging-num-wrap>.paging-box.paging-num:eq(0)").clone();
+		$(".question-paging").find(".paging-num-wrap").empty();
+		
+		for(var i = start; i <= last; i++){
+			var sample_span = sample.clone();
+
+			sample_span.text(i);
+			sample_span.attr("idx", i);
+			sample_span.removeClass("choice");
+			sample_span.addClass("un-choice");
+			
+			$(".question-paging").find(".paging-num-wrap").append(sample_span);
+		}
+	});
+	
+    // 문의 탭 - 이전 페이지 리스트로 이동
+    $(".question-paging").on("click", ".before-page-btn", function(){
+		var start = Number($($(".question-paging").find(".paging-box.paging-num")[0]).text()) - 5;
+		var last = Number($(".question-paging").find(".paging-box.paging-num:last").text()) - 5;
+		
+		if($(".question-paging").find(".next-page-btn").hasClass("hide")){
+			$(".question-paging").find(".next-page-btn").removeClass("hide");
+		}
+		
+		if(start == 1){
+			$(".question-paging").find(".before-page-btn").addClass("hide");
+		}
+		
+		var sample = $($(".question-paging").find(".paging-box.paging-num")[0]).clone();
+		$(".question-paging").find(".paging-num-wrap").empty();
+		
+		for(var i = start; i <= last; i++){
+			var sample_span = sample.clone();
+
+			sample_span.text(i);
+			sample_span.attr("idx", i);
+			sample_span.removeClass("choice");
+			sample_span.addClass("un-choice");
+			
+			$(".question-paging").find(".paging-num-wrap").append(sample_span);
+		}
+	});
+    
+    // 문의 탭 - 다음 페이지 리스트로 이동
+    $(".review-paging").on("click", ".next-page-btn", function(){
+		var start = Number($($(".review-paging").find(".paging-box.paging-num")[0]).text()) + 5;
+		var last = Number($($(".review-paging").find(".paging-box.paging-num")[4]).text()) + 5;
+		var totalPageCnt = Number($("#totalPageCnt2").val());
+		
+		if($(".review-paging").find(".before-page-btn").hasClass("hide")){
+			$(".review-paging").find(".before-page-btn").removeClass("hide");
+		}
+		
+		if(last >= totalPageCnt){
+			last = totalPageCnt;
+			$(".review-paging").find(".next-page-btn").addClass("hide");
+		}
+		
+		var sample = $(".review-paging").find(".paging-num-wrap>.paging-box.paging-num:eq(0)").clone();
+		$(".review-paging").find(".paging-num-wrap").empty();
+		
+		for(var i = start; i <= last; i++){
+			var sample_span = sample.clone();
+
+			sample_span.text(i);
+			sample_span.attr("idx", i);
+			sample_span.removeClass("choice");
+			sample_span.addClass("un-choice");
+			
+			$(".review-paging").find(".paging-num-wrap").append(sample_span);
+		}
+	});
+	
+    // 이전 페이지 리스트로 이동
+    $(".review-paging").on("click", ".before-page-btn", function(){
+		var start = Number($($(".review-paging").find(".paging-box.paging-num")[0]).text()) - 5;
+		var last = Number($(".review-paging").find(".paging-box.paging-num:last").text()) - 5;
+		
+		if($(".review-paging-num-wrap").find(".next-page-btn").hasClass("hide")){
+			$(".review-paging-num-wrap").find(".next-page-btn").removeClass("hide");
+		}
+		
+		if(start == 1){
+			$(".review-paging-num-wrap").find(".before-page-btn").addClass("hide");
+		}
+		
+		var sample = $(".review-paging").find(".paging-num-wrap>.paging-box.paging-num:eq(0)").clone();
+		$(".review-paging").find(".paging-num-wrap").empty();
+		
+		for(var i = start; i <= last; i++){
+			var sample_span = sample.clone();
+
+			sample_span.text(i);
+			sample_span.attr("idx", i);
+			sample_span.removeClass("choice");
+			sample_span.addClass("un-choice");
+			
+			$(".review-paging").find(".paging-num-wrap").append(sample_span);
+		}
+	});
 });

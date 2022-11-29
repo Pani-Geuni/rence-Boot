@@ -31,7 +31,7 @@ $(function(){
     });
 
     // 페이지 번호 클릭 이벤트
-    $(".paging-box.paging-num").click(function(){
+    $(".paging-num-wrap").on("click", ".paging-box.paging-num", function(){
         location.href = "/rence/review_list?user_no=" + $.cookie("user_no") + "&page=" + $(this).attr("idx");
     });
     

@@ -191,10 +191,11 @@ $(function() {
 		}
 	});
 	
+	var scroll_flag = true;
 	// 스케줄 - 스크롤을 이용한 페이징
 	$(".schedule-ct").scroll(function(){
         if(Math.ceil($(this).scrollTop() + $(this).innerHeight()) >= $(this).prop('scrollHeight')){
-            if($(".ct-body-row").length - 1 < Number($("#maxCnt").attr("maxCnt"))){
+            if($(".ct-body-row").length - 1 < Number($("#maxCnt").attr("maxCnt")) && scroll_flag){
                 //로딩 화면
                 $(".popup-background:eq(1)").removeClass("blind");
                 $("#spinner-section").removeClass("blind");  
@@ -214,6 +215,7 @@ $(function() {
 				
 				var page = $("#maxCnt").attr("nowCnt");
 
+				scroll_flag = false;
                 $.ajax({
                     url : "/backoffice/schedule_research_paging",
                     type : "GET",
@@ -228,6 +230,8 @@ $(function() {
                         page : Number(page) + 1
                     },
                     success : function(res) {
+						scroll_flag = true;
+						
                         //로딩 화면 닫기
                         $(".popup-background:eq(1)").addClass("blind");
                         $("#spinner-section").addClass("blind");
@@ -279,6 +283,8 @@ $(function() {
                         }
                     },
                     error : function() {
+						scroll_flag = true;
+						
                         //로딩 화면 닫기
                         $(".popup-background:eq(1)").addClass("blind");
                         $("#spinner-section").addClass("blind");
@@ -288,10 +294,11 @@ $(function() {
         }
     });
 	
+	var scroll_flag2 = true;
 	// 예약자 - 스크롤을 이용한 페이징
 	$(".reservation-ct").scroll(function(){
         if(Math.ceil($(this).scrollTop() + $(this).innerHeight()) >= $(this).prop('scrollHeight')){
-            if($(".ct-body-row").length < Number($("#maxCnt").attr("maxCnt"))){
+            if($(".ct-body-row").length < Number($("#maxCnt").attr("maxCnt")) && scroll_flag2){
                 //로딩 화면
                 $(".popup-background:eq(1)").removeClass("blind");
                 $("#spinner-section").removeClass("blind");  
@@ -308,6 +315,7 @@ $(function() {
 				
 				var page = $("#maxCnt").attr("nowCnt");
 
+				scroll_flag2 = false;
                 $.ajax({
                     url : "/backoffice/reservation_paging",
                     type : "GET",
@@ -323,6 +331,8 @@ $(function() {
                         page : Number(page) + 1
                     },
                     success : function(res) {
+						scroll_flag2 = true;
+						
                         //로딩 화면 닫기
                         $(".popup-background:eq(1)").addClass("blind");
                         $("#spinner-section").addClass("blind");
@@ -346,6 +356,8 @@ $(function() {
                         }
                     },
                     error : function() {
+						scroll_flag2 = true;
+						
                         //로딩 화면 닫기
                         $(".popup-background:eq(1)").addClass("blind");
                         $("#spinner-section").addClass("blind");
@@ -372,6 +384,7 @@ $(function() {
 		let room_no = $(this).parent().siblings(".ct-body-cell:eq(0)").children().attr("room_no");
 		let off_type = $("input:radio[name='set_schedule']:checked").val();
 		let reserve_cnt = parseInt($(this).attr("reserve_cnt"));
+		
 		
 		//로딩 화면
         $(".popup-background:eq(1)").removeClass("blind");
