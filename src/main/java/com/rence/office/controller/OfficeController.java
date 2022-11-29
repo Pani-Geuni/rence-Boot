@@ -64,6 +64,7 @@ public class OfficeController {
 	@Autowired
 	HttpSession session;
 
+	
 	/*
 	 * 오피스(공간) 상세 페이지
 	 */
@@ -310,12 +311,12 @@ public class OfficeController {
 	}
 
 	@GetMapping("/introduce_q_paging")
+	@ResponseBody
 	public String introduce_q_paging(BackOfficeVO bvo, @RequestParam(value = "page", defaultValue = "1") Integer page, Model model) {
 
 		// **************
 		// backoffice 문의 페이징
 		// **************
-
 		String backoffice_no = bvo.getBackoffice_no();
 
 		// 페이징 처리 로직
@@ -394,14 +395,15 @@ public class OfficeController {
 			}
 		}
 
+		map.put("cvos", cvos);
 		String introduce_q_paging = gson.toJson(map);
 
 		return introduce_q_paging;
 	}
 
 	@GetMapping(value = "/introduce_r_paging")
-	public String introduce_r_paging(BackOfficeVO bvo, String introduce_menu,
-			@RequestParam(value = "page", defaultValue = "1") Integer page, Model model) {
+	@ResponseBody
+	public String introduce_r_paging(BackOfficeVO bvo, @RequestParam(value = "page", defaultValue = "1") Integer page, Model model) {
 		// **************
 		// backoffice 후기
 		// **************
@@ -467,6 +469,7 @@ public class OfficeController {
 			vo.setUser_name(maskingName);
 		}
 		
+		map.put("revos", revos);
 		String introduce_r_paging = gson.toJson(map);
 
 		return introduce_r_paging;

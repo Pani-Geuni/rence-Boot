@@ -73,6 +73,10 @@ $(function(){
 		var start = Number($($(".paging-box.paging-num")[0]).text()) - 5;
 		var last = Number($(".paging-box.paging-num:last").text()) - 5;
 		
+		if(last % 5 != 0){
+			last += 5 - (last % 5);
+		}
+		
 		if($(".next-page-btn").hasClass("hide")){
 			$(".next-page-btn").removeClass("hide");
 		}
