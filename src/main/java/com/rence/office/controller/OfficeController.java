@@ -183,15 +183,14 @@ public class OfficeController {
 
 				log.info("is_login :::::::::: {}", is_login);
 				log.info("user_no :::::::::: {}", vo.getUser_id());
-
+				
 				OfficeQuestionVO vo2 = service.select_one_answer(vo.getComment_no());
 				if (vo2 != null) {
-					if (vo.getIs_secret() == null) {
-
+//					if (vo.getIs_secret() == null) {
 						vo.setAnswer_content(vo2.getComment_content());
 						vo.setAnswer_date(vo2.getComment_date());
 						vo.setComment_state("Y");
-					}
+//					}
 				} else {
 					vo.setComment_state("N");
 				}
@@ -367,12 +366,12 @@ public class OfficeController {
 
 				OfficeQuestionVO vo2 = service.select_one_answer(vo.getComment_no());
 				if (vo2 != null) {
-					if (vo.getIs_secret() == null) {
+//					if (vo.getIs_secret() == null) {
 
 						vo.setAnswer_content(vo2.getComment_content());
 						vo.setAnswer_date(vo2.getComment_date());
 						vo.setComment_state("Y");
-					}
+//					}
 				} else {
 					vo.setComment_state("N");
 				}
@@ -730,12 +729,12 @@ public class OfficeController {
 
 				OfficeQuestionVO vo2 = service.select_one_answer(vo.getComment_no());
 				if (vo2 != null) {
-					if (vo.getIs_secret() == null) {
+//					if (vo.getIs_secret() == null) {
 
 						vo.setAnswer_content(vo2.getComment_content());
 						vo.setAnswer_date(vo2.getComment_date());
 						vo.setComment_state("Y");
-					}
+//					}
 				} else {
 					vo.setComment_state("N");
 				}
@@ -764,10 +763,10 @@ public class OfficeController {
 
 		// 페이징 처리 로직
 		// 리스트 수
-		long total_rowCount_review_all2 = service.total_rowCount_question_all(backoffice_no);
+		long total_rowCount_review_all = service.total_rowCount_question_all(backoffice_no);
 
 		// 총 페이징 되는 수
-		long totalPageCnt2 = (long) Math.ceil(total_rowCount_review_all2 / 4.0);
+		long totalPageCnt2 = (long) Math.ceil(total_rowCount_review_all / 4.0);
 
 		long nowPage2 = page;
 
@@ -835,11 +834,11 @@ public class OfficeController {
 		// backoffice 문의
 		model.addAttribute("is_login", is_login);
 		model.addAttribute("cvos", cvos);
-		model.addAttribute("cvos_cnt", cvos.size());
+		model.addAttribute("cvos_cnt", total_rowCount_question_all);
 
 		// backoffice 후기
 		model.addAttribute("revos", revos);
-		model.addAttribute("review_cnt", revos.size());
+		model.addAttribute("review_cnt", total_rowCount_review_all);
 
 		model.addAttribute("content", "thymeleaf/html/office/space_detail/space_detail_introduce_office");
 		model.addAttribute("title", "공간 상세 페이지");
