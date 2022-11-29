@@ -64,7 +64,9 @@ public class MypageController {
 	// 자동 개행 및 줄 바꿈 (new Gson은 일자로 나옴)
 	Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-	// 마이페이지 이동
+	// **********************
+	// 마이페이지
+	// **********************
 	@ApiOperation(value = "마이페이지", notes = "마이페이지 입니다.")
 	@GetMapping("/go_my_page")
 	public String go_my_page(Model model, HttpServletRequest request, HttpServletResponse response) {
@@ -101,9 +103,10 @@ public class MypageController {
 		return "thymeleaf/layouts/office/layout_myPage";
 	}
 
-	/**
-	 * 마이페이지 - 비밀번호 수정
-	 */
+	
+	// **********************
+	// 마이페이지 - 비밀번호 수정
+	// **********************
 	@ApiOperation(value = "비밀번호 수정", notes = "비밀번호 수정입니다.")
 	@PostMapping("/user_pw_updateOK")
 	@ResponseBody
@@ -132,9 +135,9 @@ public class MypageController {
 		return jsonObject;
 	}
 
-	/**
-	 * 마이페이지 - 비밀번호 수정 - 현재 비밀번호 확인(본인인증)
-	 */
+	// **********************
+	// 마이페이지 - 비밀번호 수정 - 현재 비밀번호 확인(본인인증)
+	// **********************
 	@ApiOperation(value = "현재 비밀번호 확인(본인인증)", notes = "현재 비밀번호 확인(본인인증) 입니다.")
 	@PostMapping("/check_now_pw")
 	@ResponseBody
@@ -159,11 +162,11 @@ public class MypageController {
 		return jsonObject;
 	}
 
-	/**
-	 * 마이페이지 -프로필 수정 AWS적용
-	 * 
-	 * @throws ParseException
-	 */
+
+
+	// **********************
+	// 마이페이지 -프로필 수정 AWS적용
+	// **********************
 	@ApiOperation(value = "프로필 수정", notes = "프로필 수정 입니다.")
 	@RequestMapping(value = "/user_img_updateOK", method = RequestMethod.POST)
 	public String user_img_updateOK(Model model, UserVO uvo, HttpServletRequest request, HttpServletResponse response,
@@ -196,9 +199,9 @@ public class MypageController {
 		return "redirect:/rence/go_my_page";
 	}
 
-	/**
-	 * 회원탈퇴
-	 */
+	// **********************
+	// 회원탈퇴
+	// **********************
 	@ApiOperation(value = "회원탈퇴", notes = "회원탈퇴 입니다.")
 	@RequestMapping(value = "/secedeOK", method = RequestMethod.POST)
 	@ResponseBody
@@ -232,9 +235,9 @@ public class MypageController {
 		return jsonObject;
 	}
 
-	/**
-	 * 예약 리스트 이동
-	 */
+	// **********************
+	// 예약 리스트 이동
+	// **********************
 	@ApiOperation(value = "예약리스트", notes = "예약리스트 페이지입니다.")
 	@GetMapping("/reserve_list")
 
@@ -318,9 +321,10 @@ public class MypageController {
 		return "thymeleaf/layouts/office/layout_myPage";
 	}
 
-	/**
-	 * 마일리지 리스트
-	 */
+
+	// **********************
+	// 마일리지 리스트
+	// **********************
 	@ApiOperation(value = "마일리지 리스트", notes = "마일리지 리스트 페이지입니다.")
 	@GetMapping("/mileage")
 	public String go_mileage(UserVO uvo, Model model, HttpServletRequest request,
@@ -342,10 +346,11 @@ public class MypageController {
 		String mileage_total = dc.format(umvo.getMileage_total());
 		log.info("mileage_total: " + mileage_total);
 
-		// 페이징 처리 로직
+		// 페이징 처리 로직(마일리지 리스트 전용!!!!)
 		// 리스트 수
 		long total_rowCount_mileage_all = service.total_rowCount_mileage_all(uvo);
-		log.info("total_rowCount_reserve_now: {}", total_rowCount_mileage_all);
+		total_rowCount_mileage_all -= 1; //회원가입시 들어가는 기본값 제외
+		log.info("total_rowCount_mileage_all: {}", total_rowCount_mileage_all);
 
 		// 총 페이징되는 수
 		long totalPageCnt = (long) Math.ceil(total_rowCount_mileage_all / 8.0);
@@ -375,14 +380,14 @@ public class MypageController {
 		map.put("totalPageCnt", totalPageCnt);
 		map.put("nowPage", nowPage);
 		map.put("maxPage", maxPage);
-
+		
 		// 페이징처리를 위한 페이지 계산 로직끝
-
-		List<UserMileageVO> vos = service.user_mileage_selectAll_paging(uvo, page);
+		
+		List<UserMileageVO> vos = service.user_mileage_selectAll_paging(uvo, page, total_rowCount_mileage_all);
 		log.info("vos: " + vos);
 
 		for (int i = 0; i < vos.size(); i++) {
-//			log.info("log**all***"+vos.get(i).getMileage()+"i: "+i);
+			//log.info("log**all***"+vos.get(i).getMileage()+"i: "+i);
 			vos.get(i).setMileage(dc.format(Integer.parseInt(vos.get(i).getMileage())));
 		}
 		log.info("Type change vos: {}" + vos);
@@ -400,9 +405,9 @@ public class MypageController {
 
 	}
 	
-	/**
-	 * 마일리지 리스트 - searchKey
-	 */
+	// **********************
+	// 마일리지 리스트 - searchKey
+	// **********************
 	@ApiOperation(value = "마일리지 조건리스트", notes = "마일리지 조건리스트 페이지입니다.")
 	@GetMapping("/mileage_search_list")
 	public String go_mileage_search_list(UserVO uvo, Model model, HttpServletRequest request, String searchKey,
@@ -423,10 +428,11 @@ public class MypageController {
 		String mileage_total = dc.format(umvo.getMileage_total());
 		log.info("mileage_total: " + mileage_total);
 
-		// 페이징 처리 로직
+		// 페이징 처리 로직(이거는 마일리지 전용임!!!)
 		// 리스트 수
 		long total_rowCount_mileage_search = service.total_rowCount_mileage_searchKey(uvo, searchKey);
-		log.info("total_rowCount_reserve_now: {}", total_rowCount_mileage_search);
+		total_rowCount_mileage_search -= 1;//회원가입시 들어가는 기본값 제외
+		log.info("total_rowCount_mileage_search: {}", total_rowCount_mileage_search);
 
 		// 총 페이징되는 수
 		long totalPageCnt = (long) Math.ceil(total_rowCount_mileage_search / 8.0);
@@ -458,8 +464,10 @@ public class MypageController {
 		map.put("maxPage", maxPage);
 
 		// 페이징처리를 위한 페이지 계산 로직끝
+		
+		
 
-		List<UserMileageVO> vos = service.user_mileage_search_list_paging(uvo, searchKey, page);
+		List<UserMileageVO> vos = service.user_mileage_search_list_paging(uvo, searchKey, page, total_rowCount_mileage_search);
 		log.info("vos: " + vos);
 
 		for (int i = 0; i < vos.size(); i++) {
@@ -481,9 +489,9 @@ public class MypageController {
 		return "thymeleaf/layouts/office/layout_myPage";
 	}
 
-	/**
-	 * 마이페이지 - 문의 리스트
-	 */
+	// **********************
+	// 마이페이지 - 문의 리스트
+	// **********************
 	@ApiOperation(value = "문의 리스트", notes = "문의 리스트 페이지입니다.")
 	@GetMapping("/question_list")
 	public String question_list(String user_no, Model model, @RequestParam(value = "page", defaultValue = "1") Integer page) {
@@ -525,7 +533,7 @@ public class MypageController {
 				map.put("maxPage", maxPage);
 
 				// 페이징처리를 위한 페이지 계산 로직끝
-		
+
 		
 		List<UserQuestionVO> list = service.select_all_question_paging(user_no, page);
 		if (list != null) {
@@ -555,16 +563,12 @@ public class MypageController {
 		return "thymeleaf/layouts/office/layout_myPage";
 	}
 
-	/**
-	 * 마이페이지 - 문의 리스트 - 문의삭제
-	 */
 
-	/**
-	 * 후기 리스트 이동
-	 */
+	// **********************
+	// 후기 리스트 이동
+	// **********************
 	@ApiOperation(value = "후기 리스트", notes = "후기 리스트 입니다.")
 	@GetMapping("/review_list")
-//	@RequestMapping(value = "/review_list", method = RequestMethod.GET)
 	public String review_list(String user_no, Model model, @RequestParam(value = "page", defaultValue = "1") Integer page) {
 		log.info("review_list()...");
 		log.info("user_no: " + user_no);
