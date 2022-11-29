@@ -1,4 +1,3 @@
-
 /**
 * @author 강경석
 * 회원가입 처리 컨트롤러
@@ -52,7 +51,7 @@ public class UserJoinController {
 	@Autowired
 	UserSendEmail authSendEmail;
 	
-	//자동 개행 및 줄 바꿈 (new Gson은 일자로 나옴)
+	//자동 개행 및 줄 바꿈 (new Gson으로 하면 일자로 나옴)
 	Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	
 	//데이터 표현 타입 설정
@@ -75,47 +74,47 @@ public class UserJoinController {
 	public String user_auth(AuthVO avo, UserVO uvo, EmailVO evo) {
 		log.info("Welcome user_auth");
 		log.info("{}", uvo);
-		
+
 		Map<String, String> map = new HashMap<String, String>();
 
-		
-		//이메일 중복 체크
+		// 이메일 중복 체크
 		UserVO emailCheck = service.emailCheckOK(uvo);
 		log.info("emailCheck: {}", emailCheck);
-		
-		
+
 		// 탈퇴한 회원의 이메일로 재가입 가능
-		if(emailCheck==null || emailCheck.getUser_state().equalsIgnoreCase("N   ")) {
+		if (emailCheck == null || emailCheck.getUser_state().equalsIgnoreCase("N   ")) {
 			avo.setUser_email(uvo.getUser_email());
 			log.info("avo :   {}", avo);
-			//이메일 전송
-			avo = authSendEmail.sendEmail(avo,evo);
-			log.info("메일이 전송되었습니다.C_avo: {}",avo);
-			if (avo !=null) {
-				//avo2 = auth 테이블에 정보 저장 후, select 해온 결과값
-				int auth_selectCnt = service.user_auth_selectCnt(avo);
-				if ( auth_selectCnt > 0) {
-					//인증번호 재전송 시간전에 재요청시
+			//인증 테이블에 인증한 기록이 있는지 확인(카운트) 1이상이면 인증을 시도를 한 상태
+			int auth_selectCnt = service.user_auth_selectCnt(avo);
+			//인증테이블에 데이터가 없을때(첫 시도, 2분경과로 자동삭제가 된 상태)
+			if (auth_selectCnt == 0) {
+				// 이메일 전송
+				avo = authSendEmail.sendEmail(avo, evo);
+				log.info("메일이 전송되었습니다.C_avo: {}", avo);
+			}
+			if (avo != null) {
+				
+				//인증테이블에 데이터가 있을때(재시도, 2분경과가 되지 않은 상태)
+				if (auth_selectCnt > 0) {
+					// 인증번호 재전송 시간전에 재요청시
 					log.info("user_auth Re-try authentication");
-					
+
 					map.put("authNum", "3");
-				}	
-				else {
-					log.info("auth_selectCnt:{}",auth_selectCnt);
+				} else {
+					log.info("auth_selectCnt:{}", auth_selectCnt);
 					AuthVO avo2 = service.user_auth_insert(avo);
 					log.info("user_auth successed...");
-					log.info("avo2:{}",avo2);
-					
+					log.info("avo2:{}", avo2);
 					map.put("authNum", "1");
 				}
-				
-			} 
+			}
 			else {
 				log.info("user_auth failed...");
 				map.put("authNum", "0");
 			}
 		}
-		//이메일 중복체크시 이메일이 있으면 2
+		// 이메일 중복체크시 이메일이 있을때(회원이 가입이 되어 있는상태) 2반환
 		else {
 			log.info("user_auth failed...(email check NOT OK)");
 			map.put("authNum", "2");
@@ -143,7 +142,9 @@ public class UserJoinController {
 
 	    if(avo != null){
 	    	log.info("successed...");
-	    	int result = service.user_auth_delete(user_email, email_code);
+	    	int del_result = service.user_auth_delete(user_email, email_code);
+	    	log.info("del_result: ", del_result);
+	    	
 	    	map.put("result", "1");
 	    }else{
 	    	log.info("failed...");
@@ -213,5 +214,4 @@ public class UserJoinController {
 		String jsonObject = gson.toJson(map);
 		return jsonObject;
 	}
-
 }// end class
