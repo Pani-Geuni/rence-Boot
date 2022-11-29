@@ -100,6 +100,13 @@
 				</div>
 			</section>
 			<!-- END host-info-section -->
+			
+			<section class="map-wrap ">
+				<label class="map-title"> 상세 위치 지도 </label>						
+		        <input type="hidden" id="location_addr" th:value="${vo.roadname_address}" />
+		        <input type="hidden" id="location_name" th:value="${vo.company_name}" />
+		        <div id="map"></div>
+			</section>
 
 			<section class="button-group-section">
 				<th:block th:if="${page}=='apply'">
