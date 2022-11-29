@@ -234,9 +234,9 @@ $(function() {
 		});
 	});
 
-	/***** *** ********** *****/
-	/***** 고정 안 된 부분 *****/
-	/***** *** ********** *****/
+	/***** *** ******* *****/
+	/***** 고정 안 된 부분 ****/
+	/***** *** ******* *****/
 
 	/****** 메뉴 섹션 ******/
 	$(".menu").click(function() {
@@ -410,18 +410,68 @@ $(function() {
 		}
 	});
 	
+	
 	/************************************************* */
 	/****************** PAGING SECTION *************** */
 	/************************************************* */
 	
     $(".question-paging").on("click", ".paging-box.paging-num", function(){
-		alert("question")
+		//로딩 화면
+		$(".popup-background:eq(1)").removeClass("blind");
+		$("#spinner-section").removeClass("blind");
+			
+		$.ajax({
+			url: "/office/introduce_q_paging",
+			type: "GET",
+			dataType: "json",
+			data: {
+				backoffice_no : window.location.href.split("?backoffice_no=")[1].split("&")[0],
+				page:1
+			},
+			success: function(res) {
+				//로딩 화면 닫기
+				$(".popup-background:eq(1)").addClass("blind");
+				$("#spinner-section").addClass("blind");
+				console.log(res);
+			},
+			error: function(err) {
+				//로딩 화면 닫기
+				$(".popup-background:eq(1)").addClass("blind");
+				$("#spinner-section").addClass("blind");
+				console.log(err);
+			}
+		});
     });
     $(".review-paging").on("click", ".paging-box.paging-num", function(){
-		alert("review")
+		//로딩 화면
+		$(".popup-background:eq(1)").removeClass("blind");
+		$("#spinner-section").removeClass("blind");
+			
+		$.ajax({
+			url: "/office/introduce_r_paging",
+			type: "GET",
+			dataType: "json",
+			data: {
+				backoffice_no : window.location.href.split("?backoffice_no=")[1].split("&")[0],
+				page:1
+			},
+			success: function(res) {
+				//로딩 화면 닫기
+				$(".popup-background:eq(1)").addClass("blind");
+				$("#spinner-section").addClass("blind");
+				console.log(res);
+			},
+			error: function(err) {
+				//로딩 화면 닫기
+				$(".popup-background:eq(1)").addClass("blind");
+				$("#spinner-section").addClass("blind");
+					
+				console.log(err);
+			}
+		});
     });
     
-    // 다음 페이지 리스트로 이동
+    // 문의 탭 - 다음 페이지 리스트로 이동
     $(".question-paging").on("click", ".next-page-btn", function(){
 		var start = Number($($(".question-paging").find(".paging-box.paging-num")[0]).text()) + 5;
 		var last = Number($($(".question-paging").find(".paging-box.paging-num")[4]).text()) + 5;
@@ -479,7 +529,7 @@ $(function() {
 		}
 	});
     
-    // 문의 탭 - 다음 페이지 리스트로 이동
+    // 후기 탭 - 다음 페이지 리스트로 이동
     $(".review-paging").on("click", ".next-page-btn", function(){
 		var start = Number($($(".review-paging").find(".paging-box.paging-num")[0]).text()) + 5;
 		var last = Number($($(".review-paging").find(".paging-box.paging-num")[4]).text()) + 5;
@@ -509,17 +559,17 @@ $(function() {
 		}
 	});
 	
-    // 이전 페이지 리스트로 이동
+    // 후기 탭 - 이전 페이지 리스트로 이동
     $(".review-paging").on("click", ".before-page-btn", function(){
 		var start = Number($($(".review-paging").find(".paging-box.paging-num")[0]).text()) - 5;
 		var last = Number($(".review-paging").find(".paging-box.paging-num:last").text()) - 5;
 		
-		if($(".review-paging-num-wrap").find(".next-page-btn").hasClass("hide")){
-			$(".review-paging-num-wrap").find(".next-page-btn").removeClass("hide");
+		if($(".review-paging").find(".next-page-btn").hasClass("hide")){
+			$(".review-paging").find(".next-page-btn").removeClass("hide");
 		}
 		
 		if(start == 1){
-			$(".review-paging-num-wrap").find(".before-page-btn").addClass("hide");
+			$(".review-paging").find(".before-page-btn").addClass("hide");
 		}
 		
 		var sample = $(".review-paging").find(".paging-num-wrap>.paging-box.paging-num:eq(0)").clone();
@@ -536,4 +586,6 @@ $(function() {
 			$(".review-paging").find(".paging-num-wrap").append(sample_span);
 		}
 	});
+	
+	
 });

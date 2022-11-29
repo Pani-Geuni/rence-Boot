@@ -310,8 +310,7 @@ public class OfficeController {
 	}
 
 	@GetMapping("/introduce_q_paging")
-	public String introduce_q_paging(BackOfficeVO bvo, String introduce_menu,
-			@RequestParam(value = "page", defaultValue = "1") Integer page, Model model) {
+	public String introduce_q_paging(BackOfficeVO bvo, @RequestParam(value = "page", defaultValue = "1") Integer page, Model model) {
 
 		// **************
 		// backoffice 문의 페이징
