@@ -1,5 +1,5 @@
 /**
- * @author 김예은
+ * @author 김예은, 전판근
  */
 
 package com.rence.user.controller;
