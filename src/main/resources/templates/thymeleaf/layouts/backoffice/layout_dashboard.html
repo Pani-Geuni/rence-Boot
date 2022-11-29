@@ -65,9 +65,6 @@
 		</script>
 		<script>
 			$(function(){
-				
-				console.log(page);
-				
 				// 페이지 번호 클릭 이벤트
 			    $(".paging-num-wrap").on("click", ".paging-box.paging-num", function(){
 					if(page == "room"){
@@ -119,6 +116,10 @@
 			    $(".before-page-btn").click(function(){
 					var start = Number($($(".paging-box.paging-num")[0]).text()) - 5;
 					var last = Number($(".paging-box.paging-num:last").text()) - 5;
+					
+					if(last % 5 != 0){
+						last += 5 - (last % 5);
+					}
 					
 					if($(".next-page-btn").hasClass("hide")){
 						$(".next-page-btn").removeClass("hide");
