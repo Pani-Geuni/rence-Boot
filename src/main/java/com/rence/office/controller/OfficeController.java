@@ -636,13 +636,16 @@ public class OfficeController {
 		} else {
 			type_list.add("타입 없음");
 		}
-
+		
+		
+		
 		if (ovo.getBackoffice_tag() != null) {
 			tag_list = info_map.splitTag(ovo.getBackoffice_tag());
+			log.info("tag_list : {}", tag_list);
 		} else {
-			tag_list.add("옵션 없음");
+			tag_list.add("태그 없음");
 		}
-
+		
 		img_list = info_map.splitImage(ovo.getBackoffice_image());
 
 		if (ovo.getBackoffice_option() != null) {
