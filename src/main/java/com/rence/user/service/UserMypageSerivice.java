@@ -1,7 +1,5 @@
-
 /**
-	 * @author 강경석
-	 
+ * @author 강경석 
 */
 package com.rence.user.service;
 
@@ -89,7 +87,6 @@ public class UserMypageSerivice {
 		} else {
 			result = 0;
 		}
-
 //		 uvo.setUser_pw("$2a$12$SkMR3vslquCDjRVoFWGtI.XoN8Bs8DsWfrYqHb.jSt6IL3EgXLVeC"); //test1234!	
 		return result;
 	}

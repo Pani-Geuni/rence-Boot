@@ -17,10 +17,12 @@ public interface MileageRepository extends JpaRepository<UserMileageVO, Object> 
 	@Query(nativeQuery = true, value = "select * from( select * from USER_DETAIL_MILEAGE_VIEW where state !='W' and user_no=?1 order by no desc)WHERE ROWNUM between 1 and 1")
 	public UserMileageVO totalMileage_selectOne(String user_no);
 
+	
 	// 마일리지 리스트수-전체(페이징 처리를 위해서) all
 	@Query(nativeQuery = true, value = "select count(*) from user_detail_mileage_view"
-			+ " where user_no = ?1  and  state = 'T' or state = 'F'")
+			+ " where user_no = ?1  and  (state = 'T' or state = 'F')")
 	public long count_allmileage(String user_no);
+	
 	
 	// 마일리지 리스트수-적립(페이징 처리를 위해서) plus
 	@Query(nativeQuery = true, value = "select count(*) from user_detail_mileage_view where user_no = ?1 and state='T'")
@@ -31,12 +33,9 @@ public interface MileageRepository extends JpaRepository<UserMileageVO, Object> 
 	public long count_minusmileage(String user_no);
 
 	
-//	select * from (select * from user_detail_mileage_view where user_no = 'U1001' order by no desc) where rownum between 1 and 5;
-	
-	
 	// 마일리지 리스트 all 페이징
 	@Query(nativeQuery = true, 
-			value = "select  * from (select ROWNUM as rn, u.* from (select *  from user_detail_mileage_view  where  user_no = ?1  and  state = 'T' or state = 'F' order by no desc) u) where rn between ?2 and ?3")
+			value = "select  * from (select ROWNUM as rn, u.* from (select *  from user_detail_mileage_view  where  user_no = ?1  and  (state = 'T' or state = 'F') order by no desc) u) where rn between ?2 and ?3")
 	public List<UserMileageVO> user_mileage_selectAll_paging(String user_no, Integer start_row, Integer end_row);
 	
 
