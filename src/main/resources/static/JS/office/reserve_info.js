@@ -20,49 +20,67 @@
 		
 		let actual_payment = parseInt($("#actual_payment").attr("actual_payment").replace(",", ""));
 		
+		console.log(reserve_no);
 		console.log(actual_payment);
 		console.log(typeof actual_payment);
 		
-//		$.ajax({
-//			url: "/rence/reserve_cancel",
-//			type: "GET",
-//			dataType: "JSON",
-//			data: {
-//				reserve_no: reserve_no,
-//				user_no: user_no
-//			},
-//			
-//			success: function(res) {
-//				
-//				if (res.result === "1") {
-//					$("#reserve-cancel-popup").addClass("blind");
-//					$("#reserve-cancel-confirm-popup").removeClass("blind");
-//					
-////					let actual_payment = $("actual_payment").attr("actual_payment");
-//					
-//					
-//					// 환불 로직
-//					$.ajax({
-//						"url": "/rence/payment_cancel",
-//						"type": "POST",
-//						"contentType": "application/json",
-//						"data": {
-//							reserve_no: reserve_no,
-//							
-//						}
-//					});
-//					
-//					location.href="/rence/reserve_list?time_point=now&user_no=" + $.cookie("user_no") + "&page=1";
-//				} else {
-//					$("#reserve-cancel-popup").addClass("blind");
-//					$("#reserve-cancel-fail-popup").removeClass("blind");
-//				}
-//			},
-//			
-//			error: function(error) {
-//				console.log(error);
-//			}
-//		});
+		// 환불 로직
+		
+		$.ajax({
+			url: "/rence/reserve_cancel",
+			type: "GET",
+			dataType: "JSON",
+			data: {
+				reserve_no: reserve_no,
+				user_no: user_no
+			},
+			
+			success: function(res) {
+				
+				if (res.result === "1") {
+					let reserve_no = location.href.split("reserve_no=")[1].split("&")[0];
+					let cancel_amount = parseInt($("#actual_payment").attr("actual_payment").replace(",", ""));
+
+					// 환불 로직
+					$.ajax({
+						"url": "/rence/payment_cancel",
+						"type": "POST",
+						"dataType": "json",
+						"data": {
+							reserve_no: reserve_no,
+							cancel_amount: cancel_amount,
+							reason: "예약 취소로 인한 결제 환불"
+							
+						},
+						
+						success: function(res) {
+							if (res.result == "1") {
+								$("#reserve-cancel-popup").addClass("blind");
+								$("#reserve-cancel-confirm-popup").removeClass("blind");
+					
+								console.log("환불 성공");
+								location.href="/rence/reserve_list?time_point=now&user_no=" + $.cookie("user_no") + "&page=1";
+							} else {
+								console.log("환불 실패");
+							}
+						},
+						
+						error: function(err) {
+							
+							console.log(err);
+						}
+					});
+					
+				} else {
+					$("#reserve-cancel-popup").addClass("blind");
+					$("#reserve-cancel-fail-popup").removeClass("blind");
+				}
+			},
+			
+			error: function(error) {
+				console.log(error);
+			}
+		});
 	 });
 	 
 	 $("#refund-closeBtn").click(function() {

@@ -187,6 +187,8 @@ $(function() {
 				console.log("결제 성공");
 				console.log("결제 금액 : " + payment_all);
 				console.log("결제자 : " + $("#user_name").val());
+				console.log(rsp.imp_uid);
+				let imp_uid = rsp.imp_uid;
 
 				//로딩 화면
 				$(".popup-background:eq(1)").removeClass("blind");
@@ -197,6 +199,7 @@ $(function() {
 					method: "POST",
 					dataType: "json",
 					data: {
+						imp_uid: imp_uid,
 						payment_total: $("#payment_all").attr("payment_all"),
 						use_mileage: $("#use-mileage").val() || 0,
 						actual_payment: $("#payment_all").attr("payment_all"),

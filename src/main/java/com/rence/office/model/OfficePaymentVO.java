@@ -71,4 +71,13 @@ public class OfficePaymentVO {
 	
 	@Column(name="payment_method")
 	private String payment_method;
+	
+	@Column(name="cancel_state")
+	private String cancel_state;
+	
+	@Column(name="cancel_amount")
+	private String cancel_amount;
+	
+	@Column(name="imp_uid")
+	private String imp_uid;
 }

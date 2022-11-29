@@ -15,8 +15,8 @@ public interface OfficePaymentRepository extends JpaRepository<OfficePaymentVO, 
 	@Transactional
 	@Query(nativeQuery = true,
 			value = "insert into "
-					+ "paymentinfo(payment_no, payment_total, use_mileage, actual_payment, payment_state, payment_date, room_no, user_no, reserve_no, sales_state, backoffice_no, payment_method) "
-					+ "values('P'||seq_payment.nextval, :#{#vo?.payment_total}, :#{#vo?.use_mileage}, :#{#vo?.actual_payment}, :#{#vo?.payment_state}, CURRENT_DATE, :#{#vo?.room_no}, :#{#vo?.user_no}, :#{#vo?.reserve_no}, :#{#vo?.sales_state}, :#{#vo?.backoffice_no}, :#{#vo?.payment_method})")
+					+ "paymentinfo(payment_no, payment_total, use_mileage, actual_payment, payment_state, payment_date, room_no, user_no, reserve_no, sales_state, backoffice_no, payment_method, cancel_state, cancel_amount, imp_uid) "
+					+ "values('P'||seq_payment.nextval, :#{#vo?.payment_total}, :#{#vo?.use_mileage}, :#{#vo?.actual_payment}, :#{#vo?.payment_state}, CURRENT_DATE, :#{#vo?.room_no}, :#{#vo?.user_no}, :#{#vo?.reserve_no}, :#{#vo?.sales_state}, :#{#vo?.backoffice_no}, :#{#vo?.payment_method}, null, null, :#{#vo?.imp_uid})")
 	public int insert_payment_info(@Param("vo") OfficePaymentVO vo);
 
 	
@@ -34,5 +34,12 @@ public interface OfficePaymentRepository extends JpaRepository<OfficePaymentVO, 
 	@Query(nativeQuery = true, value = "select * from paymentinfo where reserve_no=?1")
 	public OfficePaymentVO select_one_cancel_payment(String reserve_no);
 	
+	@Modifying
+	@Transactional
+	@Query(nativeQuery = true, 
+			value ="update paymentinfo "
+					+ "set payment_date=CURRENT_DATE, cancel_state='C', cancel_amount=?2 "
+					+ "where reserve_no=?1")
+	public int update_payment_cancel(String reserve_no, Integer cancel_amount);
 	
 }
