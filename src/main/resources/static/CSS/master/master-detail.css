@@ -269,6 +269,7 @@
   width: 100%;
 
   margin: 20px 0;
+  margin-bottom: 50px;
 }
 
 .btn-item {
@@ -297,4 +298,25 @@
 
 .btn-item:not(:last-child) {
   margin-right: 8px;
+}
+
+/**************************************/
+/*************** MAP ******************/
+/**************************************/
+.map-wrap{
+	border-top: 2px solid #e4e4e4;
+    
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+#map{
+	width:100%;
+	height:200px;
+    margin-top: 20px;
+}
+.map-title {
+  font-family: 'OTWelcome';
+  font-weight: 900;
+
+  margin-top: 0;
 }
