@@ -19,7 +19,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Order(1)
 public class UserSecurityConfig {
 	
-
 	@Bean
 	public UserDetailsService userUserDetailsService() {
 		return new UserUserDetailsService();
@@ -36,10 +35,8 @@ public class UserSecurityConfig {
 	
 	
 	public void configure(WebSecurity web) throws Exception {
-		
-		web
-				.ignoring()
-				.requestMatchers( PathRequest.toStaticResources().atCommonLocations());
+
+		web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
 	}
 
 	@Bean
@@ -90,8 +87,7 @@ public class UserSecurityConfig {
 				logoutRequestMatcher(new AntPathRequestMatcher("/rence/user_logoutOK")) // 로그아웃 URL																							
 				.logoutSuccessUrl("/") // 성공시 리턴 URL
 				.invalidateHttpSession(true) // 인증정보를 지우하고 세션을 무효화
-				.deleteCookies("JSESSIONID") // JSESSIONID 쿠키 삭제
-				.deleteCookies("user_no").deleteCookies("user_image")
+				.deleteCookies("JSESSIONID","user_no","user_image") // JSESSIONID 쿠키 삭제
 				.permitAll();
 		
 		http.csrf().disable();   // csrf 토큰을 활성화

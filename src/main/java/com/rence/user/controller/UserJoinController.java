@@ -6,7 +6,6 @@
 
 package com.rence.user.controller;
 
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -38,8 +37,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
 
-
-
 @Api(tags = "유저회원가입 컨트롤러")
 @Slf4j
 @Controller
@@ -65,7 +62,6 @@ public class UserJoinController {
 		binder.registerCustomEditor(Date.class, 
 				new CustomDateEditor(dateFormat, true));
 	}
-	
 
 	
 	/**
