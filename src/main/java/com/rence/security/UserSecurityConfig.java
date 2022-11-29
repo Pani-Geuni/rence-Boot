@@ -65,6 +65,7 @@ public class UserSecurityConfig {
 		.antMatchers("/rence/joinOK").permitAll() //회원가입완료
 		.antMatchers("/rence/find_id").permitAll() //아이디 찾기
 		.antMatchers("/rence/find_pw").permitAll() // 비밀번호 찾기
+		.antMatchers("/office/**").permitAll() 
 		.antMatchers("/","/test/","/api/v2/**", "/v3/api-docs", "/static/**",
                 "/swagger*/**","/api/v1/auth/**","/h2-console/**","/favicon.ico","/swagger-ui.html","/swagger/**","/swagger-resources/**","webjars/**","/v2/api-docs"
                 ,"/user/insertOK","/js/**","/css/**","/images/**","/error")
