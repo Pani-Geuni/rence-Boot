@@ -205,9 +205,9 @@ $(function() {
 			room_type = 'meeting_10';
 		}
 		
-		
-		console.log(user_no, backoffice_no, reserve_date, room_no, room_type);
-		console.log(reserve_stime, reserve_etime);
+		//로딩 화면
+		$(".popup-background:eq(1)").removeClass("blind");
+		$("#spinner-section").removeClass("blind");
 		
 		$.ajax({
 			url: "/office/reserve",
@@ -223,12 +223,18 @@ $(function() {
 			},
 			
 			success: function(res) {
+				//로딩 화면 닫기
+				$(".popup-background:eq(1)").addClass("blind");
+				$("#spinner-section").addClass("blind");
+				
 				if (res.result == "1") {
 					location.href="/office/payment?reserve_no=" + res.reserve_no;
 				}
 			},
-			error: function(err) {
-				console.log(err);
+			error: function() {
+				//로딩 화면 닫기
+				$(".popup-background:eq(1)").addClass("blind");
+				$("#spinner-section").addClass("blind");
 			}
 			
 		});

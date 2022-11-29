@@ -10,9 +10,9 @@ $(function() {
 		if ($(this).attr("is_reload") == "true") {
 			location.reload();
 			$(this).attr("is_reload", false);
-		}else if ($(this).attr("is_reload") == "logout") {
+		} else if ($(this).attr("is_reload") == "logout") {
 			$(this).attr("is_reload", false);
- 		    location.href = "/backoffice/logout";
+			location.href = "/backoffice/logout";
 		}
 	});
 
@@ -33,9 +33,6 @@ $(function() {
 			$("#login-pw").addClass("null-input-border");
 		}
 
-		//    const token = $("meta[name='_csrf']").attr("content");
-		//	const header = $("meta[name='_csrf_header']").attr("content");
-
 		if ($("#login-id").val().trim().length > 0 && $("#login-pw").val().trim().length > 0) {
 			//로딩 화면
 			$(".popup-background:eq(1)").removeClass("blind");
@@ -49,9 +46,6 @@ $(function() {
 					username: $("#login-id").val().trim(),
 					password: $("#login-pw").val().trim()
 				},
-				//        ,beforeSend : function(xhr) {
-				//          xhr.setRequestHeader(header, token);
-				//        },
 				success: function(res) {
 					//로딩 화면 닫기
 					$(".popup-background:eq(1)").addClass("blind");
@@ -141,6 +135,10 @@ $(function() {
 		}
 
 		if ($("#find-pw-email").val().trim().length > 0 && $("#find-pw-backoffice-code").val().trim().length > 0) {
+			//로딩 화면
+			$(".popup-background:eq(1)").removeClass("blind");
+			$("#spinner-section").removeClass("blind");
+
 			$.ajax({
 				url: "/backoffice/reset_pw",
 				type: "GET",
@@ -150,6 +148,10 @@ $(function() {
 					backoffice_email: $("#find-pw-email").val().trim()
 				},
 				success: function(res) {
+					//로딩 화면 닫기
+					$(".popup-background:eq(1)").addClass("blind");
+					$("#spinner-section").addClass("blind");
+
 					// 비밀번호찾기 성공
 					if (res.result == 1) {
 						//INPUT 초기화
@@ -173,6 +175,10 @@ $(function() {
 					}
 				},
 				error: function() {
+					//로딩 화면 닫기
+					$(".popup-background:eq(1)").addClass("blind");
+					$("#spinner-section").addClass("blind");
+
 					$(".popup-background:eq(1)").removeClass("blind");
 					$("#common-alert-popup").removeClass("blind");
 					$(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
@@ -220,6 +226,10 @@ $(function() {
 	/****** ********* *****/
 	// 추가 버튼 클릭 -> 추가 팝업창 SHOW
 	$('#btn-room-add').click(function() {
+		//로딩 화면
+		$(".popup-background:eq(1)").removeClass("blind");
+		$("#spinner-section").removeClass("blind");
+
 		$.ajax({
 			url: "/backoffice/insert_room",
 			type: "GET",
@@ -228,6 +238,10 @@ $(function() {
 				backoffice_no: $.cookie("backoffice_no")
 			},
 			success: function(res) {
+				//로딩 화면 닫기
+				$(".popup-background:eq(1)").addClass("blind");
+				$("#spinner-section").addClass("blind");
+
 				$('.popup-background:eq(0)').removeClass('blind');
 				$('#room-insert-section').removeClass('blind');
 
@@ -254,6 +268,10 @@ $(function() {
 				}
 			},
 			error: function() {
+				//로딩 화면 닫기
+				$(".popup-background:eq(1)").addClass("blind");
+				$("#spinner-section").addClass("blind");
+
 				$(".popup-background:eq(1)").removeClass("blind");
 				$("#common-alert-popup").removeClass("blind");
 				$(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
@@ -325,19 +343,14 @@ $(function() {
 	// 추가 버튼 클릭 -> 추가 로직
 	$('#btn-insert').click(function() {
 		// 입력값 not null인지 확인
-		console.log("1")
 		if ($("#input-room-name").val().trim().length > 0 && $('#edit_room_type').val().length > 0) {
-			console.log("2")
 			if ($('#edit_room_type').val() == 'office') {
-				console.log("3")
 				if ($("#input-price-name").val().trim().length > 0 && $("#input-price-name").val().trim() != 0) {
-					console.log("4")
 					insert();
 				} else {
 					$("#input-price-name").addClass("null-input-border");
 				}
 			} else {
-				console.log("5")
 				insert();
 			}
 		} else {
@@ -367,6 +380,10 @@ $(function() {
 
 	// 수정 버튼 클릭 -> 수정 팝업 오픈
 	$('.btn-room-edit').on('click', function() {
+		//로딩 화면
+		$(".popup-background:eq(1)").removeClass("blind");
+		$("#spinner-section").removeClass("blind");
+
 		$.ajax({
 			url: "/backoffice/update_room",
 			type: "GET",
@@ -376,7 +393,10 @@ $(function() {
 				room_no: $(this).attr("idx")
 			},
 			success: function(res) {
-				console.log(res);
+				//로딩 화면 닫기
+				$(".popup-background:eq(1)").addClass("blind");
+				$("#spinner-section").addClass("blind");
+
 				$('.popup-background:eq(0)').removeClass('blind');
 				$('#room-edit-section').removeClass('blind');
 				$("#btn-edit").attr("idx", res.rmvo.room_no);
@@ -406,7 +426,6 @@ $(function() {
 					var sample = $(".edit-type-select-item:eq(0)").clone();
 					sample.removeClass("blind");
 					sample.attr("type", res.room_type[i]);
-					console.log(res.room_type[i])
 
 					if (res.room_type[i] == 'desk') sample.text("데스크");
 					else if (res.room_type[i] == 'meeting_04') sample.text("미팅룸(4인)");
@@ -418,6 +437,10 @@ $(function() {
 				}
 			},
 			error: function() {
+				//로딩 화면 닫기
+				$(".popup-background:eq(1)").addClass("blind");
+				$("#spinner-section").addClass("blind");
+
 				$(".popup-background:eq(1)").removeClass("blind");
 				$("#common-alert-popup").removeClass("blind");
 				$(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
@@ -531,6 +554,10 @@ $(function() {
 
 	// 공간 삭제 버튼 클릭 -> 삭제 로직 처리
 	$("#delete-space-btn").click(function() {
+		//로딩 화면
+		$(".popup-background:eq(1)").removeClass("blind");
+		$("#spinner-section").removeClass("blind");
+
 		$.ajax({
 			url: "/backoffice/deleteOK_room",
 			type: "POST",
@@ -540,6 +567,10 @@ $(function() {
 				room_no: $(this).attr("idx")
 			},
 			success: function(res) {
+				//로딩 화면 닫기
+				$(".popup-background:eq(1)").addClass("blind");
+				$("#spinner-section").addClass("blind");
+
 				$('.popup-background:eq(0)').addClass('blind');
 				$('#host-delete-popup').addClass('blind');
 				$("#delete-space-btn").attr("idx", "");
@@ -557,6 +588,10 @@ $(function() {
 				}
 			},
 			error: function() {
+				//로딩 화면 닫기
+				$(".popup-background:eq(1)").addClass("blind");
+				$("#spinner-section").addClass("blind");
+
 				$(".popup-background:eq(1)").removeClass("blind");
 				$("#common-alert-popup").removeClass("blind");
 				$(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
@@ -592,6 +627,10 @@ $(function() {
 
 	// 답글 삭제 여부 컴펌창 - "삭제" 버튼 클릭
 	$("#delete-answer-btn").click(function() {
+		//로딩 화면
+		$(".popup-background:eq(1)").removeClass("blind");
+		$("#spinner-section").removeClass("blind");
+
 		$.ajax({
 			url: "/backoffice/deleteOK_comment",
 			type: "POST",
@@ -602,6 +641,10 @@ $(function() {
 				comment_no: $(this).attr("comment_no")
 			},
 			success: function(res) {
+				//로딩 화면 닫기
+				$(".popup-background:eq(1)").addClass("blind");
+				$("#spinner-section").addClass("blind");
+
 				if (res.result == 1) {
 					$(".popup-background:eq(1)").removeClass("blind");
 					$("#common-alert-popup").removeClass("blind");
@@ -613,8 +656,11 @@ $(function() {
 					$(".common-alert-txt").text("답변을 삭제 처리에 실패하였습니다.");
 				}
 			},
-			error: function(error) {
-				console.log(error);
+			error: function() {
+				//로딩 화면 닫기
+				$(".popup-background:eq(1)").addClass("blind");
+				$("#spinner-section").addClass("blind");
+
 				$(".popup-background:eq(1)").removeClass("blind");
 				$("#common-alert-popup").removeClass("blind");
 				$(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
@@ -632,6 +678,10 @@ $(function() {
 
 	// 문의 답글 작성
 	$('.ct-body-btn.qna-add').on('click', function() {
+		//로딩 화면
+		$(".popup-background:eq(1)").removeClass("blind");
+		$("#spinner-section").removeClass("blind");
+
 		$.ajax({
 			url: "/backoffice/insert_comment",
 			type: "GET",
@@ -642,6 +692,10 @@ $(function() {
 				comment_no: $(this).attr("comment_no")
 			},
 			success: function(res) {
+				//로딩 화면 닫기
+				$(".popup-background:eq(1)").addClass("blind");
+				$("#spinner-section").addClass("blind");
+
 				$("#q_room_name").text(res.cvo.room_name);
 				$("#user_comment").text(res.cvo.comment_content);
 				$("#h_comment_insert").attr("comment_no", res.cvo.comment_no);
@@ -651,6 +705,10 @@ $(function() {
 				$('.popup-background:eq(0)').removeClass('blind');
 			},
 			error: function() {
+				//로딩 화면 닫기
+				$(".popup-background:eq(1)").addClass("blind");
+				$("#spinner-section").addClass("blind");
+
 				$(".popup-background:eq(1)").removeClass("blind");
 				$("#common-alert-popup").removeClass("blind");
 				$(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
@@ -670,6 +728,10 @@ $(function() {
 	// 문의 답글 작성 팝업 - 답글 추가 버튼
 	$("#h_comment_insert").click(function() {
 		if ($("#host-comment").val().trim().length > 0) {
+			//로딩 화면
+			$(".popup-background:eq(1)").removeClass("blind");
+			$("#spinner-section").removeClass("blind");
+
 			$.ajax({
 				url: "/backoffice/insertOK_comment",
 				type: "POST",
@@ -681,6 +743,10 @@ $(function() {
 					comment_content: $("#host-comment").val().trim()
 				},
 				success: function(res) {
+					//로딩 화면 닫기
+					$(".popup-background:eq(1)").addClass("blind");
+					$("#spinner-section").addClass("blind");
+
 					if (res.result == 1) {
 						$("#host-comment").val("");
 						$(".now_txt_length").text("0");
@@ -698,8 +764,11 @@ $(function() {
 						$(".common-alert-txt").text("답글 등록에 실패하였습니다.");
 					}
 				},
-				error: function(error) {
-					console.log(error);
+				error: function() {
+					//로딩 화면 닫기
+					$(".popup-background:eq(1)").addClass("blind");
+					$("#spinner-section").addClass("blind");
+
 					$(".popup-background:eq(1)").removeClass("blind");
 					$("#common-alert-popup").removeClass("blind");
 					$(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
@@ -733,6 +802,10 @@ $(function() {
 	});
 
 	$("#calculate-btn").click(function() {
+		//로딩 화면
+		$(".popup-background:eq(1)").removeClass("blind");
+		$("#spinner-section").removeClass("blind");
+
 		$.ajax({
 			url: "/backoffice/updateOK_sales",
 			type: "POST",
@@ -743,7 +816,9 @@ $(function() {
 				room_no: $(this).attr("room_no")
 			},
 			success: function(res) {
-				console.log(res.result);
+				//로딩 화면 닫기
+				$(".popup-background:eq(1)").addClass("blind");
+				$("#spinner-section").addClass("blind");
 
 				if (res.result == 1) {
 					$(".popup-background:eq(1)").removeClass("blind");
@@ -756,8 +831,11 @@ $(function() {
 					$(".common-alert-txt").text("정산처리에 실패하였습니다.");
 				}
 			},
-			error: function(error) {
-				console.log(error);
+			error: function() {
+				//로딩 화면 닫기
+				$(".popup-background:eq(1)").addClass("blind");
+				$("#spinner-section").addClass("blind");
+
 				$(".popup-background:eq(1)").removeClass("blind");
 				$("#common-alert-popup").removeClass("blind");
 				$(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
@@ -812,12 +890,9 @@ $(function() {
 				//로딩 화면 닫기
 				$(".popup-background:eq(1)").addClass("blind");
 				$("#spinner-section").addClass("blind");
-				console.log(res.result);
-				console.log(res.result==1);
-				
+
 				// 호스트 삭제 성공
 				if (res.result == 1) {
-					console.log("in");
 					$('#host-delete-popup').addClass('blind');
 					$('.popup-background:eq(0)').addClass('blind');
 
@@ -832,6 +907,10 @@ $(function() {
 				}
 			},
 			error: function() {
+				//로딩 화면 닫기
+				$(".popup-background:eq(1)").addClass("blind");
+				$("#spinner-section").addClass("blind");
+
 				$(".popup-background:eq(1)").removeClass("blind");
 				$("#common-alert-popup").removeClass("blind");
 				$(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
@@ -855,6 +934,10 @@ $(function() {
 	/** 현재 비밀번호 일치 여부 확인 버튼*/
 	$("#btn-popup-confirm").on("click", function() {
 		if ($(".input-check-pw").val().trim().length > 0) {
+			//로딩 화면
+			$(".popup-background:eq(1)").removeClass("blind");
+			$("#spinner-section").removeClass("blind");
+
 			$.ajax({
 				url: "/backoffice/update_pw",
 				type: "GET",
@@ -864,6 +947,10 @@ $(function() {
 					backoffice_pw: $(".input-check-pw").val().trim()
 				},
 				success: function(res) {
+					//로딩 화면 닫기
+					$(".popup-background:eq(1)").addClass("blind");
+					$("#spinner-section").addClass("blind");
+
 					// 현재 비밀번호 일치 성공
 					if (res.result == 1) {
 						location.href = "/backoffice/setting_pw?backoffice_no=" + window.btoa($.cookie("backoffice_no"));
@@ -877,6 +964,10 @@ $(function() {
 					}
 				},
 				error: function() {
+					//로딩 화면 닫기
+					$(".popup-background:eq(1)").addClass("blind");
+					$("#spinner-section").addClass("blind");
+
 					$(".popup-background:eq(1)").removeClass("blind");
 					$("#common-alert-popup").removeClass("blind");
 					$(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
@@ -894,6 +985,10 @@ $(function() {
 	/****************************** */
 
 	function insert() {
+		//로딩 화면
+		$(".popup-background:eq(1)").removeClass("blind");
+		$("#spinner-section").removeClass("blind");
+
 		$.ajax({
 			url: "/backoffice/insertOK_room",
 			type: "POST",
@@ -905,6 +1000,10 @@ $(function() {
 				room_price: $("#input-price-name").val().trim()
 			},
 			success: function(res) {
+				//로딩 화면 닫기
+				$(".popup-background:eq(1)").addClass("blind");
+				$("#spinner-section").addClass("blind");
+
 				// 변경 성공
 				if (res.result == 1) {
 					// input 초기화
@@ -935,6 +1034,10 @@ $(function() {
 				}
 			},
 			error: function() {
+				//로딩 화면 닫기
+				$(".popup-background:eq(1)").addClass("blind");
+				$("#spinner-section").addClass("blind");
+
 				$(".popup-background:eq(1)").removeClass("blind");
 				$("#common-alert-popup").removeClass("blind");
 				$(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
@@ -943,6 +1046,10 @@ $(function() {
 	}
 
 	function update() {
+		//로딩 화면
+        $(".popup-background:eq(1)").removeClass("blind");
+        $("#spinner-section").removeClass("blind");
+        
 		$.ajax({
 			url: "/backoffice/updateOK_room",
 			type: "POST",
@@ -955,6 +1062,10 @@ $(function() {
 				room_price: $("#m-input-price-name").val().trim()
 			},
 			success: function(res) {
+				//로딩 화면 닫기
+				$(".popup-background:eq(1)").addClass("blind");
+				$("#spinner-section").addClass("blind");
+
 				// 변경 성공
 				if (res.result == 1) {
 					// input 초기화
@@ -987,6 +1098,10 @@ $(function() {
 				}
 			},
 			error: function() {
+				//로딩 화면 닫기
+				$(".popup-background:eq(1)").addClass("blind");
+				$("#spinner-section").addClass("blind");
+
 				$(".popup-background:eq(1)").removeClass("blind");
 				$("#common-alert-popup").removeClass("blind");
 				$(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
