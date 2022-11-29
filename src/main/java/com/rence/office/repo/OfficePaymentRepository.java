@@ -16,7 +16,7 @@ public interface OfficePaymentRepository extends JpaRepository<OfficePaymentVO, 
 	@Query(nativeQuery = true,
 			value = "insert into "
 					+ "paymentinfo(payment_no, payment_total, use_mileage, actual_payment, payment_state, payment_date, room_no, user_no, reserve_no, sales_state, backoffice_no, payment_method) "
-					+ "values('P'||seq_payment.nextval, :#{#vo?.payment_total}, :#{#vo?.use_mileage}, :#{#vo?.actual_payment}, :#{#vo?.payment_state}, SYSDATE, :#{#vo?.room_no}, :#{#vo?.user_no}, :#{#vo?.reserve_no}, :#{#vo?.sales_state}, :#{#vo?.backoffice_no}, :#{#vo?.payment_method})")
+					+ "values('P'||seq_payment.nextval, :#{#vo?.payment_total}, :#{#vo?.use_mileage}, :#{#vo?.actual_payment}, :#{#vo?.payment_state}, CURRENT_DATE, :#{#vo?.room_no}, :#{#vo?.user_no}, :#{#vo?.reserve_no}, :#{#vo?.sales_state}, :#{#vo?.backoffice_no}, :#{#vo?.payment_method})")
 	public int insert_payment_info(@Param("vo") OfficePaymentVO vo);
 
 	
