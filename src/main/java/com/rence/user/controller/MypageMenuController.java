@@ -107,12 +107,6 @@ public class MypageMenuController {
 				String ch4 = dc.format(Integer.parseInt(vo.getRoom_price()));
 				vo.setRoom_price(ch4);
 			}
-
-			int is_review = service.is_write_review(vo.getRoom_no(), vo.getBackoffice_no());
-			if (is_review == 0)
-				map.put("is_write_review", false);
-			else
-				map.put("is_write_review", true);
 			
 			
 			// 버튼 section
@@ -242,6 +236,8 @@ public class MypageMenuController {
 	public String reserved_info(String reserve_no, Model model, HttpServletRequest request) {
 		String user_no = null;
 
+		OfficeInfoMap info_map = new OfficeInfoMap();
+
 		String is_login = (String) session.getAttribute("user_id");
 		Cookie[] cookies = request.getCookies();
 
@@ -255,6 +251,13 @@ public class MypageMenuController {
 			Map<String, Object> map = new HashMap<String, Object>();
 
 			ReserveInfo_ViewVO vo = service.select_one_reserve_info(reserve_no);
+
+			List<String> splitImage = info_map.splitImage(vo.getBackoffice_image());
+			String room_first_image = splitImage.get(0);
+			vo.setBackoffice_image(room_first_image);
+
+			vo.setRoom_type(info_map.changeType(vo.getRoom_type()));
+
 			map.put("reserve_no", reserve_no);
 			map.put("info_obj", vo);
 
@@ -275,12 +278,20 @@ public class MypageMenuController {
 			}
 
 			UserDTO vo2 = service.select_one_user_info(user_no);
-			log.info("UserDTO | {}", vo2);
 			map.put("user_obj", vo2);
+			
+			int is_review = service.is_write_review(vo.getRoom_no(), vo.getBackoffice_no());
+			if (is_review == 0)
+				map.put("is_write_review", false);
+			else
+				map.put("is_write_review", true);
+			
+			// 버튼 section
+			OfficePaymentVO pvo = officeService.select_one_cancel_payment(reserve_no);
+			map.put("pvo", pvo);
+			
 			model.addAttribute("res", map);
-
-			log.info("reserved_info : {}", map);
-
+			
 			model.addAttribute("content", "thymeleaf/html/office/reserve/reserve_detail_before");
 
 			return "thymeleaf/layouts/office/layout_reserve";
