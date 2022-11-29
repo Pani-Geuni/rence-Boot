@@ -113,6 +113,12 @@ public class MypageMenuController {
 				map.put("is_write_review", false);
 			else
 				map.put("is_write_review", true);
+			
+			
+			// 버튼 section
+			OfficePaymentVO pvo = officeService.select_one_cancel_payment(reserve_no);
+			map.put("pvo", pvo);
+			
 
 			UserDTO vo2 = service.select_one_user_info(user_no);
 			map.put("user_obj", vo2);

@@ -160,14 +160,21 @@
             
             <!-- START BTN-SECTION  -->
             <section class="btn-pay-section">
-                <div id="pay-cancel-btn" class="pay-btn" th:attr="idx=${res.info_obj.reserve_no}">
-                    <span>예약 취소</span>
-                </div>
-                <th:block th:if="${res.is_write_review} == false">
-	                 <div id="write-review-btn" class="write-review-btn">
-	                    <span>후기 작성</span>
+            	<th:block th:if="${res.pvo.cancel_state=='C'}">
+            		<div id="pay-canceled-btn" class="pay-canceled-btn" th:attr="idx=${res.info_obj.reserve_no}">
+                    	<span>취소된 예약</span>
+                	</div>
+            	</th:block>
+            	<th:block th:if="${res.pvo.cancel_state!='C'}">
+	                <div id="pay-cancel-btn" class="pay-btn" th:attr="idx=${res.info_obj.reserve_no}">
+	                    <span>예약 취소</span>
 	                </div>
-                </th:block>
+	                <th:block th:if="${res.is_write_review} == false">
+		                 <div id="write-review-btn" class="write-review-btn">
+		                    <span>후기 작성</span>
+		                </div>
+	                </th:block>
+	            </th:block>
             </section>
             <!-- END BTN-SECTION  -->
             
