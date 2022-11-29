@@ -124,6 +124,7 @@ public class UserMypageSerivice {
 	// 마일리지 리스트수-현재(페이징 처리를 위해서) all
 	public long total_rowCount_mileage_all(UserVO uvo) {
 		log.info("total_rowCount_mileage_all()....");
+		
 		return mileageRepository.count_allmileage(uvo.getUser_no());
 	}
 
@@ -145,14 +146,24 @@ public class UserMypageSerivice {
 	}
 
 	// 마일리지 리스트 페이징 - all
-	public List<UserMileageVO> user_mileage_selectAll_paging(UserVO uvo, Integer page) {
+	public List<UserMileageVO> user_mileage_selectAll_paging(UserVO uvo, Integer page, long total_rowCount_mileage_all) {
 		log.info("user_mileage_selectAll_paging");
 		log.info("uvo: {}", uvo);
 		log.info("current page: {}", page);
+		
+		// 회원가입 기본값 0만 들어있으면 paging 처리 및 리스트 처리 제외
+		if (total_rowCount_mileage_all == 0) {
+			page = 0;
+		}
 
 		Integer row_count = 8;
 		Integer start_row = (page - 1) * row_count + 1;
 		Integer end_row = page * row_count;
+
+		//마지막 페이지 end_row 처리
+		if (end_row > total_rowCount_mileage_all) {
+			end_row = (int) total_rowCount_mileage_all;
+		}
 		log.info("start_row: " + start_row);
 		log.info("end_row: " + end_row);
 
@@ -160,15 +171,25 @@ public class UserMypageSerivice {
 	}
 
 	// 마일리지 리스트 페이징 - plus,minus
-	public List<UserMileageVO> user_mileage_search_list_paging(UserVO uvo, String searchKey, Integer page) {
+	public List<UserMileageVO> user_mileage_search_list_paging(UserVO uvo, String searchKey, Integer page, long total_rowCount_mileage_search) {
 		log.info("user_mileage_search_list()....");
 		log.info("uvo: {}", uvo);
 		log.info("searchKey: {}", searchKey);
 		List<UserMileageVO> vos = null;
+		
+		//회원가입 기본값 0만 들어있으면 paging 처리 및 리스트 처리 제외 
+		if(total_rowCount_mileage_search == 0) {
+			page = 0;
+		}
 
 		Integer row_count = 8;
 		Integer start_row = (page - 1) * row_count + 1;
 		Integer end_row = page * row_count;
+		
+		//마지막 페이지 end_row 처리(단, minus의 경우는 기본값이 들어 있지 않기 때문에 page * row_count을통해 끝까지 리스트를 불러오게 함
+		if((end_row > total_rowCount_mileage_search) && !searchKey.equals("minus") ) {
+			end_row = (int) total_rowCount_mileage_search;
+		}
 		log.info("start_row: " + start_row);
 		log.info("end_row: " + end_row);
 
