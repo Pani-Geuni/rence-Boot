@@ -129,29 +129,35 @@ $(function() {
 	// pick_time_list에 시간이 하나만 들어가 있으면 1시간 대여
 	// 2개 있으면 그 사이 시간을 대여하는 것.
 	$('.time-boundary-item').on('click', function() {
+		
+		check_reserve_time = [];
+		
 		if ($(this).hasClass('selected')) {
 
 			// 선택 취소 했을 때
 			pick_time_list.pop($(this).val());
-			$(this).toggleClass('selected');
+			$(this).removeClass('selected');
 		} else {
 			// 선택 되었을 때
 			if (pick_time_list.length < 2) {
 				pick_time_list.push($(this).val());
 				pick_time_list.sort();
-				$(this).toggleClass('selected');
+				$(this).addClass('selected');
 			}
 		}
 
 		// 예약 불가 처리
 		if (pick_time_list.length == 2) {
-			check_reserve_time = [];
+			
 			let reserve_flag = 0;
 			for (var t = pick_time_list[0]; t <= pick_time_list[1]; t++) {
 
 				// attr display가 있을 때만 추가
 				if ($(".time-boundary-item:eq(" + t + ")").is('[display]')) {
 					check_reserve_time.push(t);
+					
+					$(".time-boundary-item:eq(" + t + ")").css("background-color", "#2EE49D");
+					$(".time-boundary-item:eq(" + t + ")").css("color", "#FFFFFF");
 				} else {
 					$('.fixed-popup').removeClass('blind')
 					$('.using-time-fail-txt:eq(0)').html(
@@ -162,12 +168,29 @@ $(function() {
 			}
 
 			if (reserve_flag === 1) {
+				pick_time_list = [];
+				check_reserve_time = [];
 				for (var t = 0; t < 24; t++) {
 					$(".time-boundary-item:eq(" + t + ")").removeClass('selected');
-					pick_time_list = [];
-					check_reserve_time = [];
+					$(".time-boundary-item:eq(" + t + ")").css("background-color", "#FFFFFF");
+					$(".time-boundary-item:eq(" + t + ")").css("color", "#000000");
 				}
+				
 				reserve_flag = 0;
+			}
+		} else {
+			pick_time_list = [];
+			check_reserve_time = [];
+			
+			for (var t = 0; t < 24; t++) {
+				if ($(".time-boundary-item:eq(" + t + ")").hasClass("selected")) {
+					pick_time_list.push(t);
+					$(".time-boundary-item:eq(" + t + ")").css("background-color", "#2EE49D");
+					$(".time-boundary-item:eq(" + t + ")").css("color", "#FFFFFF");
+				} else {
+					$(".time-boundary-item:eq(" + t + ")").css("background-color", "#FFFFFF");
+					$(".time-boundary-item:eq(" + t + ")").css("color", "#000000");
+				}
 			}
 		}
 	});
