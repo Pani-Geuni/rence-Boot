@@ -12,7 +12,7 @@ $(function(){
         location.href = "/rence/mileage_search_list?searchKey="+$(this).attr("id")+"&user_no="+$.cookie("user_no")+"&page=1";
     });
     
-    $(".paging-box.paging-num").click(function(){
+    $(".paging-num-wrap").on("click", ".paging-box.paging-num", function(){
         if(location.href.includes("/rence/mileage?")){
             location.href = "/rence/mileage?user_no="+$.cookie("user_no")+"&page=" + $(this).attr("idx");
         }else{

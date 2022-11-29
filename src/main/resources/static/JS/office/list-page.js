@@ -24,9 +24,10 @@
         }
     });
 
+	var scroll_flag = true;
     $(".listPage-wrap").scroll(function(){
         if(Math.ceil($(this).scrollTop() + $(this).innerHeight()) >= $(this).prop('scrollHeight')){
-            if($(".list-box").length < Number($("#maxCnt").attr("maxCnt"))){
+            if($(".list-box").length < Number($("#maxCnt").attr("maxCnt")) && scroll_flag){
                 //로딩 화면
                 $(".popup-background:eq(1)").removeClass("blind");
                 $("#spinner-section").removeClass("blind");  
@@ -35,7 +36,8 @@
                     var type = window.location.href.split("type=")[1].split("&")[0];
                     var condition = window.location.href.split("condition=")[1].split("&")[0];
                     var page = $("#maxCnt").attr("nowCnt");
-    
+                    
+    				scroll_flag = false;
                     $.ajax({
                         url : "/office/list_paging",
                         type : "GET",
@@ -46,6 +48,8 @@
                             condition : condition
                         },
                         success : function(res) {
+							scroll_flag = true;
+							
                             //로딩 화면 닫기
                             $(".popup-background:eq(1)").addClass("blind");
                             $("#spinner-section").addClass("blind");
@@ -67,6 +71,8 @@
                             }
                         },
                         error : function() {
+							scroll_flag = true;
+							
                             //로딩 화면 닫기
                             $(".popup-background:eq(1)").addClass("blind");
                             $("#spinner-section").addClass("blind");
@@ -78,7 +84,8 @@
                     var searchWord = window.location.href.split("searchWord=")[1].split("&")[0];
                     var condition = window.location.href.split("condition=")[1].split("&")[0];
                     var page = $("#maxCnt").attr("nowCnt");
-    
+    	
+    				scroll_flag = false;
                     $.ajax({
                         url : "/office/search_list_paging",
                         type : "GET",
@@ -91,6 +98,7 @@
                             condition : condition
                         },
                         success : function(res) {
+							scroll_flag = true;
                             //로딩 화면 닫기
                             $(".popup-background:eq(1)").addClass("blind");
                             $("#spinner-section").addClass("blind");
@@ -112,6 +120,7 @@
                             }
                         },
                         error : function() {
+							scroll_flag = true;
                             //로딩 화면 닫기
                             $(".popup-background:eq(1)").addClass("blind");
                             $("#spinner-section").addClass("blind");

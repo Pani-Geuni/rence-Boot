@@ -53,11 +53,11 @@ $(function() {
 		location.href = "/backoffice/reserve?backoffice_no=" + $.cookie("backoffice_no") + "&reserve_state=" + reserve_state + "&page=1";
 	});
 
-
+	var scroll_flag = true;
 	// 스크롤을 이용한 페이징
 	$(".reserve-ct").scroll(function() {
 		if (Math.ceil($(this).scrollTop() + $(this).innerHeight()) >= $(this).prop('scrollHeight')) {
-			if ($(".ct-body-row").length < Number($("#maxCnt").attr("maxCnt"))) {
+			if ($(".ct-body-row").length < Number($("#maxCnt").attr("maxCnt")) && scroll_flag) {
 				//로딩 화면
 				$(".popup-background:eq(1)").removeClass("blind");
 				$("#spinner-section").removeClass("blind");
@@ -80,6 +80,7 @@ $(function() {
 
 				var page = $("#maxCnt").attr("nowCnt");
 
+				scroll_flag = false;
 				$.ajax({
 					url: "/backoffice/reserve_paging",
 					type: "GET",
@@ -90,6 +91,8 @@ $(function() {
 						page: Number(page) + 1
 					},
 					success: function(res) {
+						scroll_flag = true;
+						
 						//로딩 화면 닫기
 						$(".popup-background:eq(1)").addClass("blind");
 						$("#spinner-section").addClass("blind");
@@ -143,13 +146,15 @@ $(function() {
 								default:
 									break;
 							}
-							row.find(".reserve-price").text(res.r_vos[i].actual_payment);
+							row.find(".reserve-price").text(res.r_vos[i].actual_payment + "원 / " + reserve_payment_state);
 							row.find(".reserve_is_cancle").attr("reserve_no", res.r_vos[i].reserve_no);
 
 							$(".reserve_state").append(row);
 						}
 					},
 					error: function() {
+						scroll_flag = true;
+						
 						//로딩 화면 닫기
 						$(".popup-background:eq(1)").addClass("blind");
 						$("#spinner-section").addClass("blind");
@@ -163,7 +168,7 @@ $(function() {
 	$(".reserve-ct").on("click", ".reserve_is_cancle", function() {
 		$(".popup-background:eq(0)").removeClass("blind");
 		$("#reserve-delete-popup").removeClass("blind");
-		console.log($(this).parents(".reserve-btn-cell").siblings(".reserve_user_email"));
+
 		var user_email = $(this).parents(".reserve-btn-cell").siblings(".reserve_user_email").text();
 		var reserve_stime = $(this).parents(".reserve-btn-cell").siblings(".reserve_date_set").text().split(" ~ ")[0];
 		var reserve_etime = $(this).parents(".reserve-btn-cell").siblings(".reserve_date_set").text().split(" ~ ")[1];

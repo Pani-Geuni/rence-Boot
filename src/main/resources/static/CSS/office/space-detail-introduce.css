@@ -549,6 +549,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    min-height: 470px;
     max-height: 470px;
     overflow-y: overlay;
 }
@@ -716,9 +717,8 @@
 .paging-section{
     width: 100%;
     height: 10%;
+    margin-top: 10px;
 
-    margin-top: 40px;
-    
     display: flex;
     justify-content: center;
 }
@@ -1071,43 +1071,4 @@
 
 .btn-section {
 	background-color: #2EE49D;
-}
-
-
-/**************************/
-/**** PAGING SECTION ******/
-/**************************/
-.paging-section{
-    margin-bottom: 3px;
-
-    width: 100%;
-    height: 10%;
-    
-    display: flex;
-    justify-content: center;
-}
-.paging-wrap{
-    width: auto;
-    height: auto;
-    display: flex;
-}
-.paging-box{
-    width: 10px;
-    height: 10px;
-
-    text-align: center;
-
-    border: 1.5px solid #D8D8D8;
-    color: #B2B2B2;
-    font-size: 9px;
-
-    padding: 2px 2px 2px 1px;
-    cursor: pointer;
-}
-.choice{
-    color: #000000;
-    text-decoration: underline;
-}
-.un-choice{
-    color: #808080;
 }
