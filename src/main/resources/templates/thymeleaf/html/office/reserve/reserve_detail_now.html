@@ -146,7 +146,7 @@
                         <ul class="payment-info-li-wrap">
                             <li class="info-li">
                                 <label class="pay-info-label">결제 금액</label>
-                                <span class="pay-info-text">[[${res.info_obj.actual_payment}]]원</span>
+                                <span class="pay-info-text" id="actual_payment" th:attr="actual_payment=${res.info_obj.actual_payment}">[[${res.info_obj.actual_payment}]]원</span>
                             </li>
                             <li class="info-li">
                                 <label class="pay-info-label">마일리지 적립 금액</label>
