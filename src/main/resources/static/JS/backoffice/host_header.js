@@ -121,8 +121,10 @@ $(function () {
             $("#spinner-section").addClass("blind");
 
             if (res.result == 1) {
+              location.href = '/backoffice/settings?backoffice_no='+$.cookie("backoffice_no");
+            } else if (res.result == 2) {
               location.href = '/backoffice/landing';
-            } else {
+            }else {
               $(".popup-background:eq(1)").removeClass("blind");
               $("#common-alert-popup").removeClass("blind");
               $(".common-alert-txt").text("비밀번호 변경에 실패하였습니다.");
