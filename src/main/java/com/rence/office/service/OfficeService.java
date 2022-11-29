@@ -211,6 +211,12 @@ public class OfficeService {
 		return vo;
 	}
 	
+	public int update_payment_cancel(String reserve_no, Integer cancel_amount) {
+		int result = payment_repository.update_payment_cancel(reserve_no, cancel_amount);
+		
+		return result;
+	}
+	
 	public List<OfficeMileageVO> select_all_mileage_cancel(String payment_no) {
 		List<OfficeMileageVO> vos = mileage_repository.select_all_mileage_cancel(payment_no);
 		
