@@ -23,7 +23,7 @@
 	<link rel="stylesheet" href="/static/CSS/common/footer.css" />
 
 	<link rel="stylesheet" href="/static/CSS/office/home.css" />
-	
+
 	<link rel="stylesheet" href="/static/CSS/office/jquery-ui.css" />
 	<link rel="stylesheet" href="/static/CSS/office/jquery-ui-timepicker.css" />
 	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -37,24 +37,25 @@
 			<link rel="stylesheet" href="/static/CSS/office/list-page.css" />
 			<script src="/static/JS/office/list-page.js"></script>
 		</th:block>
+	</th:block>
 
-		<th:block th:if="${page} == 'space_detail'">
-			<link rel="stylesheet" href="/static/CSS/office/space-detail-introduce.css" />
-			<link rel="stylesheet" href="/static/CSS/office/jquery-ui.css" />
-			<link rel="stylesheet" href="/static/CSS/office/jquery-ui-timepicker.css" />
-			<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-			<script src="/static/JS/office/timepicker.js"></script>
-			<script src="/static/JS/office/space_detail_introduce.js"></script>
-		</th:block>
+	<th:block th:if="${page} == 'space_detail'">
+		<link rel="stylesheet" href="/static/CSS/office/space-detail-introduce.css" />
+		<link rel="stylesheet" href="/static/CSS/office/jquery-ui.css" />
+		<link rel="stylesheet" href="/static/CSS/office/jquery-ui-timepicker.css" />
+		<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+		<script src="/static/JS/office/timepicker.js"></script>
+		<script src="/static/JS/office/space_detail_introduce.js"></script>
+	</th:block>
 
-		<th:block th:if="${page} == 'space_detail_office'">
-			<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-			<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-			<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<th:block th:if="${page} == 'space_detail_office'">
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
-			<link rel="stylesheet" href="/static/CSS/office/space-detail-introduce-office.css" />
-			<script src="/static/JS/office/space_detail_introduce_office.js"></script>
-		</th:block>
+		<link rel="stylesheet" href="/static/CSS/office/space-detail-introduce-office.css" />
+		<script src="/static/JS/office/space_detail_introduce_office.js"></script>
 	</th:block>
 
 	<script th:inline="javascript">
@@ -62,279 +63,279 @@
 		var is_login2 = /*[[${session.user_id}]]*/ "is_login2";
 		/*]]*/
 	</script>
-	
+
 	<th:block th:if="${page == 'space_detail'} or ${page == 'space_detail_office'}">
-		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3b12e82dc4c8922a38cfd990bfa0afbd&libraries=services"></script>
+		<script type="text/javascript"
+			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3b12e82dc4c8922a38cfd990bfa0afbd&libraries=services"></script>
 		<script>
-			$(function(){
+			$(function () {
 				var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-				    mapOption = {
-				        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-				        level: 3 // 지도의 확대 레벨
-				    };  
-				
+					mapOption = {
+						center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+						level: 3 // 지도의 확대 레벨
+					};
+
 				// 지도를 생성합니다    
-				var map = new kakao.maps.Map(mapContainer, mapOption); 
-				
+				var map = new kakao.maps.Map(mapContainer, mapOption);
+
 				// 주소-좌표 변환 객체를 생성합니다
 				var geocoder = new kakao.maps.services.Geocoder();
-				
+
 				var location = $("#location_addr").val();
 				var location_name = $("#location_name").val();
-				
+
 				// 주소로 좌표를 검색합니다
-				geocoder.addressSearch(location, function(result, status) {
-				
-				    // 정상적으로 검색이 완료됐으면 
-				     if (status === kakao.maps.services.Status.OK) {
-				
-				        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-				
-				        // 결과값으로 받은 위치를 마커로 표시합니다
-				        var marker = new kakao.maps.Marker({
-				            map: map,
-				            position: coords
-				        });
-				        
-				        var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-						    mapOption = {
-						        center: new kakao.maps.LatLng(result[0].y, result[0].x), // 지도의 중심좌표
-						        level: 3 // 지도의 확대 레벨
-						    }; 
-						map = new kakao.maps.Map(mapContainer, mapOption); 
-						
-				        // 인포윈도우로 장소에 대한 설명을 표시합니다
-				        var infowindow = new kakao.maps.InfoWindow({
-				            content: '<div style="width:150px;text-align:center;padding:6px 0;">' + location_name +'</div>'
-				        });
-				        infowindow.open(map, marker);
-				
-				        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-				        map.setCenter(coords);
-				    } 
+				geocoder.addressSearch(location, function (result, status) {
+
+					// 정상적으로 검색이 완료됐으면 
+					if (status === kakao.maps.services.Status.OK) {
+
+						var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+						// 결과값으로 받은 위치를 마커로 표시합니다
+						var marker = new kakao.maps.Marker({
+							map: map,
+							position: coords
+						});
+
+						var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+							mapOption = {
+								center: new kakao.maps.LatLng(result[0].y, result[0].x), // 지도의 중심좌표
+								level: 3 // 지도의 확대 레벨
+							};
+						map = new kakao.maps.Map(mapContainer, mapOption);
+
+						// 인포윈도우로 장소에 대한 설명을 표시합니다
+						var infowindow = new kakao.maps.InfoWindow({
+							content: '<div style="width:150px;text-align:center;padding:6px 0;">' + location_name + '</div>'
+						});
+						infowindow.open(map, marker);
+
+						// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+						map.setCenter(coords);
+					}
 				});
-				
-				
+
+
 				/************************************************* */
 				/****************** PAGING SECTION *************** */
 				/************************************************* */
-				
-			    $(".question-paging").on("click", ".paging-box.paging-num", function(){
+
+				$(".question-paging").on("click", ".paging-box.paging-num", function () {
 					$(".question-paging").find(".paging-box.paging-num").removeClass("choice");
 					$(".question-paging").find(".paging-box.paging-num").addClass("un-choice");
-					
+
 					$(this).addClass("choice");
 					$(this).removeClass("un-choice");
-					
+
 					//로딩 화면
 					$(".popup-background:eq(1)").removeClass("blind");
 					$("#spinner-section").removeClass("blind");
-						
+
 					$.ajax({
 						url: "/office/introduce_q_paging",
 						type: "GET",
 						dataType: "json",
 						data: {
-							backoffice_no : window.location.href.split("?backoffice_no=")[1].split("&")[0],
+							backoffice_no: window.location.href.split("?backoffice_no=")[1].split("&")[0],
 							page: Number($(this).text())
 						},
-						success: function(res) {
+						success: function (res) {
 							//로딩 화면 닫기
 							$(".popup-background:eq(1)").addClass("blind");
 							$("#spinner-section").addClass("blind");
 
 							$("#question-wrap").find(".quest-list-wrap").empty();
-							
-							for(var i = 0; i < res.cvos.length; i++){
+
+							for (var i = 0; i < res.cvos.length; i++) {
 								// 로그인 안되어있을 떄
 								if (is_login2 == null) {
 
 									var sample = "<li class='quest-list'>";
-									
-									if(res.cvos[i].is_secret == 'T'){
+
+									if (res.cvos[i].is_secret == 'T') {
 										sample += "<section> <img src='https://rence.s3.ap-northeast-2.amazonaws.com/user/img_host_001.jpg' alt='write-user-img' class='write-user-img' /> </section>";
-									}else{
+									} else {
 										sample += "<section> <img src='' alt='write-user-img' class='write-user-img' /> </section>";
 									}
-									
-									sample +="<section class='quest-content-section'><ul class='quest-content-wrap'><li class='quest-content-list quest-content-writer'>";
-									
-									if(res.cvos[i].is_secret == 'T'){
+
+									sample += "<section class='quest-content-section'><ul class='quest-content-wrap'><li class='quest-content-list quest-content-writer'>";
+
+									if (res.cvos[i].is_secret == 'T') {
 										sample += "<span>비밀댓글</span><span class='lock_img'><img src='/static/IMG/space-introduce/lock.svg'></span></li>";
 										sample += "<li class='quest-content-list quest-content'>비밀 문의입니다.</li>";
-									}else{
+									} else {
 										sample += "<span>" + res.cvos[i].user_name + "</span></li>";
 										sample += "<li class='quest-content-list quest-content'>" + res.cvos[i].comment_content + "</li>";
 									}
-									
+
 									sample += "<li class='quest-content-list quest-content-date'>" + res.cvos[i].comment_date;
-									
-									if(res.cvos[i].answer_date != null){
+
+									if (res.cvos[i].answer_date != null) {
 										sample += "<span class='answer_toggle'>답변 보기</span>"
 									}
-									
+
 									sample += "</li></ul></section></li>";
-							
+
 								}
 								// 로그인 되어있을 떄
-								else{
+								else {
 									var sample = "<li class='quest-list'>";
-									
+
 									// 비밀 댓글 일 때
-									if(res.cvos[i].is_secret == 'T'){
-										if($("#is_login").val() == res.cvos[i].user_id){
+									if (res.cvos[i].is_secret == 'T') {
+										if ($("#is_login").val() == res.cvos[i].user_id) {
 											sample += "<section> <img src='' alt='write-user-img' class='write-user-img' /> </section>";
 										}
 										else
 											sample += "<section> <img src='https://rence.s3.ap-northeast-2.amazonaws.com/user/img_host_001.jpg' alt='write-user-img' class='write-user-img' /> </section>";
 									}
 									// 비밀 댓글 아닐 때
-									else{
+									else {
 										sample += "<section> <img src='' alt='write-user-img' class='write-user-img' /> </section>";
 									}
-									
-									sample +="<section class='quest-content-section'><ul class='quest-content-wrap'><li class='quest-content-list quest-content-writer'>";
-									
+
+									sample += "<section class='quest-content-section'><ul class='quest-content-wrap'><li class='quest-content-list quest-content-writer'>";
+
 									// 비밀 댓글 일 때
-									if(res.cvos[i].is_secret == 'T'){
-										if($("#is_login").val() == res.cvos[i].user_id){
+									if (res.cvos[i].is_secret == 'T') {
+										if ($("#is_login").val() == res.cvos[i].user_id) {
 											sample += "<span>" + res.cvos[i].user_name + "</span><span class='lock_img'><img src='/static/IMG/space-introduce/lock.svg'></span></li>";
 											sample += "<li class='quest-content-list quest-content'>" + res.cvos[i].comment_content + "</li>";
 										}
-										else{
+										else {
 											sample += "<span>비밀댓글</span><span class='lock_img'><img src='/static/IMG/space-introduce/lock.svg'></span></li>";
 											sample += "<li class='quest-content-list quest-content'>비밀 문의입니다.</li>";
 										}
 									}
 									// 비밀 댓글 아닐 때
-									else{
+									else {
 										sample += "<span>" + res.cvos[i].user_name + "</span>";
 										sample += "<li class='quest-content-list quest-content'>" + res.cvos[i].comment_content + "</li>";
 									}
-									
+
 									sample += "<li class='quest-content-list quest-content-date'>" + res.cvos[i].comment_date;
-									
-									if(res.cvos[i].answer_date != null){
+
+									if (res.cvos[i].answer_date != null) {
 										sample += "<span class='answer_toggle'>답변 보기</span>"
 									}
-										
+
 									sample += "</li></ul></section></li>";
 
 								}
 								// 답변
-								if(res.cvos[i].answer_date != null){
-									sample += 
-										"<li class='answer-list blind'>" + 
-										"<div class='answer_arrow_img'>" + 
-											"<img src='/static/IMG/space-introduce/answer_arrow.svg'>" +
-										"</div>" + 
-										"<div class='answer_text_wrap'>" + 
-											"<section>" + 
-												"<img src='https://rence.s3.ap-northeast-2.amazonaws.com/user/img_host_001.jpg' alt='write-user-img' class='write-user-img' />" + 
-											"</section>" + 
-											"<section class='answer-content-section'>" + 
-												"<ul class='answer-content-wrap'>" + 
-													"<li class='answer-content-list answer-content-writer'>HOST</li>" + 
-													"<li class='answer-content-list answer-content'>" + 
-														res.cvos[i].answer_content + 
-													"</li>" + 
-													"<li class='answer-content-list answer-content-date'>" + 
-														res.cvos[i].answer_date + 
-													"</li>" + 
-												"</ul>" + 
-											"</section>" + 
-										"</div>" + 
-									 "</li>";
+								if (res.cvos[i].answer_date != null) {
+									sample +=
+										"<li class='answer-list blind'>" +
+										"<div class='answer_arrow_img'>" +
+										"<img src='/static/IMG/space-introduce/answer_arrow.svg'>" +
+										"</div>" +
+										"<div class='answer_text_wrap'>" +
+										"<section>" +
+										"<img src='https://rence.s3.ap-northeast-2.amazonaws.com/user/img_host_001.jpg' alt='write-user-img' class='write-user-img' />" +
+										"</section>" +
+										"<section class='answer-content-section'>" +
+										"<ul class='answer-content-wrap'>" +
+										"<li class='answer-content-list answer-content-writer'>HOST</li>" +
+										"<li class='answer-content-list answer-content'>" +
+										res.cvos[i].answer_content +
+										"</li>" +
+										"<li class='answer-content-list answer-content-date'>" +
+										res.cvos[i].answer_date +
+										"</li>" +
+										"</ul>" +
+										"</section>" +
+										"</div>" +
+										"</li>";
 								}
-								
+
 								sample += "</ul> </section>";
-								
+
 								$("#question-wrap").find(".quest-list-wrap").append(sample);
-								
-								if(res.cvos[i].is_secret != 'T'){
+
+								if (res.cvos[i].is_secret != 'T') {
 									$("#question-wrap").find(".quest-list-wrap").find(".quest-list:last").find(".write-user-img").attr('src', "https://rence.s3.ap-northeast-2.amazonaws.com/user/" + res.cvos[i].user_image);
-								}else if(res.cvos[i].is_secret == 'T' && $("#is_login").val() == res.cvos[i].user_id){
+								} else if (res.cvos[i].is_secret == 'T' && $("#is_login").val() == res.cvos[i].user_id) {
 									$("#question-wrap").find(".quest-list-wrap").find(".quest-list:last").find(".write-user-img").attr('src', "https://rence.s3.ap-northeast-2.amazonaws.com/user/" + res.cvos[i].user_image);
 								}
 							}
 						},
-						error: function(err) {
+						error: function (err) {
 							//로딩 화면 닫기
 							$(".popup-background:eq(1)").addClass("blind");
 							$("#spinner-section").addClass("blind");
 							console.log(err);
 						}
 					});
-			    });
-			    $(".review-paging").on("click", ".paging-box.paging-num", function(){
+				});
+				$(".review-paging").on("click", ".paging-box.paging-num", function () {
 					$(".review-paging").find(".paging-box.paging-num").removeClass("choice");
 					$(".review-paging").find(".paging-box.paging-num").addClass("un-choice");
-					
+
 					$(this).addClass("choice");
 					$(this).removeClass("un-choice");
-					
+
 					//로딩 화면
 					$(".popup-background:eq(1)").removeClass("blind");
 					$("#spinner-section").removeClass("blind");
-						
+
 					$.ajax({
 						url: "/office/introduce_r_paging",
 						type: "GET",
 						dataType: "json",
 						data: {
-							backoffice_no : window.location.href.split("?backoffice_no=")[1].split("&")[0],
-							page:Number($(this).text())
+							backoffice_no: window.location.href.split("?backoffice_no=")[1].split("&")[0],
+							page: Number($(this).text())
 						},
-						success: function(res) {
+						success: function (res) {
 							//로딩 화면 닫기
 							$(".popup-background:eq(1)").addClass("blind");
 							$("#spinner-section").addClass("blind");
-							
+
 							$("#review-wrap").find(".quest-list-wrap").empty();
-							
-							for(var i = 0; i < res.revos.length; i++){
-								var sample = 
+
+							for (var i = 0; i < res.revos.length; i++) {
+								var sample =
 									"<li class='quest-list'>" +
-										"<section>" + 
-											"<img src='' alt='write-user-img' class='write-user-img' />" +
-										"</section>" +
-										"<section class='quest-content-section'>" +
-											"<ul class='quest-content-wrap'>"+
-												"<li class='quest-content-list quest-content-writer'>"+
-													"<span class='quest-writer'>" + res.revos[i].user_name + "</span>" +
-													"<span class='review-star-wrap'>" +
-														"<img src='/static/IMG/common/star.svg' class='review-star-img' alt='review-star-img' />" +
-														"<span class='review-star-num'>" + res.revos[i].review_point + "</span>" + 
-													"</span>" +
-												"</li>" +
-												"<li class='quest-content-list quest-content'>" + res.revos[i].review_content + "</li>" +
-												"<li class='quest-content-list quest-content-date'>" + res.revos[i].review_date + "</li>" +
-											"</ul>" +
-										"</section>" +
+									"<section>" +
+									"<img src='' alt='write-user-img' class='write-user-img' />" +
+									"</section>" +
+									"<section class='quest-content-section'>" +
+									"<ul class='quest-content-wrap'>" +
+									"<li class='quest-content-list quest-content-writer'>" +
+									"<span class='quest-writer'>" + res.revos[i].user_name + "</span>" +
+									"<span class='review-star-wrap'>" +
+									"<img src='/static/IMG/common/star.svg' class='review-star-img' alt='review-star-img' />" +
+									"<span class='review-star-num'>" + res.revos[i].review_point + "</span>" +
+									"</span>" +
+									"</li>" +
+									"<li class='quest-content-list quest-content'>" + res.revos[i].review_content + "</li>" +
+									"<li class='quest-content-list quest-content-date'>" + res.revos[i].review_date + "</li>" +
+									"</ul>" +
+									"</section>" +
 									"</li>";
-									
+
 								$("#review-wrap").find(".quest-list-wrap").append(sample);
 								$("#review-wrap").find(".quest-list:last").find(".write-user-img").attr('src', "https://rence.s3.ap-northeast-2.amazonaws.com/user/" + res.revos[i].user_image);
 							}
 						},
-						error: function(err) {
+						error: function (err) {
 							//로딩 화면 닫기
 							$(".popup-background:eq(1)").addClass("blind");
 							$("#spinner-section").addClass("blind");
-								
+
 							console.log(err);
 						}
 					});
-			    });
+				});
 			});
 		</script>
 	</th:block>
 
 	<script>
 		$(function () {
-			var user_image = $.cookie("user_image");
-
 			if (is_login2 != null) {
+				var user_image = $.cookie("user_image");
 				$(".user_profile_img").attr("src", "https://rence.s3.ap-northeast-2.amazonaws.com/user/" + user_image);
 			}
 
@@ -348,19 +349,19 @@
 					$(".common-alert-txt").text("로그인 후 이용가능한 기능입니다.");
 				}
 			});
-			
+
 			function getDayOfWeek(date) {
-			    let week = [0, 1, 2, 3, 4, 5, 6]
-			    let dayOfWeek = week[new Date(date).getDay()];
+				let week = [0, 1, 2, 3, 4, 5, 6]
+				let dayOfWeek = week[new Date(date).getDay()];
 				return dayOfWeek;
 			}
-			
-			$('.type-border-txt.time-input').change(function() {
+
+			$('.type-border-txt.time-input').change(function () {
 				console.log("change");
 				$("#check_available").removeClass("blind");
 				$("#go_reserve").addClass("blind");
 				$('.time-boundary-list li').css('display', 'none');
-				
+
 				$('.time-boundary-list li').each(function (index, item) {
 					console.log($(item).removeClass('selected'));
 				});
@@ -390,7 +391,7 @@
 									let backoffice_no = param.get('backoffice_no');
 									let room_no = $("#type-choice-value").attr("room_no");
 									let reserve_date = $(".time-input:eq(0)").val();
-									
+
 									console.log(backoffice_no, room_no, reserve_date);
 
 									$.ajax({
@@ -402,8 +403,8 @@
 											room_no: room_no,
 											reserve_date: reserve_date
 										},
-										
-										success: function(res) {
+
+										success: function (res) {
 											let reserve_list = res.reserve_list;
 											let pickerDate = '';
 											let pick_time_list = [];	// 예약 선택 시간
@@ -412,42 +413,42 @@
 											let year = now.getFullYear();
 											let month = now.getMonth() + 1;
 											let date = now.getDate();
-											
+
 											let today = year + "/" + month + "/" + date;
 											let now_hours = now.getHours();
-											
+
 											let check_reserve_time = [];
-											
+
 											// 선택 날짜 요일 구하기
 											pickerDate = $('.type-border-txt.time-input').val().trim();
 											let dayOfWeek = getDayOfWeek(pickerDate);
-											
-											
+
+
 											$("#check_available").addClass("blind");
 											$("#go_reserve").removeClass("blind");
-											
+
 											console.log(reserve_list);
-											
+
 											let running_stime = '';
 											let running_etime = '';
-											
+
 											$('.running-time-li-wrap li').each(function (index, item) {
 												if (index === dayOfWeek) {
 													let running_time = $(this).children('span').text().trim();
-													
+
 													if (running_time !== '휴무') {
 														let split_time = running_time.split(' ~ ');
-														
+
 														running_stime = parseInt(split_time[0].split(':')[0]);
 														running_etime = parseInt(split_time[1].split(':')[0]);
-														
+
 														console.log(running_time, running_stime, running_etime);
-														
+
 														$('#reserve-time-boundary').css('display', 'flex');
 														let running_time_list = [];
-														
+
 														temp_stime = '';
-														
+
 														if (pickerDate == today) {
 															if (running_stime <= now_hours) {
 																temp_stime = now_hours + 1;
@@ -457,19 +458,19 @@
 														} else if (pickerDate > today) {
 															temp_stime = running_stime;
 														}
-														
+
 														for (let t = temp_stime; t < running_etime; t++) {
 															if (!reserve_list.includes(t)) {
-																running_time_list.push(t);															
+																running_time_list.push(t);
 															}
 														}
-														
+
 														// 운영 시간 display 표시
 														$('.time-boundary-list li').each(function (index, item) {
 															// 이전 운영 시간 display 초기화
 															$(this).css('display', 'none');
 															$(this).removeAttr('display');
-															
+
 															if (running_time_list.includes(index)) {
 																$(this).css('display', 'flex');
 																$(this).attr('display', 'selected');
@@ -485,7 +486,7 @@
 											});
 											// END runnint-time-li-wrap li each
 										},
-										error: function(err) {
+										error: function (err) {
 											console.log(err);
 										}
 									});
