@@ -250,6 +250,8 @@ public class BackOfficeController {
 			session.setAttribute("backoffice_id", bvo.getBackoffice_id());
 			Cookie cookie_no = new Cookie("backoffice_no", bvo.getBackoffice_no());
 			Cookie cookie_profile = new Cookie("host_image", bvo.getHost_image());
+			cookie_no.setMaxAge(60*30);   
+			cookie_profile.setMaxAge(60*30);   
 //			session.setAttribute("backoffice_no", bvo.getBackoffice_no());
 //			session.setAttribute("host_image", bvo.getHost_image());
 			map.put("result", "1");
@@ -369,26 +371,37 @@ public class BackOfficeController {
 		log.info("backoffice_settingOK_pw ()...");
 		log.info("{}", bvo);
 
-//		session = request.getSession();
+		session = request.getSession();
 		Cookie[] cookies = request.getCookies();
-		
+		String backoffice_no = "";
+		if (cookies!=null) {
+			for(Cookie cookie:cookies){
+				if (cookie.getName().equals("backoffice_no")) {
+					backoffice_no = cookie.getValue();
+				}
+			}		
+		}
+		log.info("backoffice_no : {}",backoffice_no);
 
 		bvo.setBackoffice_pw(new BCryptPasswordEncoder().encode(bvo.getBackoffice_pw()));
 		int result = service.backoffice_settingOK_pw(bvo);
-
+		
 		Map<String, String> map = new HashMap<String,String>();
-
+		
+		
 		if (result == 1) {
-			if (cookies != null) {
-				// HOST 로그인 session이 존재할 때
-				// Host 환경설정 > 비밀번호 수정
-				log.info("succeed...");
-				map.put("result", "1");
+			if (session != null) {
+				if(backoffice_no.equals(bvo.getBackoffice_no())) {
+					// HOST 로그인 session이 존재할 때
+					// Host 환경설정 > 비밀번호 수정
+					log.info("succeed...");
+					map.put("result", "1");
+				}
 			} else {
 				// 가입 신청이 완료되어
 				// 신청자의 메일에서 링크 페이지를 열고 수정 했을 때
 				log.info("succeed...");
-				map.put("result", "1");
+				map.put("result", "2");
 
 			}
 		} else if (result == 0) {
