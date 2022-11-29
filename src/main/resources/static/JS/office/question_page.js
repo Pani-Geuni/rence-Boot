@@ -9,11 +9,11 @@ $(function(){
     });
 
     /** 댓글 삭제 버튼 -> 댓글 컨펌 팝업 SHOW */
-    $(".question-d-btn").click(function(){
+    $(".question-history-wrap").on("click", ".question-d-btn", function(){
         var idx = $(this).attr("idx");
         $(".popup-background:eq(0)").removeClass("blind");
         $("#q-delete-popup").removeClass("blind");
-        $("#q-delete-closeBtn").attr("idx", idx);
+        $("#q-delete-btn").attr("idx", idx);
     });
     
     /** 댓글 컨펌 팝업 - 삭제 버튼 */
