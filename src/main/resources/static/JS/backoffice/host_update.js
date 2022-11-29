@@ -289,35 +289,10 @@ $(function() {
 		}
 	})
 
-	
-
-	/** 공간 타입 체크 박스 - 데스크/회의룸 둘 중 하나라도 체크 시 오피스는 체크할 수 없음 */
-	$("#type_checkbox_desk, #type_checkbox_meeting_room").click(function() {
-		$("#type_checkbox_office").attr("disabled", true);
-		$("#type_checkbox_office").siblings("label").css("text-decoration", "line-through");
-
-		if (!$("#type_checkbox_desk").is(':checked') && !$("#type_checkbox_meeting_room").is(':checked')) {
-			$("#type_checkbox_office").attr("disabled", false);
-			$("#type_checkbox_office").siblings("label").css("text-decoration", "none");
-		}
-	});
-
-	/** 공간 타입 체크 박스 - 오피스 체크 시 데스크/회의룸은 체크할 수 없음 */
-	$("#type_checkbox_office").click(function() {
-		$("#type_checkbox_desk").attr("disabled", true);
-		$("#type_checkbox_desk").siblings("label").css("text-decoration", "line-through");
-		$("#type_checkbox_meeting_room").attr("disabled", true);
-		$("#type_checkbox_meeting_room").siblings("label").css("text-decoration", "line-through");
-
-
-		if (!$("#type_checkbox_office").is(':checked')) {
-			$("#type_checkbox_desk").attr("disabled", false);
-			$("#type_checkbox_desk").siblings("label").css("text-decoration", "none");
-			$("#type_checkbox_meeting_room").attr("disabled", false);
-			$("#type_checkbox_meeting_room").siblings("label").css("text-decoration", "none");
-		}
-	});
-
+	/** 공간 타입 체크 박스 - 변경 불가 */
+	$("#type_checkbox_office").attr("disabled", true);
+	$("#type_checkbox_desk").attr("disabled", true);
+	$("#type_checkbox_meeting_room").attr("disabled", true);
 
 	// 삭제 버튼
 	// 인덱스 검사 후 삭제
@@ -348,21 +323,9 @@ $(function() {
 	$("#submit").on('click', function() {
 		// 필수 input / textarea 입력되었는지 확인
 		if ($("#backoffice_info").val().trim().length > 0) {
-			// 공간 타입을 선택했는지 확인
-			var desk_checked = $('#type_checkbox_desk').is(':checked');
-			var meeting_room_checked = $('#type_checkbox_meeting_room').is(':checked');
-			var office_checked = $('#type_checkbox_office').is(':checked');
-
-			if (desk_checked || meeting_room_checked || office_checked) {
-				$("#backoffice_type").val(backoffice_type);
 				$("#backoffice_option").val(backoffice_option);
 				$("#backoffice_around").val(backoffice_around);
 				$("#real-submit").click();
-			} else {
-				$(".popup-background:eq(1)").removeClass("blind");
-				$("#common-alert-popup").removeClass("blind");
-				$(".common-alert-txt").text("공간 타입을 선택해주세요.");
-			}
 		}
 		else {
 			if ($("#backoffice_info").val().trim().length == 0) {

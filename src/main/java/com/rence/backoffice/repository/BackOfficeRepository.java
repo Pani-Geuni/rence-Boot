@@ -120,7 +120,7 @@ public interface BackOfficeRepository extends JpaRepository<BackOfficeVO, Object
 	// 업체 정보 수정
 	@Modifying
 	@Transactional
-	@Query(nativeQuery = true, value="UPDATE backofficeinfo SET backoffice_tag=:#{#vo?.backoffice_tag}, backoffice_info=:#{#vo?.backoffice_info}, backoffice_type=:#{#vo?.backoffice_type}, backoffice_option=:#{#vo?.backoffice_option}, backoffice_around=:#{#vo?.backoffice_around}, backoffice_image=:#{#vo?.backoffice_image} where backoffice_no=:#{#vo?.backoffice_no}")
+	@Query(nativeQuery = true, value="UPDATE backofficeinfo SET backoffice_tag=:#{#vo?.backoffice_tag}, backoffice_info=:#{#vo?.backoffice_info}, backoffice_option=:#{#vo?.backoffice_option}, backoffice_around=:#{#vo?.backoffice_around}, backoffice_image=:#{#vo?.backoffice_image} where backoffice_no=:#{#vo?.backoffice_no}")
 	public int backoffice_updateOK_host(@Param("vo") BackOfficeVO bvo);
 	
 
