@@ -530,7 +530,7 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 							log.info("sc_vos_x.get(i).getRoom_no.remove:::::::::::{}", sc_vos_x.get(i).getRoom_no());
 							sc_vos_x.remove(i);
 							size--;
-							i--;
+//							i--;
 						}
 					}
 				}
@@ -559,7 +559,7 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 							log.info("sc_vos_x.get(i).getRoom_no.remove:::::::::::{}", sc_vos_x.get(i).getRoom_no());
 							sc_vos_x.remove(i);
 							size--;
-							i--;
+//							i--;
 						}
 					}
 				}
