@@ -13,7 +13,12 @@
 
     <div class="boardWrap sales">
       <div class="titleSection sales">
-        <h3>일일 정산</h3>
+        <h3>
+	        <th:block th:if="${sales_date}=='day'">일일</th:block>
+	        <th:block th:if="${sales_date}=='week'">주간</th:block>
+	        <th:block th:if="${sales_date}=='month'">월간</th:block>
+         	정산
+     	</h3>
         <ul class="sales-mini-nav">
           <!-- <li id="sales-mini-nav-day" class="nav-item <th:block th:if="${sales_date=='day'}">active</th:block>"><p>일일</p></li>
           <li id="sales-mini-nav-week" class="nav-item <th:block th:if="${sales_date=='week'}">active</th:block>"><p>주간</p></li>
