@@ -23,12 +23,12 @@ public interface MyReserveRepository extends JpaRepository<MyPageReserveListVO, 
 	public long count_Reserve_before(String user_no);
 
 	// 마이페이지- 현재 예약현황 리스트 - 페이징
-	@Query(nativeQuery = true, value = "select * from(select ROWNUM as rn, u.* from (select * from USER_RESERVE_VIEW where user_no = ?1 and payment_total is not null and sysdate <= reserve_sdate order by reserve_no desc) u) where rn between ?2 and ?3")
+	@Query(nativeQuery = true, value = "select * from(select ROWNUM as rn, u.* from (select * from USER_RESERVE_VIEW where user_no = ?1 and payment_total is not null and CURRENT_DATE <= reserve_sdate order by reserve_no desc) u) where rn between ?2 and ?3")
 	public List<MyPageReserveListVO> select_all_now_reserve_list_paging(String user_no, Integer start_row,
 			Integer end_row);
 
 	// 마이페이지- 과거 예약현황 리스트 - 페이징
-	@Query(nativeQuery = true, value = "select * from(select ROWNUM as rn, u.* from (select * from USER_RESERVE_VIEW where user_no = ?1 and payment_total is not null and sysdate > reserve_sdate order by reserve_no desc) u) where rn between ?2 and ?3")
+	@Query(nativeQuery = true, value = "select * from(select ROWNUM as rn, u.* from (select * from USER_RESERVE_VIEW where user_no = ?1 and payment_total is not null and CURRENT_DATE > reserve_sdate order by reserve_no desc) u) where rn between ?2 and ?3")
 	public List<MyPageReserveListVO> select_all_before_reserve_list_paging(String user_no, Integer start_row,
 			Integer end_row);
 
