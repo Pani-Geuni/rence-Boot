@@ -224,10 +224,10 @@ public class OfficeController {
 		// 총 페이징 되는 수
 		long totalPageCnt2 = (long) Math.ceil(total_rowCount_review_all2 / 4.0);
 		log.info("totalPageCnt: {}", totalPageCnt2);
-		
+
 		long nowPage2 = page;
 		log.info("nowPage2: {}", nowPage2);
-		
+
 		long maxPage2 = 0;
 		log.info("maxPage2 : {}", maxPage2);
 
@@ -244,7 +244,7 @@ public class OfficeController {
 				maxPage2 = nowPage2;
 			}
 		}
-		
+
 		log.info("maxPage2 : {}", maxPage2);
 
 		map.put("totalPageCnt2", totalPageCnt2);
@@ -255,7 +255,7 @@ public class OfficeController {
 		// 페이징 처리 계산 로직 끝
 
 		List<OfficeReviewVO> revos = service.select_all_review(backoffice_no, page);
-		
+
 		for (OfficeReviewVO vo : revos) {
 
 			// 이름 마스킹
@@ -307,6 +307,170 @@ public class OfficeController {
 		model.addAttribute("title", "공간 상세 페이지");
 
 		return "thymeleaf/layouts/office/layout_base";
+	}
+
+	@GetMapping("/introduce_q_paging")
+	public String introduce_q_paging(BackOfficeVO bvo, String introduce_menu,
+			@RequestParam(value = "page", defaultValue = "1") Integer page, Model model) {
+
+		// **************
+		// backoffice 문의 페이징
+		// **************
+
+		String backoffice_no = bvo.getBackoffice_no();
+
+		// 페이징 처리 로직
+		// 리스트 수
+		long total_rowCount_question_all = service.total_rowCount_question_all(backoffice_no);
+		log.info("total_rowCount_question_all: {}", total_rowCount_question_all);
+
+		// 총 페이징 되는 수
+		long totalPageCnt = (long) Math.ceil(total_rowCount_question_all / 4.0);
+		log.info("totalPageCnt: {}", totalPageCnt);
+
+		long nowPage = page;
+
+		long maxPage = 0;
+
+		if (nowPage % 5 != 0) {
+			if (nowPage == totalPageCnt) {
+				maxPage = nowPage;
+			} else if (((nowPage / 5) + 1) * 5 >= totalPageCnt) {
+				maxPage = totalPageCnt;
+			} else if (((nowPage / 5) + 1) * 5 < totalPageCnt) {
+				maxPage = ((nowPage / 5) + 1) * 5;
+			}
+		} else if (nowPage % 5 == 0) {
+			if (nowPage <= totalPageCnt) {
+				maxPage = nowPage;
+			}
+		}
+
+		log.info("maxPage: " + maxPage);
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("totalPageCnt", totalPageCnt);
+		map.put("nowPage", nowPage);
+		map.put("maxPage", maxPage);
+
+		// 페이징 처리 계산 로직 끝
+
+		List<OfficeQuestionVO> cvos = service.select_all_comment(backoffice_no, page);
+
+		String is_login = (String) session.getAttribute("user_id");
+
+		if (cvos != null) {
+			for (OfficeQuestionVO vo : cvos) {
+
+				log.info("is_login :::::::::: {}", is_login);
+				log.info("user_no :::::::::: {}", vo.getUser_id());
+
+				OfficeQuestionVO vo2 = service.select_one_answer(vo.getComment_no());
+				if (vo2 != null) {
+					if (vo.getIs_secret() == null) {
+
+						vo.setAnswer_content(vo2.getComment_content());
+						vo.setAnswer_date(vo2.getComment_date());
+						vo.setComment_state("Y");
+					}
+				} else {
+					vo.setComment_state("N");
+				}
+
+				// 이름 마스킹
+				String originName = vo.getUser_name();
+				String firstName = originName.substring(0, 1);
+				String midName = originName.substring(1, originName.length() - 1);
+
+				String maskingMidName = "";
+				for (int i = 0; i < midName.length(); i++) {
+					maskingMidName += "*";
+				}
+
+				String lastName = originName.substring(originName.length() - 1, originName.length());
+
+				String maskingName = firstName + maskingMidName + lastName;
+
+				vo.setUser_name(maskingName);
+			}
+		}
+
+		String introduce_q_paging = gson.toJson(map);
+
+		return introduce_q_paging;
+	}
+
+	@GetMapping(value = "/introduce_r_paging")
+	public String introduce_r_paging(BackOfficeVO bvo, String introduce_menu,
+			@RequestParam(value = "page", defaultValue = "1") Integer page, Model model) {
+		// **************
+		// backoffice 후기
+		// **************
+		
+		String backoffice_no = bvo.getBackoffice_no();
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		// 페이징 처리 로직
+		// 리스트 수
+		long total_rowCount_review_all2 = service.total_rowCount_review_all(backoffice_no);
+
+		// 총 페이징 되는 수
+		long totalPageCnt2 = (long) Math.ceil(total_rowCount_review_all2 / 4.0);
+		log.info("totalPageCnt: {}", totalPageCnt2);
+
+		long nowPage2 = page;
+		log.info("nowPage2: {}", nowPage2);
+
+		long maxPage2 = 0;
+		log.info("maxPage2 : {}", maxPage2);
+
+		if (nowPage2 % 5 != 0) {
+			if (nowPage2 == totalPageCnt2) {
+				maxPage2 = nowPage2;
+			} else if (((nowPage2 / 5) + 1) * 5 >= totalPageCnt2) {
+				maxPage2 = totalPageCnt2;
+			} else if (((nowPage2 / 5) + 1) * 5 < totalPageCnt2) {
+				maxPage2 = ((nowPage2 / 5) + 1) * 5;
+			}
+		} else if (nowPage2 % 5 == 0) {
+			if (nowPage2 <= totalPageCnt2) {
+				maxPage2 = nowPage2;
+			}
+		}
+
+		log.info("maxPage2 : {}", maxPage2);
+
+		map.put("totalPageCnt2", totalPageCnt2);
+		map.put("nowPage2", nowPage2);
+		map.put("maxPage2", maxPage2);
+		map.put("page", "space_introduce_detail");
+
+		// 페이징 처리 계산 로직 끝
+
+		List<OfficeReviewVO> revos = service.select_all_review(backoffice_no, page);
+
+		for (OfficeReviewVO vo : revos) {
+
+			// 이름 마스킹
+			String originName = vo.getUser_name();
+			String firstName = originName.substring(0, 1);
+			String midName = originName.substring(1, originName.length() - 1);
+
+			String maskingMidName = "";
+			for (int i = 0; i < midName.length(); i++) {
+				maskingMidName += "*";
+			}
+
+			String lastName = originName.substring(originName.length() - 1, originName.length());
+
+			String maskingName = firstName + maskingMidName + lastName;
+
+			vo.setUser_name(maskingName);
+		}
+		
+		String introduce_r_paging = gson.toJson(map);
+
+		return introduce_r_paging;
 	}
 
 	// ***************
@@ -650,7 +814,6 @@ public class OfficeController {
 		}
 
 		// backoffice 기본 정보
-		model.addAttribute("page", "space_introduce_detail_office");
 		model.addAttribute("ovo", ovo);
 		model.addAttribute("type_list", type_list);
 		model.addAttribute("tag_list", tag_list);
