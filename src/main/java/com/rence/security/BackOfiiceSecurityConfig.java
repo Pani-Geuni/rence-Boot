@@ -48,7 +48,9 @@ public class BackOfiiceSecurityConfig {
 		.antMatchers("/backoffice/insert").permitAll()
 		.antMatchers("/backoffice/auth").permitAll()
 		.antMatchers("/backoffice/authOK").permitAll()
-		.antMatchers("/backoffice/insertOK").permitAll();
+		.antMatchers("/backoffice/insertOK").permitAll()
+		.antMatchers("/backoffice/setting_pw").permitAll()
+		.antMatchers("/backoffice/settingOK_pw").permitAll();
 		
 		http
 		 .antMatcher("/backoffice/**")

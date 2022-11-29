@@ -1176,12 +1176,12 @@ public class DashBoardController {
 		log.info("not_sdate : {} ", not_sdate);
 		log.info("not_edate : {} ", not_edate);
 
-		not_stime = not_sdate + not_stime;
-		not_etime = not_edate + not_etime;
+		String not_s = not_sdate + not_stime;
+		String not_e = not_edate + not_etime;
 		log.info("not_stime : {} ", not_stime);
 		log.info("not_etime : {} ", not_etime);
 
-		int result = service.backoffice_schedueOK(backoffice_no, not_stime, not_etime, room_no);
+		int result = service.backoffice_schedueOK(backoffice_no, not_s, not_e, room_no);
 
 		if (result == 1) {
 			log.info("successed...");
