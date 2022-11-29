@@ -66,5 +66,8 @@ public class BOPaymentVO {
 	private String cancel_state;
 	
 	@Column(name="cancel_amount")
-	private String cancel_amount;
+	private Integer cancel_amount;
+	
+	@Column(name="imp_uid")
+	private String imp_uid;
 }

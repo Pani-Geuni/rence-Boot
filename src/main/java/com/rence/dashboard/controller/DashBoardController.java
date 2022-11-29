@@ -5,6 +5,7 @@
  */
 package com.rence.dashboard.controller;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -57,6 +58,7 @@ import com.rence.dashboard.model.ReservationView;
 import com.rence.dashboard.repository.ScheduleListRepository;
 import com.rence.dashboard.service.DashboardSendEmail;
 import com.rence.dashboard.service.DashboardService;
+import com.rence.dashboard.service.HostPaymentCancelService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -81,6 +83,9 @@ public class DashBoardController {
 
 	@Autowired
 	DashboardSendEmail dashboardSendEmail;
+	
+	@Autowired
+	HostPaymentCancelService cancelService;
 
 	/**
 	 * 대쉬보드 메인
@@ -1310,12 +1315,13 @@ public class DashBoardController {
 
 	/**
 	 * 일정 관리 - 예약취소
+	 * @throws IOException 
 	 */
 	@ApiOperation(value = "일정 관리 - 예약 취소", notes = "대쉬보드 - 일정 관리")
 	@PostMapping("/reservation_cancel")
 	@ResponseBody
 	public String backoffice_reservation_cancel(String backoffice_no, String reserve_no, String user_no,
-			String user_email, String reserve_stime, String reserve_etime, Model model) throws ParseException {
+			String user_email, String reserve_stime, String reserve_etime, Model model) throws ParseException, IOException {
 		log.info("backoffice_reservation_cancel controller()...");
 
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -1325,6 +1331,11 @@ public class DashBoardController {
 		BOPaymentVO pvo = service.backoffice_reservation_cancel(backoffice_no, reserve_no, user_no);
 
 		if (pvo != null) {
+			
+			String token = cancelService.getToken();
+			int amount = Integer.parseInt(pvo.getActual_payment());
+	        cancelService.payMentCancel(token, pvo.getImp_uid(), amount, "관리자 취소");
+	        
 			BackOfficeVO bvo = service.backoffice_select_companyname(backoffice_no);
 			String company_name = bvo.getCompany_name();
 			int flag = dashboardSendEmail.reserve_cancel_mail(user_no, user_email, reserve_stime, reserve_etime,
