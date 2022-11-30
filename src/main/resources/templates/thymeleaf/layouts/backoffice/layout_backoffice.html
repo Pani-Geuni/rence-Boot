@@ -79,7 +79,7 @@
 
 		$(function () {
 			/** 호스트 메인 페이지 이동 */
-			$('.btn-start-hosting').click(function () {
+			$('.btn-start-hosting, #go-dashboard').click(function () {
 				if (is_login != null) {
 					location.href = '/backoffice/main?backoffice_no=' + $.cookie("backoffice_no");
 				}
