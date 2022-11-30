@@ -221,8 +221,6 @@
 									if (res.cvos[i].answer_date != null) {
 										sample += "<span class='answer_toggle'>답변 보기</span>"
 									}
-									
-									console.log(res.cvos[i].answer_date);
 
 									sample += "</li></ul></section></li>";
 
@@ -268,7 +266,6 @@
 							//로딩 화면 닫기
 							$(".popup-background:eq(1)").addClass("blind");
 							$("#spinner-section").addClass("blind");
-							console.log(err);
 						}
 					});
 				});
@@ -324,12 +321,10 @@
 								$("#review-wrap").find(".quest-list:last").find(".write-user-img").attr('src', "https://rence.s3.ap-northeast-2.amazonaws.com/user/" + res.revos[i].user_image);
 							}
 						},
-						error: function (err) {
+						error: function () {
 							//로딩 화면 닫기
 							$(".popup-background:eq(1)").addClass("blind");
 							$("#spinner-section").addClass("blind");
-
-							console.log(err);
 						}
 					});
 				});

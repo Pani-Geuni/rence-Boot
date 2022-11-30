@@ -35,8 +35,13 @@
 	<!-- timepicker library script -->
 	<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 
-	<!-- <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> -->
 	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		var is_login = /*[[${session.backoffice_id}]]*/ "is_login";
+		/*]]*/
+	</script>
 	<script>
 		//본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
 		function sample4_execDaumPostcode() {
@@ -71,6 +76,20 @@
 				}
 			}).open();
 		}
+
+		$(function () {
+			/** 호스트 메인 페이지 이동 */
+			$('.btn-start-hosting').click(function () {
+				if (is_login != null) {
+					location.href = '/backoffice/main?backoffice_no=' + $.cookie("backoffice_no");
+				}
+				else {
+					$(".popup-background:eq(1)").removeClass("blind");
+					$("#common-alert-popup").removeClass("blind");
+					$(".common-alert-txt").text("로그인 후 사용가능한 페이지입니다.");
+				}
+			});
+		});
 	</script>
 
 </head>
