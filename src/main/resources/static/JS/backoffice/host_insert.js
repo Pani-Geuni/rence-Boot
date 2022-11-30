@@ -256,6 +256,7 @@ $(function() {
 	});
 
 
+	var mail_flag = true;
 	/** 인증번호 발송 버튼 클릭 **/
 	$("#btn-certification").click(function() {
 		if (!$("#btn-certification").prop("check")) {
@@ -263,52 +264,59 @@ $(function() {
 				var email = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 
 				if (email.test($("#backoffice_email").val().trim())) {
-					//로딩 화면
-					$(".popup-background:eq(1)").removeClass("blind");
-					$("#spinner-section").removeClass("blind");
-
-					$.ajax({
-						url: "/backoffice/auth",
-						type: "GET",
-						dataType: 'json',
-						data: {
-							backoffice_email: $("#backoffice_email").val().trim()
-						},
-						success: function(res) {
-							//로딩 화면 닫기
-							$(".popup-background:eq(1)").addClass("blind");
-							$("#spinner-section").addClass("blind");
-
-							// 이메일 중복 성공
-							if (res.result == 1) {
-								$("#btn-certification").prop("check", true);
-								timer();
-								$("#backoffice_email").attr("readonly", true);
-								$("#backoffice_email").addClass("readOnly");
-
+					if(mail_flag){
+						//로딩 화면
+						$(".popup-background:eq(1)").removeClass("blind");
+						$("#spinner-section").removeClass("blind");
+						mail_flag = false;
+						
+						$.ajax({
+							url: "/backoffice/auth",
+							type: "GET",
+							dataType: 'json',
+							data: {
+								backoffice_email: $("#backoffice_email").val().trim()
+							},
+							success: function(res) {
+								mail_flag = true;
+								
+								//로딩 화면 닫기
+								$(".popup-background:eq(1)").addClass("blind");
+								$("#spinner-section").addClass("blind");
+	
+								// 이메일 중복 성공
+								if (res.result == 1) {
+									$("#btn-certification").prop("check", true);
+									timer();
+									$("#backoffice_email").attr("readonly", true);
+									$("#backoffice_email").addClass("readOnly");
+	
+									$(".popup-background:eq(1)").removeClass("blind");
+									$("#common-alert-popup").removeClass("blind");
+									$(".common-alert-txt").html("이메일로 인증번호를 발송하였습니다.<br> 2분 내로 인증번호 인증을 완료해주세요.<br> 2분 초과 시 이메일 재인증이 필요합니다!");
+								}else if (res.result == 3) {
+									$(".popup-background:eq(1)").removeClass("blind");
+	                                $("#common-alert-popup").removeClass("blind");
+	                                $(".common-alert-txt").html("해당 이메일은 인증번호 발송 후<br> 2분이 되지 않았습니다.<br> 잠시만 기다려주세요!");
+								} else {
+									$(".popup-background:eq(1)").removeClass("blind");
+									$("#common-alert-popup").removeClass("blind");
+									$(".common-alert-txt").text("이미 존재하는 이메일입니다.");
+								}
+							},
+							error: function() {
+								mail_flag = true;
+								
+								//로딩 화면 닫기
+								$(".popup-background:eq(1)").addClass("blind");
+								$("#spinner-section").addClass("blind");
+	
 								$(".popup-background:eq(1)").removeClass("blind");
 								$("#common-alert-popup").removeClass("blind");
-								$(".common-alert-txt").html("이메일로 인증번호를 발송하였습니다.<br> 2분 내로 인증번호 인증을 완료해주세요.<br> 2분 초과 시 이메일 재인증이 필요합니다!");
-							}else if (res.result == 3) {
-								$(".popup-background:eq(1)").removeClass("blind");
-                                $("#common-alert-popup").removeClass("blind");
-                                $(".common-alert-txt").html("해당 이메일은 인증번호 발송 후<br> 2분이 되지 않았습니다.<br> 잠시만 기다려주세요!");
-							} else {
-								$(".popup-background:eq(1)").removeClass("blind");
-								$("#common-alert-popup").removeClass("blind");
-								$(".common-alert-txt").text("이미 존재하는 이메일입니다.");
+								$(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
 							}
-						},
-						error: function() {
-							//로딩 화면 닫기
-							$(".popup-background:eq(1)").addClass("blind");
-							$("#spinner-section").addClass("blind");
-
-							$(".popup-background:eq(1)").removeClass("blind");
-							$("#common-alert-popup").removeClass("blind");
-							$(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
-						}
-					});
+						});
+					}
 				}
 			}
 			else {
@@ -374,6 +382,7 @@ $(function() {
 	});
 
 
+	var submit_flag = true;
 	/** 호스트 신청 버튼 클릭 */
 	$("#submit").click(function() {
 		// 1. 필수 input / textarea 입력되었는지 확인
@@ -394,7 +403,10 @@ $(function() {
 					var office_checked = $('#type_checkbox_office').is(':checked');
 
 					if (desk_checked || meeting_room_checked || office_checked) {
-						$("#real-submit").click();
+						if(submit_flag){
+							submit_flag = false;
+							$("#real-submit").click();
+						}
 					} else {
 						$(".popup-background:eq(1)").removeClass("blind");
 						$("#common-alert-popup").removeClass("blind");
