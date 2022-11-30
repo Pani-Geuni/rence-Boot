@@ -19,9 +19,12 @@ import com.rence.user.model.UserDTO;
 public interface MypageMenuRepository extends JpaRepository<ReserveInfo_ViewVO, Object> {
 
 	@Query(nativeQuery = true, value = 
-			"select * from ReserveInfoView"
-			+ "	where reserve_no = ?1"
-			+ "	and ROWNUM between 1 and 1")
+			"select * from ("
+			+ "select * "
+			+ "from ReserveInfoView "
+			+ "where reserve_no = ?1 "
+			+ "order by mileage_no desc "
+			+ ") where rownum=1")
 	public ReserveInfo_ViewVO select_one_reserve_info(String reserve_no);
 
 	@Query(nativeQuery = true, value = 
