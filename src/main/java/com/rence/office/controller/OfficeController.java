@@ -793,7 +793,7 @@ public class OfficeController {
 
 		// 페이징 처리 로직
 		// 리스트 수
-		long total_rowCount_review_all = service.total_rowCount_question_all(backoffice_no);
+		long total_rowCount_review_all = service.total_rowCount_review_all(backoffice_no);
 
 		// 총 페이징 되는 수
 		long totalPageCnt2 = (long) Math.ceil(total_rowCount_review_all / 4.0);
