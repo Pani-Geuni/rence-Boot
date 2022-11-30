@@ -35,17 +35,6 @@ $(function () {
     location.href = '/backoffice/insert';
   });
   
-  /** 호스트 메인 페이지 이동 */
-  $('.btn-start-hosting').click(function(){
-    if($.cookie("backoffice_no") != undefined)
-      location.href = '/backoffice/main?backoffice_no=' + $.cookie("backoffice_no");
-    else{
-      $(".popup-background:eq(1)").removeClass("blind");
-      $("#common-alert-popup").removeClass("blind");
-      $(".common-alert-txt").text("로그인 후 사용가능한 페이지입니다.");
-    }
-  });
-  
   /** 호스트 신청 페이지 */
   $('.btn-apply-hosting').click(function () {
     location.href = '/backoffice/insert';
