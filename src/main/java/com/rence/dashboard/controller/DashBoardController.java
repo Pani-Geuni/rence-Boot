@@ -1141,6 +1141,7 @@ public class DashBoardController {
 		if(total_cnt<max) {
 			max = total_cnt;
 		}
+		
 		log.info("min::{}",min);
 		log.info("max::{}",max);
 
@@ -1168,7 +1169,7 @@ public class DashBoardController {
 	@PostMapping("/scheduleOK")
 	@ResponseBody
 	public String backoffice_scheduleOK(String backoffice_no, String not_sdate, String not_edate, String not_stime,
-			String not_etime, String room_no, String off_type, Model model, Integer page) throws ParseException {
+			String not_etime, String room_no, String off_type, Integer page, Model model) throws ParseException {
 		log.info("backoffice_scheduleOK controller()...");
 
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -1202,6 +1203,8 @@ public class DashBoardController {
 		////////////////////////////////////////////////////////////////////////////////////////
 		List<ScheduleListView> sche = service.backoffice_schedule_list(backoffice_no, not_sdate, not_edate, not_stime,
 				not_etime, off_type);
+		
+//		int page =1;
 
 		int total_cnt = sche.size();
 		log.info("total_cnt::{}",total_cnt);
@@ -1214,6 +1217,9 @@ public class DashBoardController {
 		int max = 8 * (page);
 		if(total_cnt<max) {
 			max = total_cnt;
+		}
+		if (max==0) {
+			min=0;
 		}
 		log.info("min::{}",min);
 		log.info("max::{}",max);
@@ -1384,17 +1390,18 @@ public class DashBoardController {
 	 * 일정 관리 - 백오피스 휴무 일정
 	 */
 	@ApiOperation(value = "일정 관리 - 휴무 일정", notes = "대쉬보드 - 일정 관리")
-	@GetMapping("/schedule_calander")
+	@GetMapping("/schedule_calendar")
 	@ResponseBody
-	public String backoffice_schedule_calander(String backoffice_no, Model model) throws ParseException {
-		log.info("backoffice_schedule_calander controller()...");
+	public String backoffice_schedule_calendar(String backoffice_no, Model model) throws ParseException {
+		log.info("backoffice_schedule_calendar controller()...");
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		List<ScheduleEntity> vo = service.backoffice_schedule_calander(backoffice_no);
+		List<ScheduleEntity> vo = service.backoffice_schedule_calendar(backoffice_no);
 
 		log.info("vos...{}", vo);
 		map.put("vos", vo);
+		map.put("cnt", vo.size());
 
 		String json = gson.toJson(map);
 

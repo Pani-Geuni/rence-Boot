@@ -21,7 +21,7 @@ public interface RoomSummaryRepository extends JpaRepository<RoomSummaryView, Ob
    @Query(nativeQuery = true, value = "select count(review_no),backoffice_no from review group by backoffice_no having backoffice_no=?1")
    public Integer select_review_cnt(String backoffice_no);
 
-   @Query(nativeQuery = true, value = "select count(reserve_no),backoffice_no from reserveinfo group by backoffice_no having backoffice_no=?1")
+   @Query(nativeQuery = true, value = "select count(reserve_no),backoffice_no from reserveinfo where reserve_state!='false' group by backoffice_no having backoffice_no=?1")
    public Integer select_reserve_cnt(String backoffice_no);
 
 }

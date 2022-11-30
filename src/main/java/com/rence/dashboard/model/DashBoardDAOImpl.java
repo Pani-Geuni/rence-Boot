@@ -8,7 +8,9 @@ package com.rence.dashboard.model;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.function.Predicate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.relational.core.mapping.Embedded.Nullable;
@@ -27,6 +29,7 @@ import com.rence.dashboard.repository.SalesMileageRepository;
 import com.rence.dashboard.repository.SalesSettlementDetailRepository;
 import com.rence.dashboard.repository.SalesSettlementRepository;
 import com.rence.dashboard.repository.SalesSettlementSummaryRepository;
+//import com.rence.dashboard.repository.ScheduleListCntRepository;
 import com.rence.dashboard.repository.ScheduleListRepository;
 import com.rence.dashboard.repository.ScheduleRepository;
 
@@ -68,6 +71,9 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 
 	@Autowired
 	ScheduleListRepository sc_repository;
+	
+//	@Autowired
+//	ScheduleListCntRepository cntRepository;
 
 	@Autowired
 	ReservationRepository reservation_repository;
@@ -501,9 +507,17 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		}
 
 		// 1.해당 날짜, 시간에 예약이 있는 리스트
-		List<ScheduleListView> sc_vos_o = sc_repository.backoffice_schedule_list(backoffice_no, reserve_stime,
-				reserve_etime);
+		List<ScheduleListView> sc_vos_o = sc_repository.backoffice_schedule_list(backoffice_no, reserve_stime, reserve_etime);
 		log.info("sc_vos_o : {} ", sc_vos_o.size());
+//		List<ReserveCntVO> sc_vos_o_cnt = cntRepository.backoffice_schedule_list_cnt(backoffice_no, reserve_stime, reserve_etime);
+//		log.info("sc_vos_o_cnt :::::: {} ", sc_vos_o_cnt);
+//		for (ScheduleListView sco : sc_vos_o) {
+//			for (ReserveCntVO sco_cnt : sc_vos_o_cnt) {
+//				if (sco.getRoom_no().equals(sco_cnt.getRoom_no())) {
+//					sco.setReserve_cnt(sco_cnt.getReserve_cnt());
+//				}
+//			}
+//		}
 		// 2.백오피스가 가진 모든 공간 리스트
 		List<ScheduleListView> sc_vos_x = sc_repository.backoffice_schedule_list_All(backoffice_no);
 		log.info("sc_vos_x : {} ", sc_vos_x);
@@ -523,45 +537,60 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		if (sc_vos_x != null) {
 			// 2 - 1 (중복 제거)
 			if (sc_vos_o != null) {
-				int size = sc_vos_x.size();
-				for (int i = 0; i < size; i++) {
-					for (int j = 0; j < sc_vos_o.size(); j++) {
-						if (sc_vos_x.get(i).getRoom_no().equals(sc_vos_o.get(j).getRoom_no())) {
-							log.info("sc_vos_x.get(i).getRoom_no.remove:::::::::::{}", sc_vos_x.get(i).getRoom_no());
-							sc_vos_x.remove(i);
-							size--;
+
+//				int size = sc_vos_x.size();
+//				for (int i = 0; i < size; i++) {
+//				for (int j = 0; j < sc_vos_o.size(); j++) {
+//						if (sc_vos_x.get(i).getRoom_no().equals(sc_vos_o.get(j).getRoom_no())) {
+//							log.info("sc_vos_x.get(i).getRoom_no.remove:::::::::::{}", sc_vos_x.get(i).getRoom_no());
+//							sc_vos_x.remove(i);
+//							size--;
 //							i--;
-						}
-					}
-				}
-				log.info("sc_vos_x - sc_vos_o : {} ", sc_vos_x.size());
+//						}
+//				}
 
-				// 공간 예약 상태 설정
-				for (ScheduleListView scvo : sc_vos_o) {
-					scvo.setReserve_is("O");
+				for (int j = 0; j < sc_vos_o.size(); j++) {
+					String room_no = sc_vos_o.get(j).getRoom_no();
+					Predicate<ScheduleListView> condition = str -> str.getRoom_no().equals(room_no);
+					sc_vos_x.removeIf(condition);
 				}
+			}
+			log.info("sc_vos_x - sc_vos_o : {} ", sc_vos_x.size());
 
-				for (ScheduleListView scvo : sc_vos_x) {
-					scvo.setReserve_is("X");
-					scvo.setReserve_cnt(0);
-				}
+			// 공간 예약 상태 설정
+			for (ScheduleListView scvo : sc_vos_o) {
+				scvo.setReserve_is("O");
+			}
 
+			for (ScheduleListView scvo : sc_vos_x) {
+				scvo.setReserve_is("X");
+				scvo.setReserve_cnt(0);
 			}
 
 			// (휴무, 브레이크 타임이 설정된 공간 제외)
+//			if (off_list != null && sc_vos_x != null) {
+//				int size = sc_vos_x.size();
+//				for (int i = 0; i < size; i++) {
+//					log.info("sc_vos_x.get(i):::::::::::{}", sc_vos_x.get(i).getRoom_no());
+//					for (int j = 0; j < off_list.size(); j++) {
+//						log.info("off_list.get(j):::::::::::{}", off_list.get(j).getRoom_no());
+//						if (sc_vos_x.get(i).getRoom_no().equals(off_list.get(j).getRoom_no())) {
+//							log.info("sc_vos_x.get(i).getRoom_no.remove:::::::::::{}", sc_vos_x.get(i).getRoom_no());
+//							sc_vos_x.remove(i);
+//							size--;
+////							i--;
+//						}
+//					}
+//				}
+//			}
+
 			if (off_list != null && sc_vos_x != null) {
-				int size = sc_vos_x.size();
-				for (int i = 0; i < size; i++) {
-					log.info("sc_vos_x.get(i):::::::::::{}", sc_vos_x.get(i).getRoom_no());
-					for (int j = 0; j < off_list.size(); j++) {
-						log.info("off_list.get(j):::::::::::{}", off_list.get(j).getRoom_no());
-						if (sc_vos_x.get(i).getRoom_no().equals(off_list.get(j).getRoom_no())) {
-							log.info("sc_vos_x.get(i).getRoom_no.remove:::::::::::{}", sc_vos_x.get(i).getRoom_no());
-							sc_vos_x.remove(i);
-							size--;
-//							i--;
-						}
-					}
+				for (int j = 0; j < off_list.size(); j++) {
+					log.info("off_list.get(j):::::::::::{}", off_list.get(j).getRoom_no());
+					String room_no = off_list.get(j).getRoom_no(); 
+					Predicate<ScheduleListView> condition = str -> str.getRoom_no().equals(room_no);
+					log.info("condition:::::::::::{}", condition);
+					sc_vos_x.removeIf(condition);
 				}
 			}
 
@@ -651,8 +680,9 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		// 결제 취소,
 		if (flag == 1) {
 			// 결제정보 테이블의 상태 'C' 로 변경
-			p_repository.backoffice_update_payment_state_host_cancel(reserve_no); // 환불 상태 'C', 환불 금액 = 실제 결제 금액, 결제일시 = 환불일시
-			pvo = p_repository.select_paymentinfo(reserve_no); //결제 정보 
+			p_repository.backoffice_update_payment_state_host_cancel(reserve_no); // 환불 상태 'C', 환불 금액 = 실제 결제 금액, 결제일시 =
+																					// 환불일시
+			pvo = p_repository.select_paymentinfo(reserve_no); // 결제 정보
 			String payment_no = pvo.getPayment_no();
 
 			BOMileageVO mvo = m_repository.backoffice_select_mileage_total(user_no); // 1. 사용자의 마지막 mileage_total
@@ -662,10 +692,11 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 				int mileage_change = mvo2.getMileage_change(); // 2
 				int mileage_total = mvo.getMileage_total() + mileage_change; // 1 + 2
 
-				m_repository.backoffice_insert_mileage_state_t(mileage_total, user_no, mileage_change, payment_no); // 마일리지 재적립
+				m_repository.backoffice_insert_mileage_state_t(mileage_total, user_no, mileage_change, payment_no); // 마일리지
+																													// 재적립
 			}
 
-			s_repository.backoffice_update_cancel_mileage_state_c(reserve_no); // w 상태의 마일리지 ->  c 상태로 변경
+			s_repository.backoffice_update_cancel_mileage_state_c(reserve_no); // w 상태의 마일리지 -> c 상태로 변경
 		}
 		return pvo;
 	}
@@ -675,20 +706,22 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 	public int backoffice_updateOK_sales(String backoffice_no, String room_no, String payment_no) {
 		int flag = 0;
 		BOPaymentVO pvo = new BOPaymentVO();
-		flag = s_repository.backoffice_updateOK_sales_state_t(backoffice_no, room_no, payment_no); // 결제 정보 테이블의 정산 상태 변경
+		flag = s_repository.backoffice_updateOK_sales_state_t(backoffice_no, room_no, payment_no); // 결제 정보 테이블의 정산 상태
+																									// 변경
 		if (flag == 1) {
 			pvo = p_repository.select_paymentinfo_user_no(payment_no); // 결제정보 테이블에서 user_no 정보 얻기
 			String user_no = pvo.getUser_no();
-					
-			BOMileageVO mvo =  m_repository.backoffice_select_mileage_total(user_no); // 1. 사용자의 마지막 mileage_total
-			BOMileageVO mvo2 =  m_repository.backoffice_select_mileage_w(user_no,payment_no); // 2. 적립 예정 마일리지
-					
-			if(mvo2.getMileage_change()!=0) { // 선결제
+
+			BOMileageVO mvo = m_repository.backoffice_select_mileage_total(user_no); // 1. 사용자의 마지막 mileage_total
+			BOMileageVO mvo2 = m_repository.backoffice_select_mileage_w(user_no, payment_no); // 2. 적립 예정 마일리지
+
+			if (mvo2.getMileage_change() != 0) { // 선결제
 				int mileage_change = mvo2.getMileage_change(); // 2
-				int mileage_total = mvo.getMileage_total()+mileage_change; // 1+2
-						
-				m_repository.backoffice_insert_mileage_state_t(mileage_total, user_no, mileage_change , payment_no); // 마일리지 적립
-			}else { // 후결제
+				int mileage_total = mvo.getMileage_total() + mileage_change; // 1+2
+
+				m_repository.backoffice_insert_mileage_state_t(mileage_total, user_no, mileage_change, payment_no); // 마일리지
+																													// 적립
+			} else { // 후결제
 				s_repository.backoffice_update_mileage_state_c(payment_no); // change 가 0인 mileage 는 C로 상태 변경
 			}
 		}

@@ -22,7 +22,6 @@ import lombok.NoArgsConstructor;
 @Table(name="RESERVATION_VIEW")
 public class ReservationView implements Serializable{
 	
-	@Id
 	@Column(name="user_no")
 	private String user_no;
 	
@@ -47,6 +46,7 @@ public class ReservationView implements Serializable{
 	@Column(name="room_no")
 	private String room_no;
 	
+	@Id
 	@Column(name="reserve_no")
 	private String reserve_no;
 
