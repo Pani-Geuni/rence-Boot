@@ -44,7 +44,7 @@ public interface MypageMenuRepository extends JpaRepository<ReserveInfo_ViewVO, 
 	@Modifying
 	@Query(nativeQuery = true, value = 
 		"insert into review(review_no, review_content, review_point, review_date, room_no, backoffice_no, user_no) "
-		+ "	values('R'||SEQ_REVIEW.nextval, :#{#vo?.review_content}, :review_point, sysdate, :#{#vo?.room_no}, :#{#vo?.backoffice_no}, :#{#vo?.user_no})")
+		+ "	values('R'||SEQ_REVIEW.nextval, :#{#vo?.review_content}, :review_point, current_date, :#{#vo?.room_no}, :#{#vo?.backoffice_no}, :#{#vo?.user_no})")
 	void insert_review(@Param("review_point") Float review_point,@Param("vo") ReviewEntityVO vo);
 	
 	
