@@ -347,14 +347,13 @@ public class UserMypageSerivice {
 	}
 
 	// 마이페이지 - 문의내역리스트 - 문의 삭제
-	public int delete_comment(String comment_no) {
-		log.info("delete_comment()....");
-		log.info("comment_no: {}", comment_no);
-		return myQuestionRepository.delete_comment(comment_no);
-//		return 0;
-	}
+//	public int delete_comment(String comment_no) {
+//		log.info("delete_comment()....");
+//		log.info("comment_no: {}", comment_no);
+//		return myQuestionRepository.delete_comment(comment_no);
+//	}
 
-	// 리뷰 리스트수(페이징 처리를 위해서)
+	// 후기 리스트수(페이징 처리를 위해서)
 	public long total_rowCount_review(String user_no) {
 		log.info("total_rowCount_review()....");
 		log.info("user_no: {}", user_no);
@@ -363,7 +362,7 @@ public class UserMypageSerivice {
 	}
 
 	
-	// 마이페이지 - 리뷰리스트 페이징
+	// 마이페이지 - 후기리스트 페이징
 	public List<UserReviewVO> select_all_review_paging(String user_no, Integer page) {
 		log.info("select_all_review_paging()....");
 		log.info("user_no: {}", user_no);
@@ -383,7 +382,7 @@ public class UserMypageSerivice {
 	}
 
 
-//	// 마이페이지 - 리뷰리스트
+//	// 마이페이지 - 후기리스트
 //	public List<UserReviewVO> select_all_review(String user_no) {
 //		log.info("select_all_review()....");
 //		log.info("user_no: {}", user_no);

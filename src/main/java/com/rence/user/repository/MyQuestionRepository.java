@@ -28,13 +28,17 @@ public interface MyQuestionRepository extends JpaRepository<UserQuestionVO, Obje
 	// 마이페이지 - 문의내역리스트(답변)
 	@Query(nativeQuery = true, value = "select * from user_commentpage_view where mother_no=?1")
 	public UserQuestionVO select_one_answer(String comment_no);
-
-	// 마이페이지 - 문의내역리스트 - 문의 삭제
-	@Transactional
-	@Modifying
-	@Query(nativeQuery = true, value = "delete from user_commentpage_view where comment_no = ?1")
-	public int delete_comment(String comment_no);
 	
+	
+	
+
+//	// 마이페이지 - 문의내역리스트 - 문의 삭제
+//	@Transactional
+//	@Modifying
+//	@Query(nativeQuery = true, value = "delete from user_commentpage_view where comment_no = ?1")
+//	public int delete_comment(String comment_no);
+//	
+//	****MypageMenuRepository에 구현
 	
 
 //	// 마이페이지 - 문의내역리스트
