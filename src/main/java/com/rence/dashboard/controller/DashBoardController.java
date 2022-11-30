@@ -1390,14 +1390,14 @@ public class DashBoardController {
 	 * 일정 관리 - 백오피스 휴무 일정
 	 */
 	@ApiOperation(value = "일정 관리 - 휴무 일정", notes = "대쉬보드 - 일정 관리")
-	@GetMapping("/schedule_calander")
+	@GetMapping("/schedule_calendar")
 	@ResponseBody
-	public String backoffice_schedule_calander(String backoffice_no, Model model) throws ParseException {
-		log.info("backoffice_schedule_calander controller()...");
+	public String backoffice_schedule_calendar(String backoffice_no, Model model) throws ParseException {
+		log.info("backoffice_schedule_calendar controller()...");
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		List<ScheduleEntity> vo = service.backoffice_schedule_calander(backoffice_no);
+		List<ScheduleEntity> vo = service.backoffice_schedule_calendar(backoffice_no);
 
 		log.info("vos...{}", vo);
 		map.put("vos", vo);

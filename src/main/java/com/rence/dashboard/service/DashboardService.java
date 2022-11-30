@@ -373,9 +373,9 @@ public class DashboardService {
 	}
 
 	// 일정 관리 - 휴무 일정
-	public List<ScheduleEntity> backoffice_schedule_calander(String backoffice_no) {
-		log.info("backoffice_schedule_calander().....");
-		return sc_repository.backoffice_schedule_calander(backoffice_no);
+	public List<ScheduleEntity> backoffice_schedule_calendar(String backoffice_no) {
+		log.info("backoffice_schedule_calendar().....");
+		return sc_repository.backoffice_schedule_calendar(backoffice_no);
 	}
 
 	// 일정 관리 - 일정(휴무, 브레이크 타임) 취소
