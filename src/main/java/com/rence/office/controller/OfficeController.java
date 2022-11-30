@@ -183,14 +183,23 @@ public class OfficeController {
 
 				log.info("is_login :::::::::: {}", is_login);
 				log.info("user_no :::::::::: {}", vo.getUser_id());
-				
+								
 				OfficeQuestionVO vo2 = service.select_one_answer(vo.getComment_no());
 				if (vo2 != null) {
-//					if (vo.getIs_secret() == null) {
+					if (vo.getUser_id().equals(is_login)) {
 						vo.setAnswer_content(vo2.getComment_content());
 						vo.setAnswer_date(vo2.getComment_date());
 						vo.setComment_state("Y");
-//					}
+					} else {
+						if (vo.getIs_secret() == null) {
+							vo.setAnswer_content(vo2.getComment_content());
+							vo.setAnswer_date(vo2.getComment_date());
+							vo.setComment_state("Y");
+						} else {
+							vo.setAnswer_content(null);
+							vo.setAnswer_date(null);
+						}
+					}
 				} else {
 					vo.setComment_state("N");
 				}
@@ -364,14 +373,23 @@ public class OfficeController {
 				log.info("is_login :::::::::: {}", is_login);
 				log.info("user_no :::::::::: {}", vo.getUser_id());
 
+				
 				OfficeQuestionVO vo2 = service.select_one_answer(vo.getComment_no());
 				if (vo2 != null) {
-//					if (vo.getIs_secret() == null) {
-
+					if (vo.getUser_id().equals(is_login)) {
 						vo.setAnswer_content(vo2.getComment_content());
 						vo.setAnswer_date(vo2.getComment_date());
 						vo.setComment_state("Y");
-//					}
+					} else {
+						if (vo.getIs_secret() == null) {
+							vo.setAnswer_content(vo2.getComment_content());
+							vo.setAnswer_date(vo2.getComment_date());
+							vo.setComment_state("Y");
+						} else {
+							vo.setAnswer_content(null);
+							vo.setAnswer_date(null);
+						}
+					}
 				} else {
 					vo.setComment_state("N");
 				}
@@ -636,13 +654,16 @@ public class OfficeController {
 		} else {
 			type_list.add("타입 없음");
 		}
-
+		
+		
+		
 		if (ovo.getBackoffice_tag() != null) {
 			tag_list = info_map.splitTag(ovo.getBackoffice_tag());
+			log.info("tag_list : {}", tag_list);
 		} else {
-			tag_list.add("옵션 없음");
+			tag_list.add("태그 없음");
 		}
-
+		
 		img_list = info_map.splitImage(ovo.getBackoffice_image());
 
 		if (ovo.getBackoffice_option() != null) {
@@ -673,7 +694,7 @@ public class OfficeController {
 		List<OfficeRoomVO> rvos = service.select_all_room(backoffice_no);
 
 		for (OfficeRoomVO vo : rvos) {
-			vo.setRoom_name(info_map.changeType(vo.getRoom_type()));
+			vo.setRoom_type(info_map.changeType(vo.getRoom_type()));
 		}
 
 		log.info("rvos ::::::::::::::: {}", rvos);
@@ -727,14 +748,23 @@ public class OfficeController {
 				log.info("is_login :::::::::: {}", is_login);
 				log.info("user_no :::::::::: {}", vo.getUser_id());
 
+				
 				OfficeQuestionVO vo2 = service.select_one_answer(vo.getComment_no());
 				if (vo2 != null) {
-//					if (vo.getIs_secret() == null) {
-
+					if (vo.getUser_id().equals(is_login)) {
 						vo.setAnswer_content(vo2.getComment_content());
 						vo.setAnswer_date(vo2.getComment_date());
 						vo.setComment_state("Y");
-//					}
+					} else {
+						if (vo.getIs_secret() == null) {
+							vo.setAnswer_content(vo2.getComment_content());
+							vo.setAnswer_date(vo2.getComment_date());
+							vo.setComment_state("Y");
+						} else {
+							vo.setAnswer_content(null);
+							vo.setAnswer_date(null);
+						}
+					}
 				} else {
 					vo.setComment_state("N");
 				}

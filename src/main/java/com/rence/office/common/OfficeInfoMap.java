@@ -79,7 +79,7 @@ public class OfficeInfoMap {
 	// 태그
 	public List<String> splitTag(String tags) {
 		List<String> tag_list = new ArrayList<String>();
-		String[] tag_split = tags.split(" ");
+		String[] tag_split = tags.split(",");
 		
 		for (int i = 0; i < tag_split.length; i++) {
 			tag_list.add(tag_split[i]);
