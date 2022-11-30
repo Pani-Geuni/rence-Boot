@@ -38,27 +38,41 @@ $(function() {
 		controlType: 'select',
 		oneLine: true,
 	});
+	
+	$(".type-border-txt.time-input:eq(0)").change(function() {
+		$("input:checkbox[name='select-room']").prop('checked', false);
+	})
+	
+	$(".type-border-txt.time-input:eq(1)").change(function() {
+		$("input:checkbox[name='select-room']").prop('checked', false);
+	})
 
 	// *************
 	// 전체 선택 체크박스
 	// *************
 	$('#select-all-room').click(function() {
-		console.log('asdf')
-
 		if ($(this).is(':checked')) {
-			$('.room-checkbox').attr('checked', true)
+			$(this).attr('checked', true);		
 		} else {
-			$('.room-checkbox').attr('checked', false)
+			$(this).attr('checked', false);
 		}
-	})
+	});
 
 	$('#select-all-room').change(function() {
 		if ($(this).is(':checked')) {
-			$("input:checkbox[name='select-room']").prop('checked', true)
+			$("input:checkbox[name='select-room']").each(function (index) {
+				if ($(this).is(':disabled')) {
+					console.log(index)
+					$(this).prop('checked', false);
+				} else {
+					$(this).prop('checked', true);									
+				}
+			});
+			 
 		} else {
-			$("input:checkbox[name='select-room']").prop('checked', false)
+			$("input:checkbox[name='select-room']").prop('checked', false);
 		}
-	})
+	});
 
 
 	// ********************
@@ -107,7 +121,8 @@ $(function() {
 							//로딩 화면 닫기
 							$(".popup-background:eq(1)").addClass("blind");
 							$("#spinner-section").addClass("blind");
-
+							
+							$("input:checkbox[name='select-room']").prop('checked', false);
 							console.log(res);
 
 							$("#maxCnt").attr("maxCnt", res.maxCnt);
