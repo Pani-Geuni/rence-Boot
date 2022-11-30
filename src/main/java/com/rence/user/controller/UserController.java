@@ -152,14 +152,14 @@ public class UserController {
 		log.info("result{}", uvo); // 넘어오는 값 출력
 
 		UserVO uvo2 = service.user_id_email_select(uvo); // 아이디 이메일 체크
-
 		Map<String, String> map = new HashMap<String, String>();
 		if (uvo2 != null) {
 			uvo2 = authSendEmail.findPw(uvo2, evo); // uvo2가 null이 아니면(테이블에 데이터가 존재하면) 메일을 통해 수정링크 제공
+			log.info("비밀번호 찾기 메일 전송완료");
 			int result = service.user_pw_init(uvo2);
+			log.info("비밀번호 초기화 업데이트 완료");
 
 			if (result != 0) {
-				log.info("넣기전에 uvo2: {}", uvo2);
 				log.info("user_fine_pw successed...");
 				map.put("result", "1");
 			} else {

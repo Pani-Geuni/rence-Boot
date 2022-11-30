@@ -50,10 +50,7 @@ public class UserService{
 	public int user_pw_init(UserVO uvo) {
 		log.info("user_pw_init()....");
 		log.info("uvo: {}", uvo);
-		// 비밀번호 암호화
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		uvo.setUser_pw(encoder.encode(uvo.getPassword()));
-		log.info("uvo: {}", uvo);
+		
 		
 		return repository.user_pw_init(uvo.getUser_pw(), uvo.getUser_id());
 	}

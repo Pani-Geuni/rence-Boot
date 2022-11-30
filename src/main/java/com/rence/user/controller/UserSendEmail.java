@@ -8,8 +8,10 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMessage.RecipientType;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.rence.backoffice.model.AuthVO;
@@ -101,24 +103,15 @@ public class UserSendEmail {
 			log.info("User findPw");
 			log.info("uvo: {}", uvo);
 
-			// 10자리 int형 랜덤난수 생성
-			Random random = new Random(); // 랜덤 함수 선언
-			int createNum = 0; // 1자리 난수
-			String ranNum = ""; // 1자리 난수 형변환 변수
-			int len = 10; // 난수 자릿수
-			String random_pw = ""; // 결과 난수
-
-			for (int i = 0; i < len; i++) {
-
-				createNum = random.nextInt(9); // 0부터 9까지 올 수 있는 1자리 난수 생성
-				ranNum = Integer.toString(createNum); // 1자리 난수를 String으로 형변환
-				random_pw += ranNum; // 생성된 난수(문자열)을 원하는 수(len)만큼 더하며 나열
-			}
+			String random_pw = RandomStringUtils.randomAlphanumeric(10);
 			log.info("Create random_pw: {}", random_pw);
 			
-			uvo.setUser_pw(random_pw);
+			
+			// 비밀번호 암호화
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+			uvo.setUser_pw(encoder.encode(random_pw));
 			log.info("uvo.getUser_pw: {}", uvo.getUser_pw());
-
+			
 			// 이메일 제목, 내용 설정
 			evo.setSubject("[rence] 비밀번호 재설정");
 //			evo.setContent("아래의 링크에 접속하여 비밀번호를 재설정 해주시길 바랍니다."); //아직 무슨기능인지 몰라 일단은 주석처리
@@ -136,7 +129,7 @@ public class UserSendEmail {
 								"<br><br>" + 
 								"<font color=\"red\">로그인후 재설정을 권장합니다 </font>"+
 								"<br><br>" + 
-								"<strong>초기화 비밀번호 : </strong>" + uvo.getUser_pw()
+								"<strong>초기화 비밀번호 : </strong>" + random_pw
 								,"text/html; charset=utf-8");
 				msg.setRecipient(RecipientType.TO, new InternetAddress(uvo.getUser_email()));
 
@@ -144,6 +137,8 @@ public class UserSendEmail {
 			} catch (MessagingException e) {
 				uvo = null;
 			}
+			
+			
 			return uvo;
 		}
 	
