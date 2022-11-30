@@ -64,7 +64,6 @@ public class OfficeController {
 	@Autowired
 	HttpSession session;
 
-	
 	/*
 	 * 오피스(공간) 상세 페이지
 	 */
@@ -183,7 +182,7 @@ public class OfficeController {
 
 				log.info("is_login :::::::::: {}", is_login);
 				log.info("user_no :::::::::: {}", vo.getUser_id());
-								
+
 				OfficeQuestionVO vo2 = service.select_one_answer(vo.getComment_no());
 				if (vo2 != null) {
 					if (vo.getUser_id().equals(is_login)) {
@@ -191,7 +190,7 @@ public class OfficeController {
 						vo.setAnswer_date(vo2.getComment_date());
 						vo.setComment_state("Y");
 					} else {
-						if (vo.getIs_secret() == null) {
+						if (vo.getIs_secret() == null || vo.getIs_secret().equals("F")) {
 							vo.setAnswer_content(vo2.getComment_content());
 							vo.setAnswer_date(vo2.getComment_date());
 							vo.setComment_state("Y");
@@ -320,7 +319,8 @@ public class OfficeController {
 
 	@GetMapping("/introduce_q_paging")
 	@ResponseBody
-	public String introduce_q_paging(BackOfficeVO bvo, @RequestParam(value = "page", defaultValue = "1") Integer page, Model model) {
+	public String introduce_q_paging(BackOfficeVO bvo, @RequestParam(value = "page", defaultValue = "1") Integer page,
+			Model model) {
 
 		// **************
 		// backoffice 문의 페이징
@@ -373,7 +373,6 @@ public class OfficeController {
 				log.info("is_login :::::::::: {}", is_login);
 				log.info("user_no :::::::::: {}", vo.getUser_id());
 
-				
 				OfficeQuestionVO vo2 = service.select_one_answer(vo.getComment_no());
 				if (vo2 != null) {
 					if (vo.getUser_id().equals(is_login)) {
@@ -381,7 +380,7 @@ public class OfficeController {
 						vo.setAnswer_date(vo2.getComment_date());
 						vo.setComment_state("Y");
 					} else {
-						if (vo.getIs_secret() == null) {
+						if (vo.getIs_secret() == null || vo.getIs_secret().equals("F")) {
 							vo.setAnswer_content(vo2.getComment_content());
 							vo.setAnswer_date(vo2.getComment_date());
 							vo.setComment_state("Y");
@@ -390,6 +389,9 @@ public class OfficeController {
 							vo.setAnswer_date(null);
 						}
 					}
+					
+					log.info("@@@@@@ vo : {}", vo);
+					log.info("@@@@@@ vo2 : {}", vo2);
 				} else {
 					vo.setComment_state("N");
 				}
@@ -420,11 +422,12 @@ public class OfficeController {
 
 	@GetMapping(value = "/introduce_r_paging")
 	@ResponseBody
-	public String introduce_r_paging(BackOfficeVO bvo, @RequestParam(value = "page", defaultValue = "1") Integer page, Model model) {
+	public String introduce_r_paging(BackOfficeVO bvo, @RequestParam(value = "page", defaultValue = "1") Integer page,
+			Model model) {
 		// **************
 		// backoffice 후기
 		// **************
-		
+
 		String backoffice_no = bvo.getBackoffice_no();
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -485,7 +488,7 @@ public class OfficeController {
 
 			vo.setUser_name(maskingName);
 		}
-		
+
 		map.put("revos", revos);
 		String introduce_r_paging = gson.toJson(map);
 
@@ -533,7 +536,7 @@ public class OfficeController {
 			Model model) throws ParseException {
 
 		log.info("{} {} {} {}", backoffice_no, room_no, reserve_stime, reserve_etime);
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		List<OfficeReserveVO> vos = service.check_reserve_office(backoffice_no, room_no);
@@ -572,12 +575,12 @@ public class OfficeController {
 				break;
 			}
 		}
-		
+
 		// 예약이 하나도 없을 때
 		if (vos.isEmpty()) {
 			reserve_flag = 1;
 		}
-		
+
 		if (reserve_flag == 1) {
 			map.put("result", "1");
 		} else {
@@ -659,15 +662,13 @@ public class OfficeController {
 		} else {
 			type_list.add("타입 없음");
 		}
-		
-		
-		
+
 		if (ovo.getBackoffice_tag() != null) {
 			tag_list = info_map.splitTag(ovo.getBackoffice_tag());
 		} else {
 			tag_list.add("태그 없음");
 		}
-		
+
 		img_list = info_map.splitImage(ovo.getBackoffice_image());
 
 		if (ovo.getBackoffice_option() != null) {
@@ -701,93 +702,92 @@ public class OfficeController {
 			vo.setRoom_type(info_map.changeType(vo.getRoom_type()));
 		}
 
-
 		// **************
-				// backoffice 문의
-				// **************
+		// backoffice 문의
+		// **************
 
-				// 페이징 처리 로직
-				// 리스트 수
-				long total_rowCount_question_all = service.total_rowCount_question_all(backoffice_no);
-				log.info("total_rowCount_question_all: {}", total_rowCount_question_all);
+		// 페이징 처리 로직
+		// 리스트 수
+		long total_rowCount_question_all = service.total_rowCount_question_all(backoffice_no);
+		log.info("total_rowCount_question_all: {}", total_rowCount_question_all);
 
-				// 총 페이징 되는 수
-				long totalPageCnt = (long) Math.ceil(total_rowCount_question_all / 4.0);
-				log.info("totalPageCnt: {}", totalPageCnt);
+		// 총 페이징 되는 수
+		long totalPageCnt = (long) Math.ceil(total_rowCount_question_all / 4.0);
+		log.info("totalPageCnt: {}", totalPageCnt);
 
-				long nowPage = page;
+		long nowPage = page;
 
-				long maxPage = 0;
+		long maxPage = 0;
 
-				if (nowPage % 5 != 0) {
-					if (nowPage == totalPageCnt) {
-						maxPage = nowPage;
-					} else if (((nowPage / 5) + 1) * 5 >= totalPageCnt) {
-						maxPage = totalPageCnt;
-					} else if (((nowPage / 5) + 1) * 5 < totalPageCnt) {
-						maxPage = ((nowPage / 5) + 1) * 5;
-					}
-				} else if (nowPage % 5 == 0) {
-					if (nowPage <= totalPageCnt) {
-						maxPage = nowPage;
-					}
-				}
+		if (nowPage % 5 != 0) {
+			if (nowPage == totalPageCnt) {
+				maxPage = nowPage;
+			} else if (((nowPage / 5) + 1) * 5 >= totalPageCnt) {
+				maxPage = totalPageCnt;
+			} else if (((nowPage / 5) + 1) * 5 < totalPageCnt) {
+				maxPage = ((nowPage / 5) + 1) * 5;
+			}
+		} else if (nowPage % 5 == 0) {
+			if (nowPage <= totalPageCnt) {
+				maxPage = nowPage;
+			}
+		}
 
-				log.info("maxPage: " + maxPage);
+		log.info("maxPage: " + maxPage);
 
-				map.put("totalPageCnt", totalPageCnt);
-				map.put("nowPage", nowPage);
-				map.put("maxPage", maxPage);
+		map.put("totalPageCnt", totalPageCnt);
+		map.put("nowPage", nowPage);
+		map.put("maxPage", maxPage);
 
-				// 페이징 처리 계산 로직 끝
+		// 페이징 처리 계산 로직 끝
 
-				List<OfficeQuestionVO> cvos = service.select_all_comment(backoffice_no, page);
+		List<OfficeQuestionVO> cvos = service.select_all_comment(backoffice_no, page);
 
-				String is_login = (String) session.getAttribute("user_id");
+		String is_login = (String) session.getAttribute("user_id");
 
-				if (cvos != null) {
-					for (OfficeQuestionVO vo : cvos) {
+		if (cvos != null) {
+			for (OfficeQuestionVO vo : cvos) {
 
-						log.info("is_login :::::::::: {}", is_login);
-						log.info("user_no :::::::::: {}", vo.getUser_id());
-										
-						OfficeQuestionVO vo2 = service.select_one_answer(vo.getComment_no());
-						if (vo2 != null) {
-							if (vo.getUser_id().equals(is_login)) {
-								vo.setAnswer_content(vo2.getComment_content());
-								vo.setAnswer_date(vo2.getComment_date());
-								vo.setComment_state("Y");
-							} else {
-								if (vo.getIs_secret() == null) {
-									vo.setAnswer_content(vo2.getComment_content());
-									vo.setAnswer_date(vo2.getComment_date());
-									vo.setComment_state("Y");
-								} else {
-									vo.setAnswer_content(null);
-									vo.setAnswer_date(null);
-								}
-							}
+				log.info("is_login :::::::::: {}", is_login);
+				log.info("user_no :::::::::: {}", vo.getUser_id());
+
+				OfficeQuestionVO vo2 = service.select_one_answer(vo.getComment_no());
+				if (vo2 != null) {
+					if (vo.getUser_id().equals(is_login)) {
+						vo.setAnswer_content(vo2.getComment_content());
+						vo.setAnswer_date(vo2.getComment_date());
+						vo.setComment_state("Y");
+					} else {
+						if (vo.getIs_secret() == null || vo.getIs_secret().equals("F")) {
+							vo.setAnswer_content(vo2.getComment_content());
+							vo.setAnswer_date(vo2.getComment_date());
+							vo.setComment_state("Y");
 						} else {
-							vo.setComment_state("N");
+							vo.setAnswer_content(null);
+							vo.setAnswer_date(null);
 						}
-
-						// 이름 마스킹
-						String originName = vo.getUser_name();
-						String firstName = originName.substring(0, 1);
-						String midName = originName.substring(1, originName.length() - 1);
-
-						String maskingMidName = "";
-						for (int i = 0; i < midName.length(); i++) {
-							maskingMidName += "*";
-						}
-
-						String lastName = originName.substring(originName.length() - 1, originName.length());
-
-						String maskingName = firstName + maskingMidName + lastName;
-
-						vo.setUser_name(maskingName);
 					}
+				} else {
+					vo.setComment_state("N");
 				}
+
+				// 이름 마스킹
+				String originName = vo.getUser_name();
+				String firstName = originName.substring(0, 1);
+				String midName = originName.substring(1, originName.length() - 1);
+
+				String maskingMidName = "";
+				for (int i = 0; i < midName.length(); i++) {
+					maskingMidName += "*";
+				}
+
+				String lastName = originName.substring(originName.length() - 1, originName.length());
+
+				String maskingName = firstName + maskingMidName + lastName;
+
+				vo.setUser_name(maskingName);
+			}
+		}
 
 		// **************
 		// backoffice 후기
@@ -914,7 +914,7 @@ public class OfficeController {
 			long diffSec = (edate.getTime() - sdate.getTime()) / 1000;
 			// 일 계산
 			diffTime = diffSec / (24 * 60 * 60);
-			
+
 			// 개월 계산
 			diffTime /= 30;
 
