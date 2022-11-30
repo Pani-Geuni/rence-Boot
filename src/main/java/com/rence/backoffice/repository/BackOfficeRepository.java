@@ -40,7 +40,7 @@ public interface BackOfficeRepository extends JpaRepository<BackOfficeVO, Object
 	public BackOfficeVO backoffice_email_check(String backoffice_email);
 
 	// 비밀번호 변경을 위해 기존 가입 정보 유무 검색
-	@Query(nativeQuery = true, value="select * from backofficeinfo where backoffice_id=?1 and backoffice_email=?2 and backoffice_state !='X' or backoffice_state='O'")
+	@Query(nativeQuery = true, value="select * from backofficeinfo where backoffice_id=?1 and backoffice_email=?2 and backoffice_state ='Y'")
 	public BackOfficeVO select_backoffice_by_id_email(String backoffice_id, String backoffice_email);
 
 	// 임시 비밀번호 저장

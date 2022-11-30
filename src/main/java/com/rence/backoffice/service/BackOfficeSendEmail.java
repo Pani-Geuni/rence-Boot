@@ -70,7 +70,7 @@ public class BackOfficeSendEmail {
 		// 이메일 제목, 내용 설정
 		evo.setSubject("[rence] 임시 비밀번호 발급");
 
-		String temp_pw = RandomStringUtils.randomAlphanumeric(6);
+		String temp_pw = RandomStringUtils.randomAlphanumeric(10);
 
 		vo.setBackoffice_pw(new BCryptPasswordEncoder().encode(temp_pw));
 
