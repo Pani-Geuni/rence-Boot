@@ -35,8 +35,12 @@
                             </li>
                             <li class="info-li">
                                 <label class="info-label">공간 가격</label>
-                                <span th:if="${pvo.room_type} !='오피스'" class="info-text room_price">[[${pvo.room_price}]]원/시간</span>
-                                <span th:if="${pvo.room_type} =='오피스'" class="info-text room_price">[[${pvo.room_price}]]원/월</span>
+
+                                <span class="info-text room_price">
+                                	[[${pvo.room_price}]]
+	                                <th:block th:if="${pvo.room_type} != '오피스'">원/시간</th:block>
+	                                <th:block th:unless="${pvo.room_type} != '오피스'">원/개월</th:block>
+                                </span>
                             </li>
                         </ul>
                     </section>
@@ -192,7 +196,7 @@
                             <li class="info-li">
                                 <label class="info-label">공간 가격</label>
                                 <th:block th:if="${pvo.room_type == '오피스'}">
-                                	<span class="info-text room_price">[[${ pvo.room_price }]]원/일</span>
+                                	<span class="info-text room_price">[[${ pvo.room_price }]]원/개월</span>
                                 </th:block>
                                 <th:block th:if="${pvo.room_type != '오피스'}">
                                 	<span class="info-text room_price">[[${ pvo.room_price }]]원/시간</span>
