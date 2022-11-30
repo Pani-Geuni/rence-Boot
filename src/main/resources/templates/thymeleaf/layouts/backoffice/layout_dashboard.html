@@ -17,7 +17,7 @@
 	<link rel="stylesheet" href="/static/CSS/common/common.css" />
 	<link rel="stylesheet" href="/static/CSS/common/custom-table.css" />
 	<link rel="stylesheet" href="/static/CSS/common/custom-timepicker.css" />
-	
+
 	<link rel="stylesheet" href="/static/CSS/dash-board/jquery-ui.css" />
 	<link rel="stylesheet" href="/static/CSS/dash-board/jquery-ui-timepicker.css" />
 
@@ -45,7 +45,7 @@
 	<script src="/static/JS/backoffice/settings.js"></script>
 	<script src="/static/JS/backoffice/custom_timepicker.js"></script>
 	<script src="/static/JS/backoffice/custom-image-input.js"></script>
-	
+
 	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<script src="/static/JS/backoffice/timepicker.js"></script>
 
@@ -61,90 +61,90 @@
 			/*]]*/
 		</script>
 		<script>
-			$(function(){
-				// 페이지 번호 클릭 이벤트
-			    $(".paging-num-wrap").on("click", ".paging-box.paging-num", function(){
-					if(page == "room"){
-						location.href = "/backoffice/room?backoffice_no=" + $.cookie("backoffice_no") + "&page=" + $(this).attr("idx");
-					}else if(page == "qna"){
-						location.href = "/backoffice/qna?backoffice_no=" + $.cookie("backoffice_no") + "&page=" + $(this).attr("idx");
-					}else if(page == "review"){
-						location.href = "/backoffice/review?backoffice_no=" + $.cookie("backoffice_no") + "&page=" + $(this).attr("idx");
-					}else if(page == "sales_day"){
-						location.href = "/backoffice/day_sales?backoffice_no=" + $.cookie("backoffice_no") + "&sales_date=day&page=" + $(this).attr("idx");
-					}else if(page == "sales_week"){
-						location.href = "/backoffice/day_sales?backoffice_no=" + $.cookie("backoffice_no") + "&sales_date=week&page=" + $(this).attr("idx");
-					}else if(page == "sales_month"){
-						location.href = "/backoffice/day_sales?backoffice_no=" + $.cookie("backoffice_no") + "&sales_date=month&page=" + $(this).attr("idx");
-					}
-			    });
-			    
-			    // 다음 페이지 리스트로 이동
-			    $(".next-page-btn").click(function(){
-					var start = Number($($(".paging-box.paging-num")[0]).text()) + 5;
-					var last = Number($($(".paging-box.paging-num")[4]).text()) + 5;
-					var totalPageCnt = Number($("#totalPageCnt").val());
-					
-					if($(".before-page-btn").hasClass("hide")){
-						$(".before-page-btn").removeClass("hide");
-					}
-					
-					if(last >= totalPageCnt){
-						last = totalPageCnt;
-						$(".next-page-btn").addClass("hide");
-					}
-					
-					var sample = $(".paging-num-wrap>.paging-box.paging-num:eq(0)").clone();
-					$(".paging-num-wrap").empty();
-					
-					for(var i = start; i <= last; i++){
-						var sample_span = sample.clone();
-			
-						sample_span.text(i);
-						sample_span.attr("idx", i);
-						sample_span.removeClass("choice");
-						sample_span.addClass("un-choice");
-						
-						$(".paging-num-wrap").append(sample_span);
-					}
+				$(function () {
+					// 페이지 번호 클릭 이벤트
+					$(".paging-num-wrap").on("click", ".paging-box.paging-num", function () {
+						if (page == "room") {
+							location.href = "/backoffice/room?backoffice_no=" + $.cookie("backoffice_no") + "&page=" + $(this).attr("idx");
+						} else if (page == "qna") {
+							location.href = "/backoffice/qna?backoffice_no=" + $.cookie("backoffice_no") + "&page=" + $(this).attr("idx");
+						} else if (page == "review") {
+							location.href = "/backoffice/review?backoffice_no=" + $.cookie("backoffice_no") + "&page=" + $(this).attr("idx");
+						} else if (page == "sales_day") {
+							location.href = "/backoffice/day_sales?backoffice_no=" + $.cookie("backoffice_no") + "&sales_date=day&page=" + $(this).attr("idx");
+						} else if (page == "sales_week") {
+							location.href = "/backoffice/day_sales?backoffice_no=" + $.cookie("backoffice_no") + "&sales_date=week&page=" + $(this).attr("idx");
+						} else if (page == "sales_month") {
+							location.href = "/backoffice/day_sales?backoffice_no=" + $.cookie("backoffice_no") + "&sales_date=month&page=" + $(this).attr("idx");
+						}
+					});
+
+					// 다음 페이지 리스트로 이동
+					$(".next-page-btn").click(function () {
+						var start = Number($($(".paging-box.paging-num")[0]).text()) + 5;
+						var last = Number($($(".paging-box.paging-num")[4]).text()) + 5;
+						var totalPageCnt = Number($("#totalPageCnt").val());
+
+						if ($(".before-page-btn").hasClass("hide")) {
+							$(".before-page-btn").removeClass("hide");
+						}
+
+						if (last >= totalPageCnt) {
+							last = totalPageCnt;
+							$(".next-page-btn").addClass("hide");
+						}
+
+						var sample = $(".paging-num-wrap>.paging-box.paging-num:eq(0)").clone();
+						$(".paging-num-wrap").empty();
+
+						for (var i = start; i <= last; i++) {
+							var sample_span = sample.clone();
+
+							sample_span.text(i);
+							sample_span.attr("idx", i);
+							sample_span.removeClass("choice");
+							sample_span.addClass("un-choice");
+
+							$(".paging-num-wrap").append(sample_span);
+						}
+					});
+
+					// 이전 페이지 리스트로 이동
+					$(".before-page-btn").click(function () {
+						var start = Number($($(".paging-box.paging-num")[0]).text()) - 5;
+						var last = Number($(".paging-box.paging-num:last").text()) - 5;
+
+						if (last % 5 != 0) {
+							last += 5 - (last % 5);
+						}
+
+						if ($(".next-page-btn").hasClass("hide")) {
+							$(".next-page-btn").removeClass("hide");
+						}
+
+						if (start == 1) {
+							$(".before-page-btn").addClass("hide");
+						}
+
+						var sample = $(".paging-num-wrap>.paging-box.paging-num:eq(0)").clone();
+						$(".paging-num-wrap").empty();
+
+						for (var i = start; i <= last; i++) {
+							var sample_span = sample.clone();
+
+							sample_span.text(i);
+							sample_span.attr("idx", i);
+							sample_span.removeClass("choice");
+							sample_span.addClass("un-choice");
+
+							$(".paging-num-wrap").append(sample_span);
+						}
+					});
 				});
-				
-			    // 이전 페이지 리스트로 이동
-			    $(".before-page-btn").click(function(){
-					var start = Number($($(".paging-box.paging-num")[0]).text()) - 5;
-					var last = Number($(".paging-box.paging-num:last").text()) - 5;
-					
-					if(last % 5 != 0){
-						last += 5 - (last % 5);
-					}
-					
-					if($(".next-page-btn").hasClass("hide")){
-						$(".next-page-btn").removeClass("hide");
-					}
-					
-					if(start == 1){
-						$(".before-page-btn").addClass("hide");
-					}
-					
-					var sample = $(".paging-num-wrap>.paging-box.paging-num:eq(0)").clone();
-					$(".paging-num-wrap").empty();
-					
-					for(var i = start; i <= last; i++){
-						var sample_span = sample.clone();
-			
-						sample_span.text(i);
-						sample_span.attr("idx", i);
-						sample_span.removeClass("choice");
-						sample_span.addClass("un-choice");
-						
-						$(".paging-num-wrap").append(sample_span);
-					}
-				});
-			});
 		</script>
 	</th:block>
 
-	
+
 </head>
 
 <body class="bodyWrap">
@@ -403,7 +403,7 @@
 			</section>
 		</div>
 		<!-- END DELETE FONFIRM POPUP -->
-		
+
 		<!-- START RADIO CHECK CONFIRM POPUP -->
 		<div id="radio-check-popup" class="confirm-popup blind">
 			<section class="confirm-txt-section">
@@ -416,7 +416,7 @@
 			</section>
 		</div>
 		<!-- END RADIO CHECK CONFIRM popup -->
-		
+
 		<!-- START time-input-popup CONFIRM POPUP -->
 		<div id="time-input-popup" class="confirm-popup blind">
 			<section class="confirm-txt-section">
@@ -429,7 +429,7 @@
 			</section>
 		</div>
 		<!-- END time-input-popup CONFIRM popup -->
-		
+
 		<!-- START no-reservation-popup CONFIRM POPUP -->
 		<div id="no-reservation-popup" class="confirm-popup blind">
 			<section class="confirm-txt-section">
@@ -442,6 +442,34 @@
 			</section>
 		</div>
 		<!-- END no-reservation-popup CONFIRM popup -->
+
+		<!-- START dayoff-calendar-wrap -->
+		<div class="dayoff-calendar-wrap blind">
+			<section class="dayoff-calendar-title">
+				<h1>11월</h1>
+				<span class="calendar-close-btn">
+					<img src="/static/IMG/dash-board/ico-close.svg" alt="닫기 버튼" />
+				</span>
+			</section>
+			<!-- END dayoff-calendar-title -->
+			<section class="dayoff-calendar-content">
+				<div>
+					<p class="dayoff-calendar-content-title">이번 달의 임시 휴무를 보여드려요.</p>
+				</div>
+				<ul class="dayoff-list">
+					<li class="dayoff-list-item blind">
+						<span class="dayoff-list-item-top"></span>
+						<div class="dayoff-list-item-bottom">
+							<span class="badge">임시 휴무</span>
+							<button class="dayoff-cancel-btn">휴무 취소</button>
+						</div>
+					</li>
+				</ul>
+			</section>
+		</div>
+		<!-- END dayoff-calendar-wrap -->
+		
+		
 	</div>
 	<!-- END popup-background blind -->
 
@@ -461,6 +489,33 @@
 				<span>확인</span>
 			</section>
 		</div>
+		
+		<!-- START DAYOFF CANCEL POPUP -->
+		<div id="dayoff-cancel-popup" class="confirm-popup blind">
+			<section class="confirm-txt-section">
+				<span class="delete-txt">
+					임시 휴무를 정말 취소하시겠습니까? 
+				</span>
+			</section>
+			<section class="confirm-btn-section">
+				<div id="dayoff-cancel-confirm-btn" class="confirm-yesBtn">예</div>
+				<div id="dayoff-cancel-confirm-closeBtn" class="confirm-noBtn">아니오</div>
+			</section>
+		</div>
+		<!-- END DAYOFF CANCEL POPUP -->
+		
+		<!-- START DAYOFF CANCEL CONFIRM POPUP -->
+		<div id="dayoff-cancel-confirmOK-popup" class="confirm-popup blind">
+			<section class="confirm-txt-section">
+				<span class="delete-txt">
+					임시 휴무가 취소되었습니다.
+				</span>
+			</section>
+			<section class="confirm-btn-section">
+				<div id="dayoff-cancel-confirmOK-btn" class="confirm-yesBtn">확인</div>
+			</section>
+		</div>
+		<!-- END DAYOFF CANCEL POPUP -->
 	</div>
 </body>
 
