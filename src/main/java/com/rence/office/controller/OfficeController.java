@@ -676,7 +676,7 @@ public class OfficeController {
 		List<OfficeRoomVO> rvos = service.select_all_room(backoffice_no);
 
 		for (OfficeRoomVO vo : rvos) {
-			vo.setRoom_name(info_map.changeType(vo.getRoom_type()));
+			vo.setRoom_type(info_map.changeType(vo.getRoom_type()));
 		}
 
 		log.info("rvos ::::::::::::::: {}", rvos);
