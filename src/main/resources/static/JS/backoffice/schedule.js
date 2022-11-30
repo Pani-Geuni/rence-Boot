@@ -580,15 +580,30 @@ $(function() {
 	var check_arr = "";
 	// 예약 취소 버튼 클릭 -> 취소 팝업 SHOW
 	$("#btn-reserve-cancel").on("click", function() {
-		check_arr = $("input[type=checkbox]:checked").parents(".ct-body-row");
-
+		check_arr =  $("input[type=checkbox]:checked").parents(".ct-body-row");
+		
 		if (check_arr.length == 0) {
 			$(".popup-background:eq(1)").removeClass("blind");
 			$("#common-alert-popup").removeClass("blind");
 			$(".common-alert-txt").text("선택된 항목이 없습니다.");
 		} else {
-			$(".popup-background:eq(0)").removeClass("blind");
-			$("#reserve-delete-popup").removeClass("blind");
+			var tmp_flag = false;
+			for(var i = 0; i < check_arr.length; i++){
+				var s_date = $(check_arr[i]).find(".reserve-stime").text().split(" ~ ")[0];
+				
+				if(new Date(s_date) < new Date()){
+					$(".popup-background:eq(1)").removeClass("blind");
+					$("#common-alert-popup").removeClass("blind");
+					$(".common-alert-txt").html("선택된 항목 중 이용중인 예약이 존재합니다.<br><br> 이용중인 항목은 예약 취소할 수 없습니다.");
+					tmp_flag = true;
+					break;
+				}
+			}
+			
+			if(!tmp_flag){
+				$(".popup-background:eq(0)").removeClass("blind");
+				$("#reserve-delete-popup").removeClass("blind");
+			}
 		}
 	});
 
