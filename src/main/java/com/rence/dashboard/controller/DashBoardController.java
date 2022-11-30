@@ -161,8 +161,17 @@ public class DashBoardController {
 		////////////////////////////////////////////////////////////////////
 
 		List<RoomVO> rmvos = service.dashboard_room_list(backoffice_no, page);
-		log.info("rmvos{}", rmvos);
+		String unit = "원/시간";
+		for (RoomVO vo : rmvos) {
+			if (vo.getRoom_type().equals("office")) {
+				unit = "원/개월";
+			}
+		}
+		
+		log.info("unit:{}", unit);
+		log.info("rmvos:{}", rmvos);
 		model.addAttribute("rm_vos", rmvos);
+		model.addAttribute("unit", unit);
 
 		map.put("page", "room");
 		model.addAttribute("res", map);
