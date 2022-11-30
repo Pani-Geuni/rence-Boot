@@ -15,7 +15,10 @@ import com.rence.dashboard.model.ScheduleListView;
 public interface ScheduleListRepository extends JpaRepository<ScheduleListView, Object> {
 
 	// 일정 관리 - 리스트 해당 날짜에 예약이 있는 공간 -> vo에는 reserve_state 없음
-	@Query(nativeQuery = true, value = "select room_no, backoffice_no, room_type, room_name, reserve_cnt from(SCHEDULE_LIST_VIEW)A where A.no=1 and backoffice_no=?1 and ((reserve_stime between To_date(?2,'YYYY-MM-DD HH24:MI:SS') and To_date(?3,'YYYY-MM-DD HH24:MI:SS'))or(reserve_etime between To_date(?2,'YYYY-MM-DD HH24:MI:SS') and To_date(?3,'YYYY-MM-DD HH24:MI:SS')))")
+	@Query(nativeQuery = true, value = "select room_no, backoffice_no, room_type, room_name, reserve_cnt from(\r\n"
+			+ "select ROW_NUMBER() OVER(PARTITION BY rm.room_no ORDER BY rm.room_no ASC ) no, count(reserve_no) OVER(PARTITION BY rm.room_no) as reserve_cnt, rm.room_no,rm.backoffice_no, rm.room_type, room_name, reserve_stime, reserve_etime, reserve_state  from reserveinfo rv left outer join roominfo rm on rv.room_no=rm.room_no where reserve_state!='false' and reserve_state!='cancel' and reserve_state!='end'\r\n"
+			+ "and ((reserve_stime between To_date(?2,'YYYY-MM-DD HH24:MI:SS') and To_date(?3,'YYYY-MM-DD HH24:MI:SS'))or(reserve_etime between To_date(?2,'YYYY-MM-DD HH24:MI:SS') and To_date(?3,'YYYY-MM-DD HH24:MI:SS')))\r\n"
+			+ ")A where A.no=1 and backoffice_no=?1")
 	public List<ScheduleListView> backoffice_schedule_list(String backoffice_no, String reserve_stime, String reserve_etime);
 	
 	// 일정 관리 - 백오피스가 가진 모든 공간 리스트
