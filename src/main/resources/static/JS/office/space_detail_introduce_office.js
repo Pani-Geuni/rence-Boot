@@ -293,14 +293,14 @@ $(function() {
 	/***** ************* *****/
 	/***** QUESTION MENU *****/
 	/***** ************* *****/
-	$(".answer_toggle").click(function() {
+	$(".quest-list-wrap").on("click", ".answer_toggle", function() {
 		var answer_li = $(this).parents(".quest-list").next(".answer-list");
 		if (answer_li.hasClass("blind")) {
 			answer_li.removeClass("blind");
-			$(".answer_toggle").text("답변 닫기");
+			$(this).text("답변 닫기");
 		} else {
 			answer_li.addClass("blind");
-			$(".answer_toggle").text("답변 보기");
+			$(this).text("답변 보기");
 		}
 	});
 

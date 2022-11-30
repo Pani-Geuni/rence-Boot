@@ -659,7 +659,6 @@ public class OfficeController {
 		
 		if (ovo.getBackoffice_tag() != null) {
 			tag_list = info_map.splitTag(ovo.getBackoffice_tag());
-			log.info("tag_list : {}", tag_list);
 		} else {
 			tag_list.add("태그 없음");
 		}
@@ -697,95 +696,93 @@ public class OfficeController {
 			vo.setRoom_type(info_map.changeType(vo.getRoom_type()));
 		}
 
-		log.info("rvos ::::::::::::::: {}", rvos);
 
 		// **************
-		// backoffice 문의
-		// **************
+				// backoffice 문의
+				// **************
 
-		// 페이징 처리 로직
-		// 리스트 수
-		long total_rowCount_question_all = service.total_rowCount_question_all(backoffice_no);
-		log.info("total_rowCount_question_all: {}", total_rowCount_question_all);
+				// 페이징 처리 로직
+				// 리스트 수
+				long total_rowCount_question_all = service.total_rowCount_question_all(backoffice_no);
+				log.info("total_rowCount_question_all: {}", total_rowCount_question_all);
 
-		// 총 페이징 되는 수
-		long totalPageCnt = (long) Math.ceil(total_rowCount_question_all / 4.0);
-		log.info("totalPageCnt: {}", totalPageCnt);
+				// 총 페이징 되는 수
+				long totalPageCnt = (long) Math.ceil(total_rowCount_question_all / 4.0);
+				log.info("totalPageCnt: {}", totalPageCnt);
 
-		long nowPage = page;
+				long nowPage = page;
 
-		long maxPage = 0;
+				long maxPage = 0;
 
-		if (nowPage % 5 != 0) {
-			if (nowPage == totalPageCnt) {
-				maxPage = nowPage;
-			} else if (((nowPage / 5) + 1) * 5 >= totalPageCnt) {
-				maxPage = totalPageCnt;
-			} else if (((nowPage / 5) + 1) * 5 < totalPageCnt) {
-				maxPage = ((nowPage / 5) + 1) * 5;
-			}
-		} else if (nowPage % 5 == 0) {
-			if (nowPage <= totalPageCnt) {
-				maxPage = nowPage;
-			}
-		}
-
-		log.info("maxPage: " + maxPage);
-
-		map.put("totalPageCnt", totalPageCnt);
-		map.put("nowPage", nowPage);
-		map.put("maxPage", maxPage);
-
-		// 페이징 처리 계산 로직 끝
-
-		List<OfficeQuestionVO> cvos = service.select_all_comment(backoffice_no, page);
-
-		String is_login = (String) session.getAttribute("user_id");
-
-		if (cvos != null) {
-			for (OfficeQuestionVO vo : cvos) {
-
-				log.info("is_login :::::::::: {}", is_login);
-				log.info("user_no :::::::::: {}", vo.getUser_id());
-
-				
-				OfficeQuestionVO vo2 = service.select_one_answer(vo.getComment_no());
-				if (vo2 != null) {
-					if (vo.getUser_id().equals(is_login)) {
-						vo.setAnswer_content(vo2.getComment_content());
-						vo.setAnswer_date(vo2.getComment_date());
-						vo.setComment_state("Y");
-					} else {
-						if (vo.getIs_secret() == null) {
-							vo.setAnswer_content(vo2.getComment_content());
-							vo.setAnswer_date(vo2.getComment_date());
-							vo.setComment_state("Y");
-						} else {
-							vo.setAnswer_content(null);
-							vo.setAnswer_date(null);
-						}
+				if (nowPage % 5 != 0) {
+					if (nowPage == totalPageCnt) {
+						maxPage = nowPage;
+					} else if (((nowPage / 5) + 1) * 5 >= totalPageCnt) {
+						maxPage = totalPageCnt;
+					} else if (((nowPage / 5) + 1) * 5 < totalPageCnt) {
+						maxPage = ((nowPage / 5) + 1) * 5;
 					}
-				} else {
-					vo.setComment_state("N");
+				} else if (nowPage % 5 == 0) {
+					if (nowPage <= totalPageCnt) {
+						maxPage = nowPage;
+					}
 				}
 
-				// 이름 마스킹
-				String originName = vo.getUser_name();
-				String firstName = originName.substring(0, 1);
-				String midName = originName.substring(1, originName.length() - 1);
+				log.info("maxPage: " + maxPage);
 
-				String maskingMidName = "";
-				for (int i = 0; i < midName.length(); i++) {
-					maskingMidName += "*";
+				map.put("totalPageCnt", totalPageCnt);
+				map.put("nowPage", nowPage);
+				map.put("maxPage", maxPage);
+
+				// 페이징 처리 계산 로직 끝
+
+				List<OfficeQuestionVO> cvos = service.select_all_comment(backoffice_no, page);
+
+				String is_login = (String) session.getAttribute("user_id");
+
+				if (cvos != null) {
+					for (OfficeQuestionVO vo : cvos) {
+
+						log.info("is_login :::::::::: {}", is_login);
+						log.info("user_no :::::::::: {}", vo.getUser_id());
+										
+						OfficeQuestionVO vo2 = service.select_one_answer(vo.getComment_no());
+						if (vo2 != null) {
+							if (vo.getUser_id().equals(is_login)) {
+								vo.setAnswer_content(vo2.getComment_content());
+								vo.setAnswer_date(vo2.getComment_date());
+								vo.setComment_state("Y");
+							} else {
+								if (vo.getIs_secret() == null) {
+									vo.setAnswer_content(vo2.getComment_content());
+									vo.setAnswer_date(vo2.getComment_date());
+									vo.setComment_state("Y");
+								} else {
+									vo.setAnswer_content(null);
+									vo.setAnswer_date(null);
+								}
+							}
+						} else {
+							vo.setComment_state("N");
+						}
+
+						// 이름 마스킹
+						String originName = vo.getUser_name();
+						String firstName = originName.substring(0, 1);
+						String midName = originName.substring(1, originName.length() - 1);
+
+						String maskingMidName = "";
+						for (int i = 0; i < midName.length(); i++) {
+							maskingMidName += "*";
+						}
+
+						String lastName = originName.substring(originName.length() - 1, originName.length());
+
+						String maskingName = firstName + maskingMidName + lastName;
+
+						vo.setUser_name(maskingName);
+					}
 				}
-
-				String lastName = originName.substring(originName.length() - 1, originName.length());
-
-				String maskingName = firstName + maskingMidName + lastName;
-
-				vo.setUser_name(maskingName);
-			}
-		}
 
 		// **************
 		// backoffice 후기
@@ -819,7 +816,7 @@ public class OfficeController {
 		map.put("totalPageCnt2", totalPageCnt2);
 		map.put("nowPage2", nowPage2);
 		map.put("maxPage2", maxPage2);
-		map.put("page", "space_introduce_detail_office");
+		map.put("page", "space_detail_office");
 
 		// 페이징 처리 계산 로직 끝
 
