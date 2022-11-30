@@ -183,14 +183,23 @@ public class OfficeController {
 
 				log.info("is_login :::::::::: {}", is_login);
 				log.info("user_no :::::::::: {}", vo.getUser_id());
-				
+								
 				OfficeQuestionVO vo2 = service.select_one_answer(vo.getComment_no());
 				if (vo2 != null) {
-//					if (vo.getIs_secret() == null) {
+					if (vo.getUser_id().equals(is_login)) {
 						vo.setAnswer_content(vo2.getComment_content());
 						vo.setAnswer_date(vo2.getComment_date());
 						vo.setComment_state("Y");
-//					}
+					} else {
+						if (vo.getIs_secret() == null) {
+							vo.setAnswer_content(vo2.getComment_content());
+							vo.setAnswer_date(vo2.getComment_date());
+							vo.setComment_state("Y");
+						} else {
+							vo.setAnswer_content(null);
+							vo.setAnswer_date(null);
+						}
+					}
 				} else {
 					vo.setComment_state("N");
 				}
@@ -364,14 +373,23 @@ public class OfficeController {
 				log.info("is_login :::::::::: {}", is_login);
 				log.info("user_no :::::::::: {}", vo.getUser_id());
 
+				
 				OfficeQuestionVO vo2 = service.select_one_answer(vo.getComment_no());
 				if (vo2 != null) {
-//					if (vo.getIs_secret() == null) {
-
+					if (vo.getUser_id().equals(is_login)) {
 						vo.setAnswer_content(vo2.getComment_content());
 						vo.setAnswer_date(vo2.getComment_date());
 						vo.setComment_state("Y");
-//					}
+					} else {
+						if (vo.getIs_secret() == null) {
+							vo.setAnswer_content(vo2.getComment_content());
+							vo.setAnswer_date(vo2.getComment_date());
+							vo.setComment_state("Y");
+						} else {
+							vo.setAnswer_content(null);
+							vo.setAnswer_date(null);
+						}
+					}
 				} else {
 					vo.setComment_state("N");
 				}
@@ -730,14 +748,23 @@ public class OfficeController {
 				log.info("is_login :::::::::: {}", is_login);
 				log.info("user_no :::::::::: {}", vo.getUser_id());
 
+				
 				OfficeQuestionVO vo2 = service.select_one_answer(vo.getComment_no());
 				if (vo2 != null) {
-//					if (vo.getIs_secret() == null) {
-
+					if (vo.getUser_id().equals(is_login)) {
 						vo.setAnswer_content(vo2.getComment_content());
 						vo.setAnswer_date(vo2.getComment_date());
 						vo.setComment_state("Y");
-//					}
+					} else {
+						if (vo.getIs_secret() == null) {
+							vo.setAnswer_content(vo2.getComment_content());
+							vo.setAnswer_date(vo2.getComment_date());
+							vo.setComment_state("Y");
+						} else {
+							vo.setAnswer_content(null);
+							vo.setAnswer_date(null);
+						}
+					}
 				} else {
 					vo.setComment_state("N");
 				}
