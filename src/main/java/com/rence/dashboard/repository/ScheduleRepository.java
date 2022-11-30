@@ -38,7 +38,7 @@ public interface ScheduleRepository extends JpaRepository<ScheduleEntity, Object
 	public int backoffice_schedule_cancel(String backoffice_no, String schedule_no);
 
 	// 휴무 일정
-	@Query(nativeQuery = true, value = "select * from roomschedule where backoffice_no=?1")
+	@Query(nativeQuery = true, value = "select * from roomschedule where backoffice_no=?1 and extract (month from not_stime) in (select extract (month from systimestamp) from dual)")
 	public List<ScheduleEntity> backoffice_schedule_calander(String backoffice_no);
 
 }
