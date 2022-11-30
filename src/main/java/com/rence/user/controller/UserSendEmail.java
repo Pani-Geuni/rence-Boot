@@ -138,8 +138,6 @@ public class UserSendEmail {
 								"<br><br>" + 
 								"<strong>초기화 비밀번호 : </strong>" + uvo.getUser_pw()
 								,"text/html; charset=utf-8");
-				msg.setText(
-						"초기화된 비밀번호 입니다. 로그인후 재설정을 권장합니다" + "                       " + "초기화 비밀번호  : " + uvo.getUser_pw());
 				msg.setRecipient(RecipientType.TO, new InternetAddress(uvo.getUser_email()));
 
 				javaMailSender.send(msg);
