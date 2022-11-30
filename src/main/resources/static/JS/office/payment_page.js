@@ -137,26 +137,33 @@ $(function() {
 				if (use_mileage <= payment_all) {
 					if (use_mileage === 0 || use_mileage === "") {
 						actual_payment = payment_all;
+						earned_mileage = Math.round(actual_payment * 0.05);
 					} else {
 						actual_payment = payment_all - use_mileage;
+						earned_mileage = Math.round(actual_payment * 0.05);
 					}
 				} else {
 					// 사용 마일리지가 원결제 금액보다 클 때
 					$('#use-mileage').val("");
 				}
-
+				
+				$("#earned_mileage").text(earned_mileage);
 				$("#payment_all").text(actual_payment);
 			} else {
 				// 가진 마일리지보다 많이 사용할 때
 				$('#use-mileage').val("");
 				actual_payment = payment_all;
+				earned_mileage = Math.round(actual_payment * 0.05);
 				$("#payment_all").text(actual_payment);
+				$("#earned_mileage").text(earned_mileage);
 			}
 
 		} else if ($(".inner-radio:eq(1)").hasClass('choice-radio')) {
 			// 후불 결제 시 로직
 			let payment_later = payment_all * 0.2;
 			actual_payment = payment_later;
+			earned_mileage = Math.round(actual_payment * 0.05);
+			$("#earned_mileage").text(earned_mileage);
 
 			// 가진 마일리지보다 적게 사용할 때
 			if (use_mileage <= max_use_mileage) {
@@ -164,19 +171,24 @@ $(function() {
 				if (use_mileage <= actual_payment) {
 					if (use_mileage === 0 || use_mileage === "") {
 						actual_payment = payment_later;
+						earned_mileage = actual_payment * 0.05;
 					} else {
 						actual_payment = payment_later - use_mileage;
+						earned_mileage = actual_payment * 0.05;
 					}
 				} else {
 					// 사용 마일리지가 원결제 금액보다 클 때
 					$('#use-mileage').val("");
 				}
 
+				$("#earned_mileage").text(earned_mileage);
 				$("#payment_all").text(actual_payment);
 			} else {
 				// 가진 마일리지보다 많이 사용할 때
 				$('#use-mileage').val("");
 				actual_payment = payment_later;
+				earned_mileage = Math.round(actual_payment * 0.05);
+				$("#earned_mileage").text(earned_mileage);
 				$("#payment_all").text(actual_payment);
 			}
 		}
@@ -187,7 +199,9 @@ $(function() {
 				.text()
 				.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 		);
-
+		
+		
+		$("#earned_mileage").attr("earned_mileage", earned_mileage);
 		$("#payment_all").attr("payment_all", actual_payment);
 
 	});
