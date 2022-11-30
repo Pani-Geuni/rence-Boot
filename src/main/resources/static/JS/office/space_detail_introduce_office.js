@@ -138,6 +138,9 @@ $(function() {
 		$(".duration").removeClass("blind");
 		$(".duration").text("기간 | " + $(".time-input").val() + " ~ " + checkout.getFullYear() + "/" + (Number(checkout.getMonth()) + 1) + "/" + checkout.getDate());
 		$(".duration").prop("last-date", checkout.getFullYear() + "/" + (Number(checkout.getMonth()) + 1) + "/" + checkout.getDate());
+		
+		$("#office_check_available").removeClass("blind");
+		$("#office_go_reserve").addClass("blind");
 	});
 
 	$(".type-border-txt.time-input").change(function() {
@@ -149,7 +152,8 @@ $(function() {
 		checkout = '';
 		$(".duration").addClass("blind");
 
-	})
+	});
+
 
 	/*** 예약 가능 여부 버튼 클릭 ***/
 	$("#office_check_available").click(function() {
