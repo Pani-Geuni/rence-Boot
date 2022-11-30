@@ -4,88 +4,93 @@
 
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <body>
 
 	<div class="list-page-wrap" th:fragment="content_null">
-	    <section class="list-box-null-section">
-	        <div class="null-first-section">
-	            <span class="advice-txt">해당 검색어에 관한 공간이 없습니다.</span>
-	        </div>
-	        <div class="null-second-section">
-	            <span class="advice-txt-small">이런 공간은 어떠세요?</span>
-	            <input type="button" id="go-main-btn" class="go-all-list" value="다른 곳 보러 가기"/>
-	        </div>
-	    </section>
+		<section class="list-box-null-section">
+			<div class="null-first-section">
+				<span class="advice-txt">해당 검색어에 관한 공간이 없습니다.</span>
+			</div>
+			<div class="null-second-section">
+				<span class="advice-txt-small">이런 공간은 어떠세요?</span>
+				<input type="button" id="go-main-btn" class="go-all-list" value="다른 곳 보러 가기" />
+			</div>
+		</section>
 	</div>
-	
+
 	<!-- 리스트 NOT NULL일 때 -->
 	<section class="listPage-section" th:fragment="content_not_null">
-	
-	    <div class="sort-wrap">
-	        <div class="sort">
-	            <span class="choice-sort-text">
-		            <th:block th:if="${res.condition} == 'date'">
-		            	최신순
-		            </th:block>
-		            <th:block th:if="${res.condition} == 'rating'">
-		            	별점순
-		            </th:block>
-		            <th:block th:if="${res.condition} == 'cheap'">
-		            	가격 낮은순
-		            </th:block>
-		            <th:block th:if="${res.condition} == 'expensive'">
-		            	가격 높은순
-		            </th:block>
-	            </span>
-	            <img src="/static/IMG/list/dropdown.svg" alt="sort-dropdown-img" class="sort-dropdown-img" id="sort-dropdown-img"/>
-	        </div>
-	        <div class="sort-select-box-wrap blind">
-	            <ul class="sort-select-box">
-	                <li condition="date" class="sort-select-list">최신순</li>
-                    <li condition="rating" class="sort-select-list">별점순</li>
-                    <li condition="cheap" class="sort-select-list">가격 낮은순</li>
-                    <li condition="expensive" class="sort-select-list">가격 높은순</li>
-	            </ul>
-	        </div>    
-	    </div>
-	    
-	    <div class="listPage-wrap">
-			<input type="hidden" th:attr="maxCnt=${res.maxCnt}, nowCnt=${res.nowCnt}" id="maxCnt" />
-	        <div class="list-box-wrap">
-		        <th:block th:each="obj : ${res.list}">
-					<!-- START LIST BOX -->
-			          <div class="list-box" th:attr="idx=${obj.backoffice_no}">
-			              <section>
-			                  <img th:src="${obj.backoffice_image}" alt="default-space-img" class="list-thumbnail" />
-			              </section>
-			              <section class="list-box-info">
-			                  <ul>
-			                      <li class="box-info-c-name">[[${obj.company_name}]]</li>
-			                      <li class="box-location-wrap">
-			                          <img src="/static/IMG/office/location-icon.svg" alt="location-icon" class="location-icon">
-			                          <span class="box-info-location">[[${obj.roadname_address}]]</span>
-			                      </li>
-			                      <li class="box-tag-wrap">
-			                          <span class="box-tag">[[${obj.backoffice_tag}]]</span>
-			                      </li>
-			                      <li class="box-price-rating-wrap">
-			                          <div class="box-room-min-price-wrap">
-			                              <span class="box-room-min-price">최소 [[${obj.min_room_price}]]</span>
-			                              <span class="price-unit">원/시간</span>
-			                          </div>
-			                          <div class="box-room-rating">
-			                              <img src="/static/IMG/common/star.svg" alt="box-star" class="box-star" />
-			                              <span class="rating-num">[[${obj.avg_rating}]]</span>
-			                          </div>
-			                      </li>
-			                  </ul>
-			              </section>
-			          </div>
-			          <!-- END LIST BOX -->
-		          </th:block>
-	        </div>
-	    </div>
-	</section>
 
+		<div class="sort-wrap">
+			<div class="sort">
+				<span class="choice-sort-text">
+					<th:block th:if="${res.condition} == 'date'">
+						최신순
+					</th:block>
+					<th:block th:if="${res.condition} == 'rating'">
+						별점순
+					</th:block>
+					<th:block th:if="${res.condition} == 'cheap'">
+						가격 낮은순
+					</th:block>
+					<th:block th:if="${res.condition} == 'expensive'">
+						가격 높은순
+					</th:block>
+				</span>
+				<img src="/static/IMG/list/dropdown.svg" alt="sort-dropdown-img" class="sort-dropdown-img"
+					id="sort-dropdown-img" />
+			</div>
+			<div class="sort-select-box-wrap blind">
+				<ul class="sort-select-box">
+					<li condition="date" class="sort-select-list">최신순</li>
+					<li condition="rating" class="sort-select-list">별점순</li>
+					<li condition="cheap" class="sort-select-list">가격 낮은순</li>
+					<li condition="expensive" class="sort-select-list">가격 높은순</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="listPage-wrap">
+			<input type="hidden" th:attr="maxCnt=${res.maxCnt}, nowCnt=${res.nowCnt}" id="maxCnt" />
+			<div class="list-box-wrap">
+				<th:block th:each="obj : ${res.list}">
+					<!-- START LIST BOX -->
+					<div class="list-box" th:attr="idx=${obj.backoffice_no}">
+						<section>
+							<img th:src="${obj.backoffice_image}" alt="default-space-img" class="list-thumbnail" />
+						</section>
+						<section class="list-box-info">
+							<ul>
+								<li class="box-info-c-name">[[${obj.company_name}]]</li>
+								<li class="box-location-wrap">
+									<img src="/static/IMG/office/location-icon.svg" alt="location-icon" class="location-icon">
+									<span class="box-info-location">[[${obj.roadname_address}]]</span>
+								</li>
+								<li class="box-tag-wrap">
+									<span class="box-tag">[[${obj.backoffice_tag}]]</span>
+								</li>
+								<li class="box-price-rating-wrap">
+									<div class="box-room-min-price-wrap">
+										<span class="box-room-min-price">최소 [[${obj.min_room_price}]]</span>
+										<span class="price-unit">
+											<th:block th:if="${obj.backoffice_type} == 'office'">원/개월</th:block>
+											<th:block th:if="${obj.backoffice_type} != 'office'">원/시간</th:block>
+										</span>
+									</div>
+									<div class="box-room-rating">
+										<img src="/static/IMG/common/star.svg" alt="box-star" class="box-star" />
+										<span class="rating-num">[[${obj.avg_rating}]]</span>
+									</div>
+								</li>
+							</ul>
+						</section>
+					</div>
+					<!-- END LIST BOX -->
+				</th:block>
+			</div>
+		</div>
+	</section>
 </body>
+
 </html>
