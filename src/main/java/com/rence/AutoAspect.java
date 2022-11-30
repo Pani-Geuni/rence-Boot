@@ -31,7 +31,6 @@ public class AutoAspect {
 	@Autowired
 	BackOfficeService b_service;
 
-//	@Pointcut("execution(public * com..*Service**.*selectOne*(..))") // || 사용하면 두개도 가능
 	@Pointcut("execution(* *..controller.*.*(..))")
 	public void updatePointcut() {
 
