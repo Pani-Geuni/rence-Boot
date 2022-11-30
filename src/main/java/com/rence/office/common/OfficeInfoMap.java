@@ -106,7 +106,7 @@ public class OfficeInfoMap {
 			String[] image_split = images.split(",");
 			
 			for (int i = 0; i < image_split.length; i++) {
-				option_list.add(image_split[i]);
+				option_list.add(image_split[i].trim());
 			}
 			
 			return option_list;
