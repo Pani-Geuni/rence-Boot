@@ -505,9 +505,9 @@
     width: 350px;
     height: auto;
 
-    position: absolute;
+    position: fixed;
 
-    top: 60px;
+    top: 70px;
 
     margin: auto;
 
