@@ -688,4 +688,46 @@ $(function() {
 		$("#reserve-delete-popup").addClass("blind");
 		$("#reserve-delete-btn").attr("reserve_no", "");
 	});
+	
+	
+	
+	// 휴무 일정 캘린더 팝업
+	$("#btn-dayoff-calendar").click(function() {
+		$(".popup-background:eq(0)").removeClass("blind");
+		$(".dayoff-calendar-wrap").removeClass("blind");
+
+	});
+	
+	// 휴무 일정 캘린더 닫기 버튼
+	$(".calendar-close-btn").click(function() {
+		$(".popup-background:eq(0)").addClass("blind");
+		$(".dayoff-calendar-wrap").addClass("blind");
+	})
+	
+	// 휴무 취소 버튼 - 휴무 취소 확인 팝업 노출
+	$(".dayoff-cancel-btn").click(function() {
+		$(".popup-background:eq(1)").removeClass("blind");
+		$("#dayoff-cancel-popup").removeClass("blind");
+	})
+	
+	// 휴무 취소 확인 팝업 - 닫기
+	$("#dayoff-cancel-confirm-closeBtn").click(function() {
+		$(".popup-background:eq(1)").addClass("blind");
+		$("#dayoff-cancel-popup").addClass("blind");
+	})
+	
+	// 휴무 취소 확인 팝업 - 휴무 취소
+	$("#dayoff-cancel-confirm-btn").click(function() {
+		console.log("취소 로직")
+		
+		$(".popup-background:eq(1)").addClass("blind");
+		$("#dayoff-cancel-popup").addClass("blind");
+		
+	})
+	
+	$("#dayoff-cancel-confirmOK-btn").click(function() {
+		$("#dayoff-cancel-confirmOK-popup").removeClass("blind");
+		$(".popup-background:eq(1)").removeClass("blind");
+		
+	})
 })

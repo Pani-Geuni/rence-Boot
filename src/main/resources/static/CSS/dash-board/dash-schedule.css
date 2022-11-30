@@ -320,3 +320,102 @@
 .un-choice{
     color: #808080;
 }
+
+
+
+
+/* *************** */
+/* 휴무 일정 Section */
+/* *************** */
+.dayoff-calendar-wrap {
+  position: relative;
+  
+  min-width: 720px;
+  width: 60%;
+  height: 80%;
+
+  border-radius: 20px;
+  margin-left: 200px;
+
+  background-color: #fff;
+}
+
+.dayoff-calendar-title {
+  display: flex;
+  justify-content: center;
+
+  padding: 20px 0;
+  margin-bottom: 12px;
+
+  border-bottom: 1px solid #e4e4e4;
+}
+
+.calendar-close-btn {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+
+  cursor: pointer;
+}
+
+.dayoff-calendar-content {
+  box-sizing: border-box;
+  padding: 12px 24px 32px;
+}
+
+.dayoff-calendar-content-title {
+	margin-bottom: 20px;
+}
+
+.dayoff-list {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.dayoff-list-item {
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  border: 1px solid #e4e4e4;
+  border-radius: 12px;
+
+  padding: 12px;
+
+  margin-right: 12px;
+  margin-bottom: 12px;
+}
+
+.dayoff-list-item-top {
+  font-size: 14px;
+  font-weight: 700;
+    
+  margin-bottom: 16px;
+}
+
+.dayoff-list-item-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.badge {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.dayoff-cancel-btn {
+  font-size: 12px;
+
+  background-color: #b2a4ff;
+  border: none;
+  border-radius: 8px;
+  padding: 4px 8px;
+
+  color: #fff;
+
+  cursor: pointer;
+}
