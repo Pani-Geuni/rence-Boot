@@ -2,6 +2,10 @@
 /* @author 전판근 */
 /* ************ */
 
+* {
+	font-family: 'MICEGothic';
+}
+
 .bodyWrap {
 	width: 100%;
 	height: auto;
