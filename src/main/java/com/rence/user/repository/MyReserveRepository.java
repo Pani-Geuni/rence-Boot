@@ -15,11 +15,11 @@ import com.rence.user.model.MyPageReserveListVO;
 public interface MyReserveRepository extends JpaRepository<MyPageReserveListVO, Object> {
 
 	// 예약 리스트수-현재(페이징 처리를 위해서)
-	@Query(nativeQuery = true, value = "select count(*) from USER_RESERVE_VIEW where user_no = ?1 and payment_total is not null and sysdate <= reserve_sdate ")
+	@Query(nativeQuery = true, value = "select count(*) from USER_RESERVE_VIEW where user_no = ?1 and payment_total is not null and CURRENT_DATE <= reserve_sdate ")
 	public long count_Reserve_now(String user_no);
 
 	// 예약 리스트수-현재(페이징 처리를 위해서)
-	@Query(nativeQuery = true, value = "select count(*) from USER_RESERVE_VIEW where user_no = ?1 and payment_total is not null and sysdate > reserve_sdate ")
+	@Query(nativeQuery = true, value = "select count(*) from USER_RESERVE_VIEW where user_no = ?1 and payment_total is not null and CURRENT_DATE > reserve_sdate ")
 	public long count_Reserve_before(String user_no);
 
 	// 마이페이지- 현재 예약현황 리스트 - 페이징
