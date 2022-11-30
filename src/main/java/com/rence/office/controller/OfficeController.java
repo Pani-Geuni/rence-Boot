@@ -912,7 +912,11 @@ public class OfficeController {
 		// 사용자 총 예약 시간
 		if (pvo.getRoom_type().equals("오피스")) {
 			long diffSec = (edate.getTime() - sdate.getTime()) / 1000;
+			// 일 계산
 			diffTime = diffSec / (24 * 60 * 60);
+			
+			// 개월 계산
+			diffTime /= 30;
 
 		} else {
 			diffTime = (edate.getTime() - sdate.getTime()) / 3600000;
