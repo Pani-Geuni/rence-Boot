@@ -77,12 +77,6 @@ p {
   font-weight: 700;
 }
 
-#room-price::after {
-  content: ' 원/시간';
-  font-size: 12px;
-  font-weight: 400;
-  vertical-align: 10%;
-}
 
 /**************************/
 /**** PAGING SECTION ******/
