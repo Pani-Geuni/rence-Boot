@@ -35,6 +35,7 @@
                             </li>
                             <li class="info-li">
                                 <label class="info-label">공간 가격</label>
+
                                 <span class="info-text room_price">
                                 	[[${pvo.room_price}]]
 	                                <th:block th:if="${pvo.room_type} != '오피스'">원/시간</th:block>
@@ -132,12 +133,14 @@
                                 </div>
                                 <span class="payment-method-text">선결제</span>
                             </div>
-                            <div class="payment-method">
-                                <div class="custom-radio">
-                                    <div class="inner-radio"></div>
-                                </div>
-                                <span class="payment-method-text">후불 결제</span>
-                            </div>
+                            <th:block th:if="${pvo.room_type}!='오피스'">
+	                            <div class="payment-method">
+	                                <div class="custom-radio">
+	                                    <div class="inner-radio"></div>
+	                                </div>
+	                                <span class="payment-method-text">후불 결제</span>
+	                            </div>
+                            </th:block>
                         </span>
                         <span class="payment-method-wrap">
                             <div class="payment-method">
