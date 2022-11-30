@@ -146,6 +146,8 @@
 							$("#spinner-section").addClass("blind");
 
 							$("#question-wrap").find(".quest-list-wrap").empty();
+							
+							console.log(res);
 
 							for (var i = 0; i < res.cvos.length; i++) {
 								// 로그인 안되어있을 떄
@@ -219,6 +221,8 @@
 									if (res.cvos[i].answer_date != null) {
 										sample += "<span class='answer_toggle'>답변 보기</span>"
 									}
+									
+									console.log(res.cvos[i].answer_date);
 
 									sample += "</li></ul></section></li>";
 
@@ -227,25 +231,25 @@
 								if (res.cvos[i].answer_date != null) {
 									sample +=
 										"<li class='answer-list blind'>" +
-										"<div class='answer_arrow_img'>" +
-										"<img src='/static/IMG/space-introduce/answer_arrow.svg'>" +
-										"</div>" +
-										"<div class='answer_text_wrap'>" +
-										"<section>" +
-										"<img src='https://rence.s3.ap-northeast-2.amazonaws.com/user/img_host_001.jpg' alt='write-user-img' class='write-user-img' />" +
-										"</section>" +
-										"<section class='answer-content-section'>" +
-										"<ul class='answer-content-wrap'>" +
-										"<li class='answer-content-list answer-content-writer'>HOST</li>" +
-										"<li class='answer-content-list answer-content'>" +
-										res.cvos[i].answer_content +
-										"</li>" +
-										"<li class='answer-content-list answer-content-date'>" +
-										res.cvos[i].answer_date +
-										"</li>" +
-										"</ul>" +
-										"</section>" +
-										"</div>" +
+											"<div class='answer_arrow_img'>" +
+												"<img src='/static/IMG/space-introduce/answer_arrow.svg'>" +
+											"</div>" +
+											"<div class='answer_text_wrap'>" +
+												"<section>" +
+													"<img src='https://rence.s3.ap-northeast-2.amazonaws.com/user/img_host_001.jpg' alt='write-user-img' class='write-user-img' />" +
+												"</section>" +
+												"<section class='answer-content-section'>" +
+													"<ul class='answer-content-wrap'>" +
+													"<li class='answer-content-list answer-content-writer'>HOST</li>" +
+													"<li class='answer-content-list answer-content'>" +
+														res.cvos[i].answer_content +
+													"</li>" +
+													"<li class='answer-content-list answer-content-date'>" +
+														res.cvos[i].answer_date +
+													"</li>" +
+												"</ul>" +
+												"</section>" +
+											"</div>" +
 										"</li>";
 								}
 
@@ -268,6 +272,7 @@
 						}
 					});
 				});
+
 				$(".review-paging").on("click", ".paging-box.paging-num", function () {
 					$(".review-paging").find(".paging-box.paging-num").removeClass("choice");
 					$(".review-paging").find(".paging-box.paging-num").addClass("un-choice");
@@ -357,14 +362,9 @@
 			}
 
 			$('.type-border-txt.time-input').change(function () {
-				console.log("change");
 				$("#check_available").removeClass("blind");
 				$("#go_reserve").addClass("blind");
 				$('.time-boundary-list li').css('display', 'none');
-
-				$('.time-boundary-list li').each(function (index, item) {
-					console.log($(item).removeClass('selected'));
-				});
 			});
 
 			/**************************/
@@ -391,8 +391,10 @@
 									let backoffice_no = param.get('backoffice_no');
 									let room_no = $("#type-choice-value").attr("room_no");
 									let reserve_date = $(".time-input:eq(0)").val();
-
-									console.log(backoffice_no, room_no, reserve_date);
+									
+									//로딩 화면
+									$(".popup-background:eq(1)").removeClass("blind");
+									$("#spinner-section").removeClass("blind");
 
 									$.ajax({
 										url: "/office/reserve_check",
@@ -405,6 +407,10 @@
 										},
 
 										success: function (res) {
+											//로딩 화면 닫기
+											$(".popup-background:eq(1)").addClass("blind");
+											$("#spinner-section").addClass("blind");
+				
 											let reserve_list = res.reserve_list;
 											let pickerDate = '';
 											let pick_time_list = [];	// 예약 선택 시간
@@ -423,11 +429,8 @@
 											pickerDate = $('.type-border-txt.time-input').val().trim();
 											let dayOfWeek = getDayOfWeek(pickerDate);
 
-
 											$("#check_available").addClass("blind");
 											$("#go_reserve").removeClass("blind");
-
-											console.log(reserve_list);
 
 											let running_stime = '';
 											let running_etime = '';
@@ -441,8 +444,6 @@
 
 														running_stime = parseInt(split_time[0].split(':')[0]);
 														running_etime = parseInt(split_time[1].split(':')[0]);
-
-														console.log(running_time, running_stime, running_etime);
 
 														$('#reserve-time-boundary').css('display', 'flex');
 														let running_time_list = [];
@@ -486,8 +487,10 @@
 											});
 											// END runnint-time-li-wrap li each
 										},
-										error: function (err) {
-											console.log(err);
+										error: function () {
+											//로딩 화면 닫기
+											$(".popup-background:eq(1)").addClass("blind");
+											$("#spinner-section").addClass("blind");
 										}
 									});
 								}
