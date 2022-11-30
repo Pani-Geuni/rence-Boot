@@ -227,7 +227,7 @@
     font-weight: 500;
     font-size: 15.5px;
     
-    white-space: pre-wrap;
+    white-space: pre-line;
 
     margin-bottom: 20px;
 }
@@ -580,14 +580,6 @@
     width: 100%;
     display: flex;
 }
-.write-user-img{
-    width: 77px;
-    height: 77px;
-
-    border-radius: 100%;
-
-    margin-right: 15px;
-}
 
 .quest-content-section{
     width: 100%;
@@ -599,6 +591,8 @@
     flex-direction: column;
 
     border-bottom: 2px solid #e4e4e4;
+    
+    padding-top: 14px;
 }
 .quest-content-list{
     margin-bottom: 6px;
@@ -658,14 +652,15 @@
     display: flex;
 }
 .write-user-img{
-    width: 92px;
-    height: 92px;
+    width: 82px;
+    height: 82px;
 
     border-radius: 100%;
 
     box-sizing: border-box;
 
     margin-right: 15px;
+    margin-top: 8px;
 }
 
 .answer-content-section{
