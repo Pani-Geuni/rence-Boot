@@ -227,10 +227,10 @@ public class OfficeController {
 
 		// 페이징 처리 로직
 		// 리스트 수
-		long total_rowCount_review_all2 = service.total_rowCount_review_all(backoffice_no);
+		long total_rowCount_review_all = service.total_rowCount_review_all(backoffice_no);
 
 		// 총 페이징 되는 수
-		long totalPageCnt2 = (long) Math.ceil(total_rowCount_review_all2 / 4.0);
+		long totalPageCnt2 = (long) Math.ceil(total_rowCount_review_all / 4.0);
 		log.info("totalPageCnt: {}", totalPageCnt2);
 
 		long nowPage2 = page;
@@ -308,7 +308,7 @@ public class OfficeController {
 
 		// backoffice 후기
 		model.addAttribute("revos", revos);
-		model.addAttribute("review_cnt", total_rowCount_review_all2);
+		model.addAttribute("review_cnt", total_rowCount_review_all);
 
 		model.addAttribute("page", "space_detail");
 		model.addAttribute("content", "thymeleaf/html/office/space_detail/space_detail_introduce");
@@ -390,8 +390,6 @@ public class OfficeController {
 						}
 					}
 					
-					log.info("@@@@@@ vo : {}", vo);
-					log.info("@@@@@@ vo2 : {}", vo2);
 				} else {
 					vo.setComment_state("N");
 				}
@@ -804,17 +802,17 @@ public class OfficeController {
 
 		long maxPage2 = 0;
 
-		if (nowPage % 5 != 0) {
-			if (nowPage == totalPageCnt) {
-				maxPage = nowPage;
-			} else if (((nowPage / 5) + 1) * 5 >= totalPageCnt) {
-				maxPage = totalPageCnt;
-			} else if (((nowPage / 5) + 1) * 5 < totalPageCnt) {
-				maxPage = ((nowPage / 5) + 1) * 5;
+		if (nowPage2 % 5 != 0) {
+			if (nowPage2 == totalPageCnt2) {
+				maxPage2 = nowPage2;
+			} else if (((nowPage2 / 5) + 1) * 5 >= totalPageCnt2) {
+				maxPage2 = totalPageCnt2;
+			} else if (((nowPage2 / 5) + 1) * 5 < totalPageCnt2) {
+				maxPage2 = ((nowPage2 / 5) + 1) * 5;
 			}
-		} else if (nowPage % 5 == 0) {
-			if (nowPage <= totalPageCnt) {
-				maxPage = nowPage;
+		} else if (nowPage2 % 5 == 0) {
+			if (nowPage2 <= totalPageCnt2) {
+				maxPage2 = nowPage2;
 			}
 		}
 
@@ -822,6 +820,10 @@ public class OfficeController {
 		map.put("nowPage2", nowPage2);
 		map.put("maxPage2", maxPage2);
 		map.put("page", "space_detail_office");
+		
+		log.info("totalPageCnt2 : {}", totalPageCnt2);
+		log.info("nowPage2 : {}", nowPage2);
+		log.info("maxPage2 : {}", maxPage2);
 
 		// 페이징 처리 계산 로직 끝
 
