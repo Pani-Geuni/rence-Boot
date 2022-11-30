@@ -1141,7 +1141,11 @@ public class DashBoardController {
 		if(total_cnt<max) {
 			max = total_cnt;
 		}
-		
+//		if(max<min) {
+//			max=0;
+//			min = 1;
+//		}
+//		
 		log.info("min::{}",min);
 		log.info("max::{}",max);
 
@@ -1169,7 +1173,7 @@ public class DashBoardController {
 	@PostMapping("/scheduleOK")
 	@ResponseBody
 	public String backoffice_scheduleOK(String backoffice_no, String not_sdate, String not_edate, String not_stime,
-			String not_etime, String room_no, String off_type, Integer page, Model model) throws ParseException {
+			String not_etime, String room_no, String off_type, Model model) throws ParseException {
 		log.info("backoffice_scheduleOK controller()...");
 
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -1201,40 +1205,43 @@ public class DashBoardController {
 			map.put("result", "0");
 		}
 		////////////////////////////////////////////////////////////////////////////////////////
-		List<ScheduleListView> sche = service.backoffice_schedule_list(backoffice_no, not_sdate, not_edate, not_stime,
-				not_etime, off_type);
-		
-//		int page =1;
-
-		int total_cnt = sche.size();
-		log.info("total_cnt::{}",total_cnt);
-		if (total_cnt > 0)
-			map.put("maxCnt", total_cnt);
-		else
-			map.put("maxCnt", 0);
-
-		int min = 8 * (page - 1) + 1;
-		int max = 8 * (page);
-		if(total_cnt<max) {
-			max = total_cnt;
-		}
-		if (max==0) {
-			min=0;
-		}
-		log.info("min::{}",min);
-		log.info("max::{}",max);
-
-		List<ScheduleListView> schedule = sche.subList(min-1, max);
-
-		log.info("result: {}.", schedule);
-		log.info("cnt: {}.", schedule.size());
-
-		map.put("sc_vos", schedule);
-		if (schedule == null) {
-			map.put("cnt", 0);
-		} else {
-			map.put("cnt", schedule.size());
-		}
+//		List<ScheduleListView> sche = service.backoffice_schedule_list(backoffice_no, not_sdate, not_edate, not_stime,
+//				not_etime, off_type);
+//		
+////		int page =1;
+//
+//		int total_cnt = sche.size();
+//		log.info("total_cnt::{}",total_cnt);
+//		if (total_cnt > 0)
+//			map.put("maxCnt", total_cnt);
+//		else
+//			map.put("maxCnt", 0);
+//
+//		int min = 8 * (page - 1) + 1;
+//		int max = 8 * (page);
+//		if(total_cnt<max) {
+//			max = total_cnt;
+//		}
+//		if (max==0) {
+//			min=0;
+//		}
+//		log.info("min::{}",min);
+//		log.info("max::{}",max);
+//
+//		List<ScheduleListView> schedule = sche.subList(min-1, max);
+//
+//		log.info("result: {}.", schedule);
+//		log.info("cnt: {}.", schedule.size());
+//
+//		map.put("sc_vos", schedule);
+//		if (schedule == null) {
+//			map.put("cnt", 0);
+//		} else {
+//			map.put("cnt", schedule.size());
+//		}
+//		
+//		map.put("page", "schedule");
+		map.put("nowCnt", 1);
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////
 		String json = gson.toJson(map);
 
@@ -1397,11 +1404,21 @@ public class DashBoardController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		List<ScheduleEntity> vo = service.backoffice_schedule_calendar(backoffice_no);
+		List<ScheduleEntity> vos = service.backoffice_schedule_calendar(backoffice_no);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String stime ="";
+		String etime ="";
+		for (ScheduleEntity vo : vos) {
+			stime = sdf.format(vo.getNot_stime());
+			etime = sdf.format(vo.getNot_etime());
+		}
 
-		log.info("vos...{}", vo);
-		map.put("vos", vo);
-		map.put("cnt", vo.size());
+		log.info("vos...{}", vos);
+		map.put("stime", stime);
+		map.put("etime", etime);
+		map.put("vos", vos);
+		map.put("cnt", vos.size());
 
 		String json = gson.toJson(map);
 
