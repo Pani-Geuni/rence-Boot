@@ -1,5 +1,5 @@
 /**
- * @author : 전판근, 김예은
+ * @author : 전판근, 김예은, 최진실
  */
 
 $(function() {
@@ -422,6 +422,7 @@ $(function() {
 		}
 	});
 
+	// 일정 설정
 	var check_room = "";
 	$(document).on('click', "#schedule-confirm-btn", function() {
 		console.log("in");
