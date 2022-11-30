@@ -532,15 +532,15 @@ public class OfficeController {
 	public String office_reserve_check(String backoffice_no, String room_no, String reserve_stime, String reserve_etime,
 			Model model) throws ParseException {
 
+		log.info("{} {} {} {}", backoffice_no, room_no, reserve_stime, reserve_etime);
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		List<OfficeReserveVO> vos = service.check_reserve_office(backoffice_no, room_no);
 
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 
-		log.info("+++++");
-		System.out.println(backoffice_no + " " + room_no + " " + reserve_stime + " " + reserve_etime);
-
+		log.info("office reserve vos : {}", vos);
 		Date reserve_sdate = formatter.parse(reserve_stime);
 		Date reserve_edate = formatter.parse(reserve_etime);
 
@@ -572,7 +572,12 @@ public class OfficeController {
 				break;
 			}
 		}
-
+		
+		// 예약이 하나도 없을 때
+		if (vos.isEmpty()) {
+			reserve_flag = 1;
+		}
+		
 		if (reserve_flag == 1) {
 			map.put("result", "1");
 		} else {
