@@ -433,7 +433,7 @@ $(function() {
 			let not_edate = eDateTime[0];
 			let not_etime = eDateTime[1];
 			let off_type = $("input:radio[name='set_schedule']:checked").val();
-			var page = $("#maxCnt").attr("nowCnt");
+			var page = 1;
 
 			$('input:checkbox[name="select-room"]').each(function() {
 				let room_no = $(this).attr("room_no");
