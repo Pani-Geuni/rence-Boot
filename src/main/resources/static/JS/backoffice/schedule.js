@@ -690,12 +690,83 @@ $(function() {
 	});
 	
 	
+	function timeSplit(time) {
+		let time_split = time.replace(",", "").split(",");
+		let time_list = time_split[0].split(" ");
+		
+		
+		let year = time_list[2];
+		let month = time_list[0];
+		let day = time_list[1];
+		
+		if (month == 'Jan') month = '01'
+		else if (month == 'Feb') month = '02'
+		else if (month == 'Mar') month = '03'
+		else if (month == 'Apr') month = '04'
+		else if (month == 'May') month = '05'
+		else if (month == 'Jun') month = '06'
+		else if (month == 'Jul') month = '07'
+		else if (month == 'Aug') month = '08'
+		else if (month == 'Sep') month = '09'
+		else if (month == 'Oct') month = '10'
+		else if (month == 'Nov') month = '11'
+		else if (month == 'Dec') month = '12'
+		
+		let stringTime = year + "/" + month + "/" + day;
+		
+		return stringTime;
+	}
+	
 	
 	// 휴무 일정 캘린더 팝업
+	// 휴무 일정 캘린더 팝업
 	$("#btn-dayoff-calendar").click(function() {
-		$(".popup-background:eq(0)").removeClass("blind");
-		$(".dayoff-calendar-wrap").removeClass("blind");
 
+		let backoffice_no = $.cookie('backoffice_no');
+		$.ajax({
+			url: "/backoffice/schedule_calendar",
+			type: "GET",
+			dataType: 'json',
+			data: {
+				backoffice_no: backoffice_no
+			},
+			success: function(res) {
+				console.log(res);
+				$(".popup-background:eq(0)").removeClass("blind");
+				$(".dayoff-calendar-wrap").removeClass("blind");
+				
+				if (res.cnt > 0) {
+					let empty_item = $($(".dayoff-list-item")[0]).clone();
+					$(".dayoff-list").empty();
+					$(".dayoff-list").append(empty_item);
+					
+					for (var i = 0; i < res.cnt; i++) {
+						let dayoff_list_item = $($(".dayoff-list-item")[0]).clone();
+						dayoff_list_item.removeClass("blind");
+						
+						console.log(res.vos[i]);
+
+						let stime = timeSplit(res.vos[i].not_stime);
+						let etime = timeSplit(res.vos[i].not_etime);
+						let duration = stime + " ~ " + etime;
+						
+						timeSplit(stime);
+						
+						dayoff_list_item.find(".dayoff-list-item-top").text(duration);
+						dayoff_list_item.find(".dayoff-cancel-btn").attr("schedule_no", res.vos[i].schedule_no);
+						dayoff_list_item.find(".dayoff-cancel-btn").attr("room_no", res.vos[i].room_no);
+						
+						$(".dayoff-list").append(dayoff_list_item);
+					}
+					
+				}
+				
+				
+			},
+			error: function(err) {
+				console.log(err);
+			}
+		})
 	});
 	
 	// 휴무 일정 캘린더 닫기 버튼
@@ -705,7 +776,7 @@ $(function() {
 	})
 	
 	// 휴무 취소 버튼 - 휴무 취소 확인 팝업 노출
-	$(".dayoff-cancel-btn").click(function() {
+	$(document).on('click', ".dayoff-cancel-btn", function() {
 		$(".popup-background:eq(1)").removeClass("blind");
 		$("#dayoff-cancel-popup").removeClass("blind");
 	})
@@ -718,8 +789,6 @@ $(function() {
 	
 	// 휴무 취소 확인 팝업 - 휴무 취소
 	$("#dayoff-cancel-confirm-btn").click(function() {
-		console.log("취소 로직")
-		
 		$(".popup-background:eq(1)").addClass("blind");
 		$("#dayoff-cancel-popup").addClass("blind");
 		
