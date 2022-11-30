@@ -222,6 +222,10 @@ $(function() {
 		let reserve_etime = String(checkout.getFullYear() + "/" + (checkout.getMonth() + 1) + "/" + checkout.getDate() + " 00:00:00");
 		let room_type = $("#type-choice-value").attr("room_type").trim();
 
+		if (room_type == '오피스') {
+			room_type = 'office';
+		}
+
 		//로딩 화면
 		$(".popup-background:eq(1)").removeClass("blind");
 		$("#spinner-section").removeClass("blind");
