@@ -21,6 +21,7 @@ import com.rence.office.model.OfficeReserveVO_date;
 import com.rence.office.model.OfficeReviewVO;
 import com.rence.office.model.OfficeRoomVO;
 import com.rence.office.model.PaymentInfoVO;
+import com.rence.office.model.RoomScheduleVO;
 import com.rence.office.repo.OfficeDetailInfoRepository;
 import com.rence.office.repo.OfficeInfoRepository;
 import com.rence.office.repo.OfficeListRepository;
@@ -33,6 +34,7 @@ import com.rence.office.repo.OfficeReserveDateRepository;
 import com.rence.office.repo.OfficeReserveRepository;
 import com.rence.office.repo.OfficeReviewRepository;
 import com.rence.office.repo.OfficeRoomRepository;
+import com.rence.office.repo.RoomScheduleRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -76,6 +78,9 @@ public class OfficeService {
 	
 	@Autowired
 	OfficeMileageRepository mileage_repository;
+	
+	@Autowired
+	RoomScheduleRepository room_schedule_repository;
 	
 	
 	public OfficeService() {
@@ -291,6 +296,20 @@ public class OfficeService {
 		}
 		
 		return list;
+	}
+	
+	public List<RoomScheduleVO> select_all_room_schedule(String backoffice_no, String room_no, String reserve_stime) {
+		
+		List<RoomScheduleVO> vos = room_schedule_repository.select_all_room_schedule(backoffice_no, room_no, reserve_stime);
+		
+		return vos;
+	}
+	
+public List<RoomScheduleVO> select_all_room_schedule_dayoff(String backoffice_no, String room_no) {
+		
+		List<RoomScheduleVO> vos = room_schedule_repository.select_all_room_schedule_dayoff(backoffice_no, room_no);
+		
+		return vos;
 	}
 	
 }
