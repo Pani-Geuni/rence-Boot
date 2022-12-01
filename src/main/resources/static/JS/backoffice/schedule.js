@@ -557,6 +557,7 @@ $(function() {
 
 	// 예약 취소 팝업 - 취소 버튼 클릭 -> 취소 로직 처리
 	$("#reserve-delete-btn").click(function() {
+		// START FOR문
 		for (var i = 0; i < check_arr.length; i++) {
 			var stop_flag = false;
 
@@ -584,34 +585,39 @@ $(function() {
 					reserve_etime: reserve_etime
 				},
 				success: function(res) {
-					//로딩 화면 닫기
-					$(".popup-background:eq(1)").addClass("blind");
-					$("#spinner-section").addClass("blind");
-
-					$(".popup-background:eq(0)").addClass("blind");
-					$("#reserve-delete-popup").addClass("blind");
-
-					if (res.result == 1) {
-						$(".popup-background:eq(1)").removeClass("blind");
-						$("#common-alert-popup").removeClass("blind");
-						$(".common-alert-txt").text("예약이 취소되었습니다.");
-						$("#common-alert-btn").attr("is_reload", true);
-					} else {
-						$(".popup-background:eq(1)").removeClass("blind");
-						$("#common-alert-popup").removeClass("blind");
-						$(".common-alert-txt").text("예약 취소에 실패하셨습니다.");
+					if (res.result != 1) {
 						stop_flag = true;
 					}
 				},
 				error: function() {
-					//로딩 화면 닫기
-					$(".popup-background:eq(1)").addClass("blind");
-					$("#spinner-section").addClass("blind");
 					stop_flag = true;
 				}
 			});
 
-			if (stop_flag) break;
+			if (stop_flag) {
+				break;
+			}
+			
+		}
+		// END FOR문
+		
+		$(".popup-background:eq(0)").addClass("blind");
+		$("#reserve-delete-popup").addClass("blind");
+		
+		if (stop_flag) {
+			$(".popup-background:eq(1)").removeClass("blind");
+			$("#common-alert-popup").removeClass("blind");
+			$(".common-alert-txt").text("예약 취소에 실패하셨습니다.");
+		}
+		else {
+			//로딩 화면 닫기
+			$(".popup-background:eq(1)").addClass("blind");
+			$("#spinner-section").addClass("blind");
+			
+			$(".popup-background:eq(1)").removeClass("blind");
+			$("#common-alert-popup").removeClass("blind");
+			$(".common-alert-txt").text("예약이 취소되었습니다.");
+			$("#common-alert-btn").attr("is_reload", true);
 		}
 	});
 
