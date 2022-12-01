@@ -7,6 +7,8 @@ $(function() {
 	IMP.init("imp26554321")
 	let payment_state = "T";
 
+	timer();
+	
 	// ****************
 	// 가격에 ,(콤마) 붙이기
 	// ****************
@@ -269,4 +271,33 @@ $(function() {
 			}
 		});
 	});
+	
+	var seconds = 60 * 30;
+	var time;
+	function timer(){
+		
+		time = setInterval(function(){
+
+		   var min = seconds / 60;
+		   min = Math.floor(min);
+		   
+		   var sec = seconds - (60 * min);
+		   
+		   if (seconds == 0) {
+				$(".popup-background:eq(1)").removeClass("blind");
+			   	$("#common-alert-popup").removeClass("blind");
+				$(".common-alert-txt").html("결제 시간을 초과했습니다.<br>다시 시도해주세요.");
+				
+				if ($("#info-room-type").attr("room_type") == "오피스") {
+					location.href = "/office/space_introduce_office?backoffice_no=" + $(".info-company-name").attr("backoffice_no");					
+				} else {
+					location.href = "/office/space_introduce?backoffice_no=" + $(".info-company-name").attr("backoffice_no");
+				}
+			   	clearInterval(time);
+		   }
+		   
+		   seconds--;
+		}, 1000);
+		
+	}
 })

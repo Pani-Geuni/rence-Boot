@@ -19,11 +19,11 @@
                         <img th:src="@{https://rence.s3.ap-northeast-2.amazonaws.com/space/}+${pvo.backoffice_image}" alt="result-img" class="reserve-info-img" />
                     </section>
                     <section class="reserve-info-txt">
-                        <span class="info-company-name">[[${pvo.company_name}]]</span>
+                        <span class="info-company-name" th:attr="backoffice_no=${pvo.backoffice_no}">[[${pvo.company_name}]]</span>
                         <ul class="info-li-wrap">
                             <li class="info-li">
                                 <label class="info-label">공간 타입</label>
-                                <span class="info-text">[[${pvo.room_type}]]</span>
+                                <span id="info-room-type" class="info-text" th:attr="room_type=${pvo.room_type}">[[${pvo.room_type}]]</span>
                             </li>
                             <li class="info-li">
                                 <label class="info-label">예약 날짜</label>
