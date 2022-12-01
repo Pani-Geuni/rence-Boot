@@ -7,12 +7,17 @@ package com.rence.office.controller;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.servlet.http.HttpSession;
 
@@ -44,6 +49,7 @@ import com.rence.office.model.OfficeReserveVO_date;
 import com.rence.office.model.OfficeReviewVO;
 import com.rence.office.model.OfficeRoomVO;
 import com.rence.office.model.PaymentInfoVO;
+import com.rence.office.model.RoomScheduleVO;
 import com.rence.office.service.OfficeService;
 
 import io.swagger.annotations.Api;
@@ -505,8 +511,14 @@ public class OfficeController {
 
 		List<OfficeReserveVO> vos = service.check_reserve(backoffice_no, room_no, reserve_date);
 
+		List<RoomScheduleVO> rvos = service.select_all_room_schedule(backoffice_no, room_no, reserve_date);
+		
+		List<RoomScheduleVO> dvos = service.select_all_room_schedule_dayoff(backoffice_no, room_no);
+		
+		
 		List<Integer> already_reserve_list = new ArrayList<>();
 
+		// 예약 시간 설정
 		for (OfficeReserveVO vo : vos) {
 			int stime = Integer.parseInt(vo.getReserve_stime());
 			int etime = Integer.parseInt(vo.getReserve_etime());
@@ -517,13 +529,77 @@ public class OfficeController {
 				}
 			}
 		}
+
+		// 브레이크 타임 시간 설정
+		for (RoomScheduleVO vo : rvos) {
+			String not_stime = vo.getNot_stime();
+			String not_etime = vo.getNot_etime();
+			
+			String[] split_stime = not_stime.split(" ");
+			String[] split_etime = not_etime.split(" ");
+			
+			int stime = 0;
+			int etime = 0;
+			
+			if (split_stime[0].equals(split_etime[0])) {
+				String stime_hour = split_stime[1].split(":")[0];
+				String etime_hour = split_etime[1].split(":")[0];
+				
+				stime = Integer.parseInt(stime_hour);
+				etime = Integer.parseInt(etime_hour);
+			}
+			
+			
+			for (int i = stime; i < etime; i++) {
+				if (!Arrays.asList(already_reserve_list).contains(i)) {
+					already_reserve_list.add(i);
+				}
+			}
+		}
 		
 
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+		
+		// 휴무 시간 설정
+		for (RoomScheduleVO vo : dvos) {
+			String not_sdate = vo.getNot_stime().split(" ")[0].replace("-", "/");
+			String not_edate = vo.getNot_etime().split(" ")[0].replace("-", "/");
+			
+			if (!not_sdate.equals(not_edate)) {
+				LocalDate sdate = LocalDate.parse(not_sdate, formatter);
+				LocalDate edate = LocalDate.parse(not_edate, formatter);
+				
+				List<LocalDate> temp_date_list = getDatesBetweenTwoDates(sdate, edate);
+				
+				for (LocalDate d : temp_date_list) {
+					dayoff_list.add(d.format(formatter));
+					
+					if (d.format(formatter).equals(reserve_date)) {
+						for (int i = 0; i < 23; i++) {
+							if (!Arrays.asList(already_reserve_list).contains(i)) {
+								already_reserve_list.add(i);
+							}
+						}
+					}
+				}
+				
+			}
+			
+		}
+		
 		map.put("reserve_list", already_reserve_list);
 
 		String json = gson.toJson(map);
 
 		return json;
+	}
+	
+	public static List<LocalDate> getDatesBetweenTwoDates(LocalDate startDate, LocalDate endDate) {
+		int numOfDaysBetween = (int) ChronoUnit.DAYS.between(startDate, endDate) + 1;
+		return IntStream.iterate(0, i -> i + 1)
+        	.limit(numOfDaysBetween)
+        	.mapToObj(i -> startDate.plusDays(i))
+		.collect(Collectors.toList());
 	}
 
 	@SuppressWarnings("unlikely-arg-type")

@@ -202,6 +202,16 @@ $(function() {
 		let reserve_date = $(".time-input:eq(0)").val().trim();
 		let room_type = $("#type-choice-value").attr("room_type").trim();
 		
+		if (pick_time_list.length == 0) {
+			$('.fixed-popup').removeClass('blind')
+			$('.using-time-fail-txt:eq(0)').html(
+				'시간을 선택해 주세요.<br><br> 표시가 안 된 시간은 예약이 불가합니다.',
+			)
+			
+			$("#check_available").removeClass("blind");
+			$("#go_reserve").addClass("blind");
+		}
+		
 		if (pick_time_list[0] > pick_time_list[1]) {
 			[pick_time_list[0], pick_time_list[1]] = [pick_time_list[1], pick_time_list[0]]
 		}
