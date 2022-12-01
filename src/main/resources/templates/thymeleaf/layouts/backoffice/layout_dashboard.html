@@ -62,6 +62,7 @@
 		</script>
 		<script>
 				$(function () {
+					if(page!=undefined){
 					// 페이지 번호 클릭 이벤트
 					$(".paging-num-wrap").on("click", ".paging-box.paging-num", function () {
 						if (page == "room") {
@@ -78,6 +79,7 @@
 							location.href = "/backoffice/day_sales?backoffice_no=" + $.cookie("backoffice_no") + "&sales_date=month&page=" + $(this).attr("idx");
 						}
 					});
+					}
 
 					// 다음 페이지 리스트로 이동
 					$(".next-page-btn").click(function () {
@@ -446,7 +448,7 @@
 		<!-- START dayoff-calendar-wrap -->
 		<div class="dayoff-calendar-wrap blind">
 			<section class="dayoff-calendar-title">
-				<h1>11월</h1>
+				<h1 id="month"></h1>
 				<span class="calendar-close-btn">
 					<img src="/static/IMG/dash-board/ico-close.svg" alt="닫기 버튼" />
 				</span>
