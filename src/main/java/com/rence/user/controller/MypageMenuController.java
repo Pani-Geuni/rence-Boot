@@ -69,7 +69,7 @@ public class MypageMenuController {
 	 * 상세 예약 페이지 이동 - 현재
 	 */
 	@GetMapping(value = "/reserve_info")
-	public String reserve_info(String reserve_no, Model model, HttpServletRequest request) {
+	public String reserve_info_rsu(String reserve_no, Model model, HttpServletRequest request) {
 		String user_no = null;
 
 		OfficeInfoMap info_map = new OfficeInfoMap();
@@ -161,7 +161,7 @@ public class MypageMenuController {
 	 */
 	@GetMapping(value = "/reserve_cancel")
 	@ResponseBody
-	public String reserve_cancel(String reserve_no, String user_no) {
+	public String reserve_cancel_rsu(String reserve_no, String user_no) {
 		Map<String, String> map = new HashMap<String, String>();
 
 		int result = officeService.update_reserve_cancel(reserve_no, user_no);
@@ -215,7 +215,7 @@ public class MypageMenuController {
 	 */
 	@PostMapping(value = "/payment_cancel")
 	@ResponseBody
-	public String payment_cancel(String reserve_no, Integer cancel_amount, String reason) throws IOException {
+	public String payment_cancel_rsu(String reserve_no, Integer cancel_amount, String reason) throws IOException {
 		Map<String, Object> map = new HashMap<>();
 
 		OfficePaymentVO pvo = officeService.select_one_cancel_payment(reserve_no);
