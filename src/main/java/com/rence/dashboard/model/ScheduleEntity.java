@@ -56,5 +56,20 @@ public class ScheduleEntity implements Serializable{
 	@Transient
 	@Column(name="room_name")
 	private String room_name;
+	@Transient
+	@Column(name="sdate")
+	private String sdate;
+	@Transient
+	@Column(name="edate")
+	private String edate;
+	@Transient
+	@Column(name="stime")
+	private String stime;
+	@Transient
+	@Column(name="etime")
+	private String etime;
+	@Transient
+	@Column(name="schedule_type")
+	private String schedule_type;
 	
 }
