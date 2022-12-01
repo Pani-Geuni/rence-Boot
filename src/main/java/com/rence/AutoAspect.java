@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.rence.backoffice.model.AuthVO;
 import com.rence.backoffice.service.BackOfficeService;
 import com.rence.dashboard.service.DashboardService;
+import com.rence.office.model.OfficeReserveVO;
+import com.rence.office.service.OfficeService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,7 +32,13 @@ public class AutoAspect {
 	
 	@Autowired
 	BackOfficeService b_service;
+	
+	@Autowired
+	OfficeService o_service;
 
+	//*******************************************//
+	//*************예약 상태 자동 업데이트***************//
+	//******************************************//
 	@Pointcut("execution(* *..controller.*.*(..))")
 	public void updatePointcut() {
 
@@ -42,6 +50,9 @@ public class AutoAspect {
 		service.reserve_state_auto_update();
 	}
 	
+	//*******************************************//
+	//************이메일 인증 시간 초과시 삭제*************//
+	//******************************************//
 	@Pointcut("execution(* com.rence.*.*.*SendEmail.sendEmail(..))")
 	public void deletePointcut() {
 		log.info("deletePointcut()...");
@@ -67,5 +78,35 @@ public class AutoAspect {
 	         };
 	      }.start();
 	   }
+	
+	//*******************************************//
+	//**********예약 상태 false 30분 뒤 삭제***********//
+	//******************************************//
+	@Pointcut("execution(* com.rence.office.controller.OfficeController.reserve(..))")
+	public void falsePointcut() {
+		log.info("falsePointcut()...");
+	}
+	
+	@After("falsePointcut()")
+	public void reserveFalse(JoinPoint jp) {
+		log.info("reserveFalse()...");
+		Object [] params = jp.getArgs(); 
+		OfficeReserveVO reserve = (OfficeReserveVO)params[0];
+		
+		new Thread() {
+			public void run() {
+				try {
+					log.info("sleep-----------start-------------");
+					Thread.sleep(1800000);
+					log.info("sleep-------------end-----------");
+					log.info("reserve::{}",reserve);
+					String reserve_no = o_service.select_one_last_reserve(reserve.getUser_no());
+					service.reserve_auto_delete(reserve_no);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			};
+		}.start();
+	}
 	
 }
