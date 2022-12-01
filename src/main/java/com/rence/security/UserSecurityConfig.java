@@ -83,13 +83,15 @@ public class UserSecurityConfig {
 			.successForwardUrl("/rence/loginSuccess") // 성공시 요청을 처리할 핸들러
 			.failureForwardUrl("/rence/loginFail") // 실패시 요청을 처리할 핸들러
 			.permitAll()
-				.and().
-				logout().
-				logoutRequestMatcher(new AntPathRequestMatcher("/rence/user_logoutOK")) // 로그아웃 URL																							
-				.logoutSuccessUrl("/") // 성공시 리턴 URL
-				.invalidateHttpSession(true) // 인증정보를 지우하고 세션을 무효화
-				.deleteCookies("JSESSIONID","user_no","user_image") // JSESSIONID 쿠키 삭제
-				.permitAll();
+		.and()
+			.logout()
+			.logoutRequestMatcher(new AntPathRequestMatcher("/rence/user_logoutOK")) // 로그아웃 URL																							
+			.logoutSuccessUrl("/") // 성공시 리턴 URL
+			.invalidateHttpSession(true) // 인증정보를 지우하고 세션을 무효화
+			.deleteCookies("JSESSIONID","user_no","user_image") // JSESSIONID 쿠키 삭제
+			.permitAll();
+		
+			
 		
 		http.csrf().disable();   // csrf 토큰을 활성화
 
