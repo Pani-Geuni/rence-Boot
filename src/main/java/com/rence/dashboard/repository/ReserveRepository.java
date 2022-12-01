@@ -113,5 +113,5 @@ public interface ReserveRepository extends JpaRepository<ReserveListView, Object
 			+ "            from ( select * from reserve_list_b_view where backoffice_no=?1 and reserve_state !='false' and reserve_state ='cancel' order by reserve_sdate desc ))A where A.no=1)where user_name like ?2")
 	public int backoffice_reserve_selectAll_cancel_search(String backoffice_no, String string);
 
-
+	
 }

@@ -34,5 +34,16 @@ public interface ReserveAutoUpdateRepository extends JpaRepository<ReserveUpdate
 	@Transactional
 	@Query(nativeQuery = true, value = "update reserveinfo set reserve_state = 'cancel' where reserve_no=?1")
 	public int update_reserve_state_cancel(String reserve_no);
+	
+	
+	
+	// 예약 false 상태 30분 뒤 삭제
+	@Modifying
+	@Transactional
+	@Query(nativeQuery = true, value = "delete from reserveinfo where reserve_state='false' and reserve_no=?1")
+	public void reserve_auto_delete(String reserve_no);
+
+
+
 
 }

@@ -41,6 +41,7 @@ import com.rence.dashboard.repository.CommentInsertRepository;
 import com.rence.dashboard.repository.CommentQListRepository;
 import com.rence.dashboard.repository.CommentRepository;
 import com.rence.dashboard.repository.CommentSummaryRepository;
+import com.rence.dashboard.repository.ReserveAutoUpdateRepository;
 import com.rence.dashboard.repository.ReserveRepository;
 import com.rence.dashboard.repository.ReserveSummaryRepository;
 import com.rence.dashboard.repository.ReviewRepository;
@@ -96,6 +97,9 @@ public class DashboardService {
 	
 	@Autowired
 	BackOfficeOperatingTimeSelectRepository bos_repository; 
+	
+	@Autowired
+	ReserveAutoUpdateRepository reserveAutoUpdateRepository;
 
 	@Autowired
 	DashBoardDAO dao;
@@ -384,6 +388,12 @@ public class DashboardService {
 		log.info("backoffice_schedule_cancel().....");
 		return sc_repository.backoffice_schedule_cancel(backoffice_no, schedule_no);
 	}
+	
+	// 예약 false 상태 30분 뒤 삭제
+	public void reserve_auto_delete(String reserve_no) {
+		log.info("reserve_auto_delete().....");
+		reserveAutoUpdateRepository.reserve_auto_delete(reserve_no);
+	}
 
 	// ******** 페이징 ***********
 	// 공간 리스트
@@ -428,5 +438,6 @@ public class DashboardService {
 		log.info("backoffice_search_reserve_cnt().....");
 		return dao.backoffice_search_reserve_cnt(backoffice_no, searchword, reserve_state);
 	}
+
 
 }
