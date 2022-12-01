@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -51,5 +52,9 @@ public class ScheduleEntity implements Serializable{
 	
 	@Column(name="backoffice_no")
 	private String backoffice_no;
+	
+	@Transient
+	@Column(name="room_name")
+	private String room_name;
 	
 }

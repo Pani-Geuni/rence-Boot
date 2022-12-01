@@ -31,6 +31,10 @@ public interface RoomInsertRepository extends JpaRepository<RoomInsertVO, Object
 	@Query(nativeQuery = true, value = "update roominfo set room_name=:#{#rvo?.room_name}, room_type=:#{#rvo?.room_type}, room_price=:room_price where backoffice_no=:#{#rvo?.backoffice_no} and room_no=:#{#rvo?.room_no}")
 	public int backoffice_updateOK_room(@Param("rvo") RoomInsertVO rvo, @Param("room_price") Integer room_price);
 
+	// 휴무 일정 - 공간 이름
+	@Query(nativeQuery = true, value = "select * from roominfo where room_no=?1")
+	public RoomInsertVO backoffice_schedule_calendar_room_name(String room_no);
+
 
 	
 	

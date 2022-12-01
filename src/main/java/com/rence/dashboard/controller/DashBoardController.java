@@ -1407,16 +1407,39 @@ public class DashBoardController {
 		List<ScheduleEntity> vos = service.backoffice_schedule_calendar(backoffice_no);
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String sdate ="";
+		String edate ="";
 		String stime ="";
 		String etime ="";
+		String[] st = sdate.split(" ");
+		String[] et = edate.split(" ");
+		String schedule_type = "";
 		for (ScheduleEntity vo : vos) {
-			stime = sdf.format(vo.getNot_stime());
-			etime = sdf.format(vo.getNot_etime());
+			sdate = sdf.format(vo.getNot_stime());
+			sdate = sdf.format(vo.getNot_etime());
+			if (st[0].equals(et[0])){
+				// 브레이크 타임 
+				sdate = st[0];
+				stime = st[1];
+				etime = et[1];
+				schedule_type="breaktime";
+			}else {
+				// 휴무
+				sdate = st[0];
+				edate = et[0];
+				schedule_type="dayoff";
+			}
+			RoomInsertVO rvo = service.backoffice_schedule_calendar_room_name(vo.getRoom_no());
+			vo.setRoom_name(rvo.getRoom_name());
 		}
 
+
 		log.info("vos...{}", vos);
+		map.put("sdate", sdate);
+		map.put("edate", edate);
 		map.put("stime", stime);
 		map.put("etime", etime);
+		map.put("schedule_type", schedule_type);
 		map.put("vos", vos);
 		map.put("cnt", vos.size());
 

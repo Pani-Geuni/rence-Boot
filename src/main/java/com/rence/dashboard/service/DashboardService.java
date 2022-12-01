@@ -377,6 +377,12 @@ public class DashboardService {
 		log.info("backoffice_schedule_calendar().....");
 		return sc_repository.backoffice_schedule_calendar(backoffice_no);
 	}
+	
+	// 휴무 일정 - 공간 이름
+	public RoomInsertVO backoffice_schedule_calendar_room_name(String room_no) {
+		log.info("backoffice_schedule_calendar_room_name().....");
+		return rm_repository2.backoffice_schedule_calendar_room_name(room_no);
+	}
 
 	// 일정 관리 - 일정(휴무, 브레이크 타임) 취소
 	public int backoffice_schedule_cancel(String backoffice_no, String schedule_no) {
@@ -427,6 +433,8 @@ public class DashboardService {
 		log.info("backoffice_search_reserve_cnt().....");
 		return dao.backoffice_search_reserve_cnt(backoffice_no, searchword, reserve_state);
 	}
+
+	
 
 
 }
