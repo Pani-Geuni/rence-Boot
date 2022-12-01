@@ -111,9 +111,4 @@ public interface SalesSettlementDetailRepository extends JpaRepository<SalesSett
 	public Integer select_pay_cancel_pre_month(String backoffice_no);
 
 
-
-
-
-
-
 }

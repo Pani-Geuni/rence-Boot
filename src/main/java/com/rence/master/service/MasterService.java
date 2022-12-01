@@ -1,5 +1,5 @@
 /**
- * @author 전판근, 최진실
+ * @author 최진실
  */
 
 package com.rence.master.service;
@@ -39,11 +39,6 @@ public class MasterService{
 	public MasterService() {
 		log.info("MasterService()...");
 	}
-
-//	public MasterEntity master_login(MasterVO vo) {
-//
-//		return m_repository.findByMaster_id(vo.getMaster_id(), vo.getMaster_pw());
-//	}
 
 	/*
 	 * 마스터 메인 화면 (호스트 신청 리스트)

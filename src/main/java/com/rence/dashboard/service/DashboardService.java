@@ -188,7 +188,6 @@ public class DashboardService {
 	public int backoffice_insertOK_comment(CommentInsertVO cvo) {
 		log.info("backoffice_insertOK_comment().....");
 		return c_insert_repository.backoffice_insertOK_comment(cvo, cvo.getComment_date());
-//		return c_insert_repository.save(cvo);
 	}
 
 	// 공간 문의(문의 상태 'T'변경)
@@ -252,7 +251,6 @@ public class DashboardService {
 		log.info("{}.....", bvo);
 
 		return b_repository.backoffice_select_pw(bvo.getBackoffice_no());
-//		return b_repository.backoffice_select_pw(bvo.getBackoffice_no(),bvo.getBackoffice_pw());
 	}
 
 	// 업체 탈퇴 요청
@@ -430,8 +428,5 @@ public class DashboardService {
 		log.info("backoffice_search_reserve_cnt().....");
 		return dao.backoffice_search_reserve_cnt(backoffice_no, searchword, reserve_state);
 	}
-
-	
-
 
 }

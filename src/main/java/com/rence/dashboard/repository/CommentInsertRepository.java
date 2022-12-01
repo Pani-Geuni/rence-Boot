@@ -18,7 +18,7 @@ import com.rence.dashboard.model.CommentVO;
 
 public interface CommentInsertRepository extends JpaRepository<CommentInsertVO, Object> {
 
-	// 공간 문의 - 답변 작성 :#{#rvo?.room_name}
+	// 공간 문의 - 답변 작성 
 	@Modifying
 	@Transactional
 	@Query(nativeQuery = true, value = "insert into comments(comment_no, room_no, backoffice_no, mother_no, comment_content, comment_date, writer, comment_state, host_no) values ('C'||SEQ_COMMENTS.nextval, :#{#cvo?.room_no}, :#{#cvo?.backoffice_no}, :#{#cvo?.mother_no}, :#{#cvo?.comment_content}, :comment_date, :#{#cvo?.writer}, :#{#cvo?.comment_state}, :#{#cvo?.host_no})")
