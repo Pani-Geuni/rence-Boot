@@ -828,7 +828,7 @@ public class DashBoardController {
 		Map<String, String> map = new HashMap<String, String>();
 
 		int result = service.backoffice_updateOK_sales(backoffice_no, room_no, payment_no);
-		log.info("integerereretrer", Integer.toString(result));
+		log.info("result", Integer.toString(result));
 		if (result == 1) {
 			log.info("successed...");
 			map.put("result", "1");

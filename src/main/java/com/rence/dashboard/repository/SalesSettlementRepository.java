@@ -40,7 +40,7 @@ public interface SalesSettlementRepository extends JpaRepository<SalesSettlement
 	@Modifying
 	@Transactional
 	@Query(nativeQuery = true, value = "update mileage set mileage_state='C' where payment_no=?1 and mileage_state='W'")
-	public void backoffice_update_mileage_state_c(String payment_no);
+	public int backoffice_update_mileage_state_c(String payment_no);
 
 
 }
