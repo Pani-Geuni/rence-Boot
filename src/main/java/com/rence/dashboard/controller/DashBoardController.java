@@ -1409,9 +1409,6 @@ public class DashBoardController {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String sdate ="";
 		String edate ="";
-		String stime ="";
-		String etime ="";
-		String schedule_type = "";
 		for (ScheduleEntity vo : vos) {
 			sdate = sdf.format(vo.getNot_stime());
 			edate = sdf.format(vo.getNot_etime());
@@ -1419,27 +1416,21 @@ public class DashBoardController {
 			String[] et = edate.split(" ");
 			if (st[0].equals(et[0])){
 				// 브레이크 타임 
-				sdate = st[0];
-				stime = st[1];
-				etime = et[1];
-				schedule_type="breaktime";
+				vo.setSdate(st[0]);
+				vo.setStime(st[1]);
+				vo.setEtime(et[1]);
+				vo.setSchedule_type("breaktime");
 			}else {
 				// 휴무
-				sdate = st[0];
-				edate = et[0];
-				schedule_type="dayoff";
+				vo.setSdate(st[0]);
+				vo.setEdate(et[0]);
+				vo.setSchedule_type("dayoff");
 			}
 			RoomInsertVO rvo = service.backoffice_schedule_calendar_room_name(vo.getRoom_no());
 			vo.setRoom_name(rvo.getRoom_name());
 		}
 
-
 		log.info("vos...{}", vos);
-		map.put("sdate", sdate);
-		map.put("edate", edate);
-		map.put("stime", stime);
-		map.put("etime", etime);
-		map.put("schedule_type", schedule_type);
 		map.put("vos", vos);
 		map.put("cnt", vos.size());
 
