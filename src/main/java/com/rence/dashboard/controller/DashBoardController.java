@@ -93,7 +93,7 @@ public class DashBoardController {
 	 */
 	@ApiOperation(value = "대쉬보드 메인", notes = "대쉬보드 메인 페이지")
 	@GetMapping("/main")
-	public String dashboard_main(Model model, String backoffice_no) {
+	public String dashboard_main_rsu(Model model, String backoffice_no) {
 
 		List<ReserveSummaryView> rvos = service.reserve_summary_selectAll(backoffice_no);
 		log.info("dashboard main rvos : {}", rvos);
@@ -334,7 +334,7 @@ public class DashBoardController {
 	@PostMapping("/deleteOK_room")
 	@ResponseBody
 	@Transactional
-	public String backoffice_deleteOK_room(String backoffice_no, String room_no) {
+	public String backoffice_deleteOK_room_rsu(String backoffice_no, String room_no) {
 		log.info("backoffice_deleteOK_room ()...");
 		log.info("{}", backoffice_no);
 
@@ -584,7 +584,7 @@ public class DashBoardController {
 	 */
 	@ApiOperation(value = "예약 리스트", notes = "대쉬보드 예약 관리 페이지 - 리스트")
 	@GetMapping("/reserve")
-	public String dashboard_reserve(Model model, String backoffice_no, String reserve_state, @RequestParam(value = "page", defaultValue = "1") Integer page) {
+	public String dashboard_reserve_rsu(Model model, String backoffice_no, String reserve_state, @RequestParam(value = "page", defaultValue = "1") Integer page) {
 		log.info("backoffice_reserve ()...");
 		log.info("{}", backoffice_no);
 		
@@ -658,7 +658,7 @@ public class DashBoardController {
 	 */
 	@ApiOperation(value = "예약 리스트 검색", notes = "대쉬보드 예약 관리 페이지 - 리스트 검색")
 	@GetMapping("/search_reserve")
-	public String dashboard_reserve_search(Model model, String backoffice_no, String searchword, String reserve_state,
+	public String dashboard_reserve_search_rsu(Model model, String backoffice_no, String searchword, String reserve_state,
 			@RequestParam(value = "page", defaultValue = "1") Integer page) {
 		log.info("backoffice_search_reserve ()...");
 		log.info("{}", backoffice_no);
@@ -734,7 +734,7 @@ public class DashBoardController {
 	 */
 	@ApiOperation(value = "정산 관리 리스트", notes = "대쉬보드 정산 관리 페이지 - 리스트")
 	@GetMapping("/day_sales")
-	public String dashboard_sales_day(Model model, String backoffice_no, String sales_date, @RequestParam(value = "page", defaultValue = "1") Integer page) {
+	public String dashboard_sales_day_rsu(Model model, String backoffice_no, String sales_date, @RequestParam(value = "page", defaultValue = "1") Integer page) {
 		log.info("backoffice_day_sales()...");
 		log.info("{}", backoffice_no);
 
@@ -913,7 +913,7 @@ public class DashBoardController {
 	@ApiOperation(value = "업체 탈퇴 요청", notes = "대쉬보드 환경설정 페이지 - 업체 탈퇴 요청")
 	@PostMapping("/setting_delete")
 	@ResponseBody
-	public String backoffice_setting_delete(BackOfficeVO bvo) {
+	public String backoffice_setting_delete_rsu(BackOfficeVO bvo) {
 		log.info("backoffice_setting_delete ()...");
 		log.info("{}", bvo);
 
@@ -1008,7 +1008,7 @@ public class DashBoardController {
 	 */
 	@ApiOperation(value = "일정 관리", notes = "대쉬보드 - 일정 관리")
 	@GetMapping("/schedule")
-	public String backoffice_schedule(String backoffice_no, Model model) { 
+	public String backoffice_schedule_rsu(String backoffice_no, Model model) { 
 		log.info("backoffice_schedule controller()...");
 
 		model.addAttribute("backoffice_no", backoffice_no);
@@ -1025,7 +1025,7 @@ public class DashBoardController {
 	@ApiOperation(value = "일정 관리", notes = "대쉬보드 - 일정 관리")
 	@GetMapping("/schedule_research")
 	@ResponseBody
-	public String backoffice_schedule_research(String backoffice_no, String not_sdate, String not_edate,
+	public String backoffice_schedule_research_rsu(String backoffice_no, String not_sdate, String not_edate,
 			String not_stime, String not_etime, String off_type, Integer page, Model model) {
 		log.info("backoffice_schedule_research controller()...");
 
@@ -1076,7 +1076,7 @@ public class DashBoardController {
 	@ApiOperation(value = "일정 관리", notes = "대쉬보드 - 일정 관리")
 	@GetMapping("/schedule_research_paging")
 	@ResponseBody
-	public String backoffice_schedule_research_paging(String backoffice_no, String not_sdate, String not_edate,
+	public String backoffice_schedule_research_paging_rsu(String backoffice_no, String not_sdate, String not_edate,
 			String not_stime, String not_etime, String off_type, Integer page, Model model) {
 		log.info("backoffice_schedule_research controller()...");
 
@@ -1124,7 +1124,7 @@ public class DashBoardController {
 	@ApiOperation(value = "일정 관리 - 휴무, 브레이크타임 설정", notes = "대쉬보드 - 일정 관리")
 	@PostMapping("/scheduleOK")
 	@ResponseBody
-	public String backoffice_scheduleOK(String backoffice_no, String not_sdate, String not_edate, String not_stime,
+	public String backoffice_scheduleOK_rsu(String backoffice_no, String not_sdate, String not_edate, String not_stime,
 			String not_etime, String room_no, String off_type, Model model) throws ParseException {
 		log.info("backoffice_scheduleOK controller()...");
 
@@ -1166,7 +1166,7 @@ public class DashBoardController {
 	 */
 	@ApiOperation(value = "예약자 리스트", notes = "대쉬보드 - 예약자 리스트")
 	@GetMapping("/reservation")
-	public String backoffice_reservation(String backoffice_no, String room_no, String not_sdate, String not_edate,
+	public String backoffice_reservation_rsu(String backoffice_no, String room_no, String not_sdate, String not_edate,
 			String not_stime, String not_etime, String off_type, Model model, Integer page) {
 		log.info("backoffice_reservation controller()...");
 		
@@ -1225,7 +1225,7 @@ public class DashBoardController {
 	@ApiOperation(value = "예약자 리스트", notes = "대쉬보드 - 예약자 리스트")
 	@GetMapping("/reservation_paging")
 	@ResponseBody
-	public String backoffice_reservation_paging(String backoffice_no, String room_no, String not_sdate, String not_edate,
+	public String backoffice_reservation_paging_rsu(String backoffice_no, String room_no, String not_sdate, String not_edate,
 			String not_stime, String not_etime, String off_type, Model model, Integer page) {
 		log.info("backoffice_reservation controller_paging()...");
 		
@@ -1273,7 +1273,7 @@ public class DashBoardController {
 	@ApiOperation(value = "일정 관리 - 예약 취소", notes = "대쉬보드 - 일정 관리")
 	@PostMapping("/reservation_cancel")
 	@ResponseBody
-	public String backoffice_reservation_cancel(String backoffice_no, String reserve_no, String user_no,
+	public String backoffice_reservation_cancel_rsu(String backoffice_no, String reserve_no, String user_no,
 			String user_email, String reserve_stime, String reserve_etime, Model model) throws ParseException, IOException {
 		log.info("backoffice_reservation_cancel controller()...");
 

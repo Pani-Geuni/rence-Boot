@@ -39,7 +39,7 @@ public class AutoAspect {
 	//*******************************************//
 	//*************예약 상태 자동 업데이트***************//
 	//******************************************//
-	@Pointcut("execution(* *..controller.*.*(..))")
+	@Pointcut("execution(* *..controller.*.*_rsu(..))")
 	public void updatePointcut() {
 
 	}
