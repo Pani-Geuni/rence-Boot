@@ -1067,7 +1067,7 @@ public class OfficeController {
 
 		int total_cnt = service.list_totalCnt("%" + type + "%");
 
-		List<ListViewVO> list = service.select_all_list(type, condition, 9 * (page - 1) + 1, 9 * (page));
+		List<ListViewVO> list = service.select_all_list(type, condition, 12 * (page - 1) + 1, 12 * (page));
 
 		if (list == null)
 			map.put("cnt", 0);
@@ -1132,7 +1132,7 @@ public class OfficeController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		List<ListViewVO> list = service.select_all_list(type, condition, 9 * (page - 1) + 1, 9 * (page));
+		List<ListViewVO> list = service.select_all_list(type, condition, 12 * (page - 1) + 1, 12 * (page));
 
 		if (list == null)
 			map.put("cnt", 0);
@@ -1189,7 +1189,7 @@ public class OfficeController {
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		List<ListViewVO> list = null;
-		list = service.search_list(type, location, searchWord, condition, 9 * (page - 1) + 1, 9 * (page));
+		list = service.search_list(type, location, searchWord, condition, 12 * (page - 1) + 1, 12 * (page));
 
 		if (list == null)
 			map.put("cnt", 0);

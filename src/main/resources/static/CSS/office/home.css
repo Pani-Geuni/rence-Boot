@@ -14,7 +14,7 @@
 }
 
 .homeTitle-wrap{
-    width: 1080px;
+    width: 73%;
 
     margin-top: 60px;
     margin-bottom: 30px;
@@ -29,13 +29,15 @@
     display: flex;
     justify-content: space-between;
     
-    width: 1080px;
+    width: 73%;
+    height:72%;
+    
     margin-left: auto;
     margin-right: auto;
 }
 .type-list{
-    width: 340px ;
-    height: 360px ;
+    width: 32% ;
+    height: 100% ;
 
     box-shadow: 1.8px 1.7px 5px 2px #e4e4e4;
     border-radius: 20px;
