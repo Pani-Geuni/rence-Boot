@@ -257,22 +257,35 @@ public class MasterController {
 
 		OptionEngToKorMap optionEngToKorMap = new OptionEngToKorMap();
 
-		List<String> tag_list = new ArrayList<String>();
-		String[] tag_split = bvo2.getBackoffice_tag().split(",");
-		for (String tag : tag_split) {
-			tag_list.add("#" + tag);
+		if (bvo2.getBackoffice_tag() != null) {
+			String[] backoffice_tag = bvo2.getBackoffice_tag().split(",");
+			for (int i = 0; i < backoffice_tag.length; i++) {
+				backoffice_tag[i] = "#" + backoffice_tag[i];
+			}
+			model.addAttribute("backoffice_tag", backoffice_tag);
+		} else {
+			model.addAttribute("backoffice_tag", "-");
+		}
+
+		if (bvo2.getBackoffice_option() != null) {
+			List<String> backoffice_option = optionEngToKorMap.splitOption(bvo2.getBackoffice_option());
+			model.addAttribute("backoffice_option", backoffice_option);
+		} else {
+			model.addAttribute("backoffice_option", "-");
+		}
+
+		if (bvo2.getBackoffice_around() != null) {
+			List<String> backoffice_around = optionEngToKorMap.splitAroundOption(bvo2.getBackoffice_around());
+			model.addAttribute("backoffice_around", backoffice_around);
+		} else {
+			model.addAttribute("backoffice_around", "-");
 		}
 
 		List<String> backoffice_image = optionEngToKorMap.splitImage(bvo2.getBackoffice_image());
 		List<String> backoffice_type = (optionEngToKorMap.splitType(bvo2.getBackoffice_type()));
-		List<String> backoffice_option = optionEngToKorMap.splitOption(bvo2.getBackoffice_option());
-		List<String> backoffice_around = optionEngToKorMap.splitAroundOption(bvo2.getBackoffice_around());
 
 		model.addAttribute("backoffice_image", backoffice_image);
-		model.addAttribute("backoffice_tag", tag_list);
 		model.addAttribute("backoffice_type", backoffice_type);
-		model.addAttribute("backoffice_option", backoffice_option);
-		model.addAttribute("backoffice_around", backoffice_around);
 		model.addAttribute("vo", bvo2);
 		model.addAttribute("page", page);
 
@@ -294,18 +307,35 @@ public class MasterController {
 
 		OptionEngToKorMap optionEngToKorMap = new OptionEngToKorMap();
 
-		List<String> tag_list = new ArrayList<String>();
-		String[] tag_split = bvo2.getBackoffice_type().split(",");
-		for (String tag : tag_split) {
-			tag_list.add(optionEngToKorMap.changeType(tag));
+		if (bvo2.getBackoffice_tag() != null) {
+			String[] backoffice_tag = bvo2.getBackoffice_tag().split(",");
+			for (int i = 0; i < backoffice_tag.length; i++) {
+				backoffice_tag[i] = "#" + backoffice_tag[i];
+			}
+			model.addAttribute("backoffice_tag", backoffice_tag);
+		} else {
+			model.addAttribute("backoffice_tag", "-");
 		}
 
-		List<String> backoffice_option = optionEngToKorMap.splitOption(bvo2.getBackoffice_option());
-		List<String> backoffice_around = optionEngToKorMap.splitAroundOption(bvo2.getBackoffice_around());
+		if (bvo2.getBackoffice_option() != null) {
+			List<String> backoffice_option = optionEngToKorMap.splitOption(bvo2.getBackoffice_option());
+			model.addAttribute("backoffice_option", backoffice_option);
+		} else {
+			model.addAttribute("backoffice_option", "-");
+		}
 
-		model.addAttribute("backoffice_tag", tag_list);
-		model.addAttribute("backoffice_option", backoffice_option);
-		model.addAttribute("backoffice_around", backoffice_around);
+		if (bvo2.getBackoffice_around() != null) {
+			List<String> backoffice_around = optionEngToKorMap.splitAroundOption(bvo2.getBackoffice_around());
+			model.addAttribute("backoffice_around", backoffice_around);
+		} else {
+			model.addAttribute("backoffice_around", "-");
+		}
+
+		List<String> backoffice_image = optionEngToKorMap.splitImage(bvo2.getBackoffice_image());
+		List<String> backoffice_type = (optionEngToKorMap.splitType(bvo2.getBackoffice_type()));
+
+		model.addAttribute("backoffice_image", backoffice_image);
+		model.addAttribute("backoffice_type", backoffice_type);
 		model.addAttribute("vo", bvo2);
 		model.addAttribute("page", page);
 
