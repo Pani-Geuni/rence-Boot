@@ -77,6 +77,7 @@ public class OfficeService {
 	@Autowired
 	OfficeMileageRepository mileage_repository;
 	
+	
 	public OfficeService() {
 		log.info("OfficeService()...");
 	}
@@ -291,4 +292,5 @@ public class OfficeService {
 		
 		return list;
 	}
+	
 }
