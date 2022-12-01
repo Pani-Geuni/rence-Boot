@@ -656,6 +656,10 @@ $(function() {
 	$("#btn-dayoff-calendar").click(function() {
 
 		let backoffice_no = $.cookie('backoffice_no');
+		
+		//로딩 화면 열기
+		$(".popup-background:eq(1)").removeClass("blind");
+		$("#spinner-section").removeClass("blind");
 		$.ajax({
 			url: "/backoffice/schedule_calendar",
 			type: "GET",
@@ -668,6 +672,10 @@ $(function() {
 				$(".popup-background:eq(0)").removeClass("blind");
 				$(".dayoff-calendar-wrap").removeClass("blind");
 				
+				//로딩 화면 닫기
+				$(".popup-background:eq(1)").addClass("blind");
+				$("#spinner-section").addClass("blind");
+				
 				if (res.cnt > 0) {
 					let empty_item = $($(".dayoff-list-item")[0]).clone();
 					$(".dayoff-list").empty();
@@ -678,14 +686,33 @@ $(function() {
 						dayoff_list_item.removeClass("blind");
 						
 						console.log(res.vos[i]);
+						
+						let sdate = '';
+						let edate = '';
+						let stime = '';
+						let etime = '';
+						let date_duration = '';
+						let time_duration = '';
+						
+						dayoff_list_item.find(".dayoff-list-item-title").text(res.vos[i].room_name);
+						
+						if (res.vos[i].schedule_type === 'dayoff') {
+							sdate = res.vos[i].sdate;
+							edate = res.vos[i].edate;
+							date_duration = sdate + " ~ " + edate;
+							dayoff_list_item.find(".badge").text("임시 휴무");
+							
+						} else if (res.vos[i].schedule_type === 'breaktime') {
+							sdate = res.vos[i].sdate;
+							stime = res.vos[i].stime;
+							etime = res.vos[i].etime;
+							date_duration = sdate;
+							time_duration = stime + " ~ " + etime;
+							dayoff_list_item.find(".badge").text("브레이크 타임");
+						}
 
-						let stime = timeSplit(res.vos[i].not_stime);
-						let etime = timeSplit(res.vos[i].not_etime);
-						let duration = stime + " ~ " + etime;
-						
-						timeSplit(stime);
-						
-						dayoff_list_item.find(".dayoff-list-item-top").text(duration);
+						dayoff_list_item.find(".dayoff-list-item-date").text(date_duration);
+						dayoff_list_item.find(".dayoff-list-item-time").text(time_duration);
 						dayoff_list_item.find(".dayoff-cancel-btn").attr("schedule_no", res.vos[i].schedule_no);
 						dayoff_list_item.find(".dayoff-cancel-btn").attr("room_no", res.vos[i].room_no);
 						
