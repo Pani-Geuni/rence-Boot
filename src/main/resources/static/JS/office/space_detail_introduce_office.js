@@ -136,11 +136,25 @@ $(function() {
 		$(".duration").removeClass("blind");
 		$(".duration").text("기간 | " + $(".time-input").val() + " ~ " + checkout.getFullYear() + "/" + (Number(checkout.getMonth()) + 1) + "/" + checkout.getDate());
 		$(".duration").prop("last-date", checkout.getFullYear() + "/" + (Number(checkout.getMonth()) + 1) + "/" + checkout.getDate());
-		
+
 		$("#office_check_available").removeClass("blind");
 		$("#office_go_reserve").addClass("blind");
 	});
 
+
+	$('#type-choice-value').on('DOMSubtreeModified', function() {
+		console.log("room-name change");
+		$(".type-border-txt.time-input").val("");
+
+		$("#office_check_available").removeClass("blind");
+		$("#office_go_reserve").addClass("blind");
+		$(".type-border-txt.month-select-txt").text("개월수");
+
+		now = '';
+		checkout = '';
+		$(".duration").addClass("blind");
+	});
+	
 	$(".type-border-txt.time-input").change(function() {
 		$("#office_check_available").removeClass("blind");
 		$("#office_go_reserve").addClass("blind");

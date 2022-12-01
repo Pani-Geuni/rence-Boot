@@ -357,6 +357,15 @@
 				let dayOfWeek = week[new Date(date).getDay()];
 				return dayOfWeek;
 			}
+			
+			$('.type-border-txt.room-name').on('DOMSubtreeModified', function() {
+				console.log("room-name change");
+				$(".type-border-txt.time-input").val("");
+				
+				$("#check_available").removeClass("blind");
+				$("#go_reserve").addClass("blind");
+				$('.time-boundary-list li').css('display', 'none');
+			});
 
 			$('.type-border-txt.time-input').change(function () {
 				$("#check_available").removeClass("blind");
@@ -415,7 +424,9 @@
 											let now = new Date();
 											let year = now.getFullYear();
 											let month = now.getMonth() + 1;
+											if (month < 10) month = "0" + month;
 											let date = now.getDate();
+											if (date < 10) date = "0" + date;
 
 											let today = year + "/" + month + "/" + date;
 											let now_hours = now.getHours();
@@ -431,6 +442,7 @@
 
 											let running_stime = '';
 											let running_etime = '';
+											
 
 											$('.running-time-li-wrap li').each(function (index, item) {
 												if (index === dayOfWeek) {
