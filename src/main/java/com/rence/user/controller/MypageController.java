@@ -239,7 +239,6 @@ public class MypageController {
 	// **********************
 	@ApiOperation(value = "예약리스트", notes = "예약리스트 페이지입니다.")
 	@GetMapping("/reserve_list")
-
 	public String reserve_list(String time_point, String user_no, Model model,
 			@RequestParam(value = "page", defaultValue = "1") Integer page) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -306,6 +305,15 @@ public class MypageController {
 				vo.setBackoffice_image(room_first_image);
 			}
 		}
+		
+		DecimalFormat dc = new DecimalFormat("###,###,###,###,###");
+		for (int i = 0; i < list.size(); i++) {
+			//log.info("log**all***"+vos.get(i).getMileage()+"i: "+i);
+			list.get(i).setPayment_total(dc.format(Integer.parseInt(list.get(i).getPayment_total())));
+		}
+		log.info("Type change list: {}" + list);
+		
+		
 		map.put("list", list);
 		map.put("page", "reserve-list");
 
@@ -422,7 +430,7 @@ public class MypageController {
 		UserMileageVO umvo = service.totalMileage_selectOne(uvo);
 		log.info("umvo: {}", umvo);
 
-//		마일리지 콤마단위로 변환
+		//마일리지 콤마단위로 변환
 		DecimalFormat dc = new DecimalFormat("###,###,###,###,###");
 		String mileage_total = dc.format(umvo.getMileage_total());
 		log.info("mileage_total: " + mileage_total);

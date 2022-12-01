@@ -61,6 +61,17 @@ public class UserController {
 		log.info("user_loginOK ()...");
 		log.info("username: {}", username);
 		
+		Cookie cc = new Cookie("user_no", null); // choiceCookieName(쿠키 이름)에 대한 값을 null로 지정
+		Cookie cc2 = new Cookie("user_image", null); 
+		cc.setMaxAge(0); // 유효시간을 0으로 설정
+		cc2.setMaxAge(0); 
+		response.addCookie(cc); // 응답 헤더에 추가해서 없어지도록 함
+		response.addCookie(cc2); 
+
+
+		
+		
+		
 		UserVO uvo = service.user_login_info(username);
 		
 		Map<String, String> map = new HashMap<String, String>();
