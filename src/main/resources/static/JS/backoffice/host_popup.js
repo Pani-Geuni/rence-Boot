@@ -109,9 +109,9 @@ $(function() {
 	});
 
 
-	/********************************* */
+	/***************************** */
 	/******** 비밀번호 찾기 팝업 ********/
-	/********************************* */
+	/***************************** */
 	// 비밀번호 찾기 인풋 클릭 시 경고 테두리 제거
 	$(".find-popup-input").click(function() {
 		if ($(this).hasClass("null-input-border")) {
@@ -125,6 +125,7 @@ $(function() {
 		$("#find-pw-section").addClass("blind");
 	});
 
+	var find_pw_flag = true;
 	//비밀번호 찾기 버튼
 	$("#find-pw-btn").click(function() {
 		if ($("#find-pw-email").val().trim().length == 0) {
@@ -135,55 +136,63 @@ $(function() {
 		}
 
 		if ($("#find-pw-email").val().trim().length > 0 && $("#find-pw-backoffice-code").val().trim().length > 0) {
-			//로딩 화면
-			$(".popup-background:eq(1)").removeClass("blind");
-			$("#spinner-section").removeClass("blind");
-
-			$.ajax({
-				url: "/backoffice/reset_pw",
-				type: "GET",
-				dataType: 'json',
-				data: {
-					backoffice_id: $("#find-pw-backoffice-code").val().trim(),
-					backoffice_email: $("#find-pw-email").val().trim()
-				},
-				success: function(res) {
-					//로딩 화면 닫기
-					$(".popup-background:eq(1)").addClass("blind");
-					$("#spinner-section").addClass("blind");
-
-					// 비밀번호찾기 성공
-					if (res.result == 1) {
-						//INPUT 초기화
-						$("#find-pw-email").val("");
-						$("#find-pw-backoffice-code").val("");
-
-						$("#find-pw-email").removeClass("null-input-border");
-						$("#find-pw-backoffice-code").removeClass("null-input-border");
-
-						// 팝업 관련창 닫음
-						$(".popup-background:eq(0)").addClass("blind");
-						$("#find-pw-section").addClass("blind");
-
+			if(find_pw_flag){
+				find_pw_flag = false;
+				
+				//로딩 화면
+				$(".popup-background:eq(1)").removeClass("blind");
+				$("#spinner-section").removeClass("blind");
+	
+				$.ajax({
+					url: "/backoffice/reset_pw",
+					type: "GET",
+					dataType: 'json',
+					data: {
+						backoffice_id: $("#find-pw-backoffice-code").val().trim(),
+						backoffice_email: $("#find-pw-email").val().trim()
+					},
+					success: function(res){
+						find_pw_flag = true;
+						
+						//로딩 화면 닫기
+						$(".popup-background:eq(1)").addClass("blind");
+						$("#spinner-section").addClass("blind");
+	
+						// 비밀번호찾기 성공
+						if (res.result == 1) {
+							//INPUT 초기화
+							$("#find-pw-email").val("");
+							$("#find-pw-backoffice-code").val("");
+	
+							$("#find-pw-email").removeClass("null-input-border");
+							$("#find-pw-backoffice-code").removeClass("null-input-border");
+	
+							// 팝업 관련창 닫음
+							$(".popup-background:eq(0)").addClass("blind");
+							$("#find-pw-section").addClass("blind");
+	
+							$(".popup-background:eq(1)").removeClass("blind");
+							$("#common-alert-popup").removeClass("blind");
+							$(".common-alert-txt").text("이메일로 비밀번호를 발송해드렸어요!");
+						} else {
+							$(".popup-background:eq(1)").removeClass("blind");
+							$("#common-alert-popup").removeClass("blind");
+							$(".common-alert-txt").text("해당 정보로 가입된 호스트가 없습니다.");
+						}
+					},
+					error: function(){
+						find_pw_flag = true;
+						
+						//로딩 화면 닫기
+						$(".popup-background:eq(1)").addClass("blind");
+						$("#spinner-section").addClass("blind");
+	
 						$(".popup-background:eq(1)").removeClass("blind");
 						$("#common-alert-popup").removeClass("blind");
-						$(".common-alert-txt").text("이메일로 비밀번호를 발송해드렸어요!");
-					} else {
-						$(".popup-background:eq(1)").removeClass("blind");
-						$("#common-alert-popup").removeClass("blind");
-						$(".common-alert-txt").text("해당 정보로 가입된 호스트가 없습니다.");
+						$(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
 					}
-				},
-				error: function() {
-					//로딩 화면 닫기
-					$(".popup-background:eq(1)").addClass("blind");
-					$("#spinner-section").addClass("blind");
-
-					$(".popup-background:eq(1)").removeClass("blind");
-					$("#common-alert-popup").removeClass("blind");
-					$(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
-				}
-			});
+				});
+			}
 		}
 	});
 
@@ -199,7 +208,6 @@ $(function() {
 		$('.popup-background:eq(0)').removeClass('blind');
 		$('#logout-popup').removeClass('blind');
 	});
-
 
 
 	$('#join-btn').click(function() {
@@ -221,9 +229,10 @@ $(function() {
 		$('.popup-background:eq(0)').addClass('blind');
 	});
 
-	/****** ********* *****/
+	/****** ******* *****/
 	/****** 공간 추가 *****/
-	/****** ********* *****/
+	/****** ******* *****/
+	
 	// 추가 버튼 클릭 -> 추가 팝업창 SHOW
 	$('#btn-room-add').click(function() {
 		//로딩 화면
@@ -340,7 +349,9 @@ $(function() {
 		$('.popup-background:eq(0)').addClass('blind');
 	});
 
+
 	// 추가 버튼 클릭 -> 추가 로직
+	var insert_room_flag = true;
 	$('#btn-insert').click(function() {
 		// 입력값 not null인지 확인
 		if ($("#input-room-name").val().trim().length > 0 && $('#edit_room_type').val().length > 0) {
@@ -351,7 +362,9 @@ $(function() {
 					$("#input-price-name").addClass("null-input-border");
 				}
 			} else {
-				insert();
+				if(insert_room_flag){
+					insert();
+				}
 			}
 		} else {
 			if ($("#input-room-name").val().trim().length == 0) {
@@ -517,16 +530,21 @@ $(function() {
 		$('.edit-type-select-list').addClass('blind');
 	});
 
+	var update_room_flag = true;
 	// 변경 버튼 클릭 -> 변경 로직
 	$('#btn-edit').click(function() {
 		// 입력값 not null인지 확인
 		if ($("#m-input-room-name").val().trim().length > 0 && $('#m-edit_room_type').val().length > 0) {
 			if ($('#m-edit_room_type').val() == "office") {
 				if ($("#m-input-price-name").val().trim().length > 0) {
-					update();
+					if(update_room_flag){
+						update();
+					}
 				}
 			} else {
-				update();
+				if(update_room_flag){
+					update();
+				}
 			}
 		} else {
 			if ($("#m-input-room-name").val().trim().length == 0) {
@@ -542,9 +560,9 @@ $(function() {
 	});
 
 
-	/****** ********* *****/
+	/****** ******* *****/
 	/****** 공간 삭제 *****/
-	/****** ********* *****/
+	/****** ******* *****/
 	// 삭제 버튼 클릭 -> 삭제 팝업 오픈
 	$('.btn-room-delete').on('click', function() {
 		$('.popup-background:eq(0)').removeClass('blind');
@@ -552,51 +570,60 @@ $(function() {
 		$("#delete-space-btn").attr("idx", $(this).attr("idx"));
 	});
 
+	var delete_room_flag = true;
 	// 공간 삭제 버튼 클릭 -> 삭제 로직 처리
 	$("#delete-space-btn").click(function() {
-		//로딩 화면
-		$(".popup-background:eq(1)").removeClass("blind");
-		$("#spinner-section").removeClass("blind");
-
-		$.ajax({
-			url: "/backoffice/deleteOK_room",
-			type: "POST",
-			dataType: 'json',
-			data: {
-				backoffice_no: $.cookie("backoffice_no"),
-				room_no: $(this).attr("idx")
-			},
-			success: function(res) {
-				//로딩 화면 닫기
-				$(".popup-background:eq(1)").addClass("blind");
-				$("#spinner-section").addClass("blind");
-
-				$('.popup-background:eq(0)').addClass('blind');
-				$('#host-delete-popup').addClass('blind');
-				$("#delete-space-btn").attr("idx", "");
-
-				// 삭제 성공
-				if (res.result == 1) {
+		if(delete_room_flag){
+			delete_room_flag = false;
+			
+			//로딩 화면
+			$(".popup-background:eq(1)").removeClass("blind");
+			$("#spinner-section").removeClass("blind");
+	
+			$.ajax({
+				url: "/backoffice/deleteOK_room",
+				type: "POST",
+				dataType: 'json',
+				data: {
+					backoffice_no: $.cookie("backoffice_no"),
+					room_no: $(this).attr("idx")
+				},
+				success: function(res) {
+					delete_room_flag = true;
+					
+					//로딩 화면 닫기
+					$(".popup-background:eq(1)").addClass("blind");
+					$("#spinner-section").addClass("blind");
+	
+					$('.popup-background:eq(0)').addClass('blind');
+					$('#host-delete-popup').addClass('blind');
+					$("#delete-space-btn").attr("idx", "");
+	
+					// 삭제 성공
+					if (res.result == 1) {
+						$(".popup-background:eq(1)").removeClass("blind");
+						$("#common-alert-popup").removeClass("blind");
+						$(".common-alert-txt").text("삭제가 완료되었습니다.");
+						$("#common-alert-btn").attr("is_reload", true);
+					} else {
+						$(".popup-background:eq(1)").removeClass("blind");
+						$("#common-alert-popup").removeClass("blind");
+						$(".common-alert-txt").text("삭제에 실패하였습니다.");
+					}
+				},
+				error: function(){
+					delete_room_flag = true;
+					
+					//로딩 화면 닫기
+					$(".popup-background:eq(1)").addClass("blind");
+					$("#spinner-section").addClass("blind");
+	
 					$(".popup-background:eq(1)").removeClass("blind");
 					$("#common-alert-popup").removeClass("blind");
-					$(".common-alert-txt").text("삭제가 완료되었습니다.");
-					$("#common-alert-btn").attr("is_reload", true);
-				} else {
-					$(".popup-background:eq(1)").removeClass("blind");
-					$("#common-alert-popup").removeClass("blind");
-					$(".common-alert-txt").text("삭제에 실패하였습니다.");
+					$(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
 				}
-			},
-			error: function() {
-				//로딩 화면 닫기
-				$(".popup-background:eq(1)").addClass("blind");
-				$("#spinner-section").addClass("blind");
-
-				$(".popup-background:eq(1)").removeClass("blind");
-				$("#common-alert-popup").removeClass("blind");
-				$(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
-			}
-		});
+			});
+		}
 	});
 
 	// 삭제 버튼 클릭 -> 삭제 팝업 오픈
@@ -625,47 +652,56 @@ $(function() {
 		$("#delete-answer-btn").attr("mother_no", $(this).attr("comment_no"));
 	});
 
+	var delete_comment_flag = true;
 	// 답글 삭제 여부 컴펌창 - "삭제" 버튼 클릭
 	$("#delete-answer-btn").click(function() {
-		//로딩 화면
-		$(".popup-background:eq(1)").removeClass("blind");
-		$("#spinner-section").removeClass("blind");
-
-		$.ajax({
-			url: "/backoffice/deleteOK_comment",
-			type: "POST",
-			dataType: 'json',
-			data: {
-				backoffice_no: $.cookie("backoffice_no"),
-				mother_no: $(this).attr("mother_no"),
-				comment_no: $(this).attr("comment_no")
-			},
-			success: function(res) {
-				//로딩 화면 닫기
-				$(".popup-background:eq(1)").addClass("blind");
-				$("#spinner-section").addClass("blind");
-
-				if (res.result == 1) {
+		if(delete_comment_flag){
+			delete_comment_flag = false;
+			
+			//로딩 화면
+			$(".popup-background:eq(1)").removeClass("blind");
+			$("#spinner-section").removeClass("blind");
+	
+			$.ajax({
+				url: "/backoffice/deleteOK_comment",
+				type: "POST",
+				dataType: 'json',
+				data: {
+					backoffice_no: $.cookie("backoffice_no"),
+					mother_no: $(this).attr("mother_no"),
+					comment_no: $(this).attr("comment_no")
+				},
+				success: function(res) {
+					delete_comment_flag = true;
+					
+					//로딩 화면 닫기
+					$(".popup-background:eq(1)").addClass("blind");
+					$("#spinner-section").addClass("blind");
+	
+					if (res.result == 1) {
+						$(".popup-background:eq(1)").removeClass("blind");
+						$("#common-alert-popup").removeClass("blind");
+						$(".common-alert-txt").text("답변을 삭제하였습니다.");
+						$("#common-alert-btn").attr("is_reload", true);
+					} else {
+						$(".popup-background:eq(1)").removeClass("blind");
+						$("#common-alert-popup").removeClass("blind");
+						$(".common-alert-txt").text("답변을 삭제 처리에 실패하였습니다.");
+					}
+				},
+				error: function() {
+					delete_comment_flag = true;
+					
+					//로딩 화면 닫기
+					$(".popup-background:eq(1)").addClass("blind");
+					$("#spinner-section").addClass("blind");
+	
 					$(".popup-background:eq(1)").removeClass("blind");
 					$("#common-alert-popup").removeClass("blind");
-					$(".common-alert-txt").text("답변을 삭제하였습니다.");
-					$("#common-alert-btn").attr("is_reload", true);
-				} else {
-					$(".popup-background:eq(1)").removeClass("blind");
-					$("#common-alert-popup").removeClass("blind");
-					$(".common-alert-txt").text("답변을 삭제 처리에 실패하였습니다.");
+					$(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
 				}
-			},
-			error: function() {
-				//로딩 화면 닫기
-				$(".popup-background:eq(1)").addClass("blind");
-				$("#spinner-section").addClass("blind");
-
-				$(".popup-background:eq(1)").removeClass("blind");
-				$("#common-alert-popup").removeClass("blind");
-				$(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
-			}
-		});
+			});
+		}
 	});
 
 	// 답글 삭제 여부 컴펌창 - 닫기 버튼
@@ -725,55 +761,64 @@ $(function() {
 		$('.popup-background:eq(0)').addClass('blind');
 	});
 
+	var insert_comment_flag = true;
 	// 문의 답글 작성 팝업 - 답글 추가 버튼
 	$("#h_comment_insert").click(function() {
 		if ($("#host-comment").val().trim().length > 0) {
-			//로딩 화면
-			$(".popup-background:eq(1)").removeClass("blind");
-			$("#spinner-section").removeClass("blind");
-
-			$.ajax({
-				url: "/backoffice/insertOK_comment",
-				type: "POST",
-				dataType: 'json',
-				data: {
-					backoffice_no: $.cookie("backoffice_no"),
-					comment_no: $(this).attr("comment_no"),
-					room_no: $(this).attr("room_no"),
-					comment_content: $("#host-comment").val().trim()
-				},
-				success: function(res) {
-					//로딩 화면 닫기
-					$(".popup-background:eq(1)").addClass("blind");
-					$("#spinner-section").addClass("blind");
-
-					if (res.result == 1) {
-						$("#host-comment").val("");
-						$(".now_txt_length").text("0");
-
-						$('#comment-section').addClass('blind');
-						$('.popup-background:eq(0)').addClass('blind');
-
+			if(insert_comment_flag){
+				insert_comment_flag = false;
+				
+				//로딩 화면
+				$(".popup-background:eq(1)").removeClass("blind");
+				$("#spinner-section").removeClass("blind");
+	
+				$.ajax({
+					url: "/backoffice/insertOK_comment",
+					type: "POST",
+					dataType: 'json',
+					data: {
+						backoffice_no: $.cookie("backoffice_no"),
+						comment_no: $(this).attr("comment_no"),
+						room_no: $(this).attr("room_no"),
+						comment_content: $("#host-comment").val().trim()
+					},
+					success: function(res) {
+						insert_comment_flag = true;
+						
+						//로딩 화면 닫기
+						$(".popup-background:eq(1)").addClass("blind");
+						$("#spinner-section").addClass("blind");
+	
+						if (res.result == 1) {
+							$("#host-comment").val("");
+							$(".now_txt_length").text("0");
+	
+							$('#comment-section').addClass('blind');
+							$('.popup-background:eq(0)').addClass('blind');
+	
+							$(".popup-background:eq(1)").removeClass("blind");
+							$("#common-alert-popup").removeClass("blind");
+							$(".common-alert-txt").text("답글이 등록되었습니다.");
+							$("#common-alert-btn").attr("is_reload", true);
+						} else {
+							$(".popup-background:eq(1)").removeClass("blind");
+							$("#common-alert-popup").removeClass("blind");
+							$(".common-alert-txt").text("답글 등록에 실패하였습니다.");
+						}
+					},
+					error: function() {
+						insert_comment_flag = true;
+						
+						//로딩 화면 닫기
+						$(".popup-background:eq(1)").addClass("blind");
+						$("#spinner-section").addClass("blind");
+	
 						$(".popup-background:eq(1)").removeClass("blind");
 						$("#common-alert-popup").removeClass("blind");
-						$(".common-alert-txt").text("답글이 등록되었습니다.");
-						$("#common-alert-btn").attr("is_reload", true);
-					} else {
-						$(".popup-background:eq(1)").removeClass("blind");
-						$("#common-alert-popup").removeClass("blind");
-						$(".common-alert-txt").text("답글 등록에 실패하였습니다.");
+						$(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
 					}
-				},
-				error: function() {
-					//로딩 화면 닫기
-					$(".popup-background:eq(1)").addClass("blind");
-					$("#spinner-section").addClass("blind");
-
-					$(".popup-background:eq(1)").removeClass("blind");
-					$("#common-alert-popup").removeClass("blind");
-					$(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
-				}
-			});
+				});
+			}
 		} else {
 			$("#host-comment").addClass("null-input-border");
 		}
@@ -789,9 +834,9 @@ $(function() {
 	});
 
 
-	/** *********************** **/
+	/** ******* **/
 	/** 정산 관련 **/
-	/** *********************** **/
+	/** ******* **/
 	$(".is_sales_btn").click(function() {
 		if ($(this).attr("end") == "false") {
 			$('.popup-background:eq(0)').removeClass('blind');
@@ -801,46 +846,55 @@ $(function() {
 		}
 	});
 
+	var sales_flag = true;
 	$("#calculate-btn").click(function() {
-		//로딩 화면
-		$(".popup-background:eq(1)").removeClass("blind");
-		$("#spinner-section").removeClass("blind");
-
-		$.ajax({
-			url: "/backoffice/updateOK_sales",
-			type: "POST",
-			dataType: 'json',
-			data: {
-				backoffice_no: $.cookie("backoffice_no"),
-				payment_no: $(this).attr("payment_no"),
-				room_no: $(this).attr("room_no")
-			},
-			success: function(res) {
-				//로딩 화면 닫기
-				$(".popup-background:eq(1)").addClass("blind");
-				$("#spinner-section").addClass("blind");
-
-				if (res.result == 1) {
+		if(sales_flag){
+			sales_flag = false;
+			
+			//로딩 화면
+			$(".popup-background:eq(1)").removeClass("blind");
+			$("#spinner-section").removeClass("blind");
+	
+			$.ajax({
+				url: "/backoffice/updateOK_sales",
+				type: "POST",
+				dataType: 'json',
+				data: {
+					backoffice_no: $.cookie("backoffice_no"),
+					payment_no: $(this).attr("payment_no"),
+					room_no: $(this).attr("room_no")
+				},
+				success: function(res) {
+					sales_flag = true;
+					
+					//로딩 화면 닫기
+					$(".popup-background:eq(1)").addClass("blind");
+					$("#spinner-section").addClass("blind");
+	
+					if (res.result == 1) {
+						$(".popup-background:eq(1)").removeClass("blind");
+						$("#common-alert-popup").removeClass("blind");
+						$(".common-alert-txt").text("정산처리되었습니다.");
+						$("#common-alert-btn").attr("is_reload", true);
+					} else {
+						$(".popup-background:eq(1)").removeClass("blind");
+						$("#common-alert-popup").removeClass("blind");
+						$(".common-alert-txt").text("정산처리에 실패하였습니다.");
+					}
+				},
+				error: function(){
+					sales_flag = true;
+					
+					//로딩 화면 닫기
+					$(".popup-background:eq(1)").addClass("blind");
+					$("#spinner-section").addClass("blind");
+	
 					$(".popup-background:eq(1)").removeClass("blind");
 					$("#common-alert-popup").removeClass("blind");
-					$(".common-alert-txt").text("정산처리되었습니다.");
-					$("#common-alert-btn").attr("is_reload", true);
-				} else {
-					$(".popup-background:eq(1)").removeClass("blind");
-					$("#common-alert-popup").removeClass("blind");
-					$(".common-alert-txt").text("정산처리에 실패하였습니다.");
+					$(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
 				}
-			},
-			error: function() {
-				//로딩 화면 닫기
-				$(".popup-background:eq(1)").addClass("blind");
-				$("#spinner-section").addClass("blind");
-
-				$(".popup-background:eq(1)").removeClass("blind");
-				$("#common-alert-popup").removeClass("blind");
-				$(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
-			}
-		});
+			});
+		}
 	});
 
 	$("#calculate-closeBtn").click(function() {
@@ -850,9 +904,9 @@ $(function() {
 
 
 
-	/** *********************** **/
+	/** ****************** **/
 	/** 환경 설정 부분 팝업 관련 **/
-	/** *********************** **/
+	/** ****************** **/
 	$('#btn-update-pw').on('click', function() {
 		$('#popup-update-pw').removeClass('blind');
 		$('.popup-background:eq(0)').removeClass('blind');
@@ -873,49 +927,58 @@ $(function() {
 		$('.popup-background:eq(0)').addClass('blind');
 	});
 
+	var delete_host_flag = true;
 	/** 삭제 요청 버튼 **/
 	$("#delete-host-btn").on('click', function() {
-		//로딩 화면
-		$(".popup-background:eq(1)").removeClass("blind");
-		$("#spinner-section").removeClass("blind");
-
-		$.ajax({
-			url: "/backoffice/setting_delete",
-			type: "POST",
-			dataType: 'json',
-			data: {
-				backoffice_no: $.cookie("backoffice_no")
-			},
-			success: function(res) {
-				//로딩 화면 닫기
-				$(".popup-background:eq(1)").addClass("blind");
-				$("#spinner-section").addClass("blind");
-
-				// 호스트 삭제 성공
-				if (res.result == 1) {
-					$('#host-delete-popup').addClass('blind');
-					$('.popup-background:eq(0)').addClass('blind');
-
+		if(delete_host_flag){
+			delete_host_flag = false;
+			
+			//로딩 화면
+			$(".popup-background:eq(1)").removeClass("blind");
+			$("#spinner-section").removeClass("blind");
+	
+			$.ajax({
+				url: "/backoffice/setting_delete",
+				type: "POST",
+				dataType: 'json',
+				data: {
+					backoffice_no: $.cookie("backoffice_no")
+				},
+				success: function(res) {
+					delete_host_flag = true;
+					
+					//로딩 화면 닫기
+					$(".popup-background:eq(1)").addClass("blind");
+					$("#spinner-section").addClass("blind");
+	
+					// 호스트 삭제 성공
+					if (res.result == 1) {
+						$('#host-delete-popup').addClass('blind');
+						$('.popup-background:eq(0)').addClass('blind');
+	
+						$(".popup-background:eq(1)").removeClass("blind");
+						$("#common-alert-popup").removeClass("blind");
+						$(".common-alert-txt").text("마스터에게 삭제 요청되었습니다.");
+						$("#common-alert-btn").attr("is_reload", "logout")
+					} else {
+						$(".popup-background:eq(1)").removeClass("blind");
+						$("#common-alert-popup").removeClass("blind");
+						$(".common-alert-txt").text("남은 예약이 존재하여 삭제할 수 없습니다.");
+					}
+				},
+				error: function() {
+					delete_host_flag = true;
+					
+					//로딩 화면 닫기
+					$(".popup-background:eq(1)").addClass("blind");
+					$("#spinner-section").addClass("blind");
+	
 					$(".popup-background:eq(1)").removeClass("blind");
 					$("#common-alert-popup").removeClass("blind");
-					$(".common-alert-txt").text("마스터에게 삭제 요청되었습니다.");
-					$("#common-alert-btn").attr("is_reload", "logout")
-				} else {
-					$(".popup-background:eq(1)").removeClass("blind");
-					$("#common-alert-popup").removeClass("blind");
-					$(".common-alert-txt").text("남은 예약이 존재하여 삭제할 수 없습니다.");
+					$(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
 				}
-			},
-			error: function() {
-				//로딩 화면 닫기
-				$(".popup-background:eq(1)").addClass("blind");
-				$("#spinner-section").addClass("blind");
-
-				$(".popup-background:eq(1)").removeClass("blind");
-				$("#common-alert-popup").removeClass("blind");
-				$(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
-			}
-		});
+			});
+		}
 	});
 
 	/** 호스트 로그아웃 요청 버튼 -> 팝업 띄우기 **/
@@ -985,6 +1048,8 @@ $(function() {
 	/****************************** */
 
 	function insert() {
+		insert_room_flag = false;
+		
 		//로딩 화면
 		$(".popup-background:eq(1)").removeClass("blind");
 		$("#spinner-section").removeClass("blind");
@@ -1000,6 +1065,8 @@ $(function() {
 				room_price: $("#input-price-name").val().trim()
 			},
 			success: function(res) {
+				insert_room_flag = true;
+				
 				//로딩 화면 닫기
 				$(".popup-background:eq(1)").addClass("blind");
 				$("#spinner-section").addClass("blind");
@@ -1034,6 +1101,8 @@ $(function() {
 				}
 			},
 			error: function() {
+				insert_room_flag = true;
+				
 				//로딩 화면 닫기
 				$(".popup-background:eq(1)").addClass("blind");
 				$("#spinner-section").addClass("blind");
@@ -1046,6 +1115,8 @@ $(function() {
 	}
 
 	function update() {
+		update_room_flag = false;
+		
 		//로딩 화면
         $(".popup-background:eq(1)").removeClass("blind");
         $("#spinner-section").removeClass("blind");
@@ -1062,6 +1133,8 @@ $(function() {
 				room_price: $("#m-input-price-name").val().trim()
 			},
 			success: function(res) {
+				update_room_flag = true;
+				
 				//로딩 화면 닫기
 				$(".popup-background:eq(1)").addClass("blind");
 				$("#spinner-section").addClass("blind");
@@ -1097,7 +1170,9 @@ $(function() {
 					$(".common-alert-txt").text("수정에 실패하였습니다.");
 				}
 			},
-			error: function() {
+			error: function(){
+				update_room_flag = true;
+				
 				//로딩 화면 닫기
 				$(".popup-background:eq(1)").addClass("blind");
 				$("#spinner-section").addClass("blind");
