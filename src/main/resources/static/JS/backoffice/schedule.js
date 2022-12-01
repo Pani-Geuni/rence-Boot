@@ -523,6 +523,26 @@ $(function() {
 		$("#no-reservation-popup").addClass("blind");
 		$(".popup-background:eq(0)").addClass("blind");
 	});
+	
+	
+	// ************************
+	// 예약자 리스트 전체 선택 체크박스
+	// ************************
+	$('#select-all-reservation').click(function() {
+		if ($(this).is(':checked')) {
+			$(this).attr('checked', true);
+		} else {
+			$(this).attr('checked', false);
+		}
+	});
+
+	$('#select-all-reservation').change(function() {
+		if ($(this).is(':checked')) {
+			$("input:checkbox[name='reserve_no']").prop('checked', true);
+		} else {
+			$("input:checkbox[name='reserve_no']").prop('checked', false);
+		}
+	});
 
 
 	var check_arr = "";
