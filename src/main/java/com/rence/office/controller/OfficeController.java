@@ -572,7 +572,6 @@ public class OfficeController {
 				List<LocalDate> temp_date_list = getDatesBetweenTwoDates(sdate, edate);
 				
 				for (LocalDate d : temp_date_list) {
-					dayoff_list.add(d.format(formatter));
 					
 					if (d.format(formatter).equals(reserve_date)) {
 						for (int i = 0; i < 23; i++) {
