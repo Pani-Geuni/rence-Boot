@@ -471,10 +471,10 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		String reserve_etime = null;
 		if (off_type.equals("dayoff")) { // 휴무일 때
 			log.info("휴무");
-			if(!not_sdate.equals(not_edate)) {
-				not_stime = "00:00:00";
-				not_etime = "00:00:00";
-			}
+			
+			not_stime = "00:00:00";
+			not_etime = "23:59:59";
+			
 			reserve_stime = (not_sdate + not_stime);
 			log.info("reserve_stime : {} ", reserve_stime);
 			reserve_etime = (not_edate + not_etime);
@@ -568,15 +568,17 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		String reserve_etime = null;
 		if (off_type.equals("dayoff")) { // 휴무일 때
 			log.info("휴무");
-			if(!not_sdate.equals(not_edate)) {
-				not_stime = "00:00:00";
-				not_etime = "00:00:00";
-			}
+			
+			not_stime = "00:00:00";
+			not_etime = "23:59:59";
+			
 			reserve_stime = (not_sdate + not_stime);
 			log.info("reserve_stime : {} ", reserve_stime);
 			reserve_etime = (not_edate + not_etime);
 			log.info("reserve_etime : {} ", reserve_etime);
 		} else { // 브레이크 타임일 때
+			log.info("브레이크 타임");
+			
 			log.info("not_sdate : {} ", not_sdate);
 			reserve_stime = (not_sdate + not_stime);
 			log.info("reserve_stime : {} ", reserve_stime);
@@ -601,15 +603,17 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		String reserve_etime = null;
 		if (off_type.equals("dayoff")) { // 휴무일 때
 			log.info("휴무");
-			if(!not_sdate.equals(not_edate)) {
-				not_stime = "00:00:00";
-				not_etime = "00:00:00";
-			}
+			
+			not_stime = "00:00:00";
+			not_etime = "23:59:59";
+			
 			reserve_stime = (not_sdate + not_stime);
 			log.info("reserve_stime : {} ", reserve_stime);
 			reserve_etime = (not_edate + not_etime);
 			log.info("reserve_etime : {} ", reserve_etime);
 		} else { // 브레이크 타임일 때
+			log.info("브레이크 타임");
+			
 			log.info("not_sdate : {} ", not_sdate);
 			reserve_stime = (not_sdate + not_stime);
 			log.info("reserve_stime : {} ", reserve_stime);

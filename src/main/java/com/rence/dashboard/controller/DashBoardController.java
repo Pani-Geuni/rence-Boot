@@ -667,7 +667,7 @@ public class DashBoardController {
 		
 		int total_cnt = service.backoffice_search_reserve_cnt(backoffice_no, searchword, reserve_state);
 		
-		List<ReserveListView> rvos = service.backoffice_search_reserve(backoffice_no, searchword, reserve_state,  13 * (page - 1) + 1, 13 * (page));
+		List<ReserveListView> rvos = service.backoffice_search_reserve(backoffice_no, searchword, reserve_state,  9 * (page - 1) + 1, 9 * (page));
 		if (rvos == null) {
 			model.addAttribute("cnt", 0);
 			map.put("cnt", 0);
@@ -687,12 +687,37 @@ public class DashBoardController {
 		}
 		map.put("nowCnt", 1);
 		
-		if(total_cnt > 0)
-			map.put("maxCnt", total_cnt);
-		else
-			map.put("maxCnt", 0);
-		
+		///////////////////////////////페이징///////////////////////////////////////////
+		// 총 페이징되는 수
+		long totalPageCnt = (long) Math.ceil(total_cnt / 9.0);
+
+		// 현재페이지
+		long nowPage = page;
+
+		// 5page씩 끊으면 끝 페이지 번호( ex, 총 9페이지이고, 현재페이지가 6이면 maxpage = 9)
+		long maxPage = 0;
+
+		if (nowPage % 5 != 0) {
+			if (nowPage == totalPageCnt) {
+				maxPage = nowPage;
+			} else if (((nowPage / 5) + 1) * 5 >= totalPageCnt) {
+				maxPage = totalPageCnt;
+			} else if (((nowPage / 5) + 1) * 5 < totalPageCnt) {
+				maxPage = ((nowPage / 5) + 1) * 5;
+			}
+		} else if (nowPage % 5 == 0) {
+			if (nowPage <= totalPageCnt) {
+				maxPage = nowPage;
+			}
+		}
+		log.info("maxPage: " + maxPage);
+
+		map.put("totalPageCnt", totalPageCnt);
+		map.put("nowPage", nowPage);
+		map.put("maxPage", maxPage);
+
 		model.addAttribute("res", map);
+		//////////////////////////////////////////////////////////////////////
 		
 		model.addAttribute("r_vos", rvos);
 		model.addAttribute("reserve_state", reserve_state);
@@ -703,36 +728,6 @@ public class DashBoardController {
 		return "thymeleaf/layouts/backoffice/layout_dashboard";
 	}
 	
-	/**
-	 * 예약 관리(리스트-검색) ************페이징********************8
-	 */
-	@ApiOperation(value = "예약 리스트 검색", notes = "대쉬보드 예약 관리 페이지 - 리스트 검색")
-	@GetMapping("/search_reserve_paging")
-	@ResponseBody
-	public String dashboard_reserve_search_paging(Model model, String backoffice_no, String searchword, String reserve_state,
-			@RequestParam(value = "page", defaultValue = "1") Integer page) {
-		log.info("backoffice_search_reserve_paging ()...");
-		log.info("{}", backoffice_no);
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		List<ReserveListView> rvos = service.backoffice_search_reserve(backoffice_no, searchword, reserve_state,  13 * (page - 1) + 1, 13 * (page));
-		if (rvos == null) {
-			model.addAttribute("cnt", 0);
-			map.put("cnt", 0);
-		} else {
-			model.addAttribute("cnt", rvos.size());
-			map.put("cnt", rvos.size());
-		}
-		
-		map.put("nowCnt", 1);
-		map.put("r_vos", rvos);
-		map.put("reserve_state", reserve_state);
-		
-		String json = gson.toJson(map);
-		
-		return json;
-	}
 
 	/**
 	 * 정산 관리(리스트) 
@@ -1076,7 +1071,7 @@ public class DashBoardController {
 	}
 
 	/**
-	 * 일정 관리 - 날짜, 시간 선택 후 ***********페이징
+	 * 일정 관리 - 날짜, 시간 선택 후 *************스크롤 페이징*****************
 	 */
 	@ApiOperation(value = "일정 관리", notes = "대쉬보드 - 일정 관리")
 	@GetMapping("/schedule_research_paging")
@@ -1141,13 +1136,8 @@ public class DashBoardController {
 			not_edate = (not_sdate);
 		} else if (off_type.equals("dayoff")) {
 			log.info("휴무");
-			if (!not_sdate.equals(not_edate)) {
-				not_stime = "00:00:00";
-				not_etime = "00:00:00";
-			}else {
-				not_stime = "00:00:00";
-				not_etime = "23:59:59";
-			}
+			not_stime = "00:00:00";
+			not_etime = "23:59:59";
 		}
 		log.info("not_sdate : {} ", not_sdate);
 		log.info("not_edate : {} ", not_edate);
@@ -1190,13 +1180,8 @@ public class DashBoardController {
 			not_edate = (not_sdate);
 		} else if (off_type.equals("dayoff")) {
 			log.info("휴무");
-			if (!not_sdate.equals(not_edate)) {
-				not_stime = "00:00:00";
-				not_etime = "00:00:00";
-			}else {
-				not_stime = "00:00:00";
-				not_etime = "23:59:59";
-			}
+			not_stime = "00:00:00";
+			not_etime = "23:59:59";
 		}
 		
 		String reserve_stime = (not_sdate + " " + not_stime);
@@ -1235,7 +1220,7 @@ public class DashBoardController {
 	}
 	
 	/**
-	 * 일정 관리 - 해당 날짜, 시간에 예약자 리스트 *************페이징**************
+	 * 일정 관리 - 해당 날짜, 시간에 예약자 리스트 *************스크롤 페이징**************
 	 */
 	@ApiOperation(value = "예약자 리스트", notes = "대쉬보드 - 예약자 리스트")
 	@GetMapping("/reservation_paging")
@@ -1251,13 +1236,8 @@ public class DashBoardController {
 			not_edate = (not_sdate);
 		} else if (off_type.equals("dayoff")) {
 			log.info("휴무");
-			if (!not_sdate.equals(not_edate)) {
-				not_stime = "00:00:00";
-				not_etime = "00:00:00";
-			}else {
-				not_stime = "00:00:00";
-				not_etime = "23:59:59";
-			}
+			not_stime = "00:00:00";
+			not_etime = "23:59:59";
 		}
 		
 		String reserve_stime = (not_sdate + not_stime);
@@ -1420,8 +1400,6 @@ public class DashBoardController {
 			RoomInsertVO rvo = service.backoffice_schedule_calendar_room_name(vo.getRoom_no());
 			vo.setRoom_name(rvo.getRoom_name());
 		}
-
-		
 
 		if (flag == 1) {
 			log.info("successed...");
