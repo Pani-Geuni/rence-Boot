@@ -18,7 +18,7 @@ public interface OfficeReserveRepository extends JpaRepository<OfficeReserveVO, 
 	public List<OfficeReserveVO> select_all_reserve(String backoffice_no, String room_no, String reserve_stime);
 
 	@Query(nativeQuery = true, 
-			value = "select * from reserveinfo where backoffice_no=?1 and room_no=?2 order by reserve_no asc")
+			value = "select * from reserveinfo where backoffice_no=?1 and room_no=?2 and reserve_state!='cancel' order by reserve_no asc")
 	public List<OfficeReserveVO> select_all_reserve_office(String backoffice_no, String room_no);
 	
 	@Query(nativeQuery = true, value = "select * from (" + "select * " + "from reserveinfo "
