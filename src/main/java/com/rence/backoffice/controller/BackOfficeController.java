@@ -371,7 +371,6 @@ public class BackOfficeController {
 		log.info("backoffice_settingOK_pw ()...");
 		log.info("{}", bvo);
 
-		session = request.getSession();
 		Cookie[] cookies = request.getCookies();
 		String backoffice_no = "";
 		if (cookies!=null) {
