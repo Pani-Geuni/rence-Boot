@@ -506,7 +506,7 @@ public class OfficeController {
 	@ApiOperation(value = "예약 가능 확인 여부 (데스크,회의실)", notes = "선택한 공간과 시간에 예약이 존재하는지 확인하는 컨트롤러")
 	@GetMapping(value = "/reserve_check")
 	@ResponseBody
-	public String reserve_check(String backoffice_no, String room_no, String reserve_date, Model model) {
+	public String reserve_check_rsu(String backoffice_no, String room_no, String reserve_date, Model model) {
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		List<OfficeReserveVO> vos = service.check_reserve(backoffice_no, room_no, reserve_date);
@@ -605,7 +605,7 @@ public class OfficeController {
 	@ApiOperation(value = "예약 가능 확인 여부 (오피스)", notes = "선택한 공간과 시간에 예약이 존재하는지 확인하는 컨트롤러")
 	@GetMapping(value = "/office_reserve_check")
 	@ResponseBody
-	public String office_reserve_check(String backoffice_no, String room_no, String reserve_stime, String reserve_etime,
+	public String office_reserve_check_rsu(String backoffice_no, String room_no, String reserve_stime, String reserve_etime,
 			Model model) throws ParseException {
 
 		log.info("{} {} {} {}", backoffice_no, room_no, reserve_stime, reserve_etime);
@@ -671,7 +671,7 @@ public class OfficeController {
 	@ApiOperation(value = "예약 (데스크,회의실)", notes = "예약을 신청한 뒤, 결과값에 따라 결제 페이지로 이동")
 	@GetMapping(value = "/reserve")
 	@ResponseBody
-	public String reserve(OfficeReserveVO rvo) throws ParseException {
+	public String reserve_rsu(OfficeReserveVO rvo) throws ParseException {
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		OfficeReserveVO_date date_vo = new OfficeReserveVO_date();
@@ -960,7 +960,7 @@ public class OfficeController {
 	// **********************
 	@ApiOperation(value = "결제 페이지 로드 컨트롤러", notes = "예약 및 결제하는 페이지 데이터 불러오는 컨트롤러")
 	@GetMapping(value = "/payment")
-	public String space_payment(OfficeReserveVO rvo, Model model) throws ParseException {
+	public String space_payment_rsu(OfficeReserveVO rvo, Model model) throws ParseException {
 
 		String reserve_no = rvo.getReserve_no();
 
@@ -1019,7 +1019,7 @@ public class OfficeController {
 	@ApiOperation(value = "결제 컨트롤러", notes = "예약 및 결제하는 페이지 결제 로직 컨트롤러")
 	@PostMapping(value = "/paymentOK")
 	@ResponseBody
-	public String reserve_paymentOK(OfficePaymentVO pvo, Model model) {
+	public String reserve_paymentOK_rsu(OfficePaymentVO pvo, Model model) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
