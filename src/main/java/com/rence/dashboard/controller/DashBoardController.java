@@ -634,13 +634,13 @@ public class DashBoardController {
 	 */
 	@ApiOperation(value = "예약 리스트 페이징", notes = "대쉬보드 예약 관리 페이지 - 리스트")
 	@GetMapping("/reserve_paging")
+	@ResponseBody
 	public String dashboard_reserve_paging(Model model, String backoffice_no, String reserve_state,
 			@RequestParam(value = "page", defaultValue = "1") Integer page) {
 		log.info("backoffice_reserve ()...");
 		log.info("{}", backoffice_no);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		
 		
 		List<ReserveListView> rvos = service.backoffice_reserve_selectAll(backoffice_no, reserve_state, 13 * (page - 1) + 1, 13 * (page));
 		if (rvos == null) {
@@ -652,16 +652,12 @@ public class DashBoardController {
 		}
 		
 		map.put("nowCnt", 1);
+		map.put("r_vos", rvos);
+		map.put("reserve_state", reserve_state);
 		
-		model.addAttribute("res", map);
+		String json = gson.toJson(map);
 		
-		model.addAttribute("r_vos", rvos);
-		model.addAttribute("reserve_state", reserve_state);
-		
-		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/reserve_list");
-		model.addAttribute("title", "예약 관리");
-		
-		return "thymeleaf/layouts/backoffice/layout_dashboard";
+		return json;
 	}
 
 	/**
@@ -719,13 +715,13 @@ public class DashBoardController {
 	 */
 	@ApiOperation(value = "예약 리스트 검색", notes = "대쉬보드 예약 관리 페이지 - 리스트 검색")
 	@GetMapping("/search_reserve_paging")
+	@ResponseBody
 	public String dashboard_reserve_search_paging(Model model, String backoffice_no, String searchword, String reserve_state,
 			@RequestParam(value = "page", defaultValue = "1") Integer page) {
 		log.info("backoffice_search_reserve_paging ()...");
 		log.info("{}", backoffice_no);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		
 		
 		List<ReserveListView> rvos = service.backoffice_search_reserve(backoffice_no, searchword, reserve_state,  13 * (page - 1) + 1, 13 * (page));
 		if (rvos == null) {
@@ -737,16 +733,12 @@ public class DashBoardController {
 		}
 		
 		map.put("nowCnt", 1);
+		map.put("r_vos", rvos);
+		map.put("reserve_state", reserve_state);
 		
-		model.addAttribute("res", map);
+		String json = gson.toJson(map);
 		
-		model.addAttribute("r_vos", rvos);
-		model.addAttribute("reserve_state", reserve_state);
-
-		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/reserve_list");
-		model.addAttribute("title", "예약 관리");
-
-		return "thymeleaf/layouts/backoffice/layout_dashboard";
+		return json;
 	}
 
 	/**
@@ -1007,7 +999,6 @@ public class DashBoardController {
 
 		// 백오피스 업체 정보 업데이트
 		int update_host =  service.backoffice_updateOK_host(bvo);
-//		service.backoffice_updateOK_host(bvo);
 
 		// 백오피스 운영 시간 업데이트
 		ovo2.setBackoffice_no(bvo.getBackoffice_no());
@@ -1255,6 +1246,7 @@ public class DashBoardController {
 	 */
 	@ApiOperation(value = "예약자 리스트", notes = "대쉬보드 - 예약자 리스트")
 	@GetMapping("/reservation_paging")
+	@ResponseBody
 	public String backoffice_reservation_paging(String backoffice_no, String room_no, String not_sdate, String not_edate,
 			String not_stime, String not_etime, String off_type, Model model, Integer page) {
 		log.info("backoffice_reservation controller_paging()...");
@@ -1291,16 +1283,14 @@ public class DashBoardController {
 		else
 			map.put("cnt", rv_vos.size());
 		
-		model.addAttribute("res", map);
+		map.put("nowCnt", 1);
+		map.put("r_vos", rv_vos);
+		map.put("reserve_stime", reserve_stime);
+		map.put("reserve_etime", reserve_etime);
 		
-		model.addAttribute("reserve_stime", reserve_stime);
-		model.addAttribute("reserve_etime", reserve_etime);
-		model.addAttribute("rv_vos", rv_vos);
+		String json = gson.toJson(map);
 		
-		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/reservation");
-		model.addAttribute("title", "일정 관리 - 예약자");
-		
-		return "thymeleaf/layouts/backoffice/layout_dashboard";
+		return json;
 	}
 
 	/**
