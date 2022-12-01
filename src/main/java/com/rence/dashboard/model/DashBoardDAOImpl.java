@@ -659,24 +659,23 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 	public int backoffice_updateOK_sales(String backoffice_no, String room_no, String payment_no) {
 		int flag = 0;
 		BOPaymentVO pvo = new BOPaymentVO();
-		flag = s_repository.backoffice_updateOK_sales_state_t(backoffice_no, room_no, payment_no); // 결제 정보 테이블의 정산 상태
-																									// 변경
+		
+		pvo = p_repository.select_paymentinfo_user_no(payment_no); // 결제정보 테이블에서 user_no 정보 얻기
+		String user_no = pvo.getUser_no();
+
+		BOMileageVO mvo = m_repository.backoffice_select_mileage_total(user_no); // 1. 사용자의 마지막 mileage_total
+		BOMileageVO mvo2 = m_repository.backoffice_select_mileage_w(user_no, payment_no); // 2. 적립 예정 마일리지
+
+		if (mvo2.getMileage_change() != 0) { // 선결제
+			int mileage_change = mvo2.getMileage_change(); // 2
+			int mileage_total = mvo.getMileage_total() + mileage_change; // 1+2
+
+			flag = m_repository.backoffice_insert_mileage_state_t(mileage_total, user_no, mileage_change, payment_no); // 마일리지 적립
+		} else { // 후결제
+			flag = s_repository.backoffice_update_mileage_state_c(payment_no); // change 가 0인 mileage 는 C로 상태 변경
+		}
 		if (flag == 1) {
-			pvo = p_repository.select_paymentinfo_user_no(payment_no); // 결제정보 테이블에서 user_no 정보 얻기
-			String user_no = pvo.getUser_no();
-
-			BOMileageVO mvo = m_repository.backoffice_select_mileage_total(user_no); // 1. 사용자의 마지막 mileage_total
-			BOMileageVO mvo2 = m_repository.backoffice_select_mileage_w(user_no, payment_no); // 2. 적립 예정 마일리지
-
-			if (mvo2.getMileage_change() != 0) { // 선결제
-				int mileage_change = mvo2.getMileage_change(); // 2
-				int mileage_total = mvo.getMileage_total() + mileage_change; // 1+2
-
-				m_repository.backoffice_insert_mileage_state_t(mileage_total, user_no, mileage_change, payment_no); // 마일리지
-																													// 적립
-			} else { // 후결제
-				s_repository.backoffice_update_mileage_state_c(payment_no); // change 가 0인 mileage 는 C로 상태 변경
-			}
+			s_repository.backoffice_updateOK_sales_state_t(backoffice_no, room_no, payment_no); // 결제 정보 테이블의 정산 상태 변경
 		}
 		return flag;
 	}

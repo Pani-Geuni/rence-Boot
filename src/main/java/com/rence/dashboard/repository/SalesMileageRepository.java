@@ -22,7 +22,7 @@ public interface SalesMileageRepository extends JpaRepository<BOMileageVO, Objec
 	@Modifying
 	@Transactional
 	@Query(nativeQuery = true, value = "insert into mileage(mileage_no, mileage_total, mileage_state, user_no, mileage_change, payment_no) values('M'||seq_mileage.nextval, ?1, 'T', ?2, ?3, ?4) ")
-	public void backoffice_insert_mileage_state_t(int mileage_total, String user_no, int mileage_change, String payment_no);
+	public int backoffice_insert_mileage_state_t(int mileage_total, String user_no, int mileage_change, String payment_no);
 	
 	// 적립 예정 마일리지
 	@Query(nativeQuery = true, value = "select * from mileage where user_no=?1 and payment_no=?2 and mileage_state = 'W'")
