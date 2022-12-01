@@ -1411,12 +1411,12 @@ public class DashBoardController {
 		String edate ="";
 		String stime ="";
 		String etime ="";
-		String[] st = sdate.split(" ");
-		String[] et = edate.split(" ");
 		String schedule_type = "";
 		for (ScheduleEntity vo : vos) {
 			sdate = sdf.format(vo.getNot_stime());
-			sdate = sdf.format(vo.getNot_etime());
+			edate = sdf.format(vo.getNot_etime());
+			String[] st = sdate.split(" ");
+			String[] et = edate.split(" ");
 			if (st[0].equals(et[0])){
 				// 브레이크 타임 
 				sdate = st[0];
