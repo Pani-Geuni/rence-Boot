@@ -100,8 +100,6 @@ public interface BackOfficeRepository extends JpaRepository<BackOfficeVO, Object
 	// 환경설정 - 비밀번호 변경을 위한 기존 비밀번호 확인
 	@Query(nativeQuery = true, value="SELECT * from backofficeinfo where backoffice_no=?1")
 	public BackOfficeVO backoffice_select_pw(String backoffice_no);
-//	@Query(nativeQuery = true, value="SELECT * from backofficeinfo where backoffice_no=?1 and backoffice_pw=?2")
-//	public BackOfficeVO backoffice_select_pw(String backoffice_no, String backoffice_pw);
 
 	// 업체 탈퇴 요청
 	@Modifying

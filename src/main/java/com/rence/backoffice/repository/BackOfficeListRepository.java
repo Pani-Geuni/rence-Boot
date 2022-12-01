@@ -20,11 +20,5 @@ public interface BackOfficeListRepository extends JpaRepository<BackOfficeListVO
 	
 	@Query(nativeQuery = true, value="select * from (select rownum as rnum,  backoffice_no,TO_CHAR(apply_date, 'YYYY-MM-DD HH24:MI:SS') as apply_date,company_name,owner_name,backoffice_id,backoffice_name,backoffice_tel,backoffice_email from backofficeinfo where backoffice_state='O' order by apply_date desc) where rnum between ?1 and ?2")
 	public List<BackOfficeListVO> selectAll_backoffice_end(Integer start_row, Integer end_row);
-
-
-	
-
-
-
 	
 }

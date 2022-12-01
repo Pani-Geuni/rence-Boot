@@ -41,7 +41,7 @@ public class DashboardSendEmail {
 		try {
 			MimeMessage msg = javaMailSender.createMimeMessage();
 			msg.setSubject("[rence] 예약 취소 안내");
-			msg.setContent("안녕하세요."+ company_name +"입니다."+"<br><br>"+reserve_stime+"~"+reserve_etime+"<br><br>"+"예정된 예약이 내부 사정으로 인해 불가피하게 취소 됨을 알려드립니다."+"<br><br>"+"빠른 시일 내로 환불 처리를 진행해 드리겠습니다."+"<br><br>"+"불편을 드려 대단히 죄송합니다.","text/html; charset=utf-8");
+			msg.setContent("안녕하세요."+ company_name +"입니다."+"<br><br>"+reserve_stime+"~"+reserve_etime+"<br><br>"+"예정된 예약이 내부 사정으로 인해 불가피하게 취소 됨을 알려드립니다."+"<br><br>"+"아울러 예약 취소와 동시에 전액 환불 처리가 되었음을 알려드립니다."+"<br><br>"+"불편을 드려 대단히 죄송합니다.","text/html; charset=utf-8");
 			msg.setRecipient(RecipientType.TO, new InternetAddress(user_email));
 
 			javaMailSender.send(msg);

@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.rence.dashboard.model.ReserveUpdateVO;
 
-public interface ReserveAutoUpdateRepository extends JpaRepository<ReserveUpdateVO, Object>{
+public interface ReserveAutoUpdateRepository extends JpaRepository<ReserveUpdateVO, Object>{ // 예약 상태 업데이트
 
 	@Query(nativeQuery = true, value = "select * from reserveinfo where reserve_state != 'false' and reserve_state != 'cancel'")
 	public List<ReserveUpdateVO> selectAll_reserve();

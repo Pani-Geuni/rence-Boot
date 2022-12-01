@@ -15,13 +15,13 @@ import com.rence.dashboard.model.ReserveSummaryView;
 
 public interface ReserveSummaryRepository extends JpaRepository<ReserveSummaryView, Object> { // 예약 요약
 
-	@Query(nativeQuery = true, value="   select reserve_no, TO_CHAR(reserve_sdate, 'YYYY-MM-DD HH24:MI:SS') as reserve_sdate , TO_CHAR(reserve_edate, 'YYYY-MM-DD HH24:MI:SS') as reserve_edate, room_name, user_name, actual_payment, reserve_state, backoffice_no  from(\r\n"
+	@Query(nativeQuery = true, value="   select reserve_no, TO_CHAR(reserve_sdate, 'YYYY-MM-DD HH24:MI:SS') as reserve_sdate , TO_CHAR(reserve_edate, 'YYYY-MM-DD HH24:MI:SS') as reserve_edate, room_name, user_name, actual_payment, reserve_state, backoffice_no  from("
 			+ "            select A.*, u.user_name from (\r\n"
-			+ "            select ROW_NUMBER() OVER(PARTITION BY r.reserve_no ORDER BY r.reserve_no ASC ) no, r.reserve_no, r.reserve_sdate, r.reserve_edate, room_name, r.user_no, p.actual_payment, r.reserve_state, r.backoffice_no \r\n"
-			+ "			from reserveinfo r left outer join paymentinfo p on r.reserve_no=p.reserve_no \r\n"
-			+ "            left outer join roominfo rm on p.room_no = rm.room_no \r\n"
-			+ "			left outer join backofficeinfo b on rm.backoffice_no = b.backoffice_no \r\n"
-			+ "			where  r.reserve_state!='false')A left outer join userinfo u on A.user_no = u.user_no where A.no=1 and backoffice_no=?1)  where  ROWNUM <= 5\r\n"
+			+ "            select ROW_NUMBER() OVER(PARTITION BY r.reserve_no ORDER BY r.reserve_no ASC ) no, r.reserve_no, r.reserve_sdate, r.reserve_edate, room_name, r.user_no, p.actual_payment, r.reserve_state, r.backoffice_no"
+			+ "			from reserveinfo r left outer join paymentinfo p on r.reserve_no=p.reserve_no"
+			+ "            left outer join roominfo rm on p.room_no = rm.room_no"
+			+ "			left outer join backofficeinfo b on rm.backoffice_no = b.backoffice_no"
+			+ "			where  r.reserve_state!='false')A left outer join userinfo u on A.user_no = u.user_no where A.no=1 and backoffice_no=?1)  where  ROWNUM <= 5"
 			+ "			order by reserve_sdate desc")
 	public List<ReserveSummaryView> reserve_summary_selectAll(String backoffice_no);
 

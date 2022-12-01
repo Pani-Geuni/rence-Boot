@@ -68,29 +68,6 @@ public class MasterController {
 
 	}
 
-//	/**
-//	 * 로그인 처리
-//	 */
-//	@ApiOperation(value = "마스터 로그인 처리", notes = "마스터 로그인 처리")
-//	@PostMapping("/loginOK")
-//	@ResponseBody
-//	public String loginOK(MasterVO mvo, HttpServletResponse res) {
-//
-//		return "redirect:master/main";
-//	}
-//
-//	/**
-//	 * 로그아웃 처리
-//	 */
-//	@ApiOperation(value = "로그아웃 처리", notes = "마스터 로그아웃 처리")
-//	@GetMapping("/logoutOK")
-//	public String logout(HttpServletRequest request, HttpServletResponse response) {
-//
-//		log.info("master logout...");
-//
-//		return "redirect:login";
-//	}
-
 	/**
 	 * 로그인 성공 처리
 	 */
@@ -102,11 +79,8 @@ public class MasterController {
 
 		Map<String, String> map = new HashMap<String, String>();
 
-//			session.setAttribute("master_id", mvo.getMaster_id());
-//			Cookie cookie_no = new Cookie("backoffice_no", mvo.getMaster_no());
 		map.put("result", "1");
 		log.info("successed...");
-//			response.addCookie(cookie_no);
 
 		String json = gson.toJson(map);
 
@@ -140,9 +114,6 @@ public class MasterController {
 	public String master_main(Model model, @RequestParam(value = "page", defaultValue = "1") Integer page) {
 		log.info("page:{}", page);
 
-//		long total_rowCount = service.total_rowCount();
-//		model.addAttribute("total_rowCount", total_rowCount);
-
 		List<BackOfficeListVO> bvos = service.backoffice_applyList_selectAll(page);
 		log.info("result: {}.", bvos.size());
 
@@ -167,12 +138,10 @@ public class MasterController {
 	@ResponseBody
 	public String master_grant(BackOfficeVO bvo, EmailVO evo) throws UnsupportedEncodingException {
 		log.info("BackOfficeVO:{}", bvo);
-//		JSONObject jsonObject = new JSONObject();
 		Map<String, String> map = new HashMap<String, String>();
 
 		int flag = service.backoffice_grant(bvo);
 		if (flag == 1) {
-			// evo.setReciver(bvo.getBackoffice_email());
 			BackOfficeVO bvo2 = sendEmail.settingPw(bvo, evo);
 			if (bvo2 != null) {
 				log.info("successed...");
@@ -203,7 +172,6 @@ public class MasterController {
 	@ResponseBody
 	public String master_refuse(BackOfficeVO bvo, EmailVO evo) {
 		log.info("BackOfficeVO:{}", bvo);
-//		JSONObject jsonObject = new JSONObject();
 		Map<String, String> map = new HashMap<String, String>();
 
 		int flag = service.backoffice_refuse(bvo);
@@ -234,9 +202,6 @@ public class MasterController {
 	public String backoffice_end(Model model, @RequestParam(value = "page", defaultValue = "1") Integer page) {
 		log.info("page:{}", page);
 
-//		long total_rowCount = service.total_rowCount();
-//		model.addAttribute("total_rowCount", total_rowCount);
-
 		List<BackOfficeListVO> bvos = service.backoffice_endList_selectAll(page);
 		log.info("result: {}.", bvos.size());
 
@@ -257,7 +222,6 @@ public class MasterController {
 	@ResponseBody
 	public String master_revoke(BackOfficeVO bvo, EmailVO evo) {
 		log.info("BackOfficeVO:{}", bvo);
-//		JSONObject jsonObject = new JSONObject();
 		Map<String, String> map = new HashMap<String, String>();
 
 		int flag = service.backoffice_revoke(bvo);

@@ -22,5 +22,4 @@ public interface BackOfficeOperatingTimeSelectRepository extends JpaRepository<B
 	public BackOfficeOperatingTimeVO backoffice_setting_selectOne_operatingtime(String backoffice_no);
 
 	
-	
 }
