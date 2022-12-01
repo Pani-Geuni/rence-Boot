@@ -429,7 +429,7 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		// 현재 날짜 : 예약 시작 날짜와 같거나 시작날짜-끝날짜 사이 - in_use 로 변경
 		// 현재 날짜 : 예약 끝날자 보다 지나면 end
 		List<ReserveUpdateVO> rv = reserveAutoUpdateRepository.selectAll_reserve();
-		log.info("reserve list : {} ", rv);
+//		log.info("reserve list : {} ", rv);
 
 		Date sysdate = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -438,11 +438,11 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 
 		for (ReserveUpdateVO rvo : rv) {
 
-			log.info("현재 날짜 및 시간 : {}", ss);
+//			log.info("현재 날짜 및 시간 : {}", ss);
 			Date stime = rvo.getReserve_stime();
-			log.info("에약 시작 날짜 및 시간 : {}", stime);
+//			log.info("에약 시작 날짜 및 시간 : {}", stime);
 			Date etime = rvo.getReserve_etime();
-			log.info("예약 종료 날짜 및 시간 : {}", etime);
+//			log.info("예약 종료 날짜 및 시간 : {}", etime);
 
 			int start = stime.compareTo(sysdate);
 			int end = etime.compareTo(sysdate);

@@ -153,7 +153,7 @@ $(function() {
 		})
 	}
 
-	var temp_tag = $("#real-input-tag").val();
+	var temp_tag = $("#real-input-tag").val().trim();
 
 	var arr = [];
 	if (temp_tag !== undefined) {

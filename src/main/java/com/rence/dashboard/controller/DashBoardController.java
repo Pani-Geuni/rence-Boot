@@ -8,6 +8,7 @@ package com.rence.dashboard.controller;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -1140,8 +1141,13 @@ public class DashBoardController {
 			not_edate = (not_sdate);
 		} else if (off_type.equals("dayoff")) {
 			log.info("휴무");
-			not_stime = "00:00:00";
-			not_etime = "00:00:00";
+			if (!not_sdate.equals(not_edate)) {
+				not_stime = "00:00:00";
+				not_etime = "00:00:00";
+			}else {
+				not_stime = "00:00:00";
+				not_etime = "23:59:59";
+			}
 		}
 		log.info("not_sdate : {} ", not_sdate);
 		log.info("not_edate : {} ", not_edate);
@@ -1362,9 +1368,13 @@ public class DashBoardController {
 			RoomInsertVO rvo = service.backoffice_schedule_calendar_room_name(vo.getRoom_no());
 			vo.setRoom_name(rvo.getRoom_name());
 		}
+		// 현재 달(월)
+		LocalDateTime now = LocalDateTime.now();
+		int month = now.getMonthValue();  
 
 		log.info("vos...{}", vos);
 		map.put("vos", vos);
+		map.put("month", month);
 		map.put("cnt", vos.size());
 
 		String json = gson.toJson(map);
