@@ -49,7 +49,6 @@ public class CommentInsertVO implements Serializable{
 	@Column(name="comment_content")
 	private String comment_content;
 	
-//	@ColumnDefault(value="sysdate")
 	@Column(name="comment_date", insertable= false, updatable = false, columnDefinition = "date default current_date")
 	private Date comment_date;
 	

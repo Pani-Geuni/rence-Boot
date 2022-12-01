@@ -802,15 +802,6 @@ public class DashBoardController {
 		return "thymeleaf/layouts/backoffice/layout_dashboard";
 	}
 
-//	@RequestMapping(value = "/backoffice_week_sales", method = RequestMethod.GET)
-//	public String dashboard_sales_week() {
-//		return ".dash_board/sales_week";
-//	}
-//
-//	@RequestMapping(value = "/backoffice_month_sales", method = RequestMethod.GET)
-//	public String dashboard_sales_month() {
-//		return ".dash_board/sales_month";
-//	}
 
 	/**
 	 * 정산 상태 변경
@@ -964,37 +955,8 @@ public class DashBoardController {
 		BackOfficeOperatingTimeVO ovo = service.backoffice_setting_selectOne_operatingtime(bvo2.getBackoffice_no());
 		log.info("result: {}.", ovo);
 
-//		OptionEngToKorMap optionEngToKorMap = new OptionEngToKorMap();
-//		List<String> tags = new ArrayList<String>();
-//		if (bvo2.getBackoffice_tag() != null) {
-//			tags.addAll(optionEngToKorMap.splitTag(bvo2.getBackoffice_tag()));
-//		}
-//		List<String> types = new ArrayList<String>();
-//		if (bvo2.getBackoffice_type() != null) {
-//			String[] type_split = bvo2.getBackoffice_type().split(",");
-//			for (int i = 0; i < type_split.length; i++) {
-//				types.add(type_split[i]);
-//			}
-//		}
-//		List<String> options = new ArrayList<String>();
-//		if (bvo2.getBackoffice_option() != null) {
-//			String[] option_split = bvo2.getBackoffice_option().split(",");
-//			for (int i = 0; i < option_split.length; i++) {
-//				options.add(option_split[i]);
-//			}
-//		}
-//		List<String> arounds = new ArrayList<String>();
-//		if (bvo2.getBackoffice_around() != null) {
-//			String[] around_split = bvo2.getBackoffice_around().split(",");
-//			for (int i = 0; i < around_split.length; i++) {
-//				arounds.add(around_split[i]);
-//			}
-//		}
-//
+
 		model.addAttribute("backoffice_tag", bvo2.getBackoffice_tag());
-//		model.addAttribute("backoffice_type", types);
-//		model.addAttribute("backoffice_option", options);
-//		model.addAttribute("backoffice_around", arounds);
 		model.addAttribute("vo", bvo2);
 		model.addAttribute("ovo", ovo);
 
@@ -1034,13 +996,11 @@ public class DashBoardController {
 		ovo2.setBackoffice_no(bvo.getBackoffice_no());
 		int update_opt =  service.backoffice_updateOK_opt(ovo2);
 		log.info("update_opt:::{}",update_opt);
-//		service.backoffice_updateOK_opt(ovo2);
 
 		String rt = "";
 		if(update_host==1&&update_opt==1) {
 		rt = "redirect:settings?backoffice_no="+bvo.getBackoffice_no();
 		}else {
-//			rt = "redirect:update_host?backoffice_no=B1001";
 			rt = "redirect:update_host?backoffice_no="+bvo.getBackoffice_no();
 		}
 
@@ -1141,11 +1101,7 @@ public class DashBoardController {
 		if(total_cnt<max) {
 			max = total_cnt;
 		}
-//		if(max<min) {
-//			max=0;
-//			min = 1;
-//		}
-//		
+
 		log.info("min::{}",min);
 		log.info("max::{}",max);
 
@@ -1204,45 +1160,6 @@ public class DashBoardController {
 			log.info("falied...");
 			map.put("result", "0");
 		}
-		////////////////////////////////////////////////////////////////////////////////////////
-//		List<ScheduleListView> sche = service.backoffice_schedule_list(backoffice_no, not_sdate, not_edate, not_stime,
-//				not_etime, off_type);
-//		
-////		int page =1;
-//
-//		int total_cnt = sche.size();
-//		log.info("total_cnt::{}",total_cnt);
-//		if (total_cnt > 0)
-//			map.put("maxCnt", total_cnt);
-//		else
-//			map.put("maxCnt", 0);
-//
-//		int min = 8 * (page - 1) + 1;
-//		int max = 8 * (page);
-//		if(total_cnt<max) {
-//			max = total_cnt;
-//		}
-//		if (max==0) {
-//			min=0;
-//		}
-//		log.info("min::{}",min);
-//		log.info("max::{}",max);
-//
-//		List<ScheduleListView> schedule = sche.subList(min-1, max);
-//
-//		log.info("result: {}.", schedule);
-//		log.info("cnt: {}.", schedule.size());
-//
-//		map.put("sc_vos", schedule);
-//		if (schedule == null) {
-//			map.put("cnt", 0);
-//		} else {
-//			map.put("cnt", schedule.size());
-//		}
-//		
-//		map.put("page", "schedule");
-		map.put("nowCnt", 1);
-		//////////////////////////////////////////////////////////////////////////////////////////////////////////
 		String json = gson.toJson(map);
 
 		return json;
@@ -1267,10 +1184,15 @@ public class DashBoardController {
 			not_edate = (not_sdate);
 		} else if (off_type.equals("dayoff")) {
 			log.info("휴무");
-			not_stime = "00:00:00";
-			not_etime = "00:00:00";
+			if (!not_sdate.equals(not_edate)) {
+				not_stime = "00:00:00";
+				not_etime = "00:00:00";
+			}else {
+				not_stime = "00:00:00";
+				not_etime = "23:59:59";
+			}
 		}
-
+		
 		String reserve_stime = (not_sdate + " " + not_stime);
 		log.info("reserve_stime : {} ", reserve_stime);
 
@@ -1299,7 +1221,6 @@ public class DashBoardController {
 		model.addAttribute("reserve_stime", reserve_stime);
 		model.addAttribute("reserve_etime", reserve_etime);
 		model.addAttribute("rv_vos", rv_vos);
-//		model.addAttribute("cnt", rv_vos.size());
 
 		model.addAttribute("content", "thymeleaf/html/backoffice/dashboard/reservation");
 		model.addAttribute("title", "일정 관리 - 예약자");
@@ -1318,6 +1239,20 @@ public class DashBoardController {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
+		if (off_type.equals("breaktime")) {
+			log.info("브레이크 타임");
+			not_edate = (not_sdate);
+		} else if (off_type.equals("dayoff")) {
+			log.info("휴무");
+			if (!not_sdate.equals(not_edate)) {
+				not_stime = "00:00:00";
+				not_etime = "00:00:00";
+			}else {
+				not_stime = "00:00:00";
+				not_etime = "23:59:59";
+			}
+		}
+		
 		String reserve_stime = (not_sdate + not_stime);
 		log.info("reserve_stime : {} ", reserve_stime);
 		
@@ -1334,8 +1269,6 @@ public class DashBoardController {
 		else
 			map.put("cnt", rv_vos.size());
 		
-//		map.put("page", "reservation");
-//		map.put("nowCnt", 1);
 		model.addAttribute("res", map);
 		
 		model.addAttribute("reserve_stime", reserve_stime);
@@ -1361,7 +1294,7 @@ public class DashBoardController {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		// 에약 상태 cancel로 변경, 예약자에게 취소 메일 보내기, 결제 상태 false?? , 결제 테이블에서 사용한 마일리지와 돈 환불.
+		// 에약 상태 cancel로 변경, 예약자에게 취소 메일 보내기, 결제 환불 상태 C , payment_date=current_date, 결제 테이블에서 사용한 마일리지와 돈 환불.
 
 		BOPaymentVO pvo = service.backoffice_reservation_cancel(backoffice_no, reserve_no, user_no);
 

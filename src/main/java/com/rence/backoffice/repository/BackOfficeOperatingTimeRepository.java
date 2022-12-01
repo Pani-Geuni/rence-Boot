@@ -40,8 +40,6 @@ public interface BackOfficeOperatingTimeRepository extends JpaRepository<BackOff
 			@Param("sun_stime") Date sun_stime, 
 			@Param("sun_etime") Date sun_etime);
 	
-	//@Param("apply_date") Date apply_date     :#{#vo?.owner_name}
-	
 	
 	// 업체 정보 수정 - 운영시간
 		@Modifying

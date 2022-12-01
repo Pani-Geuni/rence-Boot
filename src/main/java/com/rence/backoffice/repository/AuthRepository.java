@@ -29,7 +29,7 @@ public interface AuthRepository extends JpaRepository<AuthVO, Object> {
 	public int deleteByAuth_no(String auth_no);
 
 	@Modifying
-	@Transactional //'RM'||SEQ_ROOM.NEXTVAL, :#{#rvo?.room_name}, 
+	@Transactional 
 	@Query(nativeQuery = true, value="insert into auth(auth_no, user_email, auth_code, auth_stime) values ('A'||SEQ_AUTH.NEXTVAL, :#{#avo?.user_email}, :#{#avo?.auth_code}, :auth_stime )")
 	public int insert_auth_info(@Param("avo") AuthVO avo, @Param("auth_stime") Date auth_stime );
 

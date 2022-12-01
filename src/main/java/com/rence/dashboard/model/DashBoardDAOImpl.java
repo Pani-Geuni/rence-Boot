@@ -71,9 +71,6 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 
 	@Autowired
 	ScheduleListRepository sc_repository;
-	
-//	@Autowired
-//	ScheduleListCntRepository cntRepository;
 
 	@Autowired
 	ReservationRepository reservation_repository;
@@ -139,7 +136,7 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 			reserve = rv_repository.backoffice_reserve_selectAll_cancel(backoffice_no, start_row, end_row);
 		}
 
-		log.info("OOOOOOOOOOOOOOOOOOOOO{}", reserve);
+		log.info("reserve : {}", reserve);
 		return reserve;
 	}
 
@@ -189,7 +186,7 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 					"%" + searchword + "%");
 		}
 
-		log.info("OOOOOOOOOOOOOOOOOOOOO{}", reserve);
+		log.info("reserve : {}", reserve);
 		return reserve;
 
 	}
@@ -432,7 +429,6 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		// 현재 날짜 : 예약 시작 날짜와 같거나 시작날짜-끝날짜 사이 - in_use 로 변경
 		// 현재 날짜 : 예약 끝날자 보다 지나면 end
 		List<ReserveUpdateVO> rv = reserveAutoUpdateRepository.selectAll_reserve();
-//		List<ReserveUpdateVO> rv = reserveAutoUpdateRepository.findAll();
 		log.info("reserve list : {} ", rv);
 
 		Date sysdate = new Date();
@@ -441,7 +437,6 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		String ss = sdf.format(sysdate);
 
 		for (ReserveUpdateVO rvo : rv) {
-//			if (rvo.getReserve_state() != "false" || rvo.getReserve_state() != "cancel") {
 
 			log.info("현재 날짜 및 시간 : {}", ss);
 			Date stime = rvo.getReserve_stime();
@@ -453,20 +448,13 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 			int end = etime.compareTo(sysdate);
 
 			if (start >= 0) {
-//				rvo.setReserve_state("begin");
-//					reserveAutoUpdateRepository.save(rvo);
 				reserveAutoUpdateRepository.update_reserve_state_begin(rvo.getReserve_no());
 			} else if (start <= 0 && end >= 0) {
-//				rvo.setReserve_state("in_use");
-//					reserveAutoUpdateRepository.save(rvo);
 				reserveAutoUpdateRepository.update_reserve_state_inuse(rvo.getReserve_no());
 			} else if (end < 0) {
-//				rvo.setReserve_state("end");
-//					reserveAutoUpdateRepository.save(rvo);
 				reserveAutoUpdateRepository.update_reserve_state_end(rvo.getReserve_no());
 			}
 		}
-//		}
 
 		return null;
 	}
@@ -483,23 +471,21 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		String reserve_etime = null;
 		if (off_type.equals("dayoff")) { // 휴무일 때
 			log.info("휴무");
-			not_stime = "00:00:00";
+			if(!not_sdate.equals(not_edate)) {
+				not_stime = "00:00:00";
+				not_etime = "00:00:00";
+			}
 			reserve_stime = (not_sdate + not_stime);
 			log.info("reserve_stime : {} ", reserve_stime);
-			not_etime = "00:00:00";
 			reserve_etime = (not_edate + not_etime);
 			log.info("reserve_etime : {} ", reserve_etime);
 		} else { // 브레이크 타임일 때
 			log.info("브레이크타임");
-//			Date date = new Date();
-//			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-//			not_sdate = (formatter.format(date));
 			log.info("not_sdate : {} ", not_sdate);
 			reserve_stime = (not_sdate + not_stime);
 			log.info("reserve_stime : {} ", reserve_stime);
 
-//			not_edate = (formatter.format(date));
 			not_edate = (not_sdate);
 			log.info("not_edate : {} ", not_edate);
 			reserve_etime = (not_edate + not_etime);
@@ -509,20 +495,13 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		// 1.해당 날짜, 시간에 예약이 있는 리스트
 		List<ScheduleListView> sc_vos_o = sc_repository.backoffice_schedule_list(backoffice_no, reserve_stime, reserve_etime);
 		log.info("sc_vos_o : {} ", sc_vos_o.size());
-//		List<ReserveCntVO> sc_vos_o_cnt = cntRepository.backoffice_schedule_list_cnt(backoffice_no, reserve_stime, reserve_etime);
-//		log.info("sc_vos_o_cnt :::::: {} ", sc_vos_o_cnt);
-//		for (ScheduleListView sco : sc_vos_o) {
-//			for (ReserveCntVO sco_cnt : sc_vos_o_cnt) {
-//				if (sco.getRoom_no().equals(sco_cnt.getRoom_no())) {
-//					sco.setReserve_cnt(sco_cnt.getReserve_cnt());
-//				}
-//			}
-//		}
+
 		// 2.백오피스가 가진 모든 공간 리스트
 		List<ScheduleListView> sc_vos_x = sc_repository.backoffice_schedule_list_All(backoffice_no);
 		log.info("sc_vos_x : {} ", sc_vos_x);
 		log.info("sc_vos_x : {} ", sc_vos_x.size());
-		// 3.휴무, 브레이크 타임이 설정된 공간 리스트 (단, 부분집합 관계 3 ⊂ 2)
+		
+		// 3.휴무, 브레이크 타임이 설정된 공간 리스트 
 		not_stime = not_sdate + not_stime;
 		not_etime = not_edate + not_etime;
 		log.info("not_stime : {} ", not_stime);
@@ -537,17 +516,6 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		if (sc_vos_x != null) {
 			// 2 - 1 (중복 제거)
 			if (sc_vos_o != null) {
-
-//				int size = sc_vos_x.size();
-//				for (int i = 0; i < size; i++) {
-//				for (int j = 0; j < sc_vos_o.size(); j++) {
-//						if (sc_vos_x.get(i).getRoom_no().equals(sc_vos_o.get(j).getRoom_no())) {
-//							log.info("sc_vos_x.get(i).getRoom_no.remove:::::::::::{}", sc_vos_x.get(i).getRoom_no());
-//							sc_vos_x.remove(i);
-//							size--;
-//							i--;
-//						}
-//				}
 
 				for (int j = 0; j < sc_vos_o.size(); j++) {
 					String room_no = sc_vos_o.get(j).getRoom_no();
@@ -567,23 +535,7 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 				scvo.setReserve_cnt(0);
 			}
 
-			// (휴무, 브레이크 타임이 설정된 공간 제외)
-//			if (off_list != null && sc_vos_x != null) {
-//				int size = sc_vos_x.size();
-//				for (int i = 0; i < size; i++) {
-//					log.info("sc_vos_x.get(i):::::::::::{}", sc_vos_x.get(i).getRoom_no());
-//					for (int j = 0; j < off_list.size(); j++) {
-//						log.info("off_list.get(j):::::::::::{}", off_list.get(j).getRoom_no());
-//						if (sc_vos_x.get(i).getRoom_no().equals(off_list.get(j).getRoom_no())) {
-//							log.info("sc_vos_x.get(i).getRoom_no.remove:::::::::::{}", sc_vos_x.get(i).getRoom_no());
-//							sc_vos_x.remove(i);
-//							size--;
-////							i--;
-//						}
-//					}
-//				}
-//			}
-
+			// 2 -3(휴무, 브레이크 타임이 설정된 공간 제외)
 			if (off_list != null && sc_vos_x != null) {
 				for (int j = 0; j < off_list.size(); j++) {
 					log.info("off_list.get(j):::::::::::{}", off_list.get(j).getRoom_no());
@@ -615,22 +567,20 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		String reserve_stime = null;
 		String reserve_etime = null;
 		if (off_type.equals("dayoff")) { // 휴무일 때
-			not_stime = "00:00:00";
+			log.info("휴무");
+			if(!not_sdate.equals(not_edate)) {
+				not_stime = "00:00:00";
+				not_etime = "00:00:00";
+			}
 			reserve_stime = (not_sdate + not_stime);
 			log.info("reserve_stime : {} ", reserve_stime);
-			not_etime = "00:00:00";
 			reserve_etime = (not_edate + not_etime);
 			log.info("reserve_etime : {} ", reserve_etime);
 		} else { // 브레이크 타임일 때
-//			Date date = new Date();
-//			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
-//			not_sdate = (formatter.format(date));
 			log.info("not_sdate : {} ", not_sdate);
 			reserve_stime = (not_sdate + not_stime);
 			log.info("reserve_stime : {} ", reserve_stime);
 
-//			not_edate = (formatter.format(date));
 			not_edate = (not_sdate);
 			log.info("not_edate : {} ", not_edate);
 			reserve_etime = (not_edate + not_etime);
@@ -650,10 +600,13 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		String reserve_stime = null;
 		String reserve_etime = null;
 		if (off_type.equals("dayoff")) { // 휴무일 때
-			not_stime = "00:00:00";
+			log.info("휴무");
+			if(!not_sdate.equals(not_edate)) {
+				not_stime = "00:00:00";
+				not_etime = "00:00:00";
+			}
 			reserve_stime = (not_sdate + not_stime);
 			log.info("reserve_stime : {} ", reserve_stime);
-			not_etime = "00:00:00";
 			reserve_etime = (not_edate + not_etime);
 			log.info("reserve_etime : {} ", reserve_etime);
 		} else { // 브레이크 타임일 때

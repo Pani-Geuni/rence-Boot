@@ -69,9 +69,6 @@ public class DashboardService {
 
 	@Autowired
 	BackOfficeRepository b_repository;
-//	
-//	@Autowired
-//	CommentQListRepository cl_repository;
 
 	@Autowired
 	CommentRepository c_repository;
