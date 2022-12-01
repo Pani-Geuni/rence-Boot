@@ -683,6 +683,7 @@ $(function() {
 	$("#btn-dayoff-calendar").click(function() {
 
 		let backoffice_no = $.cookie('backoffice_no');
+		let month = '';
 
 		//로딩 화면 열기
 		$(".popup-background:eq(1)").removeClass("blind");
@@ -702,6 +703,9 @@ $(function() {
 				//로딩 화면 닫기
 				$(".popup-background:eq(1)").addClass("blind");
 				$("#spinner-section").addClass("blind");
+				
+				month = res.month + "월";
+				$("#month").text(month);
 
 				if (res.cnt > 0) {
 					let empty_item = $($(".dayoff-list-item")[0]).clone();
@@ -804,7 +808,7 @@ $(function() {
 					
 					$(".popup-background:eq(1)").removeClass("blind");
 					$("#dayoff-cancel-confirmOK-popup").removeClass("blind");
-
+					
 					if (res.cnt > 0) {
 						let empty_item = $($(".dayoff-list-item")[0]).clone();
 						$(".dayoff-list").empty();
@@ -837,7 +841,7 @@ $(function() {
 								time_duration = stime + " ~ " + etime;
 								dayoff_list_item.find(".badge").text("브레이크 타임");
 							}
-
+							
 							dayoff_list_item.find(".dayoff-list-item-date").text(date_duration);
 							dayoff_list_item.find(".dayoff-list-item-time").text(time_duration);
 							dayoff_list_item.find(".dayoff-cancel-btn").attr("schedule_no", res.vos[i].schedule_no);

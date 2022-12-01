@@ -153,11 +153,15 @@ $(function() {
 		})
 	}
 
-	var temp_tag = $("#real-input-tag").val().trim();
+	var temp_tag = $("#real-input-tag").val();
 
 	var arr = [];
 	if (temp_tag !== undefined) {
 		var arr = temp_tag.split(",");
+	}
+	
+	if (arr[0] == '') {
+		arr.pop();
 	}
 
 	for (var i = 0; i < arr.length; i++) {
@@ -171,6 +175,9 @@ $(function() {
 		var result = Object.values(tag).filter(function(word) {
 			return word === tagValue
 		});
+		
+		console.log("tagValue :", tagValue, typeof tagValue);
+		console.log("result :", result, typeof result);
 
 		// 해시태그 중복 확인
 		if (result.length == 0 && margin_tag_list.length < 5) {
@@ -327,7 +334,8 @@ $(function() {
 				$("#backoffice_option").val(backoffice_option);
 				$("#backoffice_around").val(backoffice_around);
 				if(submit_flag){
-				$("#real-submit").click();
+					$("#real-submit").click();
+					submit_flag = false;
 				}
 		}
 		else {

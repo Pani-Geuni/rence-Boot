@@ -602,7 +602,15 @@ public class DashBoardController {
 			map.put("cnt", rvos.size());
 		}
 		
-		map.put("page", "reserve");
+		if (reserve_state.equals("all")) {
+			map.put("page", "reserve_all");
+		} else if (reserve_state.equals("in_use")) {
+			map.put("page", "reserve_inuse");
+		} else if (reserve_state.equals("end")) {
+			map.put("page", "reserve_end");
+		} else if (reserve_state.equals("cancel")) {
+			map.put("page", "reserve_cancel");
+		}
 		map.put("nowCnt", 1);
 		
 		if(total_cnt > 0)
@@ -611,7 +619,6 @@ public class DashBoardController {
 			map.put("maxCnt", 0);
 		
 		model.addAttribute("res", map);
-		
 		
 		model.addAttribute("r_vos", rvos);
 		model.addAttribute("reserve_state", reserve_state);
@@ -787,9 +794,13 @@ public class DashBoardController {
 		map.put("nowPage", nowPage);
 		map.put("maxPage", maxPage);
 		////////////////////////////////////////////////////////////////////
-		map.put("page", "sales_day");
-		map.put("page", "sales_week");
-		map.put("page", "sales_month");
+		if (sales_date.equals("day")) {
+			map.put("page", "sales_day");
+		}else if (sales_date.equals("week")) {
+			map.put("page", "sales_week");
+		}else if (sales_date.equals("month")) {
+			map.put("page", "sales_month");
+		}
 		model.addAttribute("res", map);
 
 		List<SalesSettlementViewVO> svos = service.backoffice_sales_selectAll(backoffice_no,page);
