@@ -137,8 +137,8 @@
         var type = window.location.href.split("?type=")[1].split("&")[0];
         
         if(type != "office")
-            window.location.href="/office/space_introduce?backoffice_no="+backoffice_no+"&introduce_menu=info";
+            window.open("/office/space_introduce?backoffice_no="+backoffice_no+"&introduce_menu=info");
         else 
-            window.location.href="/office/space_introduce_office?backoffice_no="+backoffice_no+"&introduce_menu=info";
+            window.open("/office/space_introduce_office?backoffice_no="+backoffice_no+"&introduce_menu=info");
     });
 });
