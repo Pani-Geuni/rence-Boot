@@ -145,12 +145,20 @@
                     <section class="pay-mileage-section">
                         <ul class="payment-info-li-wrap">
                             <li class="info-li">
-                                <label class="pay-info-label">결제 금액</label>
-                                <span class="pay-info-text" id="actual_payment" th:attr="actual_payment=${res.info_obj.actual_payment}">[[${res.info_obj.actual_payment}]]원</span>
+                                <label class="pay-info-label">상품 가격</label>
+                                <span class="pay-info-text" id="actual_payment" th:attr="payment_total=${res.mvo.payment_total}">[[${res.mvo.payment_total}]]원</span>
                             </li>
                             <li class="info-li">
                                 <label class="pay-info-label">마일리지 적립 금액</label>
-                                <span class="pay-info-text">[[${res.info_obj.mileage_change}]]원</span>
+                                <span class="pay-info-text">[[${res.mvo.mileage_change}]]원</span>
+                            </li>
+                            <li class="info-li">
+                                <label class="pay-info-label">결제 가격</label>
+                                <span class="pay-info-text" id="actual_payment" th:attr="actual_payment=${res.mvo.actual_payment}">[[${res.mvo.actual_payment}]]원</span>
+                            </li>
+                            <li class="info-li">
+                                <label class="pay-info-label">마일리지 사용 금액</label>
+                                <span class="pay-info-text">[[${res.mvo.use_mileage}]]원</span>
                             </li>
                         </ul>
                     </section>

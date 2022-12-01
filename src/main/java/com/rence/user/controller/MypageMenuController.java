@@ -31,10 +31,12 @@ import com.rence.office.model.OfficeMileageVO;
 import com.rence.office.model.OfficePaymentVO;
 import com.rence.office.service.OfficeService;
 import com.rence.user.model.ReserveInfo_ViewVO;
+import com.rence.user.model.ReserveMileageVO;
 import com.rence.user.model.ReviewEntityVO;
 import com.rence.user.model.UserDTO;
 import com.rence.user.service.MypageMenuSerivice;
 import com.rence.user.service.PaymentCancelService;
+import com.rence.user.service.ReserveMileageService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -59,6 +61,9 @@ public class MypageMenuController {
 
 	@Autowired
 	PaymentCancelService paymentService;
+
+	@Autowired
+	ReserveMileageService reserveMileageService;
 
 	/**
 	 * 상세 예약 페이지 이동 - 현재
@@ -107,12 +112,35 @@ public class MypageMenuController {
 				String ch4 = dc.format(Integer.parseInt(vo.getRoom_price()));
 				vo.setRoom_price(ch4);
 			}
-			
-			
+
+			ReserveMileageVO mvo = reserveMileageService.select_one_reserve_mileage(reserve_no);
+
+			if (mvo != null) {
+				DecimalFormat dc = new DecimalFormat("###,###,###,###");
+
+				String ch1 = dc.format(Integer.parseInt(mvo.getActual_payment()));
+				mvo.setActual_payment(ch1);
+
+				String ch2 = dc.format(Integer.parseInt(mvo.getPayment_total()));
+				mvo.setPayment_total(ch2);
+
+				if (mvo.getMileage_state().equals("F")) {
+					mvo.setMileage_change(
+							Integer.toString((int) Math.round(Integer.parseInt(mvo.getActual_payment()) * 0.05)));
+				}
+
+				String ch3 = dc.format(Integer.parseInt(mvo.getMileage_change()));
+				mvo.setMileage_change(ch3);
+
+				String ch4 = dc.format(Integer.parseInt(mvo.getUse_mileage()));
+				mvo.setUse_mileage(ch4);
+			}
+
+			map.put("mvo", mvo);
+
 			// 버튼 section
 			OfficePaymentVO pvo = officeService.select_one_cancel_payment(reserve_no);
 			map.put("pvo", pvo);
-			
 
 			UserDTO vo2 = service.select_one_user_info(user_no);
 			map.put("user_obj", vo2);
@@ -277,21 +305,46 @@ public class MypageMenuController {
 				vo.setRoom_price(ch4);
 			}
 
+			ReserveMileageVO mvo = reserveMileageService.select_one_reserve_mileage(reserve_no);
+
+			if (mvo != null) {
+				DecimalFormat dc = new DecimalFormat("###,###,###,###");
+
+				String ch1 = dc.format(Integer.parseInt(mvo.getActual_payment()));
+				mvo.setActual_payment(ch1);
+
+				String ch2 = dc.format(Integer.parseInt(mvo.getPayment_total()));
+				mvo.setPayment_total(ch2);
+
+				if (mvo.getMileage_state().equals("F")) {
+					mvo.setMileage_change(
+							Integer.toString((int) Math.round(Integer.parseInt(mvo.getActual_payment()) * 0.05)));
+				}
+
+				String ch3 = dc.format(Integer.parseInt(mvo.getMileage_change()));
+				mvo.setMileage_change(ch3);
+
+				String ch4 = dc.format(Integer.parseInt(mvo.getUse_mileage()));
+				mvo.setUse_mileage(ch4);
+			}
+
+			map.put("mvo", mvo);
+
 			UserDTO vo2 = service.select_one_user_info(user_no);
 			map.put("user_obj", vo2);
-			
+
 			int is_review = service.is_write_review(vo.getRoom_no(), vo.getBackoffice_no());
 			if (is_review == 0)
 				map.put("is_write_review", false);
 			else
 				map.put("is_write_review", true);
-			
+
 			// 버튼 section
 			OfficePaymentVO pvo = officeService.select_one_cancel_payment(reserve_no);
 			map.put("pvo", pvo);
-			
+
 			model.addAttribute("res", map);
-			
+
 			model.addAttribute("content", "thymeleaf/html/office/reserve/reserve_detail_before");
 
 			return "thymeleaf/layouts/office/layout_reserve";
