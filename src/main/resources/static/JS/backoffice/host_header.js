@@ -57,12 +57,20 @@ $(function () {
   // ==================
   // 비밀번호 재설정 input 체크
   // ==================
+  
   $('.input-update-pw').on('keydown keyup', function () {
+	  
     if ($(this).attr('id') == 'input-update-pw') {
       var password = /^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-z0-9!@#$%^&*]{8,10}$/;
       if (!password.test($(this).val().trim())) {
-        $('.pw-warning-text:eq(0)').removeClass('blind');
-        $('.pw-warning-text:eq(0)').text( '비밀번호 조건 (소문자+숫자+특수문자 포함 8~10글자)');
+		if (($('#input-update-pw-re').val().trim().length > 0) && ($(this).val().trim() != $('#input-update-pw-re').val().trim()) ) {
+			$('.pw-warning-text:eq(0)').removeClass('blind');
+        	$('.pw-warning-text:eq(0)').text( '아래 비밀번호와 일치하지 않습니다.');
+		} else {
+	        $('.pw-warning-text:eq(0)').removeClass('blind');
+	        $('.pw-warning-text:eq(0)').text( '비밀번호 조건 (소문자+숫자+특수문자 포함 8~10글자)');			
+		}
+        
       } else {
         $('.pw-warning-text:eq(0)').addClass('blind');
 
@@ -83,8 +91,10 @@ $(function () {
         $('.pw-warning-text:eq(1)').addClass('blind');
       }
     }
-  })
-
+  });
+  
+  
+  
   // 비밀번호 재설정 ajax
   $('#btn-pw-update').click(function () {
     var password = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,10}$/;
