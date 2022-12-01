@@ -63,22 +63,6 @@ $(function() {
 					$(".popup-background:eq(1)").removeClass("blind");
 					$("#spinner-section").removeClass("blind");
 	
-					var reserve_state = "";
-					switch (window.location.href.split("reserve_state=")[1].split("&")[0]) {
-						case "전체":
-							reserve_state = "all";
-							break;
-						case "예약중":
-							reserve_state = "in_use";
-							break;
-						case "취소":
-							reserve_state = "cancel";
-							break;
-						case "종료":
-							reserve_state = "end";
-							break;
-					}
-	
 					var page = $("#maxCnt").attr("nowCnt");
 	
 					scroll_flag = false;
@@ -88,7 +72,7 @@ $(function() {
 						dataType: 'json',
 						data: {
 							backoffice_no: $.cookie("backoffice_no"),
-							reserve_state: reserve_state,
+							reserve_state: window.location.href.split("reserve_state=")[1].split("&")[0],
 							page: Number(page) + 1
 						},
 						success: function(res) {
