@@ -5,13 +5,8 @@
  $(function() {
 	 
 	 $("#pay-cancel-btn").click(function() {
-		console.log("pay cancel button");
-		
-		
-		
 		$(".popup-background:eq(0)").removeClass("blind");
 		$("#reserve-cancel-popup").removeClass("blind");
-		
 	 });
 	 
 	 $("#refund-btn").click(function() {
@@ -20,12 +15,7 @@
 		
 		let actual_payment = parseInt($("#actual_payment").attr("actual_payment").replace(",", ""));
 		
-		console.log(reserve_no);
-		console.log(actual_payment);
-		console.log(typeof actual_payment);
-		
 		// 환불 로직
-		
 		$.ajax({
 			url: "/rence/reserve_cancel",
 			type: "GET",
@@ -52,22 +42,19 @@
 							reason: "예약 취소로 인한 결제 환불"
 							
 						},
-						
 						success: function(res) {
 							if (res.result == "1") {
 								$("#reserve-cancel-popup").addClass("blind");
 								$("#reserve-cancel-confirm-popup").removeClass("blind");
 					
-								console.log("환불 성공");
 								location.href="/rence/reserve_list?time_point=now&user_no=" + $.cookie("user_no") + "&page=1";
-							} else {
-								console.log("환불 실패");
 							}
 						},
 						
-						error: function(err) {
-							
-							console.log(err);
+						error: function() {
+							$(".popup-background:eq(1)").removeClass("blind");
+			                $("#common-alert-popup").removeClass("blind");
+			                $(".common-alert-txt").text("오류 발생으로 인해 환불에 실패하였습니다.");
 						}
 					});
 					
@@ -77,8 +64,10 @@
 				}
 			},
 			
-			error: function(error) {
-				console.log(error);
+			error: function() {
+				$(".popup-background:eq(1)").removeClass("blind");
+                $("#common-alert-popup").removeClass("blind");
+                $(".common-alert-txt").text("오류 발생으로 인해 환불에 실패하였습니다.");
 			}
 		});
 	 });
