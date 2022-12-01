@@ -361,6 +361,8 @@
 .dayoff-calendar-content {
   box-sizing: border-box;
   padding: 12px 24px 32px;
+  
+  height: 80%;
 }
 
 .dayoff-calendar-content-title {
@@ -371,10 +373,15 @@
   display: flex;
   align-items: flex-start;
   flex-wrap: wrap;
+  
+  width: 100%;
+  height: 100%;
+  overflow: scroll;
 }
 
 .dayoff-list-item {
   box-sizing: border-box;
+  height: 130px;
 
   display: flex;
   flex-direction: column;
@@ -389,11 +396,20 @@
   margin-bottom: 12px;
 }
 
-.dayoff-list-item-top {
+.dayoff-list-item-top {  
+  width: 200px;
+  
   font-size: 14px;
   font-weight: 700;
     
   margin-bottom: 16px;
+}
+
+.dayoff-list-item-title {
+  font-size: 16px;
+  font-weight: 700 !important;
+    
+  margin-bottom: 4px;
 }
 
 .dayoff-list-item-bottom {

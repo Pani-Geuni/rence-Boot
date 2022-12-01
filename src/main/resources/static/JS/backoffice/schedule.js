@@ -38,11 +38,11 @@ $(function() {
 		controlType: 'select',
 		oneLine: true,
 	});
-	
+
 	$(".type-border-txt.time-input:eq(0)").change(function() {
 		$("input:checkbox[name='select-room']").prop('checked', false);
 	})
-	
+
 	$(".type-border-txt.time-input:eq(1)").change(function() {
 		$("input:checkbox[name='select-room']").prop('checked', false);
 	})
@@ -52,7 +52,7 @@ $(function() {
 	// *************
 	$('#select-all-room').click(function() {
 		if ($(this).is(':checked')) {
-			$(this).attr('checked', true);		
+			$(this).attr('checked', true);
 		} else {
 			$(this).attr('checked', false);
 		}
@@ -60,15 +60,15 @@ $(function() {
 
 	$('#select-all-room').change(function() {
 		if ($(this).is(':checked')) {
-			$("input:checkbox[name='select-room']").each(function (index) {
+			$("input:checkbox[name='select-room']").each(function(index) {
 				if ($(this).is(':disabled')) {
 					console.log(index)
 					$(this).prop('checked', false);
 				} else {
-					$(this).prop('checked', true);									
+					$(this).prop('checked', true);
 				}
 			});
-			 
+
 		} else {
 			$("input:checkbox[name='select-room']").prop('checked', false);
 		}
@@ -121,7 +121,7 @@ $(function() {
 							//로딩 화면 닫기
 							$(".popup-background:eq(1)").addClass("blind");
 							$("#spinner-section").addClass("blind");
-							
+
 							$("input:checkbox[name='select-room']").prop('checked', false);
 							console.log(res);
 
@@ -426,7 +426,7 @@ $(function() {
 	var check_room = "";
 	$(document).on('click', "#schedule-confirm-btn", function() {
 		console.log("in");
-		check_room =  $("input[type=checkbox]:checked").parents(".ct-body-row");
+		check_room = $("input[type=checkbox]:checked").parents(".ct-body-row");
 		if (check_room.length != 0) {
 			let backoffice_no = $.cookie('backoffice_no');
 			let sDateTime = $(".time-input:eq(0)").val().split(' ');
@@ -441,12 +441,12 @@ $(function() {
 
 			for (var i = 0; i < check_room.length; i++) {
 				let room_no = $(check_room[i]).find("#room_no").attr("room_no");
-				
-				if (room_no!=null) {
+
+				if (room_no != null) {
 					//로딩 화면
 					$(".popup-background:eq(1)").removeClass("blind");
 					$("#spinner-section").removeClass("blind");
-					
+
 					$.ajax({
 						url: "/backoffice/scheduleOK",
 						type: "POST",
@@ -462,44 +462,44 @@ $(function() {
 						},
 						success: function(res) {
 							if (res.result == 1) {
-							flag=1;
+								flag = 1;
 
-							}else{
-							flag=0;
+							} else {
+								flag = 0;
 							}
 
 						},
 						error: function() {
-							flag=0;
+							flag = 0;
 						}
 					});
-				}	
-					if(flag=1){
-						console.log("success"+flag);
-							//로딩 화면 닫기
-							$(".popup-background:eq(1)").addClass("blind");
-							$("#spinner-section").addClass("blind");
+				}
+				if (flag = 1) {
+					console.log("success" + flag);
+					//로딩 화면 닫기
+					$(".popup-background:eq(1)").addClass("blind");
+					$("#spinner-section").addClass("blind");
 
-							$(".popup-background:eq(1)").removeClass("blind");
-							$("#common-alert-popup").removeClass("blind");
-							$(".common-alert-txt").text("일정이 설정되었습니다.");
-							
-							// 리스트 새로고침
-							$("#common-alert-btn").click(function(){
-								$(".btn-schedule-research").trigger("click");
-							});
-					}
-					if (flag=0) {
-							console.log("failed"+flag);
-							//로딩 화면 닫기
-							$(".popup-background:eq(1)").addClass("blind");
-							$("#spinner-section").addClass("blind");
+					$(".popup-background:eq(1)").removeClass("blind");
+					$("#common-alert-popup").removeClass("blind");
+					$(".common-alert-txt").text("일정이 설정되었습니다.");
 
-							$(".popup-background:eq(1)").removeClass("blind");
-							$("#common-alert-popup").removeClass("blind");
-							$(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
-						break;
-					} 
+					// 리스트 새로고침
+					$("#common-alert-btn").click(function() {
+						$(".btn-schedule-research").trigger("click");
+					});
+				}
+				if (flag = 0) {
+					console.log("failed" + flag);
+					//로딩 화면 닫기
+					$(".popup-background:eq(1)").addClass("blind");
+					$("#spinner-section").addClass("blind");
+
+					$(".popup-background:eq(1)").removeClass("blind");
+					$("#common-alert-popup").removeClass("blind");
+					$(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
+					break;
+				}
 			}
 		} else {
 			$(".popup-background:eq(1)").removeClass("blind");
@@ -528,18 +528,18 @@ $(function() {
 	var check_arr = "";
 	// 예약 취소 버튼 클릭 -> 취소 팝업 SHOW
 	$("#btn-reserve-cancel").on("click", function() {
-		check_arr =  $("input[type=checkbox]:checked").parents(".ct-body-row");
-		
+		check_arr = $("input[type=checkbox]:checked").parents(".ct-body-row");
+
 		if (check_arr.length == 0) {
 			$(".popup-background:eq(1)").removeClass("blind");
 			$("#common-alert-popup").removeClass("blind");
 			$(".common-alert-txt").text("선택된 항목이 없습니다.");
 		} else {
 			var tmp_flag = false;
-			for(var i = 0; i < check_arr.length; i++){
+			for (var i = 0; i < check_arr.length; i++) {
 				var s_date = $(check_arr[i]).find(".reserve-stime").text().split(" ~ ")[0];
-				
-				if(new Date(s_date) < new Date()){
+
+				if (new Date(s_date) < new Date()) {
 					$(".popup-background:eq(1)").removeClass("blind");
 					$("#common-alert-popup").removeClass("blind");
 					$(".common-alert-txt").html("선택된 항목 중 이용중인 예약이 존재합니다.<br><br> 이용중인 항목은 예약 취소할 수 없습니다.");
@@ -547,8 +547,8 @@ $(function() {
 					break;
 				}
 			}
-			
-			if(!tmp_flag){
+
+			if (!tmp_flag) {
 				$(".popup-background:eq(0)").removeClass("blind");
 				$("#reserve-delete-popup").removeClass("blind");
 			}
@@ -565,7 +565,7 @@ $(function() {
 			var user_email = $(check_arr[i]).find(".reserve_user_email").text().trim();
 			var reserve_stime = $(check_arr[i]).find(".reserve_date_set").text().trim().split(" ~ ")[0].trim();
 			var reserve_etime = $(check_arr[i]).find(".reserve_date_set").text().trim().split(" ~ ")[1].trim();
-			
+
 			//로딩 화면
 			$(".popup-background:eq(1)").removeClass("blind");
 			$("#spinner-section").removeClass("blind");
@@ -621,17 +621,17 @@ $(function() {
 		$("#reserve-delete-popup").addClass("blind");
 		$("#reserve-delete-btn").attr("reserve_no", "");
 	});
-	
-	
+
+
 	function timeSplit(time) {
 		let time_split = time.replace(",", "").split(",");
 		let time_list = time_split[0].split(" ");
-		
-		
+
+
 		let year = time_list[2];
 		let month = time_list[0];
 		let day = time_list[1];
-		
+
 		if (month == 'Jan') month = '01'
 		else if (month == 'Feb') month = '02'
 		else if (month == 'Mar') month = '03'
@@ -644,18 +644,23 @@ $(function() {
 		else if (month == 'Oct') month = '10'
 		else if (month == 'Nov') month = '11'
 		else if (month == 'Dec') month = '12'
-		
+
 		let stringTime = year + "/" + month + "/" + day;
-		
+
 		return stringTime;
 	}
-	
-	
+
+
 	// 휴무 일정 캘린더 팝업
 	// 휴무 일정 캘린더 팝업
+
 	$("#btn-dayoff-calendar").click(function() {
 
 		let backoffice_no = $.cookie('backoffice_no');
+
+		//로딩 화면 열기
+		$(".popup-background:eq(1)").removeClass("blind");
+		$("#spinner-section").removeClass("blind");
 		$.ajax({
 			url: "/backoffice/schedule_calendar",
 			type: "GET",
@@ -667,69 +672,181 @@ $(function() {
 				console.log(res);
 				$(".popup-background:eq(0)").removeClass("blind");
 				$(".dayoff-calendar-wrap").removeClass("blind");
-				
+
+				//로딩 화면 닫기
+				$(".popup-background:eq(1)").addClass("blind");
+				$("#spinner-section").addClass("blind");
+
 				if (res.cnt > 0) {
 					let empty_item = $($(".dayoff-list-item")[0]).clone();
 					$(".dayoff-list").empty();
 					$(".dayoff-list").append(empty_item);
-					
+
 					for (var i = 0; i < res.cnt; i++) {
 						let dayoff_list_item = $($(".dayoff-list-item")[0]).clone();
 						dayoff_list_item.removeClass("blind");
-						
-						console.log(res.vos[i]);
 
-						let stime = timeSplit(res.vos[i].not_stime);
-						let etime = timeSplit(res.vos[i].not_etime);
-						let duration = stime + " ~ " + etime;
-						
-						timeSplit(stime);
-						
-						dayoff_list_item.find(".dayoff-list-item-top").text(duration);
+						let sdate = '';
+						let edate = '';
+						let stime = '';
+						let etime = '';
+						let date_duration = '';
+						let time_duration = '';
+
+						dayoff_list_item.find(".dayoff-list-item-title").text(res.vos[i].room_name);
+
+						if (res.vos[i].schedule_type === 'dayoff') {
+							sdate = res.vos[i].sdate;
+							edate = res.vos[i].edate;
+							date_duration = sdate + " ~ " + edate;
+							dayoff_list_item.find(".badge").text("임시 휴무");
+
+						} else if (res.vos[i].schedule_type === 'breaktime') {
+							sdate = res.vos[i].sdate;
+							stime = res.vos[i].stime;
+							etime = res.vos[i].etime;
+							date_duration = sdate;
+							time_duration = stime + " ~ " + etime;
+							dayoff_list_item.find(".badge").text("브레이크 타임");
+						}
+
+						dayoff_list_item.find(".dayoff-list-item-date").text(date_duration);
+						dayoff_list_item.find(".dayoff-list-item-time").text(time_duration);
 						dayoff_list_item.find(".dayoff-cancel-btn").attr("schedule_no", res.vos[i].schedule_no);
-						dayoff_list_item.find(".dayoff-cancel-btn").attr("room_no", res.vos[i].room_no);
-						
+						dayoff_list_item.find(".dayoff-list-item-title").attr("room_no", res.vos[i].room_no);
+
 						$(".dayoff-list").append(dayoff_list_item);
 					}
-					
+
 				}
-				
-				
+
+
 			},
 			error: function(err) {
 				console.log(err);
 			}
 		})
 	});
-	
+
 	// 휴무 일정 캘린더 닫기 버튼
 	$(".calendar-close-btn").click(function() {
 		$(".popup-background:eq(0)").addClass("blind");
 		$(".dayoff-calendar-wrap").addClass("blind");
 	})
-	
+
+	let schedule_no = '';
 	// 휴무 취소 버튼 - 휴무 취소 확인 팝업 노출
 	$(document).on('click', ".dayoff-cancel-btn", function() {
 		$(".popup-background:eq(1)").removeClass("blind");
 		$("#dayoff-cancel-popup").removeClass("blind");
+
+		schedule_no = $(this).attr("schedule_no");
+		//		$("#dayoff-cancel-confirm-closeBtn").attr("schedule_no", );
 	})
-	
+
 	// 휴무 취소 확인 팝업 - 닫기
 	$("#dayoff-cancel-confirm-closeBtn").click(function() {
 		$(".popup-background:eq(1)").addClass("blind");
 		$("#dayoff-cancel-popup").addClass("blind");
 	})
-	
+
 	// 휴무 취소 확인 팝업 - 휴무 취소
 	$("#dayoff-cancel-confirm-btn").click(function() {
+		//로딩 화면 열기
+		$(".popup-background:eq(1)").removeClass("blind");
+		$("#spinner-section").removeClass("blind");
+
 		$(".popup-background:eq(1)").addClass("blind");
 		$("#dayoff-cancel-popup").addClass("blind");
-		
+
+		console.log(schedule_no);
+
+		$.ajax({
+			url: "/backoffice/schedule_cancel",
+			type: "POST",
+			dataType: 'json',
+			data: {
+				backoffice_no: $.cookie('backoffice_no'),
+				schedule_no: schedule_no
+			},
+
+			success: function(res) {
+				if (res.result == "1") {
+					// 로딩 닫기
+					$(".popup-background:eq(1)").addClass("blind");
+					$("#spinner-section").addClass("blind");
+					
+					$(".popup-background:eq(1)").removeClass("blind");
+					$("#dayoff-cancel-confirmOK-popup").removeClass("blind");
+
+					if (res.cnt > 0) {
+						let empty_item = $($(".dayoff-list-item")[0]).clone();
+						$(".dayoff-list").empty();
+						$(".dayoff-list").append(empty_item);
+
+						for (var i = 0; i < res.cnt; i++) {
+							let dayoff_list_item = $($(".dayoff-list-item")[0]).clone();
+							dayoff_list_item.removeClass("blind");
+
+							let sdate = '';
+							let edate = '';
+							let stime = '';
+							let etime = '';
+							let date_duration = '';
+							let time_duration = '';
+
+							dayoff_list_item.find(".dayoff-list-item-title").text(res.vos[i].room_name);
+
+							if (res.vos[i].schedule_type === 'dayoff') {
+								sdate = res.vos[i].sdate;
+								edate = res.vos[i].edate;
+								date_duration = sdate + " ~ " + edate;
+								dayoff_list_item.find(".badge").text("임시 휴무");
+
+							} else if (res.vos[i].schedule_type === 'breaktime') {
+								sdate = res.vos[i].sdate;
+								stime = res.vos[i].stime;
+								etime = res.vos[i].etime;
+								date_duration = sdate;
+								time_duration = stime + " ~ " + etime;
+								dayoff_list_item.find(".badge").text("브레이크 타임");
+							}
+
+							dayoff_list_item.find(".dayoff-list-item-date").text(date_duration);
+							dayoff_list_item.find(".dayoff-list-item-time").text(time_duration);
+							dayoff_list_item.find(".dayoff-cancel-btn").attr("schedule_no", res.vos[i].schedule_no);
+							dayoff_list_item.find(".dayoff-list-item-title").attr("room_no", res.vos[i].room_no);
+
+							$(".dayoff-list").append(dayoff_list_item);
+						}
+
+					}
+
+				} else {
+					// 로딩 닫기
+					$(".popup-background:eq(1)").addClass("blind");
+					$("#spinner-section").addClass("blind");
+					
+					$(".popup-background:eq(1)").removeClass("blind");
+					$("#dayoff-cancel-fail-popup").removeClass("blind");
+				}
+			},
+
+			error: function(err) {
+				console.log(err);
+			}
+
+		});
+
 	})
-	
+
 	$("#dayoff-cancel-confirmOK-btn").click(function() {
-		$("#dayoff-cancel-confirmOK-popup").removeClass("blind");
-		$(".popup-background:eq(1)").removeClass("blind");
-		
+		$("#dayoff-cancel-confirmOK-popup").addClass("blind");
+		$(".popup-background:eq(1)").addClass("blind");
+	})
+
+	$("#dayoff-cancel-fail-btn").click(function() {
+		$("#dayoff-cancel-fail-popup").addClass("blind");
+		$(".popup-background:eq(1)").addClass("blind");
 	})
 })

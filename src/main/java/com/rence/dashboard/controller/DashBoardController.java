@@ -1452,10 +1452,41 @@ public class DashBoardController {
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		int flag = service.backoffice_schedule_cancel(backoffice_no, schedule_no);
+		
+		List<ScheduleEntity> vos = service.backoffice_schedule_calendar(backoffice_no);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String sdate ="";
+		String edate ="";
+		for (ScheduleEntity vo : vos) {
+			sdate = sdf.format(vo.getNot_stime());
+			edate = sdf.format(vo.getNot_etime());
+			String[] st = sdate.split(" ");
+			String[] et = edate.split(" ");
+			if (st[0].equals(et[0])){
+				// 브레이크 타임 
+				vo.setSdate(st[0]);
+				vo.setStime(st[1]);
+				vo.setEtime(et[1]);
+				vo.setSchedule_type("breaktime");
+			}else {
+				// 휴무
+				vo.setSdate(st[0]);
+				vo.setEdate(et[0]);
+				vo.setSchedule_type("dayoff");
+			}
+			RoomInsertVO rvo = service.backoffice_schedule_calendar_room_name(vo.getRoom_no());
+			vo.setRoom_name(rvo.getRoom_name());
+		}
+
+		
 
 		if (flag == 1) {
 			log.info("successed...");
+			log.info("vos...{}", vos);
 			map.put("result", "1");
+			map.put("vos", vos);
+			map.put("cnt", vos.size());
 		} else {
 			log.info("falied...");
 			map.put("result", "0");
