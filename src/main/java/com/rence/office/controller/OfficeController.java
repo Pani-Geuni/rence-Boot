@@ -517,8 +517,8 @@ public class OfficeController {
 				}
 			}
 		}
+		
 
-		map.put("reserve_list", vos);
 		map.put("reserve_list", already_reserve_list);
 
 		String json = gson.toJson(map);
