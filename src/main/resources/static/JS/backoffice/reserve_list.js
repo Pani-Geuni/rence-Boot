@@ -53,102 +53,77 @@ $(function() {
 		location.href = "/backoffice/reserve?backoffice_no=" + $.cookie("backoffice_no") + "&reserve_state=" + reserve_state + "&page=1";
 	});
 
-	var scroll_flag = true;
-	// 스크롤을 이용한 페이징
-	$(".reserve-ct").scroll(function() {
-		if (Math.ceil($(this).scrollTop() + $(this).innerHeight()) >= $(this).prop('scrollHeight')) {
-			if ($(".ct-body-row").length < Number($("#maxCnt").attr("maxCnt"))) {
-				if(scroll_flag){
-					//로딩 화면
-					$(".popup-background:eq(1)").removeClass("blind");
-					$("#spinner-section").removeClass("blind");
-	
-					var page = $("#maxCnt").attr("nowCnt");
-	
-					scroll_flag = false;
-					$.ajax({
-						url: "/backoffice/reserve_paging",
-						type: "GET",
-						dataType: 'json',
-						data: {
-							backoffice_no: $.cookie("backoffice_no"),
-							reserve_state: window.location.href.split("reserve_state=")[1].split("&")[0],
-							page: Number(page) + 1
-						},
-						success: function(res) {
-							scroll_flag = true;
-							
-							//로딩 화면 닫기
-							$(".popup-background:eq(1)").addClass("blind");
-							$("#spinner-section").addClass("blind");
-	
-							var now = $("#maxCnt").attr("nowCnt");
-							$("#maxCnt").attr("nowCnt", Number(now) + 1);
-	
-							for (var i = 0; i < res.cnt; i++) {
-								var row = $($(".ct-body-row.reserve")[0]).clone();
-								row.find(".reserve_date_set").text(res.r_vos[i].reserve_sdate + " ~ " + res.r_vos[i].reserve_edate);
-	
-								row.find(".reserve_state>button").removeClass("begin");
-								row.find(".reserve_state>button").removeClass("in_use");
-								row.find(".reserve_state>button").removeClass("end");
-								row.find(".reserve_state>button").removeClass("cancel");
-	
-								let reserve_state = "";
-								switch (res.r_vos[i].reserve_state) {
-									case 'begin':
-										reserve_state = "이용전";
-										break;
-									case 'in_use':
-										reserve_state = "이용중";
-										break;
-									case 'end':
-										reserve_state = "이용완료";
-										break;
-									case 'cancel':
-										reserve_state = "취소";
-										break;
-	
-									default:
-										break;
-								}
-								row.find(".reserve_state>button").text(reserve_state);
-								row.find(".reserve_state>button").addClass(res.r_vos[i].reserve_state);
-	
-								row.find(".reserve_room_name").text(res.r_vos[i].room_name);
-								row.find(".reserve_user_name").text(res.r_vos[i].user_name);
-								row.find(".reserve_user_tel").text(res.r_vos[i].user_tel);
-								row.find(".reserve_user_email").text(res.r_vos[i].user_email);
-	
-								let reserve_payment_state = "";
-								switch (res.r_vos[i].payment_state) {
-									case 'T':
-										reserve_payment_state = "선";
-										break;
-									case 'F':
-										reserve_payment_state = "후";
-	
-									default:
-										break;
-								}
-								row.find(".reserve-price").text(res.r_vos[i].actual_payment + "원 / " + reserve_payment_state);
-								row.find(".reserve_is_cancle").attr("reserve_no", res.r_vos[i].reserve_no);
-	
-								$(".reserve_state").append(row);
-							}
-						},
-						error: function() {
-							scroll_flag = true;
-							
-							//로딩 화면 닫기
-							$(".popup-background:eq(1)").addClass("blind");
-							$("#spinner-section").addClass("blind");
-						}
-					});
-				}
-			}
+
+	$(".paging-num-wrap").on("click", ".paging-box.paging-num", function(){
+        var backoffice_no = window.location.href.split("?backoffice_no=")[1].split("&")[0];
+        var reserve_state = window.location.href.split("&reserve_state=")[1].split("&")[0];
+
+        window.location.href = "/backoffice/reserve?backoffice_no=" + backoffice_no + "&reserve_state=" + reserve_state + "&page=" + $(this).attr("idx");
+    });
+    
+    // 다음 페이지 리스트로 이동
+    $(".next-page-btn").click(function(){
+		var start = Number($($(".paging-box.paging-num")[0]).text()) + 5;
+		var last = Number($($(".paging-box.paging-num")[4]).text()) + 5;
+		var totalPageCnt = Number($("#totalPageCnt").val());
+		
+		if($(".before-page-btn").hasClass("hide")){
+			$(".before-page-btn").removeClass("hide");
+		}
+		
+		if(last >= totalPageCnt){
+			last = totalPageCnt;
+			$(".next-page-btn").addClass("hide");
+		}
+		
+		var sample = $(".paging-num-wrap>.paging-box.paging-num:eq(0)").clone();
+		$(".paging-num-wrap").empty();
+		
+		for(var i = start; i <= last; i++){
+			var sample_span = sample.clone();
+
+			sample_span.text(i);
+			sample_span.attr("idx", i);
+			sample_span.removeClass("choice");
+			sample_span.addClass("un-choice");
+			
+			$(".paging-num-wrap").append(sample_span);
 		}
 	});
+	
+    // 이전 페이지 리스트로 이동
+    $(".before-page-btn").click(function(){
+		var start = Number($($(".paging-box.paging-num")[0]).text()) - 5;
+		var last = Number($(".paging-box.paging-num:last").text()) - 5;
+		
+		if(last % 5 != 0){
+			last += 5 - (last % 5);
+		}
+		
+		if($(".next-page-btn").hasClass("hide")){
+			$(".next-page-btn").removeClass("hide");
+		}
+		
+		if(start == 1){
+			$(".before-page-btn").addClass("hide");
+		}
+		
+		var sample = $(".paging-num-wrap>.paging-box.paging-num:eq(0)").clone();
+		$(".paging-num-wrap").empty();
+		
+		for(var i = start; i <= last; i++){
+			var sample_span = sample.clone();
+
+			sample_span.text(i);
+			sample_span.attr("idx", i);
+			sample_span.removeClass("choice");
+			sample_span.addClass("un-choice");
+			
+			$(".paging-num-wrap").append(sample_span);
+		}
+	});
+
+
 
 	// 예약 취소 버튼 클릭 -> 취소 팝업 SHOW
 	$(".reserve-ct").on("click", ".reserve_is_cancle", function() {

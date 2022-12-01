@@ -584,8 +584,7 @@ public class DashBoardController {
 	 */
 	@ApiOperation(value = "예약 리스트", notes = "대쉬보드 예약 관리 페이지 - 리스트")
 	@GetMapping("/reserve")
-	public String dashboard_reserve(Model model, String backoffice_no, String reserve_state,
-			@RequestParam(value = "page", defaultValue = "1") Integer page) {
+	public String dashboard_reserve(Model model, String backoffice_no, String reserve_state, @RequestParam(value = "page", defaultValue = "1") Integer page) {
 		log.info("backoffice_reserve ()...");
 		log.info("{}", backoffice_no);
 		
@@ -593,7 +592,7 @@ public class DashBoardController {
 		
 		int total_cnt = service.backoffice_reserve_selectAll_cnt(backoffice_no, reserve_state);
 		
-		List<ReserveListView> rvos = service.backoffice_reserve_selectAll(backoffice_no, reserve_state, 13 * (page - 1) + 1, 13 * (page));
+		List<ReserveListView> rvos = service.backoffice_reserve_selectAll(backoffice_no, reserve_state, 9 * (page - 1) + 1, 9 * (page));
 		if (rvos == null) {
 			model.addAttribute("cnt", 0);
 			map.put("cnt", 0);
@@ -613,10 +612,34 @@ public class DashBoardController {
 		}
 		map.put("nowCnt", 1);
 		
-		if(total_cnt > 0)
-			map.put("maxCnt", total_cnt);
-		else
-			map.put("maxCnt", 0);
+		
+		// 총 페이징되는 수
+		long totalPageCnt = (long) Math.ceil(total_cnt / 9.0);
+		
+		// 현재페이지
+		long nowPage = page;
+		
+		// 5page씩 끊으면 끝 페이지 번호( ex, 총 9페이지이고, 현재페이지가 6이면 maxpage = 9)
+		long maxPage = 0;
+
+		if (nowPage % 5 != 0) {
+			if (nowPage == totalPageCnt) {
+				maxPage = nowPage;
+			} else if (((nowPage / 5) + 1) * 5 >= totalPageCnt) {
+				maxPage = totalPageCnt;
+			} else if (((nowPage / 5) + 1) * 5 < totalPageCnt) {
+				maxPage = ((nowPage / 5) + 1) * 5;
+			}
+		} else if (nowPage % 5 == 0) {
+			if (nowPage <= totalPageCnt) {
+				maxPage = nowPage;
+			}
+		}
+		log.info("maxPage: " + maxPage);
+
+		map.put("totalPageCnt", totalPageCnt);
+		map.put("nowPage", nowPage);
+		map.put("maxPage", maxPage);
 		
 		model.addAttribute("res", map);
 		
@@ -629,36 +652,6 @@ public class DashBoardController {
 		return "thymeleaf/layouts/backoffice/layout_dashboard";
 	}
 	
-	/**
-	 * 예약 관리(리스트) ************페이징
-	 */
-	@ApiOperation(value = "예약 리스트 페이징", notes = "대쉬보드 예약 관리 페이지 - 리스트")
-	@GetMapping("/reserve_paging")
-	@ResponseBody
-	public String dashboard_reserve_paging(Model model, String backoffice_no, String reserve_state,
-			@RequestParam(value = "page", defaultValue = "1") Integer page) {
-		log.info("backoffice_reserve ()...");
-		log.info("{}", backoffice_no);
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		List<ReserveListView> rvos = service.backoffice_reserve_selectAll(backoffice_no, reserve_state, 13 * (page - 1) + 1, 13 * (page));
-		if (rvos == null) {
-			model.addAttribute("cnt", 0);
-			map.put("cnt", 0);
-		} else {
-			model.addAttribute("cnt", rvos.size());
-			map.put("cnt", rvos.size());
-		}
-		
-		map.put("nowCnt", 1);
-		map.put("r_vos", rvos);
-		map.put("reserve_state", reserve_state);
-		
-		String json = gson.toJson(map);
-		
-		return json;
-	}
 
 	/**
 	 * 예약 관리(리스트-검색)
