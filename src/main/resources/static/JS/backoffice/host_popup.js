@@ -356,12 +356,14 @@ $(function() {
 		// 입력값 not null인지 확인
 		if ($("#input-room-name").val().trim().length > 0 && $('#edit_room_type').val().length > 0) {
 			if ($('#edit_room_type').val() == 'office') {
-				if ($("#input-price-name").val().trim().length > 0 && $("#input-price-name").val().trim() != 0) {
+				if ($("#input-price-name").val().trim().length > 0 && $("#input-price-name").val().trim() != '0') {
 					insert();
-				} else {
+				}
+				else {
 					$("#input-price-name").addClass("null-input-border");
 				}
-			} else {
+			}
+			else {
 				if(insert_room_flag){
 					insert();
 				}
@@ -536,10 +538,12 @@ $(function() {
 		// 입력값 not null인지 확인
 		if ($("#m-input-room-name").val().trim().length > 0 && $('#m-edit_room_type').val().length > 0) {
 			if ($('#m-edit_room_type').val() == "office") {
-				if ($("#m-input-price-name").val().trim().length > 0) {
+				if ($("#m-input-price-name").val().trim().length > 0 && $("#m-input-price-name").val().trim() != '0') {
 					if(update_room_flag){
 						update();
 					}
+				}else{
+					$("#m-input-price-name").addClass("null-input-border");
 				}
 			} else {
 				if(update_room_flag){
