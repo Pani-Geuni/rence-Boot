@@ -131,9 +131,7 @@ $(function() {
 		$(this).parents(".month-select-wrap").addClass("blind");
 
 		now = new Date($(".time-input").val());	// 현재 날짜 및 시간
-		console.log("현재 : ", now);
 		checkout = new Date(now.setMonth(now.getMonth() + Number($(this).attr("month"))));	// 한달 후
-		console.log("한달 후 : ", checkout);
 
 		$(".duration").removeClass("blind");
 		$(".duration").text("기간 | " + $(".time-input").val() + " ~ " + checkout.getFullYear() + "/" + (Number(checkout.getMonth()) + 1) + "/" + checkout.getDate());
@@ -265,8 +263,6 @@ $(function() {
 			}
 
 		});
-
-		console.log("?????");
 	});
 
 
