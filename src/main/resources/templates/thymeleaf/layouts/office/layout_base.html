@@ -357,6 +357,15 @@
 				let dayOfWeek = week[new Date(date).getDay()];
 				return dayOfWeek;
 			}
+			
+			$('.type-border-txt.room-name').on('DOMSubtreeModified', function() {
+				console.log("room-name change");
+				$(".type-border-txt.time-input").val("");
+				
+				$("#check_available").removeClass("blind");
+				$("#go_reserve").addClass("blind");
+				$('.time-boundary-list li').css('display', 'none');
+			});
 
 			$('.type-border-txt.time-input').change(function () {
 				$("#check_available").removeClass("blind");
