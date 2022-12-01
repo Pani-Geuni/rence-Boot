@@ -63,7 +63,6 @@ public class BackOfficeService{//
 	 */
 	public int backoffice_operating_insert(BackOfficeOperatingTimeVO_datetype ovo2) {
 		log.info("backoffice_operating_insert().....");
-//		return oper_repository.save(ovo2).getOpetime_no();
 		return oper_repository.insert_operating_time(ovo2, ovo2.getMon_stime(), ovo2.getMon_etime(), ovo2.getTue_stime(), ovo2.getTue_etime(), ovo2.getWed_stime(), ovo2.getWed_etime(), 
 				ovo2.getThu_stime(), ovo2.getThu_etime(), ovo2.getFri_stime(), ovo2.getFri_etime(), ovo2.getSat_stime(), ovo2.getSat_etime(), ovo2.getSun_stime(), ovo2.getSun_etime());
 	}
@@ -89,7 +88,6 @@ public class BackOfficeService{//
 		avo.setAuth_stime(new Date());
 		int result = auth_repository.insert_auth_info(avo, avo.getAuth_stime());
 		log.info("avo insertOK {} :",avo);
-//		avo = auth_repository.save(avo);
 
 		AuthVO avo2 = new AuthVO();
 		if (result != 0) {

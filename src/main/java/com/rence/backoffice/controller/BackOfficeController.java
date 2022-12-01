@@ -250,10 +250,6 @@ public class BackOfficeController {
 			session.setAttribute("backoffice_id", bvo.getBackoffice_id());
 			Cookie cookie_no = new Cookie("backoffice_no", bvo.getBackoffice_no());
 			Cookie cookie_profile = new Cookie("host_image", bvo.getHost_image());
-//			cookie_no.setMaxAge(60*30);   
-//			cookie_profile.setMaxAge(60*30);   
-//			session.setAttribute("backoffice_no", bvo.getBackoffice_no());
-//			session.setAttribute("host_image", bvo.getHost_image());
 			map.put("result", "1");
 			log.info("successed...");
 			response.addCookie(cookie_no);
@@ -328,7 +324,6 @@ public class BackOfficeController {
 			bvo2 = authSendEmail.findPw(bvo2, evo);
 
 			if (bvo2 != null) {
-//				service.backoffice_settingOK_pw(bvo2); 
 				service.backoffice_resetOK_pw(bvo2); 
 				map.put("result", "1");
 

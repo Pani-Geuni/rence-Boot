@@ -320,12 +320,15 @@ $(function() {
     });
 
 	/** 호스트 수정 완료 버튼 클릭 */
+	var submit_flag = true;
 	$("#submit").on('click', function() {
 		// 필수 input / textarea 입력되었는지 확인
 		if ($("#backoffice_info").val().trim().length > 0) {
 				$("#backoffice_option").val(backoffice_option);
 				$("#backoffice_around").val(backoffice_around);
+				if(submit_flag){
 				$("#real-submit").click();
+				}
 		}
 		else {
 			if ($("#backoffice_info").val().trim().length == 0) {
