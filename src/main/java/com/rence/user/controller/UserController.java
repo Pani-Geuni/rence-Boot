@@ -48,32 +48,26 @@ public class UserController {
 	// 자동 개행 및 줄 바꿈 (new Gson은 일자로 나옴)
 	Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-	
-	
-	
-	/**
-	 * 로그인 완료
-	 */
+	// **********************
+	// 로그인 완료
+	// **********************
 	@ApiOperation(value = "로그인 성공", notes = "로그인 성공 입니다")
 	@PostMapping("/loginSuccess")
 	@ResponseBody
 	public String user_loginOK(@RequestParam String username, HttpServletResponse response) {
 		log.info("user_loginOK ()...");
 		log.info("username: {}", username);
-		
+
+		// 로그인 성공시 기존의 유저관련쿠키 제거
 		Cookie cc = new Cookie("user_no", null); // choiceCookieName(쿠키 이름)에 대한 값을 null로 지정
-		Cookie cc2 = new Cookie("user_image", null); 
+		Cookie cc2 = new Cookie("user_image", null);
 		cc.setMaxAge(0); // 유효시간을 0으로 설정
-		cc2.setMaxAge(0); 
+		cc2.setMaxAge(0);
 		response.addCookie(cc); // 응답 헤더에 추가해서 없어지도록 함
-		response.addCookie(cc2); 
+		response.addCookie(cc2);
 
-
-		
-		
-		
 		UserVO uvo = service.user_login_info(username);
-		
+
 		Map<String, String> map = new HashMap<String, String>();
 
 		session.setAttribute("user_id", uvo.getUser_id());
@@ -84,8 +78,6 @@ public class UserController {
 		cookie2.setPath("/");
 		response.addCookie(cookie);
 		response.addCookie(cookie2);
-		
-	
 
 		log.info("User Login success.....");
 		map.put("result", "1"); // 로그인 성공
@@ -95,19 +87,17 @@ public class UserController {
 		return jsonObject;
 	}
 
-	/**
-	 * 로그인 실패
-	 */
+	// **********************
+	// 로그인 실패
+	// **********************
 	@ApiOperation(value = "로그인 실패", notes = "로그인 실패 입니다")
 	@PostMapping("/loginFail")
 	@ResponseBody
 	public String user_loginFail(UserVO uvo, HttpServletResponse response) {
 		log.info("user_loginFail ()...");
 		log.info("result: {}", uvo);
-		
-		Map<String, String> map = new HashMap<String, String>();
 
-		
+		Map<String, String> map = new HashMap<String, String>();
 
 		log.info("User Login failed.....");
 		map.put("result", "0"); // 로그인 실패
@@ -115,13 +105,11 @@ public class UserController {
 		String jsonObject = gson.toJson(map);
 
 		return jsonObject;
-	}	
-	
-	
-	
-	/**
-	 * 아이디 찾기
-	 */
+	}
+
+	// **********************
+	// 아이디 찾기
+	// **********************
 	@ApiOperation(value = "아이디 찾기", notes = "아이디 찾기 입니다")
 	@PostMapping("/find_id")
 	@ResponseBody
@@ -151,9 +139,9 @@ public class UserController {
 		return jsonObject;
 	}
 
-	/**
-	 * 비밀번호 찾기
-	 */
+	// **********************
+	// 비밀번호 찾기
+	// **********************
 	// 사용자가 비밀번호를 찾으면 초기화된 비밀번호를 이메일로 전송,데이터베이스에는 초기화된 비번 저장
 	@ApiOperation(value = "비밀번호 찾기", notes = "비밀번호 찾기 입니다")
 	@PostMapping("/find_pw")
@@ -165,7 +153,8 @@ public class UserController {
 		UserVO uvo2 = service.user_id_email_select(uvo); // 아이디 이메일 체크
 		Map<String, String> map = new HashMap<String, String>();
 		if (uvo2 != null) {
-			uvo2 = authSendEmail.findPw(uvo2, evo); // uvo2가 null이 아니면(테이블에 데이터가 존재하면) 메일을 통해 수정링크 제공
+			// uvo2가 null이 아니면(테이블에 데이터가 존재하면) 메일을 통해 수정링크 제공
+			uvo2 = authSendEmail.findPw(uvo2, evo);
 			log.info("비밀번호 찾기 메일 전송완료");
 			int result = service.user_pw_init(uvo2);
 			log.info("비밀번호 초기화 업데이트 완료");

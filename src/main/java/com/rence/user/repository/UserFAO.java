@@ -1,3 +1,6 @@
+/**
+* @author 강경석
+*/
 package com.rence.user.repository;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -7,6 +10,6 @@ import com.rence.user.model.UserVO;
 
 public interface UserFAO {
 
-	
 	public UserVO FileuploadOK(UserVO vo, MultipartHttpServletRequest mtfRequest, MultipartFile multipartFile_user);
-}//end class
+
+}// end class

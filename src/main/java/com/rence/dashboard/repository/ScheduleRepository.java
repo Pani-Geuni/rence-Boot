@@ -13,7 +13,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.rence.dashboard.model.ScheduleEntity;
-import com.rence.dashboard.model.ScheduleVO;
 
 public interface ScheduleRepository extends JpaRepository<ScheduleEntity, Object> {
 

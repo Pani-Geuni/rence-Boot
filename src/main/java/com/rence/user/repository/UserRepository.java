@@ -1,3 +1,7 @@
+/**
+ * @author 강경석
+*/
+
 package com.rence.user.repository;
 
 import javax.transaction.Transactional;
@@ -25,10 +29,6 @@ public interface UserRepository extends JpaRepository<UserVO, Object> {
 	@Query(nativeQuery = true, value = "SELECT * from userinfo where user_no=?1")
 	public UserVO check_now_pw_selectOne(String user_no);
 	
-	//	@Query(nativeQuery = true, value = "select count(*) from userinfo where user_no = ?1 and user_pw = ?2")
-	//	public int check_now_pw(String user_no, String user_pw);
-
-
 	// 비밀번호 변경
 	@Transactional
 	@Modifying
@@ -45,9 +45,6 @@ public interface UserRepository extends JpaRepository<UserVO, Object> {
 	@Query(nativeQuery = true, value = "select * from userinfo where user_email=?1")
 	public UserVO emailCheckOK(String user_email);
 
-//	//이메일 중복체크
-//	@Query(value= "select t from UserVO t where t.user_email=?1")
-//	public UserVO emailCheckOK(String user_email);
 
 	// 아이디 중복체크
 	@Query(nativeQuery = true, value = "select * from userinfo where user_id=?1")

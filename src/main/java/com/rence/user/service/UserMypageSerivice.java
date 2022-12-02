@@ -71,11 +71,6 @@ public class UserMypageSerivice {
 		log.info("(비밀번호 확인부분)uvo: {}", uvo);
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-		// 평문과 비교를 하는것이기때문에 입력된값(평문)을 암호화 해서는 안됨!!!!
-//		uvo.setUser_pw(encoder.encode(uvo.getPassword()));
-//		log.info("(비밀번호 확인부분)암호화 PW: {}",uvo.getUser_pw());
-//		log.info("(비밀번호 확인부분)암호화 uvo: {}",uvo);
-
 		UserVO uvo2 = userRepository.check_now_pw_selectOne(uvo.getUser_no());
 		log.info("(비밀번호 확인부분)uvo2: {}", uvo2);
 
@@ -124,7 +119,7 @@ public class UserMypageSerivice {
 	// 마일리지 리스트수-현재(페이징 처리를 위해서) all
 	public long total_rowCount_mileage_all(UserVO uvo) {
 		log.info("total_rowCount_mileage_all()....");
-		
+
 		return mileageRepository.count_allmileage(uvo.getUser_no());
 	}
 
@@ -146,11 +141,12 @@ public class UserMypageSerivice {
 	}
 
 	// 마일리지 리스트 페이징 - all
-	public List<UserMileageVO> user_mileage_selectAll_paging(UserVO uvo, Integer page, long total_rowCount_mileage_all) {
+	public List<UserMileageVO> user_mileage_selectAll_paging(UserVO uvo, Integer page,
+			long total_rowCount_mileage_all) {
 		log.info("user_mileage_selectAll_paging");
 		log.info("uvo: {}", uvo);
 		log.info("current page: {}", page);
-		
+
 		// 회원가입 기본값 0만 들어있으면 paging 처리 및 리스트 처리 제외
 		if (total_rowCount_mileage_all == 0) {
 			page = 0;
@@ -160,7 +156,7 @@ public class UserMypageSerivice {
 		Integer start_row = (page - 1) * row_count + 1;
 		Integer end_row = page * row_count;
 
-		//마지막 페이지 end_row 처리
+		// 마지막 페이지 end_row 처리
 		if (end_row > total_rowCount_mileage_all) {
 			end_row = (int) total_rowCount_mileage_all;
 		}
@@ -171,23 +167,25 @@ public class UserMypageSerivice {
 	}
 
 	// 마일리지 리스트 페이징 - plus,minus
-	public List<UserMileageVO> user_mileage_search_list_paging(UserVO uvo, String searchKey, Integer page, long total_rowCount_mileage_search) {
+	public List<UserMileageVO> user_mileage_search_list_paging(UserVO uvo, String searchKey, Integer page,
+			long total_rowCount_mileage_search) {
 		log.info("user_mileage_search_list()....");
 		log.info("uvo: {}", uvo);
 		log.info("searchKey: {}", searchKey);
 		List<UserMileageVO> vos = null;
-		
-		//회원가입 기본값 0만 들어있으면 paging 처리 및 리스트 처리 제외 
-		if(total_rowCount_mileage_search == 0) {
+
+		// 회원가입 기본값 0만 들어있으면 paging 처리 및 리스트 처리 제외
+		if (total_rowCount_mileage_search == 0) {
 			page = 0;
 		}
 
 		Integer row_count = 8;
 		Integer start_row = (page - 1) * row_count + 1;
 		Integer end_row = page * row_count;
-		
-		//마지막 페이지 end_row 처리(단, minus의 경우는 기본값이 들어 있지 않기 때문에 page * row_count을통해 끝까지 리스트를 불러오게 함
-		if((end_row > total_rowCount_mileage_search) && !searchKey.equals("minus") ) {
+
+		// 마지막 페이지 end_row 처리(단, minus의 경우는 기본값이 들어 있지 않기 때문에 page * row_count을통해 끝까지
+		// 리스트를 불러오게 함
+		if ((end_row > total_rowCount_mileage_search) && !searchKey.equals("minus")) {
 			end_row = (int) total_rowCount_mileage_search;
 		}
 		log.info("start_row: " + start_row);
@@ -202,31 +200,6 @@ public class UserMypageSerivice {
 		}
 		return vos;
 	}
-
-//	public List<UserMileageVO> user_mileage_selectAll(UserVO uvo) {
-//		log.info("user_mileage_selectAll()...." + uvo.getUser_no());
-//		return mileageRepository.mileage_selectAll(uvo.getUser_no());
-//
-//	}
-//
-//	// 마일리지상세페이지에서
-//	public List<UserMileageVO> user_mileage_search_list(UserVO uvo, String searchKey) {
-//		log.info("user_mileage_search_list()....");
-//		log.info("uvo: {}", uvo);
-//		log.info("searchKey: {}", searchKey);
-//
-//		//		Native
-//		if (searchKey.equals("all")) {
-//			return mileageRepository.mileage_search_list_all(uvo.getUser_no());
-//		} else if (searchKey.equals("plus")) {
-//			return mileageRepository.mileage_search_list_plus(uvo.getUser_no());
-//		} else if (searchKey.equals("minus")) {
-//			return mileageRepository.mileage_search_list_minus(uvo.getUser_no());
-//		}
-//		return null;
-//		
-//
-//	}
 
 	// 예약 리스트수-현재(페이징 처리를 위해서)
 	public long total_rowCount_reserve(String user_no, String time_point) {
@@ -272,7 +245,7 @@ public class UserMypageSerivice {
 		Integer row_count = 4;
 		Integer start_row = (page - 1) * row_count + 1;
 		Integer end_row = page * row_count;
-		
+
 		log.info("start_row: " + start_row);
 		log.info("end_row: " + end_row);
 
@@ -282,28 +255,6 @@ public class UserMypageSerivice {
 
 		return vos;
 	}
-
-//	// 마이페이지- 현재 예약현황 리스트
-//	public List<MyPageReserveListVO> select_all_now_reserve_list(String user_no) {
-//		log.info("select_all_now_reserve_list()....");
-//		log.info("user_no: {}", user_no);
-//
-//		List<MyPageReserveListVO> vos = myReserveRepository.select_all_now_reserve_list(user_no);
-//		log.info("vos: {}", vos);
-//
-//		return vos;
-//	}
-//
-//	// 마이페이지- 과거 예약현황 리스트
-//	public List<MyPageReserveListVO> select_all_before_reserve_list(String user_no) {
-//		log.info("select_all_before_reserve_list()....");
-//		log.info("user_no: {}", user_no);
-//
-//		List<MyPageReserveListVO> vos = myReserveRepository.select_all_before_reserve_list(user_no);
-//		log.info("vos: {}", vos);
-//
-//		return vos;
-//	}
 
 	// 문의 리스트수-현재(페이징 처리를 위해서)
 	public long total_rowCount_question(String user_no) {
@@ -332,26 +283,12 @@ public class UserMypageSerivice {
 		return vos;
 	}
 
-//	// 마이페이지 - 문의내역리스트
-//	public List<UserQuestionVO> select_all_question(String user_no) {
-//		log.info("select_all_question()....");
-//		log.info("user_no: {}", user_no);
-//		return myQuestionRepository.select_all_question(user_no);
-//	}
-
 	// 마이페이지 - 문의내역리스트(답변)
 	public UserQuestionVO select_one_answer(String comment_no) {
 		log.info("select_all_question()....");
 		log.info("comment_no: {}", comment_no);
 		return myQuestionRepository.select_one_answer(comment_no);
 	}
-
-	// 마이페이지 - 문의내역리스트 - 문의 삭제
-//	public int delete_comment(String comment_no) {
-//		log.info("delete_comment()....");
-//		log.info("comment_no: {}", comment_no);
-//		return myQuestionRepository.delete_comment(comment_no);
-//	}
 
 	// 후기 리스트수(페이징 처리를 위해서)
 	public long total_rowCount_review(String user_no) {
@@ -361,7 +298,6 @@ public class UserMypageSerivice {
 		return userReviewRepository.total_rowCount_review(user_no);
 	}
 
-	
 	// 마이페이지 - 후기리스트 페이징
 	public List<UserReviewVO> select_all_review_paging(String user_no, Integer page) {
 		log.info("select_all_review_paging()....");
@@ -380,13 +316,5 @@ public class UserMypageSerivice {
 
 		return vos;
 	}
-
-
-//	// 마이페이지 - 후기리스트
-//	public List<UserReviewVO> select_all_review(String user_no) {
-//		log.info("select_all_review()....");
-//		log.info("user_no: {}", user_no);
-//		return userReviewRepository.select_all_review(user_no);
-//	}
 
 }// end class

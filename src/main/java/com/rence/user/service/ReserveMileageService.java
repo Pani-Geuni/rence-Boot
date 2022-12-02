@@ -6,10 +6,7 @@ import org.springframework.stereotype.Service;
 import com.rence.user.model.ReserveMileageVO;
 import com.rence.user.repository.ReserveMileageRepository;
 
-import lombok.extern.slf4j.Slf4j;
 
-
-@Slf4j
 @Service
 public class ReserveMileageService {
 

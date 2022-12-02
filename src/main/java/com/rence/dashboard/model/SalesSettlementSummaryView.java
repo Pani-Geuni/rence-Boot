@@ -18,7 +18,6 @@ import org.hibernate.annotations.Immutable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Data
 @AllArgsConstructor
@@ -26,7 +25,6 @@ import lombok.extern.slf4j.Slf4j;
 @Entity
 @Immutable
 @Table(name="SALESSETTLEMENT_SUMMARY_VIEW")
-@Slf4j
 public class SalesSettlementSummaryView implements Serializable{
 //	@Column(name="sales_no")
 //	private String sales_no;

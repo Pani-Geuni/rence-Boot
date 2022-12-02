@@ -5,29 +5,16 @@
  */
 package com.rence.dashboard.model;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Immutable;
-
-import com.rence.backoffice.model.BackOfficeVO;
-import com.rence.office.model.ListViewVO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.extern.slf4j.Slf4j;
 
 @Entity
 @Immutable
@@ -35,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="RESERVE_LIST_B_VIEW")
-@Slf4j
+
 public class ReserveListView {
 	
 	@Id

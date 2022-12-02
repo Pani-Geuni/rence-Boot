@@ -1,6 +1,5 @@
 /**
-	 * @author 강경석
-	 
+* @author 강경석
 */
 package com.rence.user.repository;
 
@@ -38,7 +37,6 @@ public interface MileageRepository extends JpaRepository<UserMileageVO, Object> 
 			value = "select  * from (select ROWNUM as rn, u.* from (select *  from user_detail_mileage_view  where (state = 'T' or state = 'F') and user_no = ?1 order by no desc) u) where rn between ?2 and ?3")
 	public List<UserMileageVO> user_mileage_selectAll_paging(String user_no, Integer start_row, Integer end_row);
 	
-
 	
 	// user_mileage_search_list paging
 	//적립
@@ -47,29 +45,6 @@ public interface MileageRepository extends JpaRepository<UserMileageVO, Object> 
 	//사용
 	@Query(nativeQuery = true, value = "select  * from (select ROWNUM as rn, u.* from (select *  from user_detail_mileage_view  where  user_no = ?1 and state='F' order by no desc) u) where rn between ?2 and ?3")
 	public List<UserMileageVO> mileage_search_list_minus_paging(String user_no, Integer start_row, Integer end_row);
-
-	
-	
-//	// user_mileage_selectAll
-//	@Query(nativeQuery = true, value = "select * from user_detail_mileage_view where user_no = ?1 order by no desc")
-//	List<UserMileageVO> mileage_selectAll(String user_no);
-//
-//	// user_mileage_search_list
-//	@Query(nativeQuery = true, value = "select * from user_detail_mileage_view where user_no = ?1 order by no desc")
-//	public List<UserMileageVO> mileage_search_list_all(String user_no);
-//
-//	@Query(nativeQuery = true, value = "select * from user_detail_mileage_view where user_no = ?1 and state='T' order by no desc")
-//	public List<UserMileageVO> mileage_search_list_plus(String user_no);
-//
-//	@Query(nativeQuery = true, value = "select * from user_detail_mileage_view where user_no = ?1 and state='F' order by no desc")
-//	public List<UserMileageVO> mileage_search_list_minus(String user_no);
-
-	
-	
-	
-
-
-	
 
 
 }// end class

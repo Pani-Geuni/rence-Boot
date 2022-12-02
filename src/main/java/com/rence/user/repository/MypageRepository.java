@@ -1,9 +1,7 @@
 /**
-	 * @author 강경석
-	 
+* @author 강경석
 */
 package com.rence.user.repository;
-
 
 import javax.transaction.Transactional;
 
@@ -13,28 +11,22 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.rence.user.model.UserMypageVO;
 
-public interface MypageRepository extends JpaRepository<UserMypageVO, Object>  {
+public interface MypageRepository extends JpaRepository<UserMypageVO, Object> {
 
-	//회원탈퇴에 따른 회원상태 수정
-		@Transactional
-		@Modifying
-		@Query(nativeQuery = true, value= "update userinfo set user_state='N' where user_no = ?1")
-		public int user_secedeOK(String user_no);
-		
-	//프로필수정
+	// 회원탈퇴에 따른 회원상태 수정
 	@Transactional
 	@Modifying
-	@Query(nativeQuery = true, value= "update userinfo set user_image=?1 where user_no = ?2")
+	@Query(nativeQuery = true, value = "update userinfo set user_state='N' where user_no = ?1")
+	public int user_secedeOK(String user_no);
+
+	// 프로필수정
+	@Transactional
+	@Modifying
+	@Query(nativeQuery = true, value = "update userinfo set user_image=?1 where user_no = ?2")
 	public int user_img_updateOK(String user_image, String user_no);
-	
-	
-	//마이페이지
-	@Query(nativeQuery = true, value= "select * from (select * from USER_MYPAGE_VIEW where user_no = ?1 order by mileage_no desc)WHERE ROWNUM between 1 and 1")
+
+	// 마이페이지
+	@Query(nativeQuery = true, value = "select * from (select * from USER_MYPAGE_VIEW where user_no = ?1 order by mileage_no desc)WHERE ROWNUM between 1 and 1")
 	public UserMypageVO user_mypage_select(String user_no);
 
-
-	
-
-	
-
-}//end class
+}// end class

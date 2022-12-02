@@ -35,7 +35,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
-
 @Api(tags = "유저회원가입 컨트롤러")
 @Slf4j
 @Controller
@@ -50,24 +49,22 @@ public class UserJoinController {
 	ServletContext context;
 	@Autowired
 	UserSendEmail authSendEmail;
-	
-	//자동 개행 및 줄 바꿈 (new Gson으로 하면 일자로 나옴)
+
+	// 자동 개행 및 줄 바꿈 (new Gson으로 하면 일자로 나옴)
 	Gson gson = new GsonBuilder().setPrettyPrinting().create();
-	
-	//데이터 표현 타입 설정
+
+	// 데이터 표현 타입 설정
 	@InitBinder
 	protected void initBinder(WebDataBinder binder) {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		binder.registerCustomEditor(Date.class, 
-				new CustomDateEditor(dateFormat, true));
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
 	}
 
-	
-	/**
-	 * 이메일 인증번호 요청
-	 * 이메일 중복 체크
-	 */
-	@ApiOperation(value="이메일 인증번호요청", notes="이메일 인증번호요청 입니다.")
+	// **********************
+	// 이메일 인증번호 요청
+	// 이메일 중복 체크
+	// **********************
+	@ApiOperation(value = "이메일 인증번호요청", notes = "이메일 인증번호요청 입니다.")
 	@PostMapping("/user_auth")
 	@ResponseBody
 	@Transactional
@@ -85,17 +82,17 @@ public class UserJoinController {
 		if (emailCheck == null || emailCheck.getUser_state().equalsIgnoreCase("N   ")) {
 			avo.setUser_email(uvo.getUser_email());
 			log.info("avo :   {}", avo);
-			//인증 테이블에 인증한 기록이 있는지 확인(카운트) 1이상이면 인증을 시도를 한 상태
+			// 인증 테이블에 인증한 기록이 있는지 확인(카운트) 1이상이면 인증을 시도를 한 상태
 			int auth_selectCnt = service.user_auth_selectCnt(avo);
-			//인증테이블에 데이터가 없을때(첫 시도, 2분경과로 자동삭제가 된 상태)
+			// 인증테이블에 데이터가 없을때(첫 시도, 2분경과로 자동삭제가 된 상태)
 			if (auth_selectCnt == 0) {
 				// 이메일 전송
 				avo = authSendEmail.sendEmail(avo, evo);
 				log.info("메일이 전송되었습니다.C_avo: {}", avo);
 			}
 			if (avo != null) {
-				
-				//인증테이블에 데이터가 있을때(재시도, 2분경과가 되지 않은 상태)
+
+				// 인증테이블에 데이터가 있을때(재시도, 2분경과가 되지 않은 상태)
 				if (auth_selectCnt > 0) {
 					// 인증번호 재전송 시간전에 재요청시
 					log.info("user_auth Re-try authentication");
@@ -108,8 +105,7 @@ public class UserJoinController {
 					log.info("avo2:{}", avo2);
 					map.put("authNum", "1");
 				}
-			}
-			else {
+			} else {
 				log.info("user_auth failed...");
 				map.put("authNum", "0");
 			}
@@ -122,57 +118,57 @@ public class UserJoinController {
 		String jsonObject = gson.toJson(map);
 		return jsonObject;
 	}
-	
 
-	/**
-	 * 이메일 인증번호 확인
-	 */
-	@ApiOperation(value="이메일 인증번호확인", notes="이메일 인증번호확인 입니다.")
+	// **********************
+	// 이메일 인증번호 확인
+	// **********************
+	@ApiOperation(value = "이메일 인증번호확인", notes = "이메일 인증번호확인 입니다.")
 	@PostMapping("/user_authOK")
 	@ResponseBody
 	@Transactional
 	public String user_authOK(String user_email, String email_code) {
-		
+
 		log.info("Welcome user_authOK");
 		log.info("{}", email_code);
-		 
+
 		AuthVO avo = service.user_authOK_select(user_email, email_code);
 		log.info("avo: {}", avo);
 		Map<String, String> map = new HashMap<String, String>();
 
-	    if(avo != null){
-	    	log.info("successed...");
-	    	int del_result = service.user_auth_delete(user_email, email_code);
-	    	log.info("del_result: ", del_result);
-	    	
-	    	map.put("result", "1");
-	    }else{
-	    	log.info("failed...");
-	    	map.put("result", "0");
-	    }
+		if (avo != null) {
+			log.info("successed...");
+			int del_result = service.user_auth_delete(user_email, email_code);
+			log.info("del_result: ", del_result);
 
-	    String jsonObject = gson.toJson(map);
+			map.put("result", "1");
+		} else {
+			log.info("failed...");
+			map.put("result", "0");
+		}
+
+		String jsonObject = gson.toJson(map);
 		return jsonObject;
 	}
 
+	//
+	// **********************
 	// 아이디 중복 체크
-	@ApiOperation(value="아이디 중복 체크", notes="아이디 중복 체크 입니다.")
+	// **********************
+	@ApiOperation(value = "아이디 중복 체크", notes = "아이디 중복 체크 입니다.")
 	@PostMapping("/user_idCheckOK")
 	@ResponseBody
 	public String user_idCheckOK(UserVO uvo) {
 		log.info("Welcome! user_idCheckOK");
 		log.info("result: {}", uvo);
-		
-		
+
 		Map<String, String> map = new HashMap<String, String>();
-		
 
 		UserVO idCheck = service.idCheckOK(uvo);
 		log.info("idlCheck: {}", idCheck);
 
-		if(idCheck==null || idCheck.getUser_state().equalsIgnoreCase("N   ")) {
-			map.put("result", "1"); // 아이디 사용가능("OK")			
-		}else {
+		if (idCheck == null || idCheck.getUser_state().equalsIgnoreCase("N   ")) {
+			map.put("result", "1"); // 아이디 사용가능("OK")
+		} else {
 			// uvo가 null이 아니면 아이디 존재
 			map.put("result", "0"); // 아이디 존재("NOT OK")
 		}
@@ -181,8 +177,10 @@ public class UserJoinController {
 		return jsonObject;
 	}
 
+	// **********************
 	// 회원가입완료
-	@ApiOperation(value="회원가입 성공", notes="회원가입 성공 입니다.")
+	// **********************
+	@ApiOperation(value = "회원가입 성공", notes = "회원가입 성공 입니다.")
 	@PostMapping("/joinOK")
 	@ResponseBody
 	public String user_joinOK(UserVO uvo) {
@@ -193,24 +191,23 @@ public class UserJoinController {
 		// insert(성공시 1)
 		int result = service.user_insertOK(uvo);
 		log.info("result: {}", result);
-		
-		//회원가입 실패시
-		if(result==0) {
-			//회원가입실패
-			map.put("result", "0"); 
-		}
-		else {
+
+		// 회원가입 실패시
+		if (result == 0) {
+			// 회원가입실패
+			map.put("result", "0");
+		} else {
 			UserVO uvo2 = service.user_select_userno();
 			log.info("uvo2: {}", uvo2);
 			int result2 = service.user_mileage_zero_insert(uvo2);
-			if(result2 == 0) {
-				//회원가입은 했지만 마일리지 데이터가 안들어갔으므로 실패
+			if (result2 == 0) {
+				// 회원가입은 했지만 마일리지 데이터가 안들어갔으므로 실패
 				map.put("result", "0");
 			}
 			log.info("result2: {}", result2);
-			map.put("result", "1"); 
+			map.put("result", "1");
 		}
-		
+
 		String jsonObject = gson.toJson(map);
 		return jsonObject;
 	}

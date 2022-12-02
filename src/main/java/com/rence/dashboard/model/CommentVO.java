@@ -18,15 +18,12 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-//@Table(name="RESERVEINFO")
 @Table(name="COMMENTS")
-@Slf4j
 public class CommentVO implements Serializable{
 
 	@Id

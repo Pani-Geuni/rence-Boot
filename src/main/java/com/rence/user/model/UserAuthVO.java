@@ -43,4 +43,5 @@ public class UserAuthVO {
 	@Column(name="AUTH_STIME", insertable= false, updatable = false)
 	@ColumnDefault(value="sysdate")
 	private Date auth_stime;
+	
 }

@@ -5,25 +5,21 @@
  */
 package com.rence.master.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import com.rence.backoffice.model.BackOfficeVO;
-import com.rence.backoffice.model.EmailVO;
+import java.io.UnsupportedEncodingException;
+import java.util.Base64;
+import java.util.Base64.Encoder;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMessage.RecipientType;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Component;
 
-import java.io.UnsupportedEncodingException;
-import java.util.Base64;
-import java.util.Base64.Decoder;
-import java.util.Base64.Encoder;
+import com.rence.backoffice.model.BackOfficeVO;
+import com.rence.backoffice.model.EmailVO;
 
 @Component
 public class MasterSendEmail {
