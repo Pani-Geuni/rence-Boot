@@ -118,16 +118,18 @@ public class MypageMenuController {
 			if (mvo != null) {
 				DecimalFormat dc = new DecimalFormat("###,###,###,###");
 
+				if (mvo.getMileage_state().equals("F")) {
+					mvo.setMileage_change(
+							Integer.toString((int) Math.round(Integer.parseInt(mvo.getActual_payment()) * 0.05)));
+				} 
+				
 				String ch1 = dc.format(Integer.parseInt(mvo.getActual_payment()));
 				mvo.setActual_payment(ch1);
 
 				String ch2 = dc.format(Integer.parseInt(mvo.getPayment_total()));
 				mvo.setPayment_total(ch2);
 
-				if (mvo.getMileage_state().equals("F")) {
-					mvo.setMileage_change(
-							Integer.toString((int) Math.round(Integer.parseInt(mvo.getActual_payment()) * 0.05)));
-				}
+				
 
 				String ch3 = dc.format(Integer.parseInt(mvo.getMileage_change()));
 				mvo.setMileage_change(ch3);
