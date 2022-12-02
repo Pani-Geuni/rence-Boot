@@ -239,7 +239,7 @@ public class MypageController {
 	// **********************
 	@ApiOperation(value = "예약리스트", notes = "예약리스트 페이지입니다.")
 	@GetMapping("/reserve_list")
-	public String reserve_list(String time_point, String user_no, Model model,
+	public String reserve_list_rsu(String time_point, String user_no, Model model,
 			@RequestParam(value = "page", defaultValue = "1") Integer page) {
 		Map<String, Object> map = new HashMap<String, Object>();
 
