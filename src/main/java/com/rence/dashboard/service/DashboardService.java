@@ -26,6 +26,7 @@ import com.rence.dashboard.model.CommentVO;
 import com.rence.dashboard.model.DashBoardDAO;
 import com.rence.dashboard.model.ReserveListView;
 import com.rence.dashboard.model.ReserveSummaryView;
+import com.rence.dashboard.model.ReserveUpdateVO;
 import com.rence.dashboard.model.ReviewListView;
 import com.rence.dashboard.model.RoomInsertVO;
 import com.rence.dashboard.model.RoomSummaryView;
@@ -387,6 +388,12 @@ public class DashboardService {
 	public int backoffice_schedule_cancel(String backoffice_no, String schedule_no) {
 		log.info("backoffice_schedule_cancel().....");
 		return sc_repository.backoffice_schedule_cancel(backoffice_no, schedule_no);
+	}
+	
+	// 예약 false 상태 reserve_no 가져오기
+	public ReserveUpdateVO select_one_false_reserve(String reserve_stime, String reserve_etime, String room_no) {
+		log.info("select_one_false_reserve().....");
+		return reserveAutoUpdateRepository.select_one_false_reserve(reserve_stime,reserve_etime,room_no);
 	}
 	
 	// 예약 false 상태 30분 뒤 삭제

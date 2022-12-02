@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.rence.backoffice.model.AuthVO;
 import com.rence.backoffice.service.BackOfficeService;
+import com.rence.dashboard.model.ReserveUpdateVO;
+import com.rence.dashboard.model.ReserveUpdateVO;
 import com.rence.dashboard.service.DashboardService;
 import com.rence.office.model.OfficeReserveVO;
 import com.rence.office.service.OfficeService;
@@ -32,9 +34,6 @@ public class AutoAspect {
 	
 	@Autowired
 	BackOfficeService b_service;
-	
-	@Autowired
-	OfficeService o_service;
 
 	//*******************************************//
 	//*************예약 상태 자동 업데이트***************//
@@ -97,11 +96,12 @@ public class AutoAspect {
 			public void run() {
 				try {
 					log.info("sleep-----------start-------------");
-					Thread.sleep(1800000);
+					Thread.sleep(60000);
 					log.info("sleep-------------end-----------");
 					log.info("reserve::{}",reserve);
-					String reserve_no = o_service.select_one_last_reserve(reserve.getUser_no());
-					service.reserve_auto_delete(reserve_no);
+					ReserveUpdateVO reserve_no = service.select_one_false_reserve(reserve.getReserve_stime(), reserve.getReserve_etime(), reserve.getRoom_no());
+					log.info("reserve::{}",reserve_no);
+					service.reserve_auto_delete(reserve_no.getReserve_no());
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
