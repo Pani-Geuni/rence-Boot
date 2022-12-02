@@ -6,6 +6,8 @@
 package com.rence.dashboard.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -655,15 +657,18 @@ public class DashBoardController {
 
 	/**
 	 * 예약 관리(리스트-검색)
+	 * @throws UnsupportedEncodingException 
 	 */
 	@ApiOperation(value = "예약 리스트 검색", notes = "대쉬보드 예약 관리 페이지 - 리스트 검색")
 	@GetMapping("/search_reserve")
 	public String dashboard_reserve_search_rsu(Model model, String backoffice_no, String searchword, String reserve_state,
-			@RequestParam(value = "page", defaultValue = "1") Integer page) {
+			@RequestParam(value = "page", defaultValue = "1") Integer page) throws UnsupportedEncodingException {
 		log.info("backoffice_search_reserve ()...");
 		log.info("{}", backoffice_no);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
+		
+//		searchword = URLEncoder.encode(searchword, "UTF-8");
 		
 		int total_cnt = service.backoffice_search_reserve_cnt(backoffice_no, searchword, reserve_state);
 		

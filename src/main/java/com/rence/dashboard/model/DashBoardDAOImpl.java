@@ -168,13 +168,14 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		log.info("reserve_state: {}.....", reserve_state);
 		log.info("start_row: {}.....", start_row);
 		log.info("end_row: {}.....", end_row);
-		log.info("end_row: {}.....", searchword);
+		log.info("searchword: {}.....", searchword);
 
 		List<ReserveListView> reserve = null;
 
 		if (reserve_state.equals("all")) {
 			reserve = rv_repository.backoffice_reserve_selectAll_search(backoffice_no, start_row, end_row,
 					"%" + searchword + "%");
+			log.info("search list :: {}", reserve);
 		} else if (reserve_state.equals("in_use")) {
 			reserve = rv_repository.backoffice_reserve_selectAll_inuse_search(backoffice_no, start_row, end_row,
 					"%" + searchword + "%");
@@ -206,7 +207,7 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		} else if (reserve_state.equals("cancel")) {
 			total_cnt = rv_repository.backoffice_reserve_selectAll_cancel_search(backoffice_no, "%" + searchword + "%");
 		}
-
+		log.info("total_cnt:::::{}",total_cnt);
 		return total_cnt;
 	}
 
