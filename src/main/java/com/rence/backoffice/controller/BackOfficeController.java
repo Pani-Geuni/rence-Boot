@@ -5,7 +5,7 @@
  */
 package com.rence.backoffice.controller;
 
-import java.security.Principal;
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,13 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +26,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -179,7 +172,7 @@ public class BackOfficeController {
 					// avo2 = auth 테이블에 정보 저장 후, select 해온 결과값
 					AuthVO avo2 = service.backoffice_auth_insert(avo);
 					log.info("successed...");
-					log.info("=============avo2:{}", avo2);
+					log.info("avo2:{}", avo2);
 
 					map.put("result", "1");
 					map.put("auth_code", avo2.getAuth_code());
@@ -301,7 +294,7 @@ public class BackOfficeController {
 		}
 			
 			return "redirect:landing";
-		}
+	}
 	
 	/**
 	 * 비밀번호 초기화(찾기), 이메일로 임시 비밀번호 전송

@@ -145,7 +145,7 @@ public class MasterController {
 			BackOfficeVO bvo2 = sendEmail.settingPw(bvo, evo);
 			if (bvo2 != null) {
 				log.info("successed...");
-				log.info("=============bvo2:{}", bvo2);
+				log.info("bvo2:{}", bvo2);
 
 				map.put("result", "1");
 			} else { // 이메일 전송 실패
@@ -179,7 +179,7 @@ public class MasterController {
 
 			BackOfficeVO bvo2 = sendEmail.result_refuse(bvo, evo);
 			log.info("successed...");
-			log.info("=============bvo2:{}", bvo2);
+			log.info("bvo2:{}", bvo2);
 
 			map.put("result", "1");
 
@@ -229,7 +229,7 @@ public class MasterController {
 			BackOfficeVO bvo2 = sendEmail.backoffice_revoke(bvo, evo);
 			if (bvo2 != null) {
 				log.info("successed...");
-				log.info("=============bvo2:{}", bvo2);
+				log.info("bvo2:{}", bvo2);
 				map.put("result", "1");
 			} else { // 이메일 전송 실패
 				log.info("failed...");

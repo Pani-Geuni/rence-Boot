@@ -7,7 +7,6 @@ package com.rence.dashboard.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -18,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +35,6 @@ import com.rence.backoffice.model.BackOfficeOperatingTimeVO;
 import com.rence.backoffice.model.BackOfficeOperatingTimeVO_datetype;
 import com.rence.backoffice.model.BackOfficeVO;
 import com.rence.backoffice.service.BackOfficeFileService;
-import com.rence.backoffice.service.BackOfficeSendEmail;
 import com.rence.backoffice.service.OperatingTime;
 import com.rence.common.OptionEngToKorMap;
 import com.rence.dashboard.model.BOPaymentVO;
@@ -45,8 +42,9 @@ import com.rence.dashboard.model.CommentInsertVO;
 import com.rence.dashboard.model.CommentListQView;
 import com.rence.dashboard.model.CommentSummaryView;
 import com.rence.dashboard.model.CommentVO;
-import com.rence.dashboard.model.ReserveSummaryView;
+import com.rence.dashboard.model.ReservationView;
 import com.rence.dashboard.model.ReserveListView;
+import com.rence.dashboard.model.ReserveSummaryView;
 import com.rence.dashboard.model.ReviewListView;
 import com.rence.dashboard.model.RoomInsertVO;
 import com.rence.dashboard.model.RoomSummaryView;
@@ -56,9 +54,6 @@ import com.rence.dashboard.model.SalesSettlementSummaryView;
 import com.rence.dashboard.model.SalesSettlementViewVO;
 import com.rence.dashboard.model.ScheduleEntity;
 import com.rence.dashboard.model.ScheduleListView;
-import com.rence.dashboard.model.ScheduleVO;
-import com.rence.dashboard.model.ReservationView;
-import com.rence.dashboard.repository.ScheduleListRepository;
 import com.rence.dashboard.service.DashboardSendEmail;
 import com.rence.dashboard.service.DashboardService;
 import com.rence.dashboard.service.HostPaymentCancelService;
@@ -140,7 +135,7 @@ public class DashBoardController {
 		// 현재페이지
 		long nowPage = page;
 
-		// 5page씩 끊으면 끝 페이지 번호( ex, 총 9페이지이고, 현재페이지가 6이면 maxpage = 9)
+		// 5page씩
 		long maxPage = 0;
 
 		if (nowPage % 5 != 0) {
@@ -295,7 +290,7 @@ public class DashBoardController {
 
 		String json = gson.toJson(map3);
 
-		log.info("maaaaaaaaaaaaaaaaaaaap{}", map3);
+		log.info("map{}", map3);
 
 		return json;
 	}
@@ -542,7 +537,7 @@ public class DashBoardController {
 		// 현재페이지
 		long nowPage = page;
 
-		// 5page씩 끊으면 끝 페이지 번호( ex, 총 9페이지이고, 현재페이지가 6이면 maxpage = 9)
+		// 5page씩 끊으면 끝 페이지 번호
 		long maxPage = 0;
 
 		if (nowPage % 5 != 0) {
@@ -621,7 +616,7 @@ public class DashBoardController {
 		// 현재페이지
 		long nowPage = page;
 		
-		// 5page씩 끊으면 끝 페이지 번호( ex, 총 9페이지이고, 현재페이지가 6이면 maxpage = 9)
+		// 5page씩 
 		long maxPage = 0;
 
 		if (nowPage % 5 != 0) {
@@ -668,8 +663,6 @@ public class DashBoardController {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-//		searchword = URLEncoder.encode(searchword, "UTF-8");
-		
 		int total_cnt = service.backoffice_search_reserve_cnt(backoffice_no, searchword, reserve_state);
 		
 		List<ReserveListView> rvos = service.backoffice_search_reserve(backoffice_no, searchword, reserve_state,  9 * (page - 1) + 1, 9 * (page));
@@ -699,7 +692,7 @@ public class DashBoardController {
 		// 현재페이지
 		long nowPage = page;
 
-		// 5page씩 끊으면 끝 페이지 번호( ex, 총 9페이지이고, 현재페이지가 6이면 maxpage = 9)
+		// 5page씩
 		long maxPage = 0;
 
 		if (nowPage % 5 != 0) {
@@ -762,7 +755,7 @@ public class DashBoardController {
 		// 현재페이지
 		long nowPage = page;
 
-		// 5page씩 끊으면 끝 페이지 번호( ex, 총 9페이지이고, 현재페이지가 6이면 maxpage = 9)
+		// 5page씩
 		long maxPage = 0;
 
 		if (nowPage % 5 != 0) {
@@ -1285,7 +1278,6 @@ public class DashBoardController {
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		// 에약 상태 cancel로 변경, 예약자에게 취소 메일 보내기, 결제 환불 상태 C , payment_date=current_date, 결제 테이블에서 사용한 마일리지와 돈 환불.
-
 		BOPaymentVO pvo = service.backoffice_reservation_cancel(backoffice_no, reserve_no, user_no);
 
 		if (pvo != null) {

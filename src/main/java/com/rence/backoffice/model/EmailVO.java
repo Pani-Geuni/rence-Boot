@@ -20,9 +20,7 @@ public class EmailVO implements Serializable{
 	private String subject;
 	private String content;
 	
-	public EmailVO() {
-		// TODO Auto-generated constructor stub
-	}
+	public EmailVO() {}
 
 
 	public EmailVO(String reciver, String subject, String content) {

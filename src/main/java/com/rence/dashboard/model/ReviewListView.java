@@ -9,12 +9,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.hibernate.annotations.Immutable;
 
@@ -48,11 +44,9 @@ public class ReviewListView implements Serializable{
 	@Column(name="user_no")
 	private String user_no;
 	
-//	@Transient
 	@Column(name="user_image")
 	private String user_image;
 	
-//	@Transient
 	@Column(name="user_name")
 	private String user_name;
 }
