@@ -102,7 +102,6 @@ public class MypageController {
 		return "thymeleaf/layouts/office/layout_myPage";
 	}
 
-	
 	// **********************
 	// 마이페이지 - 비밀번호 수정
 	// **********************
@@ -161,8 +160,6 @@ public class MypageController {
 		return jsonObject;
 	}
 
-
-
 	// **********************
 	// 마이페이지 -프로필 수정 AWS적용
 	// **********************
@@ -174,7 +171,6 @@ public class MypageController {
 		log.info("user_img_updateOK()...");
 		log.info("result: {}", uvo);
 
-		// uvo.setUser_no("U1004");
 		String user_no = null;
 		Cookie[] cookies = request.getCookies();
 		for (Cookie c : cookies) {
@@ -247,7 +243,6 @@ public class MypageController {
 		List<MyPageReserveListVO> list = null;
 		log.info("current page: {}", page);
 
-
 		// 페이징 처리 로직
 		// 총 리스트 수
 		long total_rowCount_reserve = service.total_rowCount_reserve(user_no, time_point);
@@ -285,11 +280,11 @@ public class MypageController {
 		// 페이징처리를 위한 페이지 계산 로직끝
 
 		if (time_point.equals("now")) {
-			list = service.select_all_now_reserve_list_paging(user_no,page);
+			list = service.select_all_now_reserve_list_paging(user_no, page);
 			map.put("type", "now");
 
 		} else if (time_point.equals("before")) {
-			list = service.select_all_before_reserve_list_paging(user_no,page);
+			list = service.select_all_before_reserve_list_paging(user_no, page);
 			map.put("type", "before");
 		}
 		if (list == null) {
@@ -297,7 +292,7 @@ public class MypageController {
 		} else {
 			map.put("cnt", list.size());
 			OfficeInfoMap info_map = new OfficeInfoMap();
-			
+
 			// 대표 이미지 1장 처리
 			for (MyPageReserveListVO vo : list) {
 				List<String> splitImage = info_map.splitImage(vo.getBackoffice_image());
@@ -305,15 +300,13 @@ public class MypageController {
 				vo.setBackoffice_image(room_first_image);
 			}
 		}
-		
+
 		DecimalFormat dc = new DecimalFormat("###,###,###,###,###");
 		for (int i = 0; i < list.size(); i++) {
-			//log.info("log**all***"+vos.get(i).getMileage()+"i: "+i);
 			list.get(i).setPayment_total(dc.format(Integer.parseInt(list.get(i).getPayment_total())));
 		}
 		log.info("Type change list: {}" + list);
-		
-		
+
 		map.put("list", list);
 		map.put("page", "reserve-list");
 
@@ -327,7 +320,6 @@ public class MypageController {
 //		return ".my_page/reserve-list";
 		return "thymeleaf/layouts/office/layout_myPage";
 	}
-
 
 	// **********************
 	// 마일리지 리스트
@@ -356,7 +348,7 @@ public class MypageController {
 		// 페이징 처리 로직(마일리지 리스트 전용!!!!)
 		// 리스트 수
 		long total_rowCount_mileage_all = service.total_rowCount_mileage_all(uvo);
-		total_rowCount_mileage_all -= 1; //회원가입시 들어가는 기본값 제외
+		total_rowCount_mileage_all -= 1; // 회원가입시 들어가는 기본값 제외
 		log.info("total_rowCount_mileage_all: {}", total_rowCount_mileage_all);
 
 		// 총 페이징되는 수
@@ -387,14 +379,13 @@ public class MypageController {
 		map.put("totalPageCnt", totalPageCnt);
 		map.put("nowPage", nowPage);
 		map.put("maxPage", maxPage);
-		
+
 		// 페이징처리를 위한 페이지 계산 로직끝
-		
+
 		List<UserMileageVO> vos = service.user_mileage_selectAll_paging(uvo, page, total_rowCount_mileage_all);
 		log.info("vos: " + vos);
 
 		for (int i = 0; i < vos.size(); i++) {
-			//log.info("log**all***"+vos.get(i).getMileage()+"i: "+i);
 			vos.get(i).setMileage(dc.format(Integer.parseInt(vos.get(i).getMileage())));
 		}
 		log.info("Type change vos: {}" + vos);
@@ -411,7 +402,7 @@ public class MypageController {
 		return "thymeleaf/layouts/office/layout_myPage";
 
 	}
-	
+
 	// **********************
 	// 마일리지 리스트 - searchKey
 	// **********************
@@ -430,7 +421,7 @@ public class MypageController {
 		UserMileageVO umvo = service.totalMileage_selectOne(uvo);
 		log.info("umvo: {}", umvo);
 
-		//마일리지 콤마단위로 변환
+		// 마일리지 콤마단위로 변환
 		DecimalFormat dc = new DecimalFormat("###,###,###,###,###");
 		String mileage_total = dc.format(umvo.getMileage_total());
 		log.info("mileage_total: " + mileage_total);
@@ -438,7 +429,7 @@ public class MypageController {
 		// 페이징 처리 로직(이거는 마일리지 전용임!!!)
 		// 리스트 수
 		long total_rowCount_mileage_search = service.total_rowCount_mileage_searchKey(uvo, searchKey);
-		total_rowCount_mileage_search -= 1;//회원가입시 들어가는 기본값 제외
+		total_rowCount_mileage_search -= 1;// 회원가입시 들어가는 기본값 제외
 		log.info("total_rowCount_mileage_search: {}", total_rowCount_mileage_search);
 
 		// 총 페이징되는 수
@@ -471,14 +462,12 @@ public class MypageController {
 		map.put("maxPage", maxPage);
 
 		// 페이징처리를 위한 페이지 계산 로직끝
-		
-		
 
-		List<UserMileageVO> vos = service.user_mileage_search_list_paging(uvo, searchKey, page, total_rowCount_mileage_search);
+		List<UserMileageVO> vos = service.user_mileage_search_list_paging(uvo, searchKey, page,
+				total_rowCount_mileage_search);
 		log.info("vos: " + vos);
 
 		for (int i = 0; i < vos.size(); i++) {
-//			log.info("log*****");
 			vos.get(i).setMileage(dc.format(Integer.parseInt(vos.get(i).getMileage())));
 		}
 		log.info("Type change vos: {}" + vos);
@@ -496,18 +485,18 @@ public class MypageController {
 		return "thymeleaf/layouts/office/layout_myPage";
 	}
 
-
 	// **********************
 	// 후기 리스트 이동
 	// **********************
 	@ApiOperation(value = "후기 리스트", notes = "후기 리스트 입니다.")
 	@GetMapping("/review_list")
-	public String review_list(String user_no, Model model, @RequestParam(value = "page", defaultValue = "1") Integer page) {
+	public String review_list(String user_no, Model model,
+			@RequestParam(value = "page", defaultValue = "1") Integer page) {
 		log.info("review_list()...");
 		log.info("user_no: " + user_no);
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+
 		// 페이징 처리 로직
 		// 리스트 수
 		long total_rowCount_review = service.total_rowCount_review(user_no);
@@ -543,8 +532,8 @@ public class MypageController {
 		map.put("maxPage", maxPage);
 
 		// 페이징처리를 위한 페이지 계산 로직끝
-	
-		List<UserReviewVO> list = service.select_all_review_paging(user_no,page);
+
+		List<UserReviewVO> list = service.select_all_review_paging(user_no, page);
 
 		map.put("page", "review");
 		map.put("list", list);
@@ -557,79 +546,77 @@ public class MypageController {
 
 		return "thymeleaf/layouts/office/layout_myPage";
 	}
-	
+
 	// **********************
 	// 마이페이지 - 문의 리스트
 	// **********************
-		@ApiOperation(value = "문의 리스트", notes = "문의 리스트 페이지입니다.")
-		@GetMapping("/question_list")
-		public String question_list(String user_no, Model model, @RequestParam(value = "page", defaultValue = "1") Integer page) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			
-			
-			// 페이징 처리 로직
-					// 리스트 수
-					long total_rowCount_question = service.total_rowCount_question(user_no);
-					log.info("total_rowCount_question: {}", total_rowCount_question);
+	@ApiOperation(value = "문의 리스트", notes = "문의 리스트 페이지입니다.")
+	@GetMapping("/question_list")
+	public String question_list(String user_no, Model model,
+			@RequestParam(value = "page", defaultValue = "1") Integer page) {
+		Map<String, Object> map = new HashMap<String, Object>();
 
-					// 총 페이징되는 수
-					long totalPageCnt = (long) Math.ceil(total_rowCount_question / 8.0);
-					log.info("totalPageCnt: {}", totalPageCnt);
+		// 페이징 처리 로직
+		// 리스트 수
+		long total_rowCount_question = service.total_rowCount_question(user_no);
+		log.info("total_rowCount_question: {}", total_rowCount_question);
 
-					// 현재페이지
-					long nowPage = page;
+		// 총 페이징되는 수
+		long totalPageCnt = (long) Math.ceil(total_rowCount_question / 8.0);
+		log.info("totalPageCnt: {}", totalPageCnt);
 
-					// 5page씩 끊으면 끝 페이지 번호( ex, 총 9페이지이고, 현재페이지가 6이면 maxpage = 9)
-					long maxPage = 0;
+		// 현재페이지
+		long nowPage = page;
 
-					if (nowPage % 5 != 0) {
-						if (nowPage == totalPageCnt) {
-							maxPage = nowPage;
-						} else if (((nowPage / 5) + 1) * 5 >= totalPageCnt) {
-							maxPage = totalPageCnt;
-						} else if (((nowPage / 5) + 1) * 5 < totalPageCnt) {
-							maxPage = ((nowPage / 5) + 1) * 5;
-						}
-					} else if (nowPage % 5 == 0) {
-						if (nowPage <= totalPageCnt) {
-							maxPage = nowPage;
-						}
-					}
-					log.info("maxPage: " + maxPage);
+		// 5page씩 끊으면 끝 페이지 번호( ex, 총 9페이지이고, 현재페이지가 6이면 maxpage = 9)
+		long maxPage = 0;
 
-					map.put("totalPageCnt", totalPageCnt);
-					map.put("nowPage", nowPage);
-					map.put("maxPage", maxPage);
+		if (nowPage % 5 != 0) {
+			if (nowPage == totalPageCnt) {
+				maxPage = nowPage;
+			} else if (((nowPage / 5) + 1) * 5 >= totalPageCnt) {
+				maxPage = totalPageCnt;
+			} else if (((nowPage / 5) + 1) * 5 < totalPageCnt) {
+				maxPage = ((nowPage / 5) + 1) * 5;
+			}
+		} else if (nowPage % 5 == 0) {
+			if (nowPage <= totalPageCnt) {
+				maxPage = nowPage;
+			}
+		}
+		log.info("maxPage: " + maxPage);
 
-					// 페이징처리를 위한 페이지 계산 로직끝
+		map.put("totalPageCnt", totalPageCnt);
+		map.put("nowPage", nowPage);
+		map.put("maxPage", maxPage);
 
-			
-			List<UserQuestionVO> list = service.select_all_question_paging(user_no, page);
-			if (list != null) {
-				for (UserQuestionVO vo : list) {
-					UserQuestionVO vo2 = service.select_one_answer(vo.getComment_no());
-					if (vo2 != null) {
-						vo.setAnswer_content(vo2.getComment_content());
-						vo.setAnswer_date(vo2.getComment_date());
-						vo.setState("Y");
-					} else {
-						vo.setState("N");
-					}
+		// 페이징처리를 위한 페이지 계산 로직끝
+
+		List<UserQuestionVO> list = service.select_all_question_paging(user_no, page);
+		if (list != null) {
+			for (UserQuestionVO vo : list) {
+				UserQuestionVO vo2 = service.select_one_answer(vo.getComment_no());
+				if (vo2 != null) {
+					vo.setAnswer_content(vo2.getComment_content());
+					vo.setAnswer_date(vo2.getComment_date());
+					vo.setState("Y");
+				} else {
+					vo.setState("N");
 				}
 			}
-
-			
-			map.put("page", "question_list");
-			map.put("list", list);
-
-			model.addAttribute("res", map);
-
-			log.info("question_list : {}", map);
-
-			model.addAttribute("content", "thymeleaf/html/office/my_page/question_list");
-			model.addAttribute("title", "문의리스트");
-
-			return "thymeleaf/layouts/office/layout_myPage";
 		}
+
+		map.put("page", "question_list");
+		map.put("list", list);
+
+		model.addAttribute("res", map);
+
+		log.info("question_list : {}", map);
+
+		model.addAttribute("content", "thymeleaf/html/office/my_page/question_list");
+		model.addAttribute("title", "문의리스트");
+
+		return "thymeleaf/layouts/office/layout_myPage";
+	}
 
 }// end class

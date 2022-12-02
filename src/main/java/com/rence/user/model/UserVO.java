@@ -1,7 +1,6 @@
 /**
-	 * @author 강경석
-	 * 유저관련 VO
-	 
+* @author 강경석
+* 유저관련 VO
 */
 
 package com.rence.user.model;
@@ -65,12 +64,6 @@ public class UserVO implements Serializable,UserDetails {
 	
 	@Column(name="user_state")	
 	private String user_state; //회원상태
-	
-//	@Column(name="multipartFile")	
-//	private  MultipartFile multipartFile; //사진저장
-	
-	
-	
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

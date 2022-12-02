@@ -14,7 +14,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.rence.backoffice.model.BackOfficeOperatingTimeVO_datetype;
-import com.rence.backoffice.model.BackOfficeVO;
 
 public interface BackOfficeOperatingTimeRepository extends JpaRepository<BackOfficeOperatingTimeVO_datetype, Object> {
 

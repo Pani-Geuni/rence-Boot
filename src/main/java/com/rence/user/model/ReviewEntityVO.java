@@ -1,6 +1,5 @@
 /**
-	 * @author 강경석
-	 
+* @author 강경석
 */
 
 package com.rence.user.model;

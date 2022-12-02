@@ -7,23 +7,15 @@
  */
 package com.rence.backoffice.service;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.rence.backoffice.model.BackOfficeOperatingTimeVO;
 import com.rence.backoffice.model.BackOfficeOperatingTimeVO_datetype;
-import com.rence.backoffice.service.CustomDateFormatter;
 
 @Component
 public class OperatingTime {
-	
-	private static final Logger logger = LoggerFactory.getLogger(OperatingTime.class);
-
 
 	public BackOfficeOperatingTimeVO_datetype operatingTime(BackOfficeOperatingTimeVO ovo, BackOfficeOperatingTimeVO_datetype ovo2) {
 		

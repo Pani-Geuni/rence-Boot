@@ -6,7 +6,6 @@
 package com.rence.dashboard.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,10 +16,7 @@ import org.hibernate.annotations.Immutable;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.extern.slf4j.Slf4j;
 
 @Entity
 @Immutable
@@ -28,7 +24,6 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="RESERVE_SUMMARY_VIEW")
-@Slf4j
 public class ReserveSummaryView implements Serializable{
 	
 	@Id

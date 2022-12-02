@@ -1,3 +1,6 @@
+/**
+ * @author 강경석
+ */
 package com.rence.security;
 
 import org.springframework.context.annotation.Bean;
@@ -42,41 +45,28 @@ public class BackOfiiceSecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain2(HttpSecurity http) throws Exception {
 		http.authenticationProvider(authenticationProvider2());
-		
-		http
-		.authorizeRequests()
-		.antMatchers("/backoffice/insert").permitAll()
-		.antMatchers("/backoffice/auth").permitAll()
-		.antMatchers("/backoffice/authOK").permitAll()
-		.antMatchers("/backoffice/insertOK").permitAll()
-		.antMatchers("/backoffice/setting_pw").permitAll()
-		.antMatchers("/backoffice/settingOK_pw").permitAll()
-		.antMatchers("/backoffice/reset_pw").permitAll();
-		
-		http
-		 .antMatcher("/backoffice/**")
-		.authorizeRequests() // 요청 URL에 따라 접근 권한을 설정
-		.anyRequest()
-		 .authenticated() // 요청 URL에 따라 접근 권한을 설정
 
+		http.authorizeRequests().antMatchers("/backoffice/insert").permitAll().antMatchers("/backoffice/auth")
+				.permitAll().antMatchers("/backoffice/authOK").permitAll().antMatchers("/backoffice/insertOK")
+				.permitAll().antMatchers("/backoffice/setting_pw").permitAll().antMatchers("/backoffice/settingOK_pw")
+				.permitAll().antMatchers("/backoffice/reset_pw").permitAll();
 
-		.and()
-		.formLogin() // 로그인 폼은
-		.loginPage("/backoffice/landing") // 해당 주소로 로그인 페이지를 호출한다.
-        .loginProcessingUrl("/backoffice/loginOK") // 해당 URL로 요청이 오면 스프링 시큐리티가 가로채서 로그인처리를 한다. ->
-        .successForwardUrl("/backoffice/loginSuccess") // 성공시 요청을 처리할 핸들러
-        .failureForwardUrl("/backoffice/loginFail") // 실패시 요청을 처리할 핸들러
-		.permitAll()
-		.and()
-        .logout()
-        .logoutRequestMatcher(new AntPathRequestMatcher("/backoffice/logout")) // 로그아웃 URL
-        .logoutSuccessUrl("/backoffice/logoutOK") // 성공시 리턴 URL
-        .invalidateHttpSession(true) // 인증정보를 지우하고 세션을 무효화
-        .deleteCookies("JSESSIONID","backoffice_no","host_image") // JSESSIONID 쿠키 삭제
-        .permitAll();
-		
+		http.antMatcher("/backoffice/**").authorizeRequests() // 요청 URL에 따라 접근 권한을 설정
+				.anyRequest().authenticated() // 요청 URL에 따라 접근 권한을 설정
+
+				.and().formLogin() // 로그인 폼은
+				.loginPage("/backoffice/landing") // 해당 주소로 로그인 페이지를 호출한다.
+				.loginProcessingUrl("/backoffice/loginOK") // 해당 URL로 요청이 오면 스프링 시큐리티가 가로채서 로그인처리를 한다. ->
+				.successForwardUrl("/backoffice/loginSuccess") // 성공시 요청을 처리할 핸들러
+				.failureForwardUrl("/backoffice/loginFail") // 실패시 요청을 처리할 핸들러
+				.permitAll().and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/backoffice/logout")) // 로그아웃
+																													// URL
+				.logoutSuccessUrl("/backoffice/logoutOK") // 성공시 리턴 URL
+				.invalidateHttpSession(true) // 인증정보를 지우하고 세션을 무효화
+				.deleteCookies("JSESSIONID", "backoffice_no", "host_image") // JSESSIONID 쿠키 삭제
+				.permitAll();
+
 		http.csrf().disable();
-		
 
 		return http.build();
 	}

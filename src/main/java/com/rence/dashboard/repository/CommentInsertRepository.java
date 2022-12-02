@@ -14,7 +14,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.rence.dashboard.model.CommentInsertVO;
-import com.rence.dashboard.model.CommentVO;
 
 public interface CommentInsertRepository extends JpaRepository<CommentInsertVO, Object> {
 

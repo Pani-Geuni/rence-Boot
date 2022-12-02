@@ -19,14 +19,13 @@ import javax.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name="BACKOFFICEINFO")
-@Slf4j
+
 public class BackOfficeListVO implements Serializable{ 
 
 	@Transient

@@ -5,7 +5,6 @@
  */
 package com.rence.backoffice.repository;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +24,6 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.rence.backoffice.model.BackOfficeVO;
-import com.rence.backoffice.service.BackOfficeFileService;
 
 import lombok.extern.slf4j.Slf4j;
 

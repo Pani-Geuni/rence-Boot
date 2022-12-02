@@ -1,3 +1,6 @@
+/**
+* @author 강경석
+*/
 package com.rence.user.repository;
 
 import java.io.IOException;
@@ -45,8 +48,7 @@ public class UserFAOimpl implements UserFAO {
 			List<MultipartFile> imgs = mtfRequest.getFiles("multipartFile");
 			log.info("imgs : {}", imgs);
 			List<String> img_list = new ArrayList<String>();
-			
-			
+
 			for (MultipartFile mf : imgs) {
 				log.info("for문 시작");
 				String originFileName = UUID.randomUUID() + "."
@@ -62,7 +64,7 @@ public class UserFAOimpl implements UserFAO {
 				objectMetaData.setContentType(mf.getContentType());
 				objectMetaData.setContentLength(fileSize);
 				try {
-					//S3에 업로드 하는 부분
+					// S3에 업로드 하는 부분
 					amazonS3Client.putObject(
 							new PutObjectRequest(S3Bucket, originFileName, mf.getInputStream(), objectMetaData)
 									.withCannedAcl(CannedAccessControlList.PublicRead));
@@ -79,9 +81,10 @@ public class UserFAOimpl implements UserFAO {
 					e.printStackTrace();
 				}
 				log.info("for문 끝");
-			} 
+			}
 		} else if (vo.getUser_image() == null) {
-			vo.setUser_image("img_host_001.jpg"); // 아무것도 선택하지 않으면 기본이미지 세팅
+			// 아무것도 선택하지 않으면 기본이미지 세팅
+			vo.setUser_image("img_host_001.jpg");
 		}
 		return vo;
 	}

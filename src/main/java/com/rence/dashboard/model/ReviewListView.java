@@ -17,7 +17,6 @@ import org.hibernate.annotations.Immutable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Data
 @AllArgsConstructor
@@ -25,7 +24,6 @@ import lombok.extern.slf4j.Slf4j;
 @Entity
 @Immutable
 @Table(name="REVIEW_LIST_B_VIEW")
-@Slf4j
 public class ReviewListView implements Serializable{
 
 	@Id

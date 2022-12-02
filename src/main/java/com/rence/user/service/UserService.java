@@ -1,9 +1,6 @@
 package com.rence.user.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class UserService{
+public class UserService {
 
 	@Autowired
 	UserRepository repository;
@@ -24,13 +21,11 @@ public class UserService{
 	@Autowired
 	UserAuthRepository authRepository;
 
-
-
 	// 로그인
-		public UserVO user_login_info(String username) {
-			log.info("user_login_info()....");
-			return repository.user_login_info(username);
-		}
+	public UserVO user_login_info(String username) {
+		log.info("user_login_info()....");
+		return repository.user_login_info(username);
+	}
 
 	// 아이디 찾기
 	public UserVO user_email_select(UserVO uvo) {
@@ -50,8 +45,7 @@ public class UserService{
 	public int user_pw_init(UserVO uvo) {
 		log.info("user_pw_init()....");
 		log.info("uvo: {}", uvo);
-		
-		
+
 		return repository.user_pw_init(uvo.getUser_pw(), uvo.getUser_id());
 	}
 
@@ -81,12 +75,12 @@ public class UserService{
 
 		return avo2;
 	}
-	
-	//인증번호 재전송 관련 테이블 컬럼 중복확인
+
+	// 인증번호 재전송 관련 테이블 컬럼 중복확인
 	public int user_auth_selectCnt(AuthVO avo) {
 		log.info("user_auth_selectAll()....");
 		log.info("avo: {}", avo);
-		
+
 		return authRepository.user_auth_selectCnt(avo.getUser_email());
 	}
 
@@ -141,7 +135,5 @@ public class UserService{
 		log.info("uvo: {}", uvo2);
 		return repository.user_mileage_zero_insert(uvo2.getUser_no());
 	}
-
-	
 
 }// end class

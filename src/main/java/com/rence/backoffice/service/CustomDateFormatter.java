@@ -7,18 +7,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.rence.office.model.OfficeOperatingTimeVO;
 import com.rence.office.model.OfficeOperatingTimeVO_date;
 
-//import test.com.rence.master.MasterController;
-//import test.com.rence.office.model.OfficeOperatingTimeVO;
-//import test.com.rence.office.model.OfficeOperatingTimeVO_date;
 
 public class CustomDateFormatter {
-	private static final Logger logger = LoggerFactory.getLogger(CustomDateFormatter.class);
+	
 	
 	public CustomDateFormatter() {
 		// TODO Auto-generated constructor stub

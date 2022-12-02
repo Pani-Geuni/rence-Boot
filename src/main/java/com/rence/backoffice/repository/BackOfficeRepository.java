@@ -6,7 +6,6 @@
 package com.rence.backoffice.repository;
 
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -14,8 +13,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.rence.backoffice.model.BackOfficeListVO;
-import com.rence.backoffice.model.BackOfficeOperatingTimeVO_datetype;
 import com.rence.backoffice.model.BackOfficeVO;
 
 public interface BackOfficeRepository extends JpaRepository<BackOfficeVO, Object> {

@@ -4,8 +4,6 @@
 
 package com.rence.office.model;
 
-import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
