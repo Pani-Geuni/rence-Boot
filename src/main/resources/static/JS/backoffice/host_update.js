@@ -336,6 +336,8 @@ $(function() {
 				if(submit_flag){
 					$("#real-submit").click();
 					submit_flag = false;
+					$(".popup-background:eq(1)").removeClass("blind");
+					$("#spinner-section").removeClass("blind");
 				}
 		}
 		else {

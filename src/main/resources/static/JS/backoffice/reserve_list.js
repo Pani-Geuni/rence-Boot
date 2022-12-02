@@ -29,6 +29,11 @@ $(function() {
 					reserve_state = "end";
 					break;
 			}
+			
+			//로딩 화면
+			$(".popup-background:eq(1)").removeClass("blind");
+			$("#spinner-section").removeClass("blind");
+      
 			location.href = "/backoffice/search_reserve?backoffice_no=" + $.cookie("backoffice_no") + "&reserve_state=" + reserve_state + "&searchword=" + $("#input_searchBar").val().trim() + "&page=1";
 		}
 	});
@@ -58,6 +63,10 @@ $(function() {
         var backoffice_no = window.location.href.split("?backoffice_no=")[1].split("&")[0];
         var reserve_state = window.location.href.split("&reserve_state=")[1].split("&")[0];
 
+      //로딩 화면
+      $(".popup-background:eq(1)").removeClass("blind");
+      $("#spinner-section").removeClass("blind");
+      
 		if(window.location.href.includes("/backoffice/reserve?")){
 	        window.location.href = "/backoffice/reserve?backoffice_no=" + backoffice_no + "&reserve_state=" + reserve_state + "&page=" + $(this).attr("idx");
 		}else{
