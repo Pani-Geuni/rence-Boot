@@ -123,7 +123,6 @@ $(function() {
 							$("#spinner-section").addClass("blind");
 
 							$("input:checkbox[name='select-room']").prop('checked', false);
-							console.log(res);
 
 							$("#maxCnt").attr("maxCnt", res.maxCnt);
 							$("#maxCnt").attr("nowCnt", res.nowCnt);
@@ -141,7 +140,6 @@ $(function() {
 									if (res.sc_vos[i].reserve_cnt > 0) {
 										body_row.find('.room-checkbox').attr('disabled', true);
 									}
-
 
 									body_row.find("#room_no").attr("room_no", res.sc_vos[i].room_no);
 
@@ -192,8 +190,7 @@ $(function() {
 
 							}
 						},
-						error: function(error) {
-							console.log(error);
+						error: function() {
 						}
 					});
 				}
@@ -475,7 +472,6 @@ $(function() {
 					});
 				}
 				if (flag = 1) {
-					console.log("success" + flag);
 					//로딩 화면 닫기
 					$(".popup-background:eq(1)").addClass("blind");
 					$("#spinner-section").addClass("blind");
@@ -490,7 +486,6 @@ $(function() {
 					});
 				}
 				if (flag = 0) {
-					console.log("failed" + flag);
 					//로딩 화면 닫기
 					$(".popup-background:eq(1)").addClass("blind");
 					$("#spinner-section").addClass("blind");
@@ -649,39 +644,9 @@ $(function() {
 	});
 
 
-	function timeSplit(time) {
-		let time_split = time.replace(",", "").split(",");
-		let time_list = time_split[0].split(" ");
-
-
-		let year = time_list[2];
-		let month = time_list[0];
-		let day = time_list[1];
-
-		if (month == 'Jan') month = '01'
-		else if (month == 'Feb') month = '02'
-		else if (month == 'Mar') month = '03'
-		else if (month == 'Apr') month = '04'
-		else if (month == 'May') month = '05'
-		else if (month == 'Jun') month = '06'
-		else if (month == 'Jul') month = '07'
-		else if (month == 'Aug') month = '08'
-		else if (month == 'Sep') month = '09'
-		else if (month == 'Oct') month = '10'
-		else if (month == 'Nov') month = '11'
-		else if (month == 'Dec') month = '12'
-
-		let stringTime = year + "/" + month + "/" + day;
-
-		return stringTime;
-	}
-
-
 	// 휴무 일정 캘린더 팝업
 	// 휴무 일정 캘린더 팝업
-
 	$("#btn-dayoff-calendar").click(function() {
-
 		let backoffice_no = $.cookie('backoffice_no');
 		let month = '';
 
@@ -696,7 +661,6 @@ $(function() {
 				backoffice_no: backoffice_no
 			},
 			success: function(res) {
-				console.log(res);
 				$(".popup-background:eq(0)").removeClass("blind");
 				$(".dayoff-calendar-wrap").removeClass("blind");
 
@@ -752,8 +716,7 @@ $(function() {
 
 
 			},
-			error: function(err) {
-				console.log(err);
+			error: function() {
 			}
 		})
 	});
@@ -771,7 +734,6 @@ $(function() {
 		$("#dayoff-cancel-popup").removeClass("blind");
 
 		schedule_no = $(this).attr("schedule_no");
-		//		$("#dayoff-cancel-confirm-closeBtn").attr("schedule_no", );
 	})
 
 	// 휴무 취소 확인 팝업 - 닫기
@@ -788,8 +750,6 @@ $(function() {
 
 		$(".popup-background:eq(1)").addClass("blind");
 		$("#dayoff-cancel-popup").addClass("blind");
-
-		console.log(schedule_no);
 
 		$.ajax({
 			url: "/backoffice/schedule_cancel",
@@ -860,10 +820,7 @@ $(function() {
 					$(".popup-background:eq(1)").removeClass("blind");
 					$("#dayoff-cancel-fail-popup").removeClass("blind");
 				}
-			},
-
-			error: function(err) {
-				console.log(err);
+			},error: function() {
 			}
 
 		});
@@ -873,10 +830,10 @@ $(function() {
 	$("#dayoff-cancel-confirmOK-btn").click(function() {
 		$("#dayoff-cancel-confirmOK-popup").addClass("blind");
 		$(".popup-background:eq(1)").addClass("blind");
-	})
+	});
 
 	$("#dayoff-cancel-fail-btn").click(function() {
 		$("#dayoff-cancel-fail-popup").addClass("blind");
 		$(".popup-background:eq(1)").addClass("blind");
-	})
-})
+	});
+});

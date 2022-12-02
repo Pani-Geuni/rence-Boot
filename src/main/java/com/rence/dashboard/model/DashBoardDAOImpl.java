@@ -28,7 +28,6 @@ import com.rence.dashboard.repository.SalesMileageRepository;
 import com.rence.dashboard.repository.SalesSettlementDetailRepository;
 import com.rence.dashboard.repository.SalesSettlementRepository;
 import com.rence.dashboard.repository.SalesSettlementSummaryRepository;
-//import com.rence.dashboard.repository.ScheduleListCntRepository;
 import com.rence.dashboard.repository.ScheduleListRepository;
 import com.rence.dashboard.repository.ScheduleRepository;
 
@@ -167,13 +166,14 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		log.info("reserve_state: {}.....", reserve_state);
 		log.info("start_row: {}.....", start_row);
 		log.info("end_row: {}.....", end_row);
-		log.info("end_row: {}.....", searchword);
+		log.info("searchword: {}.....", searchword);
 
 		List<ReserveListView> reserve = null;
 
 		if (reserve_state.equals("all")) {
 			reserve = rv_repository.backoffice_reserve_selectAll_search(backoffice_no, start_row, end_row,
 					"%" + searchword + "%");
+			log.info("search list :: {}", reserve);
 		} else if (reserve_state.equals("in_use")) {
 			reserve = rv_repository.backoffice_reserve_selectAll_inuse_search(backoffice_no, start_row, end_row,
 					"%" + searchword + "%");
@@ -205,7 +205,7 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		} else if (reserve_state.equals("cancel")) {
 			total_cnt = rv_repository.backoffice_reserve_selectAll_cancel_search(backoffice_no, "%" + searchword + "%");
 		}
-
+		log.info("total_cnt:::::{}",total_cnt);
 		return total_cnt;
 	}
 
@@ -537,10 +537,8 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 			// 2 -3(휴무, 브레이크 타임이 설정된 공간 제외)
 			if (off_list != null && sc_vos_x != null) {
 				for (int j = 0; j < off_list.size(); j++) {
-					log.info("off_list.get(j):::::::::::{}", off_list.get(j).getRoom_no());
 					String room_no = off_list.get(j).getRoom_no(); 
 					Predicate<ScheduleListView> condition = str -> str.getRoom_no().equals(room_no);
-					log.info("condition:::::::::::{}", condition);
 					sc_vos_x.removeIf(condition);
 				}
 			}
@@ -636,8 +634,7 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 		// 결제 취소,
 		if (flag == 1) {
 			// 결제정보 테이블의 상태 'C' 로 변경
-			p_repository.backoffice_update_payment_state_host_cancel(reserve_no); // 환불 상태 'C', 환불 금액 = 실제 결제 금액, 결제일시 =
-																					// 환불일시
+			p_repository.backoffice_update_payment_state_host_cancel(reserve_no); // 환불 상태 'C', 환불 금액 = 실제 결제 금액, 결제일시 = 환불일시
 			pvo = p_repository.select_paymentinfo(reserve_no); // 결제 정보
 			String payment_no = pvo.getPayment_no();
 
@@ -648,8 +645,7 @@ public class DashBoardDAOImpl implements DashBoardDAO {
 				int mileage_change = mvo2.getMileage_change(); // 2
 				int mileage_total = mvo.getMileage_total() + mileage_change; // 1 + 2
 
-				m_repository.backoffice_insert_mileage_state_t(mileage_total, user_no, mileage_change, payment_no); // 마일리지
-																													// 재적립
+				m_repository.backoffice_insert_mileage_state_t(mileage_total, user_no, mileage_change, payment_no); // 마일리지 재적립
 			}
 
 			s_repository.backoffice_update_cancel_mileage_state_c(reserve_no); // w 상태의 마일리지 -> c 상태로 변경

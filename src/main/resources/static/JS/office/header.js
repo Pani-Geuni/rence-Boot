@@ -97,6 +97,7 @@ $(function(){
         $("#location-town").addClass("blind");
         $("#custom-location-select").addClass("blind");
     });
+    
 
     /*************************************/
     /********* SEARCH-BAR SECTION*********/
@@ -151,6 +152,7 @@ $(function(){
         if($("#type>span").attr("val") != undefined){
             var type = $("#type>span").attr("val");
             var location = $("#location_val").text();
+            
             if($("#location_val").prop("idx") == undefined){
                 location = "";
             }

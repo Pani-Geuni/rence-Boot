@@ -165,9 +165,7 @@ $(function() {
 	}
 
 	for (var i = 0; i < arr.length; i++) {
-		console.log("click");
 		var self = $("#backoffice_tag");
-
 		var tagValue = arr[i]; // 값 가져오기
 
 		// 해시태그 값이 없으면 실행되지 않음.
@@ -176,9 +174,6 @@ $(function() {
 			return word === tagValue
 		});
 		
-		console.log("tagValue :", tagValue, typeof tagValue);
-		console.log("result :", result, typeof result);
-
 		// 해시태그 중복 확인
 		if (result.length == 0 && margin_tag_list.length < 5) {
 			$('#tag-list').append(
@@ -205,7 +200,6 @@ $(function() {
 			$('.common-alert-txt').text('중복된 해시태그 입니다.')
 			self.val('');
 		}
-		console.log(arr[i])
 	}
 
 
@@ -220,7 +214,6 @@ $(function() {
 			}
 		}
 
-		console.log('backoffice tag : ', backoffice_tag)
 		$('#real-input-tag').val(backoffice_tag)
 	}
 
@@ -241,10 +234,8 @@ $(function() {
 				// 해시태그 중복 확인
 				if (result.length == 0 && margin_tag_list.length < 5) {
 					$('#tag-list').append(
-						"<li class='tag-item'>" +
-						tagValue +
-						"<span class='del-btn' idx='" +
-						counter +
+						"<li class='tag-item'>" + tagValue +
+						"<span class='del-btn' idx='" + counter +
 						"'>x</span></li>",
 					)
 					addTag(tagValue)
@@ -303,7 +294,7 @@ $(function() {
 
 	// 삭제 버튼
 	// 인덱스 검사 후 삭제
-	$(document).on('click', '.del-btn', function(e) {
+	$(document).on('click', '.del-btn', function() {
 		var index = $(this).attr('idx')
 		tag[index] = ''
 		margin_tag_list = marginTag()
@@ -336,6 +327,8 @@ $(function() {
 				if(submit_flag){
 					$("#real-submit").click();
 					submit_flag = false;
+					$(".popup-background:eq(1)").removeClass("blind");
+					$("#spinner-section").removeClass("blind");
 				}
 		}
 		else {
@@ -345,5 +338,4 @@ $(function() {
 		}
 	});
 
-
-})
+});

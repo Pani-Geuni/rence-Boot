@@ -6,6 +6,7 @@
 package com.rence.dashboard.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -134,7 +135,7 @@ public class DashBoardController {
 		// 현재페이지
 		long nowPage = page;
 
-		// 5page씩 끊으면 끝 페이지 번호( ex, 총 9페이지이고, 현재페이지가 6이면 maxpage = 9)
+		// 5page씩
 		long maxPage = 0;
 
 		if (nowPage % 5 != 0) {
@@ -289,7 +290,7 @@ public class DashBoardController {
 
 		String json = gson.toJson(map3);
 
-		log.info("maaaaaaaaaaaaaaaaaaaap{}", map3);
+		log.info("map{}", map3);
 
 		return json;
 	}
@@ -536,7 +537,7 @@ public class DashBoardController {
 		// 현재페이지
 		long nowPage = page;
 
-		// 5page씩 끊으면 끝 페이지 번호( ex, 총 9페이지이고, 현재페이지가 6이면 maxpage = 9)
+		// 5page씩 끊으면 끝 페이지 번호
 		long maxPage = 0;
 
 		if (nowPage % 5 != 0) {
@@ -615,7 +616,7 @@ public class DashBoardController {
 		// 현재페이지
 		long nowPage = page;
 		
-		// 5page씩 끊으면 끝 페이지 번호( ex, 총 9페이지이고, 현재페이지가 6이면 maxpage = 9)
+		// 5page씩 
 		long maxPage = 0;
 
 		if (nowPage % 5 != 0) {
@@ -651,11 +652,12 @@ public class DashBoardController {
 
 	/**
 	 * 예약 관리(리스트-검색)
+	 * @throws UnsupportedEncodingException 
 	 */
 	@ApiOperation(value = "예약 리스트 검색", notes = "대쉬보드 예약 관리 페이지 - 리스트 검색")
 	@GetMapping("/search_reserve")
 	public String dashboard_reserve_search_rsu(Model model, String backoffice_no, String searchword, String reserve_state,
-			@RequestParam(value = "page", defaultValue = "1") Integer page) {
+			@RequestParam(value = "page", defaultValue = "1") Integer page) throws UnsupportedEncodingException {
 		log.info("backoffice_search_reserve ()...");
 		log.info("{}", backoffice_no);
 		
@@ -690,7 +692,7 @@ public class DashBoardController {
 		// 현재페이지
 		long nowPage = page;
 
-		// 5page씩 끊으면 끝 페이지 번호( ex, 총 9페이지이고, 현재페이지가 6이면 maxpage = 9)
+		// 5page씩
 		long maxPage = 0;
 
 		if (nowPage % 5 != 0) {
@@ -753,7 +755,7 @@ public class DashBoardController {
 		// 현재페이지
 		long nowPage = page;
 
-		// 5page씩 끊으면 끝 페이지 번호( ex, 총 9페이지이고, 현재페이지가 6이면 maxpage = 9)
+		// 5page씩
 		long maxPage = 0;
 
 		if (nowPage % 5 != 0) {
@@ -1276,7 +1278,6 @@ public class DashBoardController {
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		// 에약 상태 cancel로 변경, 예약자에게 취소 메일 보내기, 결제 환불 상태 C , payment_date=current_date, 결제 테이블에서 사용한 마일리지와 돈 환불.
-
 		BOPaymentVO pvo = service.backoffice_reservation_cancel(backoffice_no, reserve_no, user_no);
 
 		if (pvo != null) {

@@ -83,7 +83,7 @@ $(function() {
 
 	// 삭제 버튼
 	// 인덱스 검사 후 삭제
-	$(document).on("click", ".del-btn", function(e) {
+	$(document).on("click", ".del-btn", function() {
 		var index = $(this).attr("idx");
 		tag[index] = "";
 		margin_tag_list = marginTag();

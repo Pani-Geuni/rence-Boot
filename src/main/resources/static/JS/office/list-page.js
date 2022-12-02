@@ -14,13 +14,12 @@
 
     // 정렬 조건 클릭 시 데이터 요청
     $(".sort-select-list").on("click", function(){
-        if(location.href.includes("list_page")){
-            var type = location.href.split("?type=")[1].split("&")[0];
-            location.href = "/office/list_page?type=" + type + "&condition=" + $(this).attr("condition") + "&page=1";
-            console.log("type : " + type + ", condition : " + $(this).attr("condition"));
+        if(window.location.href.includes("list_page")){
+            var type = window.location.href.split("?type=")[1].split("&")[0];
+            window.location.href = "/office/list_page?type=" + type + "&condition=" + $(this).attr("condition") + "&page=1";
         }else{
             var url = location.href.split("&condition=")[0];
-            location.href= url+"&condition="+$(this).attr("condition") + "&page=1";
+            window.location.href= url+"&condition="+$(this).attr("condition") + "&page=1";
         }
     });
 
@@ -99,6 +98,7 @@
                         },
                         success : function(res) {
 							scroll_flag = true;
+							
                             //로딩 화면 닫기
                             $(".popup-background:eq(1)").addClass("blind");
                             $("#spinner-section").addClass("blind");

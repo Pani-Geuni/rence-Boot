@@ -18,7 +18,7 @@ public interface ScheduleRepository extends JpaRepository<ScheduleEntity, Object
 
 	// 휴무, 브레이크 타임 설정
 	@Modifying
-	@Transactional //YYYY-MM-DD HH24:MI:SS
+	@Transactional 
 	@Query(nativeQuery = true, value = "insert into roomschedule(schedule_no,not_stime,not_etime,room_no,backoffice_no) "
 			+ "values('SC'||SEQ_ROOMSCHEDULE.nextval, TO_DATE(?2,'YYYY-MM-DD HH24:MI:SS'), TO_DATE(?3,'YYYY-MM-DD HH24:MI:SS'), ?4, ?1 )")
 	public int backoffice_schedueOK(String backoffice_no, String not_stime,

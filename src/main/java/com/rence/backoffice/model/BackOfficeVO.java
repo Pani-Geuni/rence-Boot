@@ -33,7 +33,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name="BACKOFFICEINFO")
-public class BackOfficeVO implements Serializable, UserDetails{ //,  
+
+@Slf4j
+public class BackOfficeVO implements Serializable, UserDetails{  
 
 	@Transient
 	@Column(name="rnum")
@@ -109,46 +111,37 @@ public class BackOfficeVO implements Serializable, UserDetails{ //,
 	
 	@Override
 	public String getPassword() {
-		// TODO Auto-generated method stub
 		return this.getBackoffice_pw();
 	}
 
 	@Override
 	public String getUsername() {
-		// TODO Auto-generated method stub
 		return this.getBackoffice_id();
 	}
 
 	@Override
 	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Set<GrantedAuthority> roles = new HashSet<GrantedAuthority>();
-//		for(String role : auth.split(",")) {
-//			roles.add(new SimpleGrantedAuthority(role));
-//		}
 		return roles;
 	}
 

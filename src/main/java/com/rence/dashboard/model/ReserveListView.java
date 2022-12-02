@@ -16,6 +16,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Entity
 @Immutable
 @Data
@@ -38,14 +40,6 @@ public class ReserveListView {
 	@Column(name="reserve_state")
 	private String reserve_state;
 	
-//	@Transient
-//	@Column(name="room_no")
-//	private String room_no;
-	
-//	@Transient
-//	@Column(name="payment_no")
-//	private String payment_no;
-//	
 	@Column(name="user_no")
 	private String user_no;
 	
