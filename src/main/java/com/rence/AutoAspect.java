@@ -81,7 +81,7 @@ public class AutoAspect {
 	//*******************************************//
 	//**********예약 상태 false 30분 뒤 삭제***********//
 	//******************************************//
-	@Pointcut("execution(* com.rence.office.controller.OfficeController.reserve(..))")
+	@Pointcut("execution(* com.rence.office.controller.OfficeController.reserve_rsu(..))")
 	public void falsePointcut() {
 		log.info("falsePointcut()...");
 	}
