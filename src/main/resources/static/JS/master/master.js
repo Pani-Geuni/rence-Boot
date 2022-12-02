@@ -42,8 +42,7 @@ $(function() {
 
 	// master login
 	$("#btn-master-login").click(function() {
-
-		// 로그인 시도
+		/** 로그인 시도 **/ 
 		// 로그인 성공
 		if ($('#master-id').val().trim().length > 0 && $('#master-pw').val().trim().length > 0) {
 			$.ajax({
@@ -69,8 +68,7 @@ $(function() {
 						$(".common-alert-txt").text("로그인에 실패하였습니다.");
 					}
 				},
-				error: function(error) {
-					console.log(error);
+				error: function() {
 					$(".popup-background:eq(1)").removeClass("blind");
 					$("#common-alert-popup").removeClass("blind");
 					$(".common-alert-txt").text("오류 발생으로 인해 처리에 실패하였습니다.");
@@ -97,7 +95,6 @@ $(function() {
 
 	// 신청 리스트 상세 보기
 	$('.ct-body-cell.apply:not(:last-child)').click(function() {
-		console.log($(this).attr('idx'));
 		const backoffice_no = $('.ct-body-row').attr('idx');
 
 		location.href = '/master/backoffice_apply_detail?backoffice_no=' + backoffice_no + '&page=apply';
@@ -105,16 +102,15 @@ $(function() {
 	
 	// 거절 리스트 상세 보기
 	$('.ct-body-cell.delete:not(:last-child)').click(function() {
-		console.log($(this).attr('idx'));
 		const backoffice_no = $('.ct-body-row').attr('idx');
 
 		location.href = '/master/backoffice_end_detail?backoffice_no=' + backoffice_no + '&page=delete';
 	})
 
-	/***** ************** *****/
+	/***** *********** *****/
 	/***** 슬라이드 이미지 *****/
-	/***** ************** *****/
-	let test = 1
+	/***** *********** *****/
+	let test = 1;
 	$(".prev").addClass("hide");
 
 	if ($(".img").length == 1) {
@@ -159,15 +155,14 @@ $(function() {
 	$('#btn-grant-host').click(function() {
 		$('.popup-background:eq(0)').removeClass('blind');
 		$('#grant-popup').removeClass('blind');
-	})
+	});
 
 	$('#grant-closeBtn').click(function() {
 		$('#grant-popup').addClass('blind');
 		$('.popup-background:eq(0)').addClass('blind');
-	})
+	});
 
 	$('#grant-btn').click(function() {
-
 		$.ajax({
 			url: "/master/grant",
 			type: "POST",
@@ -176,38 +171,29 @@ $(function() {
 				backoffice_no: $("#backoffice_no").text(),
 				backoffice_email: $("#backoffice_email").text()
 			},
-
 			success: function(res) {
-				console.log("success");
-
 				if (res.result == "1") {
 					location.href = "/master/main";
-				} else {
-					console.log("ajax fail");
 				}
 			},
-			error: function(error) {
-				console.log($("#backoffice_no").text())
-				console.log($("#backoffice_email").text())
-				console.log(error);
+			error: function() {
 			}
 		});
-	})
+	});
 
 
 	// 신청 호스트 거절 버튼 클릭
 	$('#btn-refuse-host').click(function() {
 		$('.popup-background:eq(0)').removeClass('blind');
 		$('#refuse-popup').removeClass('blind');
-	})
+	});
 
 	$('#refuse-closeBtn').click(function() {
 		$('#refuse-popup').addClass('blind');
 		$('.popup-background:eq(0)').addClass('blind');
-	})
+	});
 
 	$('#refuse-btn').click(function() {
-
 		$.ajax({
 			url: "/master/refuse",
 			type: "POST",
@@ -216,37 +202,28 @@ $(function() {
 				backoffice_no: $("#backoffice_no").text(),
 				backoffice_email: $("#backoffice_email").text()
 			},
-
 			success: function(res) {
-				console.log("success");
-
 				if (res.result == "1") {
 					location.href = "/master/main";
-				} else {
-					console.log("ajax fail");
 				}
 			},
-			error: function(error) {
-				console.log($("#backoffice_no").text())
-				console.log($("#backoffice_email").text())
-				console.log(error);
+			error: function() {
 			}
 		});
-	})
+	});
 
 	// 삭제 신청 호스트 버튼 클릭
 	$('#btn-delete-host').click(function() {
 		$('.popup-background:eq(0)').removeClass('blind');
 		$('#delete-popup').removeClass('blind');
-	})
+	});
 
 	$('#delete-closeBtn').click(function() {
 		$('#delete-popup').addClass('blind');
 		$('.popup-background:eq(0)').addClass('blind');
-	})
+	});
 
 	$('#delete-btn').click(function() {
-
 		$.ajax({
 			url: "/master/revoke",
 			type: "POST",
@@ -255,22 +232,14 @@ $(function() {
 				backoffice_no: $("#backoffice_no").text(),
 				backoffice_email: $("#backoffice_email").text()
 			},
-
 			success: function(res) {
-				console.log("success");
-
 				if (res.result == "1") {
 					location.href = "/master/backoffice_end";
-				} else {
-					console.log("ajax fail");
 				}
 			},
-			error: function(error) {
-				console.log($("#backoffice_no").text())
-				console.log($("#backoffice_email").text())
-				console.log(error);
+			error: function() {
 			}
 		});
-	})
+	});
 
-})
+});

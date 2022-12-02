@@ -26,7 +26,6 @@
 			},
 			
 			success: function(res) {
-				
 				if (res.result === "1") {
 					let reserve_no = location.href.split("reserve_no=")[1].split("&")[0];
 					let cancel_amount = parseInt($("#actual_payment").attr("actual_payment").replace(",", ""));

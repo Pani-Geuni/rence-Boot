@@ -16,9 +16,9 @@ $(function() {
 		}
 	});
 
-	/******************************* */
+	/***************************** */
 	/***********로그인 팝업 ********* */
-	/******************************* */
+	/***************************** */
 	// 로그인 인풋 클릭 시 경고 테두리 제거
 	$(".login-popup-input").click(function() {
 		if ($(this).hasClass("null-input-border")) {
@@ -47,25 +47,14 @@ $(function() {
 					password: $("#login-pw").val().trim()
 				},
 				success: function(res) {
-					//로딩 화면 닫기
-					$(".popup-background:eq(1)").addClass("blind");
-					$("#spinner-section").addClass("blind");
-
 					// 로그인 성공
 					if (res.result == 1) {
-						//INPUT 초기화
-						$("#login-id").val("");
-						$("#login-pw").val("");
-
-						$("#login-id").removeClass("null-input-border");
-						$("#login-pw").removeClass("null-input-border");
-
-						// 팝업 관련창 닫음
-						$('.popup-background:eq(0)').addClass('blind');
-						$('#login-section').addClass('blind');
-
 						location.href = '/backoffice/main?backoffice_no=' + $.cookie("backoffice_no");
 					} else {
+						//로딩 화면 닫기
+						$(".popup-background:eq(1)").addClass("blind");
+						$("#spinner-section").addClass("blind");
+					
 						$(".popup-background:eq(1)").removeClass("blind");
 						$("#common-alert-popup").removeClass("blind");
 						$(".common-alert-txt").text("로그인에 실패하였습니다.");
@@ -110,7 +99,7 @@ $(function() {
 
 
 	/***************************** */
-	/******** 비밀번호 찾기 팝업 ********/
+	/******** 비밀번호 찾기 팝업 *******/
 	/***************************** */
 	// 비밀번호 찾기 인풋 클릭 시 경고 테두리 제거
 	$(".find-popup-input").click(function() {
@@ -198,9 +187,9 @@ $(function() {
 
 
 
-	/********************************* */
-	/***********로그아웃 팝업 ********* */
-	/********************************* */
+	/****************************** */
+	/***********로그아웃 팝업 ******** */
+	/****************************** */
 	$("#logout-btn").click(function() {
 		location.href = "/backoffice/logout";
 	});
@@ -228,6 +217,7 @@ $(function() {
 		$('#logout-popup').addClass('blind');
 		$('.popup-background:eq(0)').addClass('blind');
 	});
+
 
 	/****** ******* *****/
 	/****** 공간 추가 *****/

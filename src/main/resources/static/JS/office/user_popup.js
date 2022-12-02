@@ -51,17 +51,6 @@
                 success : function(res) {
                     // 로그인 성공
                     if(res.result == 1){
-                        //INPUT 초기화
-                        $("#login-id").val("");
-                        $("#login-pw").val("");
-    
-                        $("#login-id").removeClass("null-input-border");
-                        $("#login-pw").removeClass("null-input-border");
-    
-                        // 팝업 관련창 닫음
-                        $("#login-section").addClass("blind");
-                        $(".popup-background:eq(0)").addClass("blind");
-
                         location.reload();
                     }else{
                         $(".popup-background:eq(1)").removeClass("blind");
@@ -79,7 +68,6 @@
         // 로그인 실패
         else{
             if($("#login-id").val().trim().length == 0){
-                console.log($("#login-id"));
                 $("#login-id").addClass("null-input-border");
             }
             if($("#login-pw").val().trim().length == 0){
@@ -437,6 +425,7 @@
         }
     });
 
+	/** 정규표현식을 이용해 지정된 값만 입력하도록 제어 **/
     $(".join-popup-input").on('keydown keyup', function(){
         if($(this).attr("id")=="join-pw"){
             var password = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,10}$/;
@@ -464,6 +453,7 @@
             }
         }else if($(this).attr("id")=="join-tel"){
             var phoneReg = /^01(0|1[6-9])(\d{3,4})(\d{4})$/;
+            
             if(!phoneReg.test($(this).val().trim())){
                 $(".warning-text:eq(5)").removeClass("blind");
                 $(".warning-text:eq(5)").text("전화번호 형식이 아닙니다.");
@@ -482,6 +472,7 @@
         }
     });
     
+    /** 정규표현식을 이용해 지정된 값만 입력하도록 제어 **/
     $(".join-popup-input-short").on('keydown keyup', function(){
         // 이메일 형식인지 확인
         if($(this).attr("id")=="join-email"){
