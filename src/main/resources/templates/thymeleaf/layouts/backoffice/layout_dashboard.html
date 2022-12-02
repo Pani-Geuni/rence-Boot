@@ -63,22 +63,26 @@
 		<script>
 				$(function () {
 					if(page!=undefined){
-					// 페이지 번호 클릭 이벤트
-					$(".paging-num-wrap").on("click", ".paging-box.paging-num", function () {
-						if (page == "room") {
-							location.href = "/backoffice/room?backoffice_no=" + $.cookie("backoffice_no") + "&page=" + $(this).attr("idx");
-						} else if (page == "qna") {
-							location.href = "/backoffice/qna?backoffice_no=" + $.cookie("backoffice_no") + "&page=" + $(this).attr("idx");
-						} else if (page == "review") {
-							location.href = "/backoffice/review?backoffice_no=" + $.cookie("backoffice_no") + "&page=" + $(this).attr("idx");
-						} else if (page == "sales_day") {
-							location.href = "/backoffice/day_sales?backoffice_no=" + $.cookie("backoffice_no") + "&sales_date=day&page=" + $(this).attr("idx");
-						} else if (page == "sales_week") {
-							location.href = "/backoffice/day_sales?backoffice_no=" + $.cookie("backoffice_no") + "&sales_date=week&page=" + $(this).attr("idx");
-						} else if (page == "sales_month") {
-							location.href = "/backoffice/day_sales?backoffice_no=" + $.cookie("backoffice_no") + "&sales_date=month&page=" + $(this).attr("idx");
-						}
-					});
+						// 페이지 번호 클릭 이벤트
+						$(".paging-num-wrap").on("click", ".paging-box.paging-num", function () {
+							//로딩 화면
+							$(".popup-background:eq(1)").removeClass("blind");
+							$("#spinner-section").removeClass("blind");
+			
+							if (page == "room") {
+								window.location.href = "/backoffice/room?backoffice_no=" + $.cookie("backoffice_no") + "&page=" + $(this).attr("idx");
+							} else if (page == "qna") {
+								window.location.href = "/backoffice/qna?backoffice_no=" + $.cookie("backoffice_no") + "&page=" + $(this).attr("idx");
+							} else if (page == "review") {
+								window.location.href = "/backoffice/review?backoffice_no=" + $.cookie("backoffice_no") + "&page=" + $(this).attr("idx");
+							} else if (page == "sales_day") {
+								window.location.href = "/backoffice/day_sales?backoffice_no=" + $.cookie("backoffice_no") + "&sales_date=day&page=" + $(this).attr("idx");
+							} else if (page == "sales_week") {
+								window.location.href = "/backoffice/day_sales?backoffice_no=" + $.cookie("backoffice_no") + "&sales_date=week&page=" + $(this).attr("idx");
+							} else if (page == "sales_month") {
+								window.location.href = "/backoffice/day_sales?backoffice_no=" + $.cookie("backoffice_no") + "&sales_date=month&page=" + $(this).attr("idx");
+							}
+						});
 					}
 
 					// 다음 페이지 리스트로 이동
