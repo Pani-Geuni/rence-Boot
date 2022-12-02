@@ -272,7 +272,7 @@ $(function() {
 		});
 	});
 	
-	var seconds = 60 * 30;
+	var seconds = 60 * 10;
 	var time;
 	function timer(){
 		
