@@ -35,6 +35,10 @@ $(function(){
 
     // 페이지 번호 클릭 이벤트
     $(".paging-num-wrap").on("click", ".paging-box.paging-num", function(){
+		//로딩 화면
+		$(".popup-background:eq(1)").removeClass("blind");
+		$("#spinner-section").removeClass("blind");
+		
         location.href = "/rence/reserve_list?time_point=" + window.location.href.split("time_point=")[1].split("&")[0] + "&user_no="+ $.cookie("user_no") + "&page=" + $(this).attr("idx");
     });
     

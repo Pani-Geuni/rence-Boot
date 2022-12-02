@@ -13,6 +13,10 @@ $(function(){
     });
     
     $(".paging-num-wrap").on("click", ".paging-box.paging-num", function(){
+		//로딩 화면
+		$(".popup-background:eq(1)").removeClass("blind");
+		$("#spinner-section").removeClass("blind");
+		
         if(location.href.includes("/rence/mileage?")){
             location.href = "/rence/mileage?user_no="+$.cookie("user_no")+"&page=" + $(this).attr("idx");
         }else{
