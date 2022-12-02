@@ -96,7 +96,7 @@ public class AutoAspect {
 			public void run() {
 				try {
 					log.info("sleep-----------start-------------");
-					Thread.sleep(60000);
+					Thread.sleep(600000);
 					log.info("sleep-------------end-----------");
 					log.info("reserve::{}",reserve);
 					ReserveUpdateVO reserve_no = service.select_one_false_reserve(reserve.getReserve_stime(), reserve.getReserve_etime(), reserve.getRoom_no());
