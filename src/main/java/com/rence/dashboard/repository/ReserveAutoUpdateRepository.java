@@ -36,12 +36,16 @@ public interface ReserveAutoUpdateRepository extends JpaRepository<ReserveUpdate
 	public int update_reserve_state_cancel(String reserve_no);
 	
 	
+	// 예약 상태 30분 지난 reserve_no 가져오기
+	@Query(nativeQuery = true, value = "select * from reserveinfo where reserve_stime=To_date(?1,'YYYY/MM/DD HH24:MI:SS') and reserve_etime=To_date(?2,'YYYY/MM/DD HH24:MI:SS') and room_no=?3")
+	public ReserveUpdateVO select_one_false_reserve(String reserve_stime, String reserve_etime, String room_no);
 	
 	// 예약 false 상태 30분 뒤 삭제
 	@Modifying
 	@Transactional
 	@Query(nativeQuery = true, value = "delete from reserveinfo where reserve_state='false' and reserve_no=?1")
 	public void reserve_auto_delete(String reserve_no);
+
 
 
 
