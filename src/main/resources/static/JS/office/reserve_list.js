@@ -2,10 +2,10 @@
 * @author 김예은
 */
 $(function(){
+	// 렌스로 이동 버튼 클릭
     $("#go-home-btn").click(function(){
         location.href="/";
     });
-    
 
     $(".reserve-box").click(function(){
         if($(".timePoint-value").attr("time-point") == "before"){

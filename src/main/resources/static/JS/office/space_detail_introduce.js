@@ -3,7 +3,6 @@
  */
 $(function() {
 	let test = 1;
-	let pickerDate = '';
 
 	$("#common-alert-btn").click(function() {
 		$(".popup-background:eq(1)").addClass("blind");
@@ -222,7 +221,6 @@ $(function() {
 			pick_time_list[1] += 1;		
 		}
 		
-		
 		let reserve_stime = reserve_date + " " + pick_time_list[0] + ":00:00";
 		let reserve_etime = reserve_date + " " + pick_time_list[1] + ":00:00";
 		
@@ -270,6 +268,7 @@ $(function() {
 			}
 		});
 	});
+
 
 	/***** *** ******* *****/
 	/***** 고정 안 된 부분 ****/
@@ -584,6 +583,5 @@ $(function() {
 			$(".review-paging").find(".paging-num-wrap").append(sample_span);
 		}
 	});
-	
 	
 });

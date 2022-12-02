@@ -275,14 +275,7 @@ $(function() {
 	var seconds = 60 * 10;
 	var time;
 	function timer(){
-		
 		time = setInterval(function(){
-
-		   var min = seconds / 60;
-		   min = Math.floor(min);
-		   
-		   var sec = seconds - (60 * min);
-		   
 		   if (seconds == 0) {
 				$(".popup-background:eq(1)").removeClass("blind");
 			   	$("#common-alert-popup").removeClass("blind");
@@ -298,6 +291,5 @@ $(function() {
 		   
 		   seconds--;
 		}, 1000);
-		
 	}
-})
+});

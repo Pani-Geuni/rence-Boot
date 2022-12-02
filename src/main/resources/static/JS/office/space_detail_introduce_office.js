@@ -14,7 +14,6 @@ $(function() {
 			location.reload();
 			$(this).attr("is_reload", false);
 		}
-
 	});
 
 	/***** ************** *****/
@@ -79,9 +78,9 @@ $(function() {
 	});
 
 
-	/***** *** ******* *****/
+	/***** *** **** *****/
 	/***** 고정된 부분 *****/
-	/***** *** ******* *****/
+	/***** ******** *****/
 	/*** 예약 시간 실패 팝업창 닫기 버튼 클릭 ***/
 	$("#time-fail-close-btn").click(function() {
 		$(".fixed-popup").addClass("blind");
@@ -122,6 +121,7 @@ $(function() {
 			$(".using-time-fail-txt").html("체크인 시간 먼저 선택하여 주십시오.");
 		}
 	});
+	
 	/*** 개월 수 리스트 클릭 ***/
 	$(".month-select-li").click(function(e) {
 		e.stopPropagation();
@@ -143,7 +143,6 @@ $(function() {
 
 
 	$('#type-choice-value').on('DOMSubtreeModified', function() {
-		console.log("room-name change");
 		$(".type-border-txt.time-input").val("");
 
 		$("#office_check_available").removeClass("blind");
