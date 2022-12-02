@@ -15,7 +15,7 @@ $(function() {
 	$("#input_searchBar").on('keydown', function(e) {
 		if (e.keyCode == 13) {
 			var reserve_state = "";
-			switch ($(".reserve-item.active").text()) {
+			switch ($(".reserve-item.active").text().trim()) {
 				case "전체":
 					reserve_state = "all";
 					break;
